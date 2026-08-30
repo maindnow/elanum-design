@@ -1,0 +1,1728 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SoulResonance, Digital Resonance System</title>
+<meta name="description" content="Styleguide of the SoulResonance Digital Resonance System: Air, Trace, Paper, Spectrum, with a live application example.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SOULRESONANCE TOKENS
+   ============================================================ */
+:root{
+  /* Ground: warm paper light, the whole document sits on it */
+  --sr-canvas:#F6F1E5;
+  --sr-surface:#FFFCF5;
+  --sr-surface-top:#FFFEFA;
+  --sr-ink:#16363B;
+  --sr-secondary:#5B6660;
+  --sr-line:#E4DCCB;
+  --sr-warm:#8A6B45;
+  --sr-warm-shadow:rgba(138,107,69,.16);
+  --sr-warm-shadow-soft:rgba(138,107,69,.10);
+  --sr-light-edge:rgba(255,255,255,.95);
+
+  /* Paper surfaces */
+  --sr-paper:#EDE1C6;
+  --sr-paper-light:#F4EBD6;
+  --sr-paper-ink:#2A2118;
+
+  /* Resonance colours */
+  --sr-violet:#6756D9;
+  --sr-blue:#4D7FE8;
+  --sr-orchid:#9466DF;
+  --sr-rose:#D85BA9;
+  --sr-pink:#F0719A;
+
+  /* Status colours. Separate from the brand spectrum on purpose:
+     the spectrum means resonance, status means the system talking to you. */
+  --sr-info:#33638F;
+  --sr-info-bg:rgba(51,99,143,.10);
+  --sr-success:#3F7350;
+  --sr-success-bg:rgba(63,115,80,.11);
+  --sr-warning:#8A5A16;
+  --sr-warning-bg:rgba(138,90,22,.12);
+  --sr-danger:#A32F3C;
+  --sr-danger-bg:rgba(163,47,60,.10);
+  --sr-neutral-status:#5B6660;
+  --sr-neutral-status-bg:rgba(91,102,96,.09);
+
+  /* Spectrum */
+  --sr-spectrum:linear-gradient(90deg,#6756D9 0%,#4D7FE8 26%,#9466DF 52%,#D85BA9 78%,#F0719A 100%);
+
+  /* Depth */
+  --sr-elev:var(--sr-emboss);
+  --sr-elev-resonance:
+      var(--sr-emboss-raised),
+      0 4px 22px rgba(103,86,217,.16),
+      0 14px 44px rgba(216,91,169,.14);
+
+  /* Geometry */
+  --sr-r-sm:8px;
+  --sr-r-md:14px;
+  --sr-r-lg:22px;
+  --sr-r-xl:32px;
+  --sr-hairline:rgba(138,107,69,.13);
+  --sr-shell:rgba(138,107,69,.05);
+  --sr-inner-light:inset 0 1px 0 var(--sr-light-edge);
+  /* Pressed out of the paper: light edge on top, warm shade underneath,
+     then a wide soft halo that bleeds back into the ground. */
+  --sr-emboss:
+    inset 0 1.5px 0 var(--sr-light-edge),
+    inset 0 -2px 3px rgba(138,107,69,.13),
+    0 1px 2px rgba(138,107,69,.10),
+    0 12px 22px -10px rgba(138,107,69,.18),
+    0 34px 64px -26px rgba(138,107,69,.26);
+  --sr-emboss-raised:
+    inset 0 1.5px 0 var(--sr-light-edge),
+    inset 0 -2.5px 4px rgba(138,107,69,.15),
+    0 2px 5px rgba(138,107,69,.12),
+    0 20px 34px -14px rgba(138,107,69,.24),
+    0 56px 92px -34px rgba(138,107,69,.30);
+  /* Glow, warm at the core and coloured at the edge */
+  /* Glow is the line's own colour, three steps of the same hue.
+     No foreign warm ring, no white core. */
+  --sr-glow-violet:
+    drop-shadow(0 0 2px rgba(103,86,217,.90))
+    drop-shadow(0 0 7px rgba(103,86,217,.60))
+    drop-shadow(0 0 18px rgba(103,86,217,.34));
+  --sr-glow-blue:
+    drop-shadow(0 0 2px rgba(77,127,232,.90))
+    drop-shadow(0 0 7px rgba(77,127,232,.60))
+    drop-shadow(0 0 18px rgba(77,127,232,.34));
+  --sr-glow-orchid:
+    drop-shadow(0 0 2px rgba(148,102,223,.90))
+    drop-shadow(0 0 7px rgba(148,102,223,.60))
+    drop-shadow(0 0 18px rgba(148,102,223,.34));
+  --sr-glow-rose:
+    drop-shadow(0 0 2px rgba(216,91,169,.90))
+    drop-shadow(0 0 7px rgba(216,91,169,.60))
+    drop-shadow(0 0 18px rgba(216,91,169,.34));
+  --sr-glow-pink:
+    drop-shadow(0 0 2px rgba(240,113,154,.90))
+    drop-shadow(0 0 7px rgba(240,113,154,.60))
+    drop-shadow(0 0 18px rgba(240,113,154,.34));
+  --sr-glow-spectrum:
+    drop-shadow(0 0 2px rgba(148,102,223,.85))
+    drop-shadow(0 0 8px rgba(179,97,196,.55))
+    drop-shadow(0 0 20px rgba(216,91,169,.34));
+  --sr-stroke:1.5;
+
+  /* Space scale (8pt) */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+
+  /* Type */
+  --sr-sans:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --sr-serif:'Instrument Serif','Iowan Old Style',serif;
+  --sr-mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sr-ease:cubic-bezier(.16,1,.3,1);
+  --sr-ease-mass:cubic-bezier(.32,.72,0,1);
+  --sr-ease-out:cubic-bezier(.23,1,.32,1);
+  --sr-ease-in-out:cubic-bezier(.77,0,.175,1);
+  /* Catalogue eases: power2.out for reveals, power3.out for line draws */
+  --sr-power2-out:cubic-bezier(.215,.61,.355,1);
+  --sr-power3-out:cubic-bezier(.165,.84,.44,1);
+
+  /* Grain, procedural, monochrome, 2-3.5% */
+  --sr-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+
+
+
+*,*::before,*::after{box-sizing:border-box}
+/* Shadows and glows must never be cut off: SVG viewports and section
+   wrappers stay open, and every raised surface keeps room around it. */
+svg{overflow:visible}
+section,.sr-wrap,.sr-grid,.sr-hero{overflow:visible}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{
+  margin:0;
+  background:var(--sr-canvas);
+  color:var(--sr-ink);
+  font-family:var(--sr-sans);
+  font-size:16px;
+  line-height:1.65;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{line-height:1.15;font-weight:500;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(34px,5.2vw,58px);font-weight:300;letter-spacing:-.035em}
+h2{font-size:clamp(24px,3vw,34px);font-weight:400;letter-spacing:-.03em}
+h3{font-size:19px}
+h4{font-size:15px;font-weight:600;letter-spacing:.01em}
+p{margin:0 0 var(--s4)}
+a{color:var(--sr-ink)}
+code,kbd{font-family:var(--sr-mono);font-size:.86em;overflow-wrap:anywhere}
+
+.sr-wrap{max-width:1120px;margin:0 auto;padding:0 var(--s5)}
+.sr-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sr-secondary);font-weight:500;margin:0 0 var(--s4);
+  padding:5px 11px;border:0;border-radius:99px;
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));
+  box-shadow:var(--sr-emboss)
+}
+.sr-lead{font-size:clamp(17px,2vw,20px);color:var(--sr-secondary);font-weight:300;line-height:1.6;max-width:62ch}
+.sr-muted{color:var(--sr-secondary)}
+.sr-small{font-size:13px;line-height:1.6}
+
+/* ============================================================
+   HEADER / NAV
+   ============================================================ */
+.sr-topbar{position:sticky;top:0;z-index:40;padding:18px 0 0;pointer-events:none}
+.sr-topbar__in{
+  display:flex;align-items:center;gap:var(--s5);height:58px;
+  width:max-content;max-width:100%;margin:0 auto;padding:0 22px;
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));border:0;
+  border-radius:99px;box-shadow:var(--sr-emboss-raised);pointer-events:auto
+}
+.sr-brand{display:flex;align-items:center;gap:10px;font-weight:500;letter-spacing:-.01em;text-decoration:none}
+.sr-brand span{font-size:15px}
+.sr-nav{
+  margin-left:var(--s5);display:flex;gap:22px;overflow:auto;scrollbar-width:none;min-width:0;
+  -webkit-mask-image:linear-gradient(to right,#000 0 88%,transparent 100%);
+  mask-image:linear-gradient(to right,#000 0 88%,transparent 100%)
+}
+@media (min-width:1180px){.sr-nav{-webkit-mask-image:none;mask-image:none}}
+.sr-nav::-webkit-scrollbar{display:none}
+.sr-nav a{
+  font-size:13px;color:var(--sr-secondary);text-decoration:none;
+  display:inline-flex;align-items:center;min-height:44px;
+  position:relative;white-space:nowrap;transition:color .18s ease
+}
+.sr-nav a::after{
+  content:"";position:absolute;left:0;right:100%;bottom:16px;height:1.5px;
+  background:var(--sr-spectrum);transition:right 200ms var(--sr-ease-out)
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.sr-hero{padding:var(--s9) 0 var(--s8);position:relative}
+.sr-hero__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:var(--s7);align-items:center}
+.sr-hero h1{margin-bottom:var(--s5)}
+.sr-ratio{display:flex;height:8px;border-radius:99px;margin-top:var(--s6);max-width:520px;box-shadow:inset 0 1px 2px rgba(138,107,69,.18)}
+.sr-ratio i:first-child{border-radius:99px 0 0 99px}
+.sr-ratio i:last-child{border-radius:0 99px 99px 0}
+.sr-ratio i{display:block;height:100%}
+.sr-ratio__air{flex:40;background:#EFE7D6}
+.sr-ratio__paper{flex:20;background:#E3D3B0}
+.sr-ratio__spec{flex:40;background:var(--sr-spectrum);box-shadow:0 0 8px rgba(148,102,223,.7),0 0 18px rgba(148,102,223,.45),0 0 34px rgba(216,91,169,.32)}
+.sr-ratio-legend{display:flex;gap:var(--s5);margin-top:var(--s3);font-size:12px;color:var(--sr-secondary)}
+.sr-ratio-legend b{font-weight:500;color:var(--sr-ink)}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+section{padding:clamp(72px,10vw,132px) 0;border-top:1px solid var(--sr-line)}
+section:first-of-type{border-top:0}
+/* Section head: headline and its one line of context stack.
+   No small explainer floating beside a big headline. */
+.sr-sec-head{display:grid;gap:10px;margin-bottom:var(--s6);max-width:62ch}
+.sr-sec-head p{margin:0;font-size:15px}
+
+/* Double bezel: inner core plus outer shell ring, concentric radii, no extra DOM */
+.sr-bezel{
+  margin:10px;
+  box-shadow:
+    0 0 0 9px rgba(138,107,69,.035),
+    0 0 0 10px rgba(138,107,69,.05),
+    var(--sr-emboss-raised);
+}
+
+/* Cards / grid */
+.sr-grid{display:grid;gap:var(--s6)}
+.sr-grid>*{min-width:0}
+.sr-grid.c2{grid-template-columns:repeat(2,1fr)}
+.sr-grid.c3{grid-template-columns:repeat(3,1fr)}
+.sr-grid.c4{grid-template-columns:repeat(4,1fr)}
+.sr-grid.c12{grid-template-columns:repeat(12,1fr)}
+.sp5{grid-column:span 5}.sp7{grid-column:span 7}.sp12{grid-column:span 12}
+.sr-card{
+  background:linear-gradient(180deg,var(--sr-surface-top) 0%,var(--sr-surface) 62%,#FCF7EC 100%);
+  border:0;
+  border-radius:var(--sr-r-lg);
+  padding:var(--s5);
+  box-shadow:var(--sr-emboss);
+  position:relative;
+}
+.sr-card--flat{box-shadow:none}
+.sr-card--resonance{box-shadow:var(--sr-elev-resonance)}
+.sr-card__title{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s3)}
+
+/* Spectral edge. One narrow edge per surface, drawn as a ring that follows the
+   corner radius and fades out into the surface instead of stopping abruptly.
+   Markup: <span class="sr-edge e-bottom"><i></i></span> inside the surface.
+   The span carries the fade mask, the <i> carries the ring. */
+.sr-edge{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+  transition:opacity 240ms var(--sr-ease-out)}
+.sr-edge--toggle{opacity:0}
+.sr-edge--toggle.is-on{opacity:1}
+.sr-edge>i{
+  position:absolute;inset:0;border-radius:inherit;padding:2px;
+  background:var(--sr-spectrum);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  filter:var(--sr-glow-spectrum);
+}
+/* bottom: runs into both lower corners, fades upward.
+   The fade is in pixels, so the visible length of an edge stays the same
+   on a small metric tile and on a large card. */
+.e-bottom{-webkit-mask-image:linear-gradient(to top,#000 0 9px,transparent 46px);
+          mask-image:linear-gradient(to top,#000 0 9px,transparent 46px)}
+/* left: runs into both left corners, fades to the right */
+.e-left{-webkit-mask-image:linear-gradient(to right,#000 0 9px,transparent 44px);
+        mask-image:linear-gradient(to right,#000 0 9px,transparent 44px)}
+/* corner: the corner is rounded away and the edge traces that arc */
+.sr-corner{border-top-right-radius:52px}
+.e-corner{-webkit-mask-image:radial-gradient(124px 124px at 100% 0,#000 26%,transparent 64%);
+          mask-image:radial-gradient(124px 124px at 100% 0,#000 26%,transparent 64%)}
+/* partial: the bottom edge, cut short because the work is not finished */
+/* partial: the bottom edge, cut short because the work is not finished.
+   Vertical fade in pixels like the others, horizontal cut in percent
+   because that one carries the meaning: how far the progress got. */
+.e-partial{
+  -webkit-mask-image:linear-gradient(to top,#000 0 9px,transparent 44px),linear-gradient(to right,#000 0 42%,transparent 74%);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to top,#000 0 9px,transparent 44px),linear-gradient(to right,#000 0 42%,transparent 74%);
+  mask-composite:intersect;
+}
+
+/* Paper material */
+.sr-paper{
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 60%),
+    linear-gradient(180deg,var(--sr-paper-light) 0%,var(--sr-paper) 62%,#E6D8B8 100%);
+  color:var(--sr-paper-ink);
+  border:0;
+  border-radius:var(--sr-r-lg);
+  position:relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    inset 0 -1.5px 3px rgba(138,107,69,.14),
+    0 2px 4px rgba(138,107,69,.10),
+    0 18px 34px -16px rgba(138,107,69,.24),
+    0 46px 84px -38px rgba(138,107,69,.26);
+}
+.sr-paper--warm{
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.42) 0%,rgba(255,255,255,0) 58%),
+    linear-gradient(180deg,#EDE1C6 0%,#E5D5B2 100%)
+}
+.sr-paper::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  border-radius:inherit;
+  background-image:var(--sr-grain);background-size:160px 160px;
+  opacity:.035;mix-blend-mode:multiply
+}
+.sr-paper__body{position:relative;padding:var(--s6)}
+.sr-quote{font-family:var(--sr-serif);font-size:22px;line-height:1.45;font-weight:300;margin:0 0 var(--s4)}
+.sr-quote em{font-style:italic}
+
+/* Swatches */
+.sr-swatch{border:0;border-radius:var(--sr-r-md);overflow:hidden;background:var(--sr-surface);box-shadow:var(--sr-emboss)}
+.sr-swatch__chip{height:82px}
+.sr-swatch__meta{padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sr-swatch__meta b{font-weight:500;font-size:13px}
+.sr-swatch__meta code{color:var(--sr-secondary)}
+
+/* Tokens table */
+.sr-table{width:100%;border-collapse:collapse;font-size:14px}
+.sr-table th,.sr-table td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--sr-line);vertical-align:top}
+.sr-table th{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sr-secondary);font-weight:500}
+.sr-table td code{color:var(--sr-violet)}
+
+/* Do / Don't */
+.sr-rule{display:flex;gap:var(--s3);align-items:flex-start;padding:7px 0}
+/* A single hairline where the list turns from what to do into what never to do. */
+.sr-rule--do+.sr-rule--dont,.sr-rule--dont+.sr-rule--do{
+  border-top:1px solid var(--sr-line);margin-top:10px;padding-top:16px
+}
+.sr-rule__mark{
+  flex:none;width:20px;height:20px;border-radius:99px;margin-top:2px;
+  display:grid;place-items:center;font-size:12px;line-height:1
+}
+.sr-rule--do .sr-rule__mark{background:rgba(103,86,217,.1);color:var(--sr-violet)}
+.sr-rule--dont .sr-rule__mark{background:rgba(82,97,102,.09);color:var(--sr-secondary)}
+
+/* Demo frame for SVG behaviour */
+.sr-demo{
+  background:linear-gradient(180deg,var(--sr-surface-top) 0%,var(--sr-surface) 60%,#FCF7EC 100%);
+  border:0;border-radius:var(--sr-r-xl);
+  padding:var(--s5);box-shadow:var(--sr-emboss-raised);position:relative;height:100%
+}
+.sr-demo svg{display:block;width:100%;height:auto}
+.sr-demo__label{
+  font-size:15px;font-weight:600;letter-spacing:.01em;
+  color:var(--sr-ink);margin:0 0 var(--s4)
+}
+.sr-label{font-size:13px;font-weight:500;color:var(--sr-secondary);margin:0 0 var(--s4)}
+
+/* Buttons */
+.sr-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font:500 14px/1 var(--sr-sans);
+  padding:11px 12px 11px 20px;border-radius:99px;border:0;
+  background:linear-gradient(180deg,var(--sr-surface-top),#FBF5EA);color:var(--sr-ink);cursor:pointer;
+  box-shadow:var(--sr-emboss);
+  transition:transform 160ms var(--sr-ease-out),box-shadow 200ms var(--sr-ease-out),background 200ms ease
+}
+.sr-btn:not(:has(.sr-btn__icon)){padding:12px 20px}
+.sr-btn__icon{
+  width:30px;height:30px;border-radius:99px;display:grid;place-items:center;
+  background:rgba(18,42,48,.05);
+  transition:transform 200ms var(--sr-ease-out),background 200ms ease
+}
+.sr-btn--primary .sr-btn__icon{background:rgba(255,255,255,.14)}
+.sr-btn{min-height:44px}
+@media (hover:hover) and (pointer:fine){
+  .sr-btn:hover{box-shadow:var(--sr-elev);transform:translateY(-1px)}
+  .sr-btn:hover .sr-btn__icon{transform:translate(2px,-1px) scale(1.06)}
+      .sr-nav a:hover{color:var(--sr-ink)}
+  .sr-nav a:hover::after{right:0}
+  }
+.sr-btn:active{transform:scale(.98);box-shadow:none}
+.sr-btn--primary{background:var(--sr-ink);color:#fff;border-color:var(--sr-ink)}
+.sr-btn--primary:hover{box-shadow:var(--sr-elev-resonance)}
+.sr-btn--spectral{position:relative;border-color:transparent;background:var(--sr-surface)}
+.sr-btn--spectral{box-shadow:0 0 12px rgba(148,102,223,.22),0 0 26px rgba(216,91,169,.16),var(--sr-emboss)}
+.sr-btn--spectral::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+  background:var(--sr-spectrum);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+}
+.sr-btn--ghost{background:transparent;border-color:transparent;color:var(--sr-secondary)}
+.sr-btn--ghost:hover{color:var(--sr-ink);box-shadow:none;transform:none}
+
+/* Form field */
+.sr-field{display:block}
+.sr-field label{display:block;font-size:12px;color:var(--sr-secondary);margin-bottom:6px;letter-spacing:.02em}
+.sr-input{
+  width:100%;font:400 15px/1.4 var(--sr-sans);color:var(--sr-ink);
+  background:#FBF6EC;border:0;
+  border-radius:var(--sr-r-md);padding:12px 14px;outline:none;
+  box-shadow:inset 0 2px 4px rgba(138,107,69,.14),inset 0 -1px 0 rgba(255,255,255,.8);
+  transition:box-shadow .2s ease
+}
+.sr-input:focus{box-shadow:inset 0 2px 4px rgba(138,107,69,.10),0 0 0 3px rgba(103,86,217,.13),0 0 14px rgba(148,102,223,.22)}
+.sr-input::placeholder{color:#9AA5A8}
+
+/* Badges */
+.sr-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:500;letter-spacing:.01em;
+  padding:5px 11px;border-radius:99px;border:0;color:var(--sr-secondary);
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));
+  box-shadow:var(--sr-emboss)
+}
+.sr-badge--resonant{
+  border-color:transparent;color:var(--sr-violet);background:rgba(103,86,217,.09);
+  box-shadow:0 0 10px rgba(103,86,217,.20),inset 0 1px 0 rgba(255,255,255,.7)
+}
+.sr-badge--paper{background:var(--sr-paper);border-color:#E7DFCB;color:#6B5B44}
+.sr-dot{width:6px;height:6px;border-radius:99px;background:var(--sr-spectrum);box-shadow:0 0 6px rgba(216,91,169,.7)}
+
+/* Divider with gap */
+.sr-divider{display:block;width:100%;height:1px;border:0;background:
+  linear-gradient(90deg,var(--sr-line) 0 34%,transparent 34% 46%,var(--sr-line) 46% 100%)}
+
+/* Checklist */
+.sr-check{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.sr-check li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--sr-secondary)}
+.sr-check svg{flex:none;margin-top:3px}
+
+/* Inline type glyph: brand geometry set at type height, never a raster image */
+.sr-inline-glyph{
+  display:inline-block;vertical-align:-.12em;height:.72em;width:auto;
+  margin:0 .12em;border-radius:99px
+}
+
+/* Phone frame. The application, shown at the width it is designed for first. */
+.sr-phone{
+  width:320px;max-width:100%;margin:0 auto;
+  background:var(--sr-canvas);border-radius:34px;
+  box-shadow:var(--sr-emboss-raised);
+  overflow:hidden;position:relative
+}
+.sr-phone__status{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 18px 6px;font-size:11px;color:var(--sr-secondary);font-weight:500
+}
+.sr-phone__body{padding:0 14px 14px;display:grid;gap:12px}
+.sr-phone__head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding:2px 4px 0}
+.sr-phone__head h5{margin:0;font-size:19px;font-weight:400;letter-spacing:-.02em}
+.sr-phone .sr-metric{padding:12px 14px}
+.sr-phone .sr-metric b{font-size:22px}
+.sr-phone__row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sr-phone__nav{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));
+  box-shadow:0 -1px 0 rgba(138,107,69,.10)
+}
+.sr-phone__nav a{
+  display:grid;justify-items:center;gap:5px;padding:8px 0 6px;border-radius:12px;
+  font-size:10.5px;color:var(--sr-secondary);text-decoration:none;position:relative;min-height:44px
+}
+.sr-phone__nav a.is-active{color:var(--sr-ink);font-weight:500}
+.sr-phone__nav a.is-active::after{
+  content:"";position:absolute;left:26%;right:26%;bottom:2px;height:2px;border-radius:99px;
+  background:var(--sr-spectrum);
+  box-shadow:0 0 6px rgba(148,102,223,.75),0 0 14px rgba(216,91,169,.4)
+}
+.sr-frames{display:grid;gap:var(--s7);align-items:start}
+/* Both frames get their own full-width row: a desktop frame squeezed into a
+   side column would render its own narrow layout and stop being a desktop frame. */
+.sr-frames>*{min-width:0}
+.sr-frame-label{
+  font-size:12px;color:var(--sr-secondary);margin:0 0 10px;display:flex;gap:8px;align-items:baseline
+}
+.sr-frame-label b{color:var(--sr-ink);font-weight:500;font-size:13px}
+
+/* Motion demo bench: the reveals, replayable */
+.bench-item{opacity:0;transform:translateY(2.4rem)}
+.bench-item.play{animation:sr-fade .9s var(--sr-power2-out) forwards}
+.bench-item.play:nth-child(2){animation-delay:.12s}
+.bench-item.play:nth-child(3){animation-delay:.24s}
+.bench-draw{stroke-dasharray:var(--len,300);stroke-dashoffset:var(--len,300)}
+.bench-draw.play{animation:sr-draw 1s var(--sr-power3-out) forwards}
+.bench-draw.play:nth-of-type(2){animation-delay:.12s}
+.bench-line{transform:scaleX(0);transform-origin:left center}
+.bench-line.play{animation:sr-scalex 1s var(--sr-power3-out) forwards}
+@media (prefers-reduced-motion:reduce){
+  .bench-item,.bench-item.play{opacity:1;transform:none;animation:none}
+  .bench-draw,.bench-draw.play{stroke-dashoffset:0;animation:none}
+  .bench-line,.bench-line.play{transform:none;animation:none}
+}
+
+.sr-bench{display:grid;gap:var(--s4)}
+.sr-bench__stage{
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));
+  border-radius:var(--sr-r-md);padding:var(--s4);box-shadow:var(--sr-emboss);
+  display:grid;gap:10px;min-height:96px;align-content:center
+}
+.sr-bench__stage .sr-skel{background:#EFE7D6}
+.sr-demo-card{
+  background:var(--sr-canvas);border-radius:10px;padding:10px 12px;font-size:12.5px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 6px 12px -8px rgba(138,107,69,.3)
+}
+
+/* Status messages. Flat and quiet, never glowing: status is not resonance. */
+.sr-msg{
+  display:flex;gap:10px;align-items:flex-start;
+  font-size:13.5px;line-height:1.55;
+  border-radius:var(--sr-r-md);padding:12px 14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6)
+}
+.sr-msg svg{flex:none;margin-top:2px}
+.sr-msg b{font-weight:600}
+.sr-msg--info{background:var(--sr-info-bg);color:var(--sr-info)}
+.sr-msg--success{background:var(--sr-success-bg);color:var(--sr-success)}
+.sr-msg--warning{background:var(--sr-warning-bg);color:var(--sr-warning)}
+.sr-msg--danger{background:var(--sr-danger-bg);color:var(--sr-danger)}
+.sr-msg--neutral{background:var(--sr-neutral-status-bg);color:var(--sr-neutral-status)}
+
+/* Glow. Colour carries light on this paper ground. */
+.glow-violet{filter:var(--sr-glow-violet)}
+.glow-rose{filter:var(--sr-glow-rose)}
+.glow-spectrum{filter:var(--sr-glow-spectrum)}
+.sr-spectrum-bar{
+  background:var(--sr-spectrum);border-radius:99px;
+  box-shadow:0 0 6px rgba(148,102,223,.70),0 0 16px rgba(148,102,223,.45),0 0 34px rgba(216,91,169,.35),0 2px 6px rgba(138,107,69,.14)
+}
+
+/* Scroll progress trace: the brand's own geometry reporting reading position.
+   Driven by a CSS scroll timeline, so no scroll listener and no main-thread work. */
+.sr-progress{
+  position:fixed;left:14px;top:50%;transform:translateY(-50%);
+  width:16px;height:min(46vh,360px);z-index:30;pointer-events:none;
+  opacity:0;transition:opacity .4s var(--sr-ease-out)
+}
+.sr-progress svg{width:100%;height:100%;overflow:visible}
+.sr-progress__line{stroke:var(--sr-line);stroke-width:1.5;fill:none;stroke-linecap:round}
+.sr-progress__fill{
+  stroke:url(#spec-progress);stroke-width:1.75;fill:none;stroke-linecap:round;
+  filter:var(--sr-glow-spectrum);
+  stroke-dasharray:1;stroke-dashoffset:1
+}
+@supports (animation-timeline:scroll()){
+  .sr-progress{opacity:1}
+  .sr-progress__fill{
+    animation:sr-progress linear;
+    animation-timeline:scroll(root block);
+  }
+}
+@keyframes sr-progress{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+
+/* One perpetual signal, and only where it means something:
+   the bridge endpoint breathes while a connection is open. */
+.sr-pulse{transform-box:fill-box;transform-origin:center;animation:sr-breathe 2.6s ease-in-out infinite}
+@keyframes sr-breathe{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.55}}
+
+/* States */
+.sr-skel{position:relative;overflow:hidden;background:var(--sr-skel,#EFF2F0);border-radius:8px;height:12px}
+.sr-skel+.sr-skel{margin-top:10px}
+.sr-skel::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);
+  transform:translateX(-100%);animation:sr-shimmer 1.6s linear infinite
+}
+@keyframes sr-shimmer{to{transform:translateX(100%)}}
+.sr-empty{display:grid;gap:var(--s3);justify-items:start}
+.sr-error{
+  display:flex;gap:10px;align-items:flex-start;font-size:13px;
+  color:var(--sr-danger);background:var(--sr-danger-bg);
+  border-radius:var(--sr-r-md);padding:11px 13px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6)
+}
+.sr-error b{font-weight:600}
+
+/* Motion utilities */
+/* Line draw: scaleX equivalent for stroked paths, 1s power3.out. */
+.sr-draw{stroke-dasharray:var(--len,600);stroke-dashoffset:var(--len,600)}
+.is-in .sr-draw{animation:sr-draw 1s var(--sr-power3-out) forwards}
+.is-in .sr-draw--echo{animation-delay:.12s}
+/* Section dividers draw from the left, same constant. */
+.sr-rule-line{transform:scaleX(0);transform-origin:left center}
+.is-in .sr-rule-line{animation:sr-scalex 1s var(--sr-power3-out) forwards}
+@keyframes sr-scalex{to{transform:scaleX(1)}}
+@keyframes sr-draw{to{stroke-dashoffset:0}}
+/* Reveal on scroll. Values are the catalogue constants, not taste:
+   y 2.4rem, 0.9s, power2.out, once, trigger at top 88%.
+   Small elements use 1.6rem / 92%, whole sections 3.2rem / 85%. */
+.sr-fade{opacity:0;transform:translateY(2.4rem)}
+.sr-fade--sm{transform:translateY(1.6rem)}
+.sr-fade--lg{transform:translateY(3.2rem)}
+.is-in .sr-fade,.sr-fade.is-in{animation:sr-fade .9s var(--sr-power2-out) forwards}
+/* Staggered group: 0.12s between siblings, the container is the trigger. */
+.is-in .sr-fade:nth-child(2){animation-delay:.12s}
+.is-in .sr-fade:nth-child(3){animation-delay:.24s}
+.is-in .sr-fade:nth-child(4){animation-delay:.36s}
+.is-in .sr-fade:nth-child(5){animation-delay:.48s}
+@keyframes sr-fade{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .sr-draw,.is-in .sr-draw{stroke-dashoffset:0;animation:none}
+  .sr-fade{opacity:0;transform:none;filter:none}
+  .is-in .sr-fade{animation:sr-fade-opacity .25s ease forwards}
+  @keyframes sr-fade-opacity{to{opacity:1}}
+  .sr-skel::after{animation:none}
+  .sr-pulse{animation:none}
+  .sr-progress__fill{animation:none}
+  .sr-btn:hover,.sr-btn:active{transform:none}
+  .sr-rule-line,.is-in .sr-rule-line{transform:none;animation:none}
+  .sr-edge{transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ============================================================
+   APPLICATION EXAMPLE
+   ============================================================ */
+.sr-app{
+  background:var(--sr-canvas);
+  border:0;
+  border-radius:26px;
+  /* The only clipping surface in the system: this is a device frame,
+     the chrome and the sidebar have to end at its rounded edge. */
+  overflow:hidden;
+  box-shadow:var(--sr-emboss-raised);
+}
+.sr-app__chrome{
+  display:flex;align-items:center;gap:8px;height:42px;padding:0 16px;
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));
+  box-shadow:0 1px 0 rgba(138,107,69,.10)
+}
+.sr-app__chrome i{width:9px;height:9px;border-radius:99px;background:#E4E9E5;display:block}
+.sr-app__url{
+  margin-left:12px;font-family:var(--sr-mono);font-size:11px;color:var(--sr-secondary)
+}
+.sr-app__body{display:grid;grid-template-columns:212px 1fr}
+.sr-side{background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));box-shadow:1px 0 0 rgba(138,107,69,.09);padding:var(--s5) var(--s4);min-height:560px}
+.sr-side__brand{display:flex;align-items:center;gap:9px;margin-bottom:var(--s6);font-size:14px;font-weight:500}
+.sr-side nav{display:grid;gap:2px}
+.sr-side a{
+  display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;
+  font-size:13.5px;color:var(--sr-secondary);text-decoration:none;position:relative;
+  transition:background .18s ease,color .18s ease
+}
+.sr-side a:hover{background:#F5F7F5;color:var(--sr-ink)}
+.sr-side a.is-active{color:var(--sr-ink);font-weight:500;background:#F4F6F4}
+.sr-side a.is-active::before{
+  content:"";position:absolute;left:-12px;top:22%;bottom:22%;width:2px;
+  background:var(--sr-spectrum);border-radius:99px
+}
+.sr-side__foot{margin-top:var(--s6);padding-top:var(--s4);border-top:1px solid var(--sr-line)}
+
+.sr-main{padding:var(--s6);display:grid;gap:var(--s5);align-content:start;min-width:0}
+.sr-side{min-width:0}
+.sr-app__body>*{min-width:0}
+.sr-card code,.sr-metric,.sr-conn li{min-width:0;overflow-wrap:anywhere}
+.sr-main__head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s4);flex-wrap:wrap}
+.sr-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.sr-metric{background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));border:0;border-radius:var(--sr-r-md);padding:var(--s4);position:relative;box-shadow:var(--sr-emboss)}
+.sr-metric b{display:block;font-size:26px;font-weight:400;letter-spacing:-.02em;margin-bottom:2px}
+.sr-metric span{font-size:12px;color:var(--sr-secondary)}
+.sr-app-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:var(--s5);align-items:start}
+.sr-conn{display:grid;gap:var(--s3);margin:0;padding:0;list-style:none}
+.sr-conn li{display:flex;align-items:center;gap:var(--s3);font-size:14px}
+.sr-conn__who{display:flex;flex-direction:column;line-height:1.3}
+.sr-conn__who small{font-size:12px;color:var(--sr-secondary)}
+.sr-legend{display:flex;gap:var(--s4);font-size:12px;color:var(--sr-secondary);flex-wrap:wrap}
+.sr-legend i{display:inline-block;width:14px;height:2px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+footer{padding:var(--s8) 0 var(--s9);border-top:1px solid var(--sr-line);color:var(--sr-secondary);font-size:13px}
+
+/* ============================================================
+   RESPONSIVE, MOBILE FIRST
+   The base rules above are the phone layout. Everything below adds
+   capacity as the viewport grows: 640px brings the second column,
+   1024px brings the asymmetric twelve-column grids and the side rail.
+   ============================================================ */
+
+/* --- base, phone --- */
+.sr-grid.c2,.sr-grid.c3,.sr-grid.c4,.sr-grid.c12{grid-template-columns:1fr}
+.sp5,.sp7,.sp12{grid-column:auto}
+.sr-grid[style*="repeat(5"],.sr-grid[style*="repeat(3"],.sr-grid[style*="repeat(2"]{grid-template-columns:1fr!important}
+.sr-hero__grid{grid-template-columns:1fr;gap:var(--s6)}
+.sr-metrics{grid-template-columns:1fr}
+.sr-app__body{grid-template-columns:1fr}
+.sr-app-grid{grid-template-columns:1fr}
+.sr-side{min-height:0;box-shadow:0 1px 0 rgba(138,107,69,.09)}
+.sr-side nav{grid-auto-flow:column;grid-auto-columns:max-content;overflow:auto;scrollbar-width:none}
+.sr-side a.is-active::before{left:8px;right:8px;top:auto;bottom:-3px;width:auto;height:2px}
+.sr-side__foot{display:none}
+.sr-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sr-table th,.sr-table td{padding:10px;white-space:nowrap}
+.sr-table td:last-child{white-space:normal;min-width:200px}
+.sr-swatch__meta{flex-wrap:wrap;gap:2px}
+.sr-wrap{padding:0 var(--s4)}
+.sr-topbar__in{width:auto;max-width:100%;padding:0 16px;gap:var(--s4)}
+.sr-brand span{font-size:14px}
+section{padding:var(--s7) 0}
+.sr-main{padding:var(--s5)}
+.sr-main__head{align-items:flex-start}
+.sr-app{border-radius:18px}
+.sr-progress{display:none}
+
+/* --- 640px, the second column arrives --- */
+@media (min-width:640px){
+  .sr-grid.c2,.sr-grid.c4{grid-template-columns:repeat(2,1fr)}
+  .sr-grid[style*="repeat(5"],.sr-grid[style*="repeat(3"],.sr-grid[style*="repeat(2"]{grid-template-columns:repeat(2,1fr)!important}
+  .sr-metrics{grid-template-columns:repeat(3,1fr)}
+  .sr-table{display:table;overflow:visible}
+  .sr-table th,.sr-table td{padding:11px 14px;white-space:normal}
+  .sr-wrap{padding:0 var(--s5)}
+  section{padding:clamp(72px,10vw,132px) 0}
+  .sr-main{padding:var(--s6)}
+  .sr-app{border-radius:26px}
+}
+
+/* --- 768px, the layout opens up: split hero, twelve-column grids, side rail --- */
+@media (min-width:768px){
+  .sr-grid.c3{grid-template-columns:repeat(3,1fr)}
+  .sr-grid.c12{grid-template-columns:repeat(12,1fr)}
+  .sp5{grid-column:span 5}
+  .sp7{grid-column:span 7}
+  .sp12{grid-column:span 12}
+  .sr-hero__grid{grid-template-columns:1.05fr .95fr;gap:var(--s6)}
+  .sr-app__body{grid-template-columns:190px 1fr}
+  .sr-app-grid{grid-template-columns:1.5fr 1fr}
+  .sr-side{min-height:520px;box-shadow:1px 0 0 rgba(138,107,69,.09)}
+  .sr-side nav{grid-auto-flow:row;grid-auto-columns:auto;overflow:visible}
+  .sr-side a.is-active::before{left:-12px;right:auto;top:22%;bottom:22%;width:2px;height:auto}
+  .sr-side__foot{display:block}
+}
+
+/* --- 1024px, the full system --- */
+@media (min-width:1024px){
+  .sr-grid.c4{grid-template-columns:repeat(4,1fr)}
+  .sr-grid[style*="repeat(5"]{grid-template-columns:repeat(5,1fr)!important}
+  .sr-grid[style*="repeat(3"]{grid-template-columns:repeat(3,1fr)!important}
+  .sr-grid[style*="repeat(2"]{grid-template-columns:repeat(2,1fr)!important}
+  .sr-hero__grid{gap:var(--s7)}
+  .sr-app__body{grid-template-columns:212px 1fr}
+  .sr-side{min-height:560px}
+  .sr-topbar__in{width:max-content;padding:0 22px;gap:var(--s5)}
+  .sr-brand span{font-size:15px}
+}
+
+/* --- 1180px, the scroll rail has room next to the content --- */
+@media (min-width:1180px){
+  .sr-progress{display:block}
+}
+</style>
+</head>
+<body>
+
+<!-- ========================= TOPBAR ========================= -->
+<div class="sr-progress" aria-hidden="true">
+  <svg viewBox="0 0 16 300" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="spec-progress" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#6756D9"/><stop offset="30%" stop-color="#4D7FE8"/>
+        <stop offset="60%" stop-color="#9466DF"/><stop offset="82%" stop-color="#D85BA9"/>
+        <stop offset="100%" stop-color="#F0719A"/>
+      </linearGradient>
+    </defs>
+    <path class="sr-progress__line" pathLength="1" d="M8 4C13 60 3 96 8 150S13 236 8 296"/>
+    <path class="sr-progress__fill" pathLength="1" d="M8 4C13 60 3 96 8 150S13 236 8 296"/>
+  </svg>
+</div>
+
+<header class="sr-topbar">
+  <div class="sr-wrap sr-topbar__in">
+    <a class="sr-brand" href="#top">
+      <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-dasharray="60 21.7" transform="rotate(-58 16 16)"/>
+        <path d="M6 20C10 12 14 22 19 14c2.5-4 4.6-3.1 7-1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path class="glow-violet" d="M6 23C10 15 14 25 19 17c2.5-4 4.6-3.1 7-1.4" stroke="#6756D9" stroke-width="1.25" stroke-linecap="round" opacity=".55"/>
+      </svg>
+      <span>SoulResonance</span>
+    </a>
+    <nav class="sr-nav">
+      <a href="#principle">Principle</a>
+      <a href="#colour">Colour</a>
+      <a href="#type">Type</a>
+      <a href="#grammar">Grammar</a>
+      <a href="#material">Material</a>
+      <a href="#components">Components</a>
+      <a href="#responsive">Responsive</a>
+      <a href="#motion">Motion</a>
+      <a href="#test">Test</a>
+      <a href="#application">Application</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ========================= HERO ========================= -->
+<a id="top"></a>
+<div class="sr-wrap">
+<section class="sr-hero" data-reveal>
+  <div class="sr-hero__grid">
+    <div>
+      <p class="sr-eyebrow">Digital Resonance System · v1.0</p>
+      <h1>Digital first,
+        <svg class="sr-inline-glyph" viewBox="0 0 120 44" fill="none" aria-hidden="true">
+          <path class="sr-draw" style="--len:150" d="M6 32C26 30 34 12 56 14S94 34 114 18"
+                stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+          <path class="glow-violet sr-draw sr-draw--echo" style="--len:150" d="M6 38C26 36 34 18 56 20S94 40 114 24"
+                stroke="#9466DF" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+        </svg><br>human by texture.</h1>
+      <p class="sr-lead">Four layers: warm paper air, programmable geometry, tactile paper moments, and a spectrum that carries every connection.</p>
+      <div class="sr-ratio" aria-label="Material ratio 70/20/10">
+        <i class="sr-ratio__air"></i><i class="sr-ratio__paper"></i><i class="sr-ratio__spec"></i>
+      </div>
+      <div class="sr-ratio-legend">
+        <span><b>40%</b> Digital Air</span>
+        <span><b>20%</b> Paper</span>
+        <span><b>40%</b> Resonance</span>
+      </div>
+    </div>
+
+    <div class="sr-demo sr-bezel" aria-hidden="true">
+      <p class="sr-demo__label">Trace, Echo, Gap, Bridge, Spectrum</p>
+      <svg viewBox="0 0 460 260" role="img">
+        <defs>
+          <linearGradient id="spec-hero" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#6756D9"/><stop offset="26%" stop-color="#4D7FE8"/>
+            <stop offset="52%" stop-color="#9466DF"/><stop offset="78%" stop-color="#D85BA9"/>
+            <stop offset="100%" stop-color="#F0719A"/>
+          </linearGradient>
+        </defs>
+        <circle cx="352" cy="92" r="60" fill="none" stroke="var(--sr-line)" stroke-width="1.5"
+                stroke-linecap="round" stroke-dasharray="292 85" transform="rotate(-40 352 92)"/>
+        <path class="sr-draw" style="--len:520"
+              d="M24 196C86 190 108 96 176 104S288 186 352 132"
+              fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path class="glow-violet sr-draw sr-draw--echo" style="--len:520"
+              d="M24 200C86 194 108 100 176 108S288 190 352 136"
+              fill="none" stroke="#6756D9" stroke-width="1.25" stroke-linecap="round" opacity=".55"/>
+        <path class="glow-rose sr-draw sr-draw--echo" style="--len:520"
+              d="M24 204C86 198 108 104 176 112S288 194 352 140"
+              fill="none" stroke="#D85BA9" stroke-width="1.25" stroke-linecap="round" opacity=".4"/>
+        <path class="glow-spectrum sr-draw" style="--len:180"
+              d="M176 106C206 74 250 66 286 70"
+              fill="none" stroke="url(#spec-hero)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="176" cy="105" r="3.2" fill="currentColor"/>
+        <circle class="glow-rose" cx="286" cy="70" r="3.2" fill="#D85BA9"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= PRINCIPLE ========================= -->
+<section id="principle" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Principle</h2>
+    <p class="sr-muted sr-small">Four layers, one aesthetic.</p>
+  </div>
+
+  <div class="sr-grid c12">
+    <article class="sr-card sr-card--flat sr-fade sp7">
+      <h4>Air</h4>
+      <p class="sr-small sr-muted" style="margin:8px 0 0">Warm paper light. The ground is never white; it carries the whole system and everything else is pressed out of it.</p>
+    </article>
+    <article class="sr-card sr-card--flat sr-fade sp5">
+      <h4>Trace</h4>
+      <p class="sr-small sr-muted" style="margin:8px 0 0">Precise programmable SVG geometry. Every brand mark is a path, a circle, a mask.</p>
+    </article>
+    <article class="sr-card sr-card--flat sr-paper sr-fade sp5" style="box-shadow:none">
+      <div style="position:relative">
+        <h4>Paper</h4>
+        <p class="sr-small" style="margin:8px 0 0;color:#6B5B44">Deeper, warmer paper for what is personal, saved or felt. Because the ground is already paper, this one is darker and grainier so the difference is a material change, not a tint.</p>
+      </div>
+    </article>
+    <article class="sr-card sr-card--flat sr-fade sp7">
+      <span class="sr-edge e-bottom"><i></i></span>
+      <h4>Spectrum</h4>
+      <p class="sr-small sr-muted" style="margin:8px 0 0">Digital colour, carrying every change, connection, activation and moment of meaning. Present, never decorative.</p>
+    </article>
+  </div>
+
+  <div class="sr-grid c2" style="margin-top:var(--s5)">
+    <div class="sr-card sr-card--flat">
+      <h4 style="margin-bottom:var(--s3)">The aesthetic must feel</h4>
+      <p style="margin:0;font-size:17px;font-weight:300;letter-spacing:-.01em">light, contemporary, human, precise, tactile, intelligent, alive</p>
+    </div>
+    <div class="sr-card sr-card--flat">
+      <h4 style="margin-bottom:var(--s3)">It must never read as</h4>
+      <p style="margin:0;font-size:17px;font-weight:300;letter-spacing:-.01em;color:var(--sr-secondary)">predominantly vintage, mystical, editorial or parchment-based</p>
+    </div>
+  </div>
+
+  <div class="sr-card sr-card--flat" style="margin-top:var(--s5)">
+    <h4 style="margin-bottom:var(--s3)">Material ratio</h4>
+    <table class="sr-table">
+      <tr><th>Share</th><th>Layer</th><th>Rule</th></tr>
+      <tr><td><code>40%</code></td><td>Digital Air</td><td>Canvas and surface carry the structure and stay in the background.</td></tr>
+      <tr><td><code>20%</code></td><td>Paper / tactile warmth</td><td>The ground is warm paper light. This deeper paper stays reserved for personal moments and never takes over the working canvas.</td></tr>
+      <tr><td><code>40%</code></td><td>Resonance effects and colour</td><td>Spectrum is present, not rare: echoes, bridges, spectral edges and active states carry it. Still never a generic background.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ========================= COLOUR ========================= -->
+<section id="colour" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Colour</h2>
+    <p class="sr-muted sr-small">The ground is warm, colour is the light on it</p>
+  </div>
+
+  <p class="sr-label">Ground and surfaces</p>
+  <div class="sr-grid c4 sr-fade">
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#F6F1E5"></div><div class="sr-swatch__meta"><b>Ground</b><code>#F6F1E5</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:linear-gradient(180deg,#FFFEFA,#FFFCF5)"></div><div class="sr-swatch__meta"><b>Surface</b><code>#FFFCF5</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#16363B"></div><div class="sr-swatch__meta"><b>Ink</b><code>#16363B</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#5B6660"></div><div class="sr-swatch__meta"><b>Secondary</b><code>#5B6660</code></div></div>
+  </div>
+  <div class="sr-grid c4" style="margin-top:var(--s4)">
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#E4DCCB"></div><div class="sr-swatch__meta"><b>Warm line</b><code>#E4DCCB</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#EDE1C6"></div><div class="sr-swatch__meta"><b>Deep paper</b><code>#EDE1C6</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#8A6B45"></div><div class="sr-swatch__meta"><b>Warm shade</b><code>#8A6B45</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:linear-gradient(90deg,#6756D9,#4D7FE8,#9466DF,#D85BA9,#F0719A)"></div><div class="sr-swatch__meta"><b>Spectrum</b><code>gradient</code></div></div>
+  </div>
+
+  <p class="sr-label" style="margin-top:var(--s6)">Resonance colours</p>
+  <div class="sr-grid c5 sr-grid" style="grid-template-columns:repeat(5,1fr)">
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#6756D9"></div><div class="sr-swatch__meta"><b>Violet</b><code>#6756D9</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#4D7FE8"></div><div class="sr-swatch__meta"><b>Blue</b><code>#4D7FE8</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#9466DF"></div><div class="sr-swatch__meta"><b>Orchid</b><code>#9466DF</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#D85BA9"></div><div class="sr-swatch__meta"><b>Rose</b><code>#D85BA9</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#F0719A"></div><div class="sr-swatch__meta"><b>Pink</b><code>#F0719A</code></div></div>
+  </div>
+
+
+  <p class="sr-label" style="margin-top:var(--s7)">Status colours</p>
+  <p class="sr-small sr-muted" style="max-width:62ch;margin:0 0 var(--s5)">
+    Status is the system talking to the person. It is deliberately kept apart from the
+    resonance spectrum: spectrum means something connected, status means something needs
+    to be known. Status colours are flat, they never glow, and they never use the gradient.
+  </p>
+  <div class="sr-grid" style="grid-template-columns:repeat(5,1fr)">
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#33638F"></div><div class="sr-swatch__meta"><b>Info</b><code>#33638F</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#3F7350"></div><div class="sr-swatch__meta"><b>Success</b><code>#3F7350</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#8A5A16"></div><div class="sr-swatch__meta"><b>Warning</b><code>#8A5A16</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#A32F3C"></div><div class="sr-swatch__meta"><b>Danger</b><code>#A32F3C</code></div></div>
+    <div class="sr-swatch"><div class="sr-swatch__chip" style="background:#5B6660"></div><div class="sr-swatch__meta"><b>Neutral</b><code>#5B6660</code></div></div>
+  </div>
+
+  <div class="sr-grid c12" style="margin-top:var(--s5)">
+    <div class="sr-card sr-card--flat sp7">
+      <h4 style="margin-bottom:var(--s4)">Inline messages</h4>
+      <div style="display:grid;gap:10px">
+        <div class="sr-msg sr-msg--info"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.2" stroke="currentColor" stroke-width="1.3"/><path d="M7.5 6.9v4M7.5 4.6v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span><b>Ada has not traced since Sunday.</b> Her gap stays open until she adds one.</span></div>
+        <div class="sr-msg sr-msg--success"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.2" stroke="currentColor" stroke-width="1.3"/><path d="M4.8 7.7 6.7 9.6l3.6-4.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Reflection saved.</b> It now sits in your journal under 14 March.</span></div>
+        <div class="sr-msg sr-msg--warning"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1.9 14 13.1H1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M7.5 6.2v3.1M7.5 11.1v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span><b>This bridge expires in two days.</b> Jonas has not answered yet.</span></div>
+        <div class="sr-msg sr-msg--danger"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.2" stroke="currentColor" stroke-width="1.3"/><path d="M5.4 5.4l4.2 4.2M9.6 5.4 5.4 9.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span><b>Echo could not be saved.</b> The connection dropped mid-sync. Try again.</span></div>
+        <div class="sr-msg sr-msg--neutral"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.2" stroke="currentColor" stroke-width="1.3"/><path d="M4.9 7.5h5.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span><b>Nothing changed today.</b> That is a valid state, not an error.</span></div>
+      </div>
+    </div>
+    <div class="sr-card sr-card--flat sp5">
+      <h4 style="margin-bottom:var(--s4)">Status rules</h4>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Status colour appears as text plus a 10 to 12% tint of itself, nothing else.</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Every message states what happened and what follows. No bare error codes.</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">All five pass WCAG AA on ground and on surface.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">-</span><p class="sr-small" style="margin:0">Status never glows. Glow is reserved for resonance.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">-</span><p class="sr-small" style="margin:0">Danger is never Rose or Pink. Those two are brand colours and would read as resonance.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">-</span><p class="sr-small" style="margin:0">Never a full-bleed status bar or a modal for something inline can carry.</p></div>
+    </div>
+  </div>
+
+  <div class="sr-grid c2" style="margin-top:var(--s7)">
+    <div class="sr-card sr-card--flat">
+      <h4 style="margin-bottom:var(--s3)">Colour rules</h4>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Every coloured line glows in its own colour: three drop-shadows of the same hue at 2px, 7px and 18px. No white core, no foreign warm ring.</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Ink never glows. Only resonance carries light.</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Spectrum order is fixed: Violet → Blue → Orchid → Rose → Pink.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">−</span><p class="sr-small" style="margin:0">Never use the gradient as a generic background.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">−</span><p class="sr-small" style="margin:0">Never surround every component with a rainbow border.</p></div>
+    </div>
+    <div class="sr-card sr-card--flat">
+      <h4 style="margin-bottom:var(--s3)">Radius scale</h4>
+      <p class="sr-small sr-muted" style="margin:0 0 var(--s4)">
+        One scale, one role each, no exceptions:
+        <code>8px</code> for skeletons and inline chips,
+        <code>14px</code> for fields, metric tiles and status messages,
+        <code>22px</code> for cards and paper,
+        <code>32px</code> for demo stages and device frames,
+        and a full pill for everything interactive: buttons, badges, eyebrows, the nav.
+        The one deliberate break is the rounded corner at <code>52px</code>, which marks a saved artefact.
+      </p>
+      <h4 style="margin:var(--s5) 0 var(--s3)">Depth and relief</h4>
+      <p class="sr-small sr-muted">Surfaces are pressed out of the paper: a light edge on top, warm shade underneath, then a wide soft halo bleeding back into the ground. The halo is wider than the surface on purpose, so a raised element overlaps the paper instead of sitting inside a box.</p>
+      <div style="display:flex;gap:var(--s4);margin-top:var(--s4);flex-wrap:wrap">
+        <div class="sr-card" style="flex:1;min-width:150px;padding:var(--s4)">
+          <b class="sr-small">Pressed</b>
+          <p class="sr-small sr-muted" style="margin:4px 0 0">Light edge, warm inner shade, wide warm halo. The default for every surface.</p>
+        </div>
+        <div class="sr-card sr-card--resonance" style="flex:1;min-width:150px;padding:var(--s4)">
+          <b class="sr-small">Resonating</b>
+          <p class="sr-small sr-muted" style="margin:4px 0 0">The same relief, lifted higher, with Violet and Rose light spilling into the halo.</p>
+        </div>
+      </div>
+      <div class="sr-rule sr-rule--do" style="margin-top:var(--s4)"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Shadows and glows are never clipped. No <code>overflow:hidden</code> on a raised surface, on a section wrapper or on an SVG that carries a glowing path. Every SVG is set to <code>overflow:visible</code> and every grid keeps a gap wide enough for the halo. The single exception is a device frame, which has to clip its own chrome.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">-</span><p class="sr-small" style="margin:0">No hard drop shadow, no glass, no cold grey shadow. The shade is always the warm one, <code>rgba(138,107,69, …)</code>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= TYPE ========================= -->
+<section id="type" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Typography</h2>
+    <p class="sr-muted sr-small">Geist for the system, Instrument Serif reserved for paper.</p>
+  </div>
+
+  <div class="sr-grid c2">
+    <div class="sr-card sr-card--flat">
+      <p class="sr-label">Interface, Geist</p>
+      <p style="font-size:44px;font-weight:300;letter-spacing:-.035em;line-height:1.1;margin:0 0 6px">Resonance</p>
+      <p style="font-size:22px;font-weight:400;letter-spacing:-.02em;margin:0 0 6px">Traces and echoes</p>
+      <p class="sr-small sr-muted" style="margin:0">Body copy sits at 16px / 1.65 with a 62ch measure. Weights are limited to 300, 400, 500 and 600. Headlines are light and tightly tracked; never bold.</p>
+    </div>
+    <div class="sr-paper sr-bezel">
+      <div class="sr-paper__body">
+        <p class="sr-label" style="color:#8A7A61">Paper moment, Instrument Serif</p>
+        <p class="sr-quote">The gap is not something missing. It is the room a person keeps for <em>what has not happened yet</em>.</p>
+        <p class="sr-small" style="margin:0;color:#6B5B44">Serif appears only on paper surfaces: quotes, saved reflections, personal insights.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sr-card sr-card--flat" style="margin-top:var(--s5)">
+    <table class="sr-table">
+      <tr><th>Role</th><th>Family</th><th>Size / line</th><th>Weight / tracking</th></tr>
+      <tr><td>Display</td><td>Geist</td><td>clamp(34 to 58px) / 1.15</td><td>300 / -.035em</td></tr>
+      <tr><td>Section</td><td>Geist</td><td>clamp(24 to 34px) / 1.15</td><td>400 / -.03em</td></tr>
+      <tr><td>Body</td><td>Geist</td><td>16px / 1.65</td><td>400 / 0</td></tr>
+      <tr><td>Eyebrow pill</td><td>Geist</td><td>10px / 1.4</td><td>500 / .2em uppercase</td></tr>
+      <tr><td>Paper quote</td><td>Instrument Serif</td><td>22px / 1.4</td><td>400 / 0</td></tr>
+      <tr><td>Code / token</td><td>Geist Mono</td><td>13px / 1.6</td><td>400 / 0</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ========================= GRAMMAR ========================= -->
+<section id="grammar" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Core visual grammar</h2>
+    <p class="sr-muted sr-small">Everything below is SVG paths, circles, masks, gradients, clipping and opacity, animated with CSS or JavaScript.</p>
+  </div>
+
+  <div class="sr-grid c2">
+    <!-- TRACE -->
+    <div class="sr-demo sr-bezel">
+      <p class="sr-demo__label">Trace</p>
+      <svg viewBox="0 0 400 150">
+        <path class="sr-draw" style="--len:460"
+              d="M20 118C74 112 96 42 158 48S258 116 380 62"
+              fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">A trace represents a person, state, process or direction. Cubic Bézier, 1.25 to 2px stroke, round caps, no fill, limited directional changes, controlled asymmetry. Never an arbitrary sine wave.</p>
+    </div>
+
+    <!-- ECHO -->
+    <div class="sr-demo sr-bezel">
+      <p class="sr-demo__label">Echo</p>
+      <svg viewBox="0 0 400 150">
+        <path class="sr-draw" style="--len:460"
+              d="M20 112C74 106 96 36 158 42S258 110 380 56"
+              fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path class="glow-violet sr-draw sr-draw--echo" style="--len:460"
+              d="M20 115C74 109 96 39 158 45S258 113 380 59"
+              fill="none" stroke="#6756D9" stroke-width="1.25" stroke-linecap="round" opacity=".5"/>
+        <path class="glow-rose sr-draw sr-draw--echo" style="--len:460"
+              d="M20 118.5C74 112.5 96 42.5 158 48.5S258 116.5 380 62.5"
+              fill="none" stroke="#D85BA9" stroke-width="1.25" stroke-linecap="round" opacity=".42"/>
+      </svg>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">A second trace following the primary at 2 to 4px offset, 30 to 55% opacity: resonance, memory, influence. Violet, Blue, Rose or Pink, each carrying a soft glow so colour reads as light on the warm ground.</p>
+    </div>
+
+    <!-- GAP -->
+    <div class="sr-demo sr-bezel">
+      <p class="sr-demo__label">Gap</p>
+      <svg viewBox="0 0 400 150">
+        <circle cx="112" cy="75" r="52" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-dasharray="252 75" transform="rotate(-52 112 75)"/>
+        <circle cx="248" cy="75" r="30" fill="none" stroke="var(--sr-line)" stroke-width="1.5"
+                stroke-linecap="round" stroke-dasharray="140 48" transform="rotate(120 248 75)"/>
+        <path d="M312 75h68" stroke="var(--sr-line)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="26 14"/>
+      </svg>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">Important shapes stay deliberately incomplete: autonomy, potential, breathing room, unresolved possibility. Gaps live in circular graphics, dividers, component edges, timelines, navigation and animation.</p>
+    </div>
+
+    <!-- BRIDGE -->
+    <div class="sr-demo sr-bezel">
+      <p class="sr-demo__label">Bridge</p>
+      <svg viewBox="0 0 400 150">
+        <defs>
+          <linearGradient id="spec-bridge" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#6756D9"/><stop offset="50%" stop-color="#9466DF"/><stop offset="100%" stop-color="#F0719A"/>
+          </linearGradient>
+        </defs>
+        <path d="M18 46C62 40 96 58 140 52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M262 112C304 106 340 122 384 114" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path class="glow-spectrum sr-draw" style="--len:180" d="M140 52C176 52 214 108 262 111"
+              fill="none" stroke="url(#spec-bridge)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="140" cy="52" r="3.2" fill="currentColor"/>
+        <circle cx="262" cy="111" r="3.2" fill="currentColor"/>
+      </svg>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">A short cubic Bézier connecting two otherwise independent traces: relationship. Optional spectral stroke. No arrows, no technical connector style.</p>
+    </div>
+  </div>
+
+  <!-- SPECTRUM + SPECTRAL EDGE -->
+  <div class="sr-grid c2" style="margin-top:var(--s5)">
+    <div class="sr-demo sr-bezel">
+      <p class="sr-demo__label">Spectrum</p>
+      <div class="sr-spectrum-bar" style="height:10px"></div>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">Violet → Blue → Orchid → Rose → Pink. It marks everything that changes, connects, activates or becomes meaningful, roughly 40% of what you see.</p>
+      <div style="display:flex;gap:10px;margin-top:var(--s4);flex-wrap:wrap">
+        <span class="sr-badge sr-badge--resonant"><i class="sr-dot"></i> Resonance detected</span>
+        <span class="sr-badge">Neutral state</span>
+      </div>
+    </div>
+    <div>
+      <div class="sr-grid c2" style="gap:var(--s4)">
+        <div class="sr-card" style="padding:var(--s4)"><span class="sr-edge e-bottom"><i></i></span><b class="sr-small">Bottom edge</b><p class="sr-small sr-muted" style="margin:4px 0 0">Default for cards that just resonated.</p></div>
+        <div class="sr-card" style="padding:var(--s4)"><span class="sr-edge e-left"><i></i></span><b class="sr-small">Left edge</b><p class="sr-small sr-muted" style="margin:4px 0 0">Active state in lists and navigation.</p></div>
+        <div class="sr-card sr-corner" style="padding:var(--s4)"><span class="sr-edge e-corner"><i></i></span><b class="sr-small">Rounded corner</b><p class="sr-small sr-muted" style="margin:4px 0 0">Saved or exported artefacts. The corner itself is rounded away.</p></div>
+        <div class="sr-card" style="padding:var(--s4)"><span class="sr-edge e-partial"><i></i></span><b class="sr-small">Partial edge</b><p class="sr-small sr-muted" style="margin:4px 0 0">Progress that is not finished.</p></div>
+      </div>
+      <div class="sr-card sr-card--flat" style="margin-top:var(--s4)">
+        <h4 style="margin-bottom:var(--s3)">How an edge is drawn</h4>
+        <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">The edge is a 2px ring on the surface outline, so it follows the corner radius into the curve instead of stopping at the straight part.</p></div>
+        <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">It always fades out, and the fade is measured in pixels, not percent: solid for the first 9px, gone by 44 to 46px. A small metric tile and a large card therefore show an edge of the same visible length. An edge never ends on a hard cut.</p></div>
+        <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">The rounded corner is a real radius change, 52px on that one corner, with the edge tracing the arc and fading out on both sides of it. The corner is rounded away, never cut off.</p></div>
+        <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">The partial edge is the bottom edge with a second, horizontal fade at 42 to 74%. That one stays in percent because its length is the message: how far the work got.</p></div>
+        <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">The edge carries the spectrum glow, so it lights the paper immediately around it.</p></div>
+        <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">-</span><p class="sr-small" style="margin:0">One edge per surface. Never two, never a full ring.</p></div>
+        <p class="sr-small sr-muted" style="margin:var(--s3) 0 0">Markup: <code>&lt;span class="sr-edge e-bottom"&gt;&lt;i&gt;&lt;/i&gt;&lt;/span&gt;</code> inside the surface. The span carries the fade mask, the inner element carries the ring.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sr-card sr-card--flat" style="margin-top:var(--s5)">
+    <h4 style="margin-bottom:var(--s3)">Construction constraints</h4>
+    <div class="sr-grid c2" style="gap:var(--s5)">
+      <div>
+        <p class="sr-small" style="margin:0 0 8px"><b>Allowed</b></p>
+        <p class="sr-small sr-muted" style="margin:0">SVG paths, circles, masks, gradients, clipping paths, opacity, CSS and JavaScript animation.</p>
+      </div>
+      <div>
+        <p class="sr-small" style="margin:0 0 8px"><b>Not allowed for essential brand elements</b></p>
+        <p class="sr-small sr-muted" style="margin:0">Raster textures, generative artwork, hand-painted assets, complex illustration effects, AI-specific image generation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= MATERIAL ========================= -->
+<section id="material" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Paper material</h2>
+    <p class="sr-muted sr-small">Deeper than the ground by a full step, with 3.5% monochrome grain and its own top light.</p>
+  </div>
+
+  <div class="sr-grid c2">
+    <div class="sr-paper sr-paper--warm sr-bezel">
+      <div class="sr-paper__body">
+        <span class="sr-badge sr-badge--paper">Saved reflection</span>
+        <p class="sr-quote" style="margin-top:var(--s4)">I noticed I answer faster when I am unsure. Slowing down was the whole shift this week.</p>
+        <p class="sr-small" style="margin:0;color:#6B5B44">14 March, journal entry</p>
+      </div>
+    </div>
+    <div class="sr-card sr-card--flat">
+      <h4 style="margin-bottom:var(--s3)">When paper is used</h4>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Journal moments</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Personal insights</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Quotes</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Saved reflections</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Key emotional summaries</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">−</span><p class="sr-small" style="margin:0">Never above 20% of the surface budget. The deeper paper marks a moment, it does not become the room.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= COMPONENTS ========================= -->
+<section id="components" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Components</h2>
+    <p class="sr-muted sr-small">Restraint is part of the identity: not every element carries every behaviour.</p>
+  </div>
+
+  <div class="sr-grid c12">
+    <div class="sr-card sr-card--flat sp7">
+      <h4 style="margin-bottom:var(--s4)">Buttons</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <button class="sr-btn sr-btn--primary">Continue <span class="sr-btn__icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9 9 3M4.4 3H9v4.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        <button class="sr-btn sr-btn--spectral">Resonate <span class="sr-btn__icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9 9 3M4.4 3H9v4.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        <button class="sr-btn">Secondary</button>
+        <button class="sr-btn sr-btn--ghost">Skip</button>
+      </div>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">The spectral border is reserved for the one action that creates resonance on a screen.</p>
+    </div>
+
+    <div class="sr-card sr-card--flat sp5">
+      <h4 style="margin-bottom:var(--s4)">Field</h4>
+      <div class="sr-field">
+        <label for="demo-field">What resonated today?</label>
+        <input class="sr-input" id="demo-field" placeholder="Write one sentence…">
+      </div>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">Focus uses a violet ring at low opacity, never a full spectrum outline.</p>
+    </div>
+
+    <div class="sr-card sr-card--flat sp7">
+      <h4 style="margin-bottom:var(--s4)">States</h4>
+      <div class="sr-grid" style="grid-template-columns:1fr 1fr;gap:var(--s4)">
+        <div>
+          <p class="sr-small sr-muted" style="margin:0 0 10px">Loading, matching the real layout</p>
+          <div class="sr-skel" style="width:60%"></div>
+          <div class="sr-skel"></div>
+          <div class="sr-skel" style="width:82%"></div>
+        </div>
+        <div>
+          <p class="sr-small sr-muted" style="margin:0 0 10px">Empty, with the gap held open</p>
+          <div class="sr-empty">
+            <svg width="62" height="62" viewBox="0 0 62 62" fill="none" aria-hidden="true">
+              <circle cx="31" cy="31" r="23" fill="none" stroke="var(--sr-line)" stroke-width="1.5"
+                      stroke-linecap="round" stroke-dasharray="112 33" transform="rotate(-40 31 31)"/>
+              <path d="M18 36c7-9 12 3 18-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <path class="glow-violet" d="M18 39c7-9 12 3 18-5" fill="none" stroke="#9466DF" stroke-width="1.2" stroke-linecap="round" opacity=".55"/>
+            </svg>
+            <p class="sr-small" style="margin:0"><b>No trace for Sunday.</b><br><span class="sr-muted">The gap stays open until you add one.</span></p>
+            <button class="sr-btn sr-btn--spectral" style="padding:9px 16px">Add a trace</button>
+          </div>
+        </div>
+      </div>
+      <div class="sr-error" style="margin-top:var(--s4)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-top:3px"><path class="glow-rose" d="M7 3.4v4.2M7 10.3v.2" stroke="#D85BA9" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span><b>Echo could not be saved.</b> The connection to Jonas dropped mid-sync. Errors report inline, in Danger, never as a modal.</span>
+      </div>
+    </div>
+
+    <div class="sr-card sr-card--flat sp5">
+      <h4 style="margin-bottom:var(--s4)">Badges &amp; divider</h4>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="sr-badge sr-badge--resonant"><i class="sr-dot"></i> Resonant</span>
+        <span class="sr-badge">Draft</span>
+        <span class="sr-badge sr-badge--paper">Journal</span>
+      </div>
+      <hr class="sr-divider" style="margin:var(--s5) 0">
+      <p class="sr-small sr-muted" style="margin:0">The divider carries a gap. Dividers are never full-width solid rules.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ========================= RESPONSIVE ========================= -->
+<section id="responsive" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Responsive</h2>
+    <p class="sr-muted sr-small">Mobile first, in the CSS as well as in the thinking.</p>
+  </div>
+
+  <div class="sr-grid c12">
+    <div class="sr-card sr-card--flat sp7">
+      <h4 style="margin-bottom:var(--s4)">Breakpoints</h4>
+      <table class="sr-table">
+        <tr><th>From</th><th>What arrives</th></tr>
+        <tr><td><code>base</code></td><td>The phone layout. One column, stacked metrics, bottom navigation, tables scroll inside their own container, side rail hidden.</td></tr>
+        <tr><td><code>640px</code></td><td>The second column: two-up grids, swatch pairs, three metrics in a row, tables become real tables, section padding grows.</td></tr>
+        <tr><td><code>768px</code></td><td>The split hero, the twelve-column grids with their 5 and 7 spans, and the side rail in the application.</td></tr>
+        <tr><td><code>1024px</code></td><td>Four-up grids, the five colour swatches in one row, the floating nav pill at full width.</td></tr>
+        <tr><td><code>1180px</code></td><td>The scroll trace appears in the left margin, where there is finally room for it.</td></tr>
+      </table>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">
+        Every query is <code>min-width</code>. The base rules are the small screen, and each
+        breakpoint only adds capacity. There is not a single <code>max-width</code> query in the
+        stylesheet, so nothing has to be undone for phones.
+      </p>
+    </div>
+
+    <div class="sr-card sr-card--flat sp5">
+      <h4 style="margin-bottom:var(--s4)">Rules</h4>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Tap targets stay at 44px minimum, on every viewport, including the bottom bar.</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Grid children carry <code>min-width:0</code>, otherwise a wide table or a long token stretches the page.</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Edge fades are in pixels, so an edge looks the same on a phone tile and a desktop card.</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Wide content scrolls inside its own container. The page body never scrolls sideways.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">-</span><p class="sr-small" style="margin:0">Never <code>100vh</code> for a full-height screen. Use <code>100dvh</code>, or the mobile browser bar cuts the layout.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">-</span><p class="sr-small" style="margin:0">The side rail is not shrunk into a phone. It becomes a bottom bar, and the active item carries the spectral edge.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= MOTION ========================= -->
+<section id="motion" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Motion</h2>
+    <p class="sr-muted sr-small">Fixed constants, taken from the pattern catalogue. Never estimated by feel.</p>
+  </div>
+
+  <div class="sr-grid c12">
+    <div class="sr-card sr-card--flat sp7">
+      <h4 style="margin-bottom:var(--s4)">Constants</h4>
+      <table class="sr-table">
+        <tr><th>Moment</th><th>Values</th></tr>
+        <tr><td>Reveal, normal block</td><td><code>y 2.4rem / 0.9s / power2.out / once / trigger top 88%</code></td></tr>
+        <tr><td>Reveal, small element</td><td><code>y 1.6rem / trigger top 92%</code></td></tr>
+        <tr><td>Reveal, whole section</td><td><code>y 3.2rem / trigger top 85%</code></td></tr>
+        <tr><td>Stagger</td><td><code>cards 0.12s / chars 0.04s / hero 0.14s</code></td></tr>
+        <tr><td>Line draw</td><td><code>scaleX 0 to 1 / 1s / power3.out / origin left / top 92%</code></td></tr>
+        <tr><td>Hover and press</td><td><code>150 to 250ms / power2.out</code></td></tr>
+        <tr><td>State change in the app</td><td><code>240ms / ease-out</code></td></tr>
+        <tr><td>Scrubbed motion</td><td><code>ease none, always</code></td></tr>
+      </table>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">
+        power2.out is <code>cubic-bezier(.215,.61,.355,1)</code>, power3.out is <code>cubic-bezier(.165,.84,.44,1)</code>.
+        Trigger points are expressed as viewport positions and implemented as IntersectionObserver rootMargins.
+      </p>
+    </div>
+
+    <div class="sr-card sr-card--flat sp5">
+      <h4 style="margin-bottom:var(--s4)">Which patterns this system uses</h4>
+      <p class="sr-small sr-muted" style="margin:0 0 var(--s4)">
+        A documentation and system surface takes the quiet end of the catalogue: basic reveal,
+        staggered group, line draw and hover micro-interactions. Nothing else.
+      </p>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">Traces draw themselves once when they enter the viewport. Drawing is the brand, so it is the one thing that animates.</p></div>
+      <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0">One perpetual signal only: the bridge endpoint breathes while a connection is open.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">-</span><p class="sr-small" style="margin:0">No smooth-scroll layer, no pinned chapter, no parallax, no ambient effect on a system surface.</p></div>
+      <div class="sr-rule sr-rule--dont"><span class="sr-rule__mark">-</span><p class="sr-small" style="margin:0">No scroll listener. IntersectionObserver or a CSS scroll timeline, nothing else.</p></div>
+    </div>
+
+    <div class="sr-card sr-card--flat sp12">
+      <h4 style="margin-bottom:var(--s4)">Guards, all mandatory</h4>
+      <div class="sr-grid" style="grid-template-columns:repeat(2,1fr);gap:0 var(--s6)">
+        <div>
+          <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0"><b>prefers-reduced-motion:</b> everything visible, movement removed, opacity kept, loops stopped.</p></div>
+          <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0"><b>Reveals run once.</b> Scrolling back up never replays them.</p></div>
+          <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0"><b>Text splits</b> wait for <code>document.fonts.ready</code>.</p></div>
+        </div>
+        <div>
+          <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0"><b>transform and opacity only.</b> Never width, height, top or left.</p></div>
+          <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0"><b>will-change</b> during the sequence only, then back to auto.</p></div>
+          <div class="sr-rule sr-rule--do"><span class="sr-rule__mark">+</span><p class="sr-small" style="margin:0"><b>Hover states</b> only behind <code>(hover:hover) and (pointer:fine)</code>, each with a focus-visible equivalent.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sr-card sr-card--flat sp12">
+      <div class="sr-card__title" style="margin-bottom:var(--s4)">
+        <h4>Motion bench</h4>
+        <button class="sr-btn" id="sr-replay" type="button" style="padding:9px 16px;font-size:13px;min-height:40px">Play again</button>
+      </div>
+      <p class="sr-small sr-muted" style="margin:0 0 var(--s4);max-width:62ch">
+        Reveals run once per page load, so they are easy to miss. Here they are on demand,
+        at the exact constants above.
+      </p>
+      <div class="sr-grid" style="grid-template-columns:repeat(3,1fr);gap:var(--s4)" id="sr-bench">
+        <div>
+          <p class="sr-small sr-muted" style="margin:0 0 8px">Reveal, 2.4rem / 0.9s / power2.out</p>
+          <div class="sr-bench__stage">
+            <div class="sr-demo-card bench-item"><b>Marlene echoed your Tuesday trace</b></div>
+          </div>
+        </div>
+        <div>
+          <p class="sr-small sr-muted" style="margin:0 0 8px">Stagger, 0.12s between siblings</p>
+          <div class="sr-bench__stage">
+            <div class="sr-demo-card bench-item">Marlene</div>
+            <div class="sr-demo-card bench-item">Jonas</div>
+            <div class="sr-demo-card bench-item">Ada</div>
+          </div>
+        </div>
+        <div>
+          <p class="sr-small sr-muted" style="margin:0 0 8px">Line draw, 1s / power3.out</p>
+          <div class="sr-bench__stage">
+            <svg viewBox="0 0 240 70" aria-hidden="true">
+              <path class="bench-draw" style="--len:300" d="M10 52C40 48 52 16 86 20S150 58 176 38 226 22 232 26"
+                    fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+              <path class="bench-draw glow-violet" style="--len:300" d="M10 55C40 51 52 19 86 23S150 61 176 41 226 25 232 29"
+                    fill="none" stroke="#6756D9" stroke-width="1.25" stroke-linecap="round" opacity=".55"/>
+            </svg>
+            <span class="bench-line" style="display:block;height:2px;border-radius:99px;background:var(--sr-spectrum);box-shadow:0 0 8px rgba(148,102,223,.6)"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= TEST ========================= -->
+<section id="test" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Implementation test</h2>
+    <p class="sr-muted sr-small">Every core visual must answer yes to all six.</p>
+  </div>
+
+  <div class="sr-grid c2">
+    <div class="sr-card sr-card--flat">
+      <ul class="sr-check">
+        <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path class="glow-violet" d="M2 7.5 5.5 11 12 3.5" stroke="#6756D9" stroke-width="1.5" stroke-linecap="round"/></svg> Can this be recreated as SVG?</li>
+        <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path class="glow-violet" d="M2 7.5 5.5 11 12 3.5" stroke="#6756D9" stroke-width="1.5" stroke-linecap="round"/></svg> Can its geometry be parametrised?</li>
+        <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path class="glow-violet" d="M2 7.5 5.5 11 12 3.5" stroke="#6756D9" stroke-width="1.5" stroke-linecap="round"/></svg> Can it be animated with CSS or JavaScript?</li>
+        <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path class="glow-rose" d="M2 7.5 5.5 11 12 3.5" stroke="#D85BA9" stroke-width="1.5" stroke-linecap="round"/></svg> Does it remain recognisable without texture?</li>
+        <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path class="glow-rose" d="M2 7.5 5.5 11 12 3.5" stroke="#D85BA9" stroke-width="1.5" stroke-linecap="round"/></svg> Does it work in monochrome?</li>
+        <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path class="glow-rose" d="M2 7.5 5.5 11 12 3.5" stroke="#D85BA9" stroke-width="1.5" stroke-linecap="round"/></svg> Does it stay understandable at 320px width?</li>
+      </ul>
+      <p class="sr-small sr-muted" style="margin:var(--s5) 0 0">If not, it is not a core SoulResonance brand element.</p>
+    </div>
+
+    <div class="sr-demo sr-bezel">
+      <p class="sr-demo__label">Monochrome proof, same mark without colour</p>
+      <svg viewBox="0 0 400 150">
+        <circle cx="90" cy="75" r="46" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-dasharray="224 65" transform="rotate(-52 90 75)"/>
+        <path d="M46 92C70 56 92 100 118 66c14-18 25-14 38-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M46 96C70 60 92 104 118 70c14-18 25-14 38-6" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity=".4"/>
+        <path d="M200 96C238 96 262 54 300 54" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M200 100C238 100 262 58 300 58" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity=".4"/>
+        <circle cx="300" cy="54" r="3.2" fill="currentColor"/>
+      </svg>
+      <p class="sr-small sr-muted" style="margin:var(--s4) 0 0">Recognition rule: a major visual normally combines at least three behaviours. Here Trace, Echo and Gap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= APPLICATION ========================= -->
+<section id="application" data-reveal>
+  <div class="sr-sec-head">
+    <h2>Application</h2>
+    <p class="sr-muted sr-small">The system assembled: a resonance journal. Air holds the structure, one paper moment carries the personal note, resonance carries everything that connected.</p>
+  </div>
+
+  <div class="sr-frames">
+    <div>
+      <p class="sr-frame-label"><b>Desktop, 1024px and up</b> the same screens with the side rail and the twelve-column grid</p>
+      <div class="sr-app sr-bezel">
+    <div class="sr-app__chrome"><i></i><i></i><i></i><span class="sr-app__url">app.soulresonance.io/today</span></div>
+
+    <div class="sr-app__body">
+      <!-- SIDEBAR -->
+      <aside class="sr-side">
+        <div class="sr-side__brand">
+          <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="60 21.7" transform="rotate(-58 16 16)"/>
+            <path d="M6 20C10 12 14 22 19 14c2.5-4 4.6-3.1 7-1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path class="glow-violet" d="M6 23C10 15 14 25 19 17c2.5-4 4.6-3.1 7-1.4" stroke="#6756D9" stroke-width="1.25" stroke-linecap="round" opacity=".55"/>
+          </svg>
+          SoulResonance
+        </div>
+        <nav>
+          <a href="#application" class="is-active">Today</a>
+          <a href="#application">Traces</a>
+          <a href="#application">Connections</a>
+          <a href="#application">Journal</a>
+          <a href="#application">Patterns</a>
+        </nav>
+        <div class="sr-side__foot">
+          <p class="sr-small sr-muted" style="margin:0 0 6px">Week 11</p>
+          <p class="sr-small" style="margin:0">4 of 7 days traced</p>
+          <div style="height:2px;background:#EDF0EE;border-radius:99px;margin-top:10px;overflow:hidden">
+            <div class="sr-spectrum-bar" style="width:57%;height:100%"></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="sr-main">
+        <div class="sr-main__head">
+          <div>
+            <p class="sr-eyebrow" style="margin-bottom:6px">Thursday, 14 March</p>
+            <h3 style="font-size:24px;font-weight:400;letter-spacing:-.025em">Your trace today</h3>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="sr-btn sr-btn--ghost">Skip</button>
+            <button class="sr-btn sr-btn--spectral" id="sr-resonate" type="button"><span id="sr-resonate-label">Resonate</span> <span class="sr-btn__icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9 9 3M4.4 3H9v4.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          </div>
+        </div>
+
+        <div class="sr-metrics">
+          <div class="sr-metric"><span class="sr-edge e-left"><i></i></span><b>6.2</b><span>Average state</span></div>
+          <div class="sr-metric"><span class="sr-edge e-partial"><i></i></span><b style="color:var(--sr-violet)">4</b><span>Echoes this week</span></div>
+          <div class="sr-metric"><b>2</b><span>Open gaps</span></div>
+        </div>
+
+        <div class="sr-app-grid">
+          <!-- Trace chart -->
+          <div class="sr-card" id="sr-chart-card">
+              <span class="sr-edge e-bottom sr-edge--toggle" id="sr-chart-edge"><i></i></span>
+            <div class="sr-card__title">
+              <h4>State and influence</h4>
+              <span class="sr-badge" id="sr-chart-badge">Neutral state</span>
+            </div>
+            <svg viewBox="0 0 520 200" role="img" aria-label="Trace of the last seven days with echo of influence">
+              <defs>
+                <linearGradient id="spec-app" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#6756D9"/><stop offset="50%" stop-color="#9466DF"/><stop offset="100%" stop-color="#F0719A"/>
+                </linearGradient>
+              </defs>
+              <!-- baseline with gap -->
+              <path d="M20 172h180M236 172h264" stroke="var(--sr-line)" stroke-width="1" stroke-linecap="round"/>
+              <!-- primary trace -->
+              <path id="sr-trace" class="sr-draw" style="--len:640"
+                    d="M24 134C86 128 108 58 176 66S288 148 356 104 452 62 496 74"
+                    fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+              <!-- echoes, hidden until resonance -->
+              <g id="sr-echoes" opacity="1" style="transition:opacity 240ms var(--sr-ease-out)">
+                <path class="glow-violet" d="M24 137C86 131 108 61 176 69S288 151 356 107 452 65 496 77"
+                      fill="none" stroke="#6756D9" stroke-width="1.25" stroke-linecap="round" opacity=".5"/>
+                <path class="glow-rose" d="M24 140.5C86 134.5 108 64.5 176 72.5S288 154.5 356 110.5 452 68.5 496 80.5"
+                      fill="none" stroke="#D85BA9" stroke-width="1.25" stroke-linecap="round" opacity=".42"/>
+              </g>
+              <!-- bridge to a connection -->
+              <g id="sr-bridge" opacity="0" style="transition:opacity 240ms var(--sr-ease-out) 60ms">
+                <path class="glow-spectrum" d="M176 66C214 34 268 30 316 42" fill="none" stroke="url(#spec-app)" stroke-width="1.5" stroke-linecap="round"/>
+                <circle class="glow-rose sr-pulse" cx="316" cy="42" r="3.4" fill="#D85BA9"/>
+              </g>
+              <circle cx="176" cy="66" r="3.4" fill="currentColor"/>
+              <circle cx="496" cy="74" r="3.4" fill="currentColor"/>
+              <!-- open gap marker -->
+              <circle cx="216" cy="172" r="16" fill="none" stroke="var(--sr-line)" stroke-width="1.25"
+                      stroke-linecap="round" stroke-dasharray="72 28" transform="rotate(-30 216 172)"/>
+            </svg>
+            <div class="sr-legend" style="margin-top:var(--s3)">
+              <span><i style="background:#16363B"></i>Your trace</span>
+              <span><i style="background:#6756D9"></i>Echo, influence</span>
+              <span><i style="background:linear-gradient(90deg,#6756D9,#F0719A)"></i>Bridge, connection</span>
+              <span><i style="background:#DCE2DF"></i>Gap, untraced</span>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div style="display:grid;gap:var(--s5)">
+            <div class="sr-card">
+              <div class="sr-card__title"><h4>Connections</h4><span class="sr-small sr-muted">3</span></div>
+              <ul class="sr-conn">
+                <li>
+                  <svg width="34" height="20" viewBox="0 0 34 20" fill="none" aria-hidden="true"><path d="M2 15C10 15 14 5 22 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path class="glow-violet" d="M2 18C10 18 14 8 22 8" stroke="#6756D9" stroke-width="1.2" stroke-linecap="round" opacity=".55"/><circle cx="24" cy="5" r="2.6" fill="currentColor"/></svg>
+                  <span class="sr-conn__who">Marlene<small>Echoed your Tuesday trace</small></span>
+                </li>
+                <li>
+                  <svg width="34" height="20" viewBox="0 0 34 20" fill="none" aria-hidden="true"><path d="M2 6C10 6 14 16 22 16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path class="glow-rose" d="M2 9C10 9 14 19 22 19" stroke="#D85BA9" stroke-width="1.2" stroke-linecap="round" opacity=".55"/><circle cx="24" cy="16" r="2.6" fill="currentColor"/></svg>
+                  <span class="sr-conn__who">Jonas<small>Bridge open since Monday</small></span>
+                </li>
+                <li>
+                  <svg width="34" height="20" viewBox="0 0 34 20" fill="none" aria-hidden="true"><path d="M2 10C10 4 14 16 22 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="24" cy="10" r="2.6" fill="none" stroke="var(--sr-line)" stroke-width="1.4"/></svg>
+                  <span class="sr-conn__who">Ada<small>No trace yet, gap held</small></span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- The one paper moment -->
+            <div class="sr-paper">
+              <div class="sr-paper__body" style="padding:var(--s5)">
+                <span class="sr-badge sr-badge--paper">Saved reflection</span>
+                <p class="sr-quote" style="font-size:19px;margin:var(--s4) 0 var(--s3)">Being unsure in front of other people turned out to be the easier part.</p>
+                <p class="sr-small" style="margin:0;color:#6B5B44">Yesterday, 21:40</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-card sr-card--flat" style="display:flex;gap:var(--s4);align-items:center;flex-wrap:wrap">
+          <div class="sr-field" style="flex:1;min-width:220px">
+            <label for="sr-entry">Add to today</label>
+            <input class="sr-input" id="sr-entry" placeholder="One sentence is enough…">
+          </div>
+          <button class="sr-btn sr-btn--primary" style="align-self:flex-end">Save <span class="sr-btn__icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9 9 3M4.4 3H9v4.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+      <p class="sr-small sr-muted" style="margin-top:var(--s4)">Echoes are always on screen, because resonance is 40% of this system. Pressing <b>Resonate</b> opens the bridge to another person and gives the card its single spectral edge.</p>
+    </div>
+
+    <div>
+      <p class="sr-frame-label"><b>Phone, 320 to 640px</b> the layout the system is designed from</p>
+      <div class="sr-phone">
+        <div class="sr-phone__status"><span>9:41</span><span>Week 11</span></div>
+        <div class="sr-phone__body">
+          <div class="sr-phone__head">
+            <div>
+              <p class="sr-small sr-muted" style="margin:0 0 2px">Thursday, 14 March</p>
+              <h5>Your trace today</h5>
+            </div>
+            <button class="sr-btn sr-btn--spectral" style="padding:8px 10px 8px 14px;font-size:13px">Resonate <span class="sr-btn__icon" style="width:24px;height:24px"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9 9 3M4.4 3H9v4.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          </div>
+
+          <div class="sr-card" style="padding:14px">
+            <span class="sr-edge e-bottom"><i></i></span>
+            <div class="sr-card__title" style="margin-bottom:8px">
+              <b class="sr-small">State and influence</b>
+              <span class="sr-badge sr-badge--resonant" style="font-size:11px;padding:4px 9px"><i class="sr-dot"></i> Resonant</span>
+            </div>
+            <svg viewBox="0 0 260 110" role="img" aria-label="Your trace this week with its echo">
+              <path d="M12 84h96M130 84h118" stroke="var(--sr-line)" stroke-width="1" stroke-linecap="round"/>
+              <path class="sr-draw" style="--len:330" d="M14 62C46 58 58 22 92 26S158 74 186 50 240 30 250 36"
+                    fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+              <path class="glow-violet" d="M14 65C46 61 58 25 92 29S158 77 186 53 240 33 250 39"
+                    fill="none" stroke="#6756D9" stroke-width="1.25" stroke-linecap="round" opacity=".55"/>
+              <path class="glow-rose" d="M14 68C46 64 58 28 92 32S158 80 186 56 240 36 250 42"
+                    fill="none" stroke="#D85BA9" stroke-width="1.25" stroke-linecap="round" opacity=".4"/>
+              <circle cx="92" cy="26" r="3" fill="currentColor"/>
+              <circle cx="119" cy="84" r="12" fill="none" stroke="var(--sr-line)" stroke-width="1.25"
+                      stroke-linecap="round" stroke-dasharray="54 21" transform="rotate(-30 119 84)"/>
+            </svg>
+          </div>
+
+          <div class="sr-phone__row">
+            <div class="sr-metric"><span class="sr-edge e-left"><i></i></span><b>6.2</b><span>Average state</span></div>
+            <div class="sr-metric"><span class="sr-edge e-partial"><i></i></span><b style="color:var(--sr-violet)">4</b><span>Echoes</span></div>
+          </div>
+
+          <div class="sr-paper" style="border-radius:var(--sr-r-md)">
+            <div class="sr-paper__body" style="padding:16px">
+              <span class="sr-badge sr-badge--paper" style="font-size:11px;padding:4px 9px">Saved reflection</span>
+              <p class="sr-quote" style="font-size:17px;margin:12px 0 6px">Being unsure in front of other people turned out to be the easier part.</p>
+              <p class="sr-small" style="margin:0;color:#6B5B44">Yesterday, 21:40</p>
+            </div>
+          </div>
+
+          <div class="sr-msg sr-msg--info" style="font-size:12.5px"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.2" stroke="currentColor" stroke-width="1.3"/><path d="M7.5 6.9v4M7.5 4.6v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span><b>Ada has not traced since Sunday.</b></span></div>
+        </div>
+
+        <nav class="sr-phone__nav">
+          <a href="#application" class="is-active"><svg width="17" height="17" viewBox="0 0 20 20" fill="none"><path d="M3 13c4-1 5-7 9-7 2.5 0 3.6 1.4 5 2.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Today</a>
+          <a href="#application"><svg width="17" height="17" viewBox="0 0 20 20" fill="none"><path d="M3 11c3.5 0 4.5-5 8-5 2.4 0 3.6 1.2 6 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M3 14c3.5 0 4.5-5 8-5 2.4 0 3.6 1.2 6 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".45"/></svg>Traces</a>
+          <a href="#application"><svg width="17" height="17" viewBox="0 0 20 20" fill="none"><path d="M3 7c3 0 4 6 7 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="16" cy="13" r="2.4" stroke="currentColor" stroke-width="1.4"/></svg>Bridges</a>
+          <a href="#application"><svg width="17" height="17" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="30 12" transform="rotate(-40 10 10)"/></svg>Journal</a>
+        </nav>
+      </div>
+      <p class="sr-small sr-muted" style="margin:var(--s3) 0 0">
+        Same system, fewer columns: metrics pair up, the side rail becomes a bottom bar with the
+        active item carrying the spectral edge, and every tap target stays at 44px.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="display:flex;justify-content:space-between;gap:var(--s5);flex-wrap:wrap">
+    <span>SoulResonance, Digital Resonance System v1.0</span>
+    <span>40% Air, 20% Paper, 40% Resonance</span>
+  </div>
+</footer>
+</div>
+
+<script>
+/* Reveal on scroll, drives the trace draw-in and fades */
+/* Reveal on scroll.
+   Trigger points follow the catalogue: top 92% for small elements,
+   88% for normal blocks, 85% for whole sections. rootMargin is the
+   viewport-bottom offset that produces exactly those numbers.
+   IntersectionObserver only, never a scroll listener. Every reveal is once. */
+(function(){
+  var groups = [
+    { sel:'[data-reveal="sm"]',            margin:'0px 0px -8% 0px'  },
+    { sel:'[data-reveal="lg"], section',   margin:'0px 0px -15% 0px' },
+    { sel:'[data-reveal], .sr-demo, .sr-fade, .sr-rule-line', margin:'0px 0px -12% 0px' }
+  ];
+  if(!('IntersectionObserver' in window)){
+    document.querySelectorAll('[data-reveal], .sr-demo, .sr-fade, .sr-rule-line')
+      .forEach(function(t){ t.classList.add('is-in'); });
+    return;
+  }
+  groups.forEach(function(g){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    },{ threshold:0.01, rootMargin:g.margin });
+    document.querySelectorAll(g.sel).forEach(function(t){ io.observe(t); });
+  });
+})();
+
+/* Motion bench: replay the reveals on demand. Restarting a CSS animation
+   needs the class removed, a forced reflow, then the class back. */
+(function(){
+  var btn = document.getElementById('sr-replay'),
+      bench = document.getElementById('sr-bench');
+  if(!btn || !bench) return;
+  function play(){
+    var els = bench.querySelectorAll('.bench-item,.bench-draw,.bench-line');
+    els.forEach(function(el){ el.classList.remove('play'); });
+    void bench.offsetWidth;
+    els.forEach(function(el){ el.classList.add('play'); });
+  }
+  btn.addEventListener('click', play);
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ play(); io.unobserve(e.target); } });
+    },{ threshold:0.3 });
+    io.observe(bench);
+  } else { play(); }
+})();
+
+/* Application example: resonance only on activation */
+(function(){
+  var btn = document.getElementById('sr-resonate');
+  if(!btn) return;
+  var card = document.getElementById('sr-chart-card'),
+      echoes = document.getElementById('sr-echoes'),
+      bridge = document.getElementById('sr-bridge'),
+      badge = document.getElementById('sr-chart-badge'),
+      on = false;
+
+  btn.addEventListener('click', function(){
+    on = !on;
+    echoes.setAttribute('opacity', on ? '1' : '.55');
+    bridge.setAttribute('opacity', on ? '1' : '0');
+    document.getElementById('sr-chart-edge').classList.toggle('is-on', on);
+    card.classList.toggle('sr-card--resonance', on);
+    badge.className = on ? 'sr-badge sr-badge--resonant' : 'sr-badge';
+    badge.innerHTML = on ? '<i class="sr-dot"></i> Resonance detected' : 'Neutral state';
+    document.getElementById('sr-resonate-label').textContent = on ? 'Resonating' : 'Resonate';
+  });
+})();
+</script>
+</body>
+</html>

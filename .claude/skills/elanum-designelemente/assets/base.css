@@ -1,0 +1,507 @@
+/* ============================================================
+   SOULRESONANCE BASE, elanum
+   Tokens, Reset und Motion-Utilities, extrahiert aus der lebenden
+   Referenz docs/soulresonance-styleguide.html.
+   Diese Datei ist die Basis jedes elanum-Screens. Tokens nie umbenennen,
+   keine zweite Palette danebenstellen.
+   Schrift: Geist, Geist Mono, Instrument Serif.
+   ============================================================ */
+/* ============================================================
+   SOULRESONANCE TOKENS
+   ============================================================ */
+:root{
+  /* Ground: warm paper light, the whole document sits on it */
+  --sr-canvas:#F6F1E5;
+  --sr-surface:#FFFCF5;
+  --sr-surface-top:#FFFEFA;
+  --sr-ink:#16363B;
+  --sr-secondary:#5B6660;
+  --sr-line:#E4DCCB;
+  --sr-warm:#8A6B45;
+  --sr-warm-shadow:rgba(138,107,69,.16);
+  --sr-warm-shadow-soft:rgba(138,107,69,.10);
+  --sr-light-edge:rgba(255,255,255,.95);
+
+  /* Paper surfaces */
+  --sr-paper:#EDE1C6;
+  --sr-paper-light:#F4EBD6;
+  --sr-paper-ink:#2A2118;
+
+  /* Resonance colours */
+  --sr-violet:#6756D9;
+  --sr-blue:#4D7FE8;
+  --sr-orchid:#9466DF;
+  --sr-rose:#D85BA9;
+  --sr-pink:#F0719A;
+
+  /* Status colours. Separate from the brand spectrum on purpose:
+     the spectrum means resonance, status means the system talking to you. */
+  --sr-info:#33638F;
+  --sr-info-bg:rgba(51,99,143,.10);
+  --sr-success:#3F7350;
+  --sr-success-bg:rgba(63,115,80,.11);
+  --sr-warning:#8A5A16;
+  --sr-warning-bg:rgba(138,90,22,.12);
+  --sr-danger:#A32F3C;
+  --sr-danger-bg:rgba(163,47,60,.10);
+  --sr-neutral-status:#5B6660;
+  --sr-neutral-status-bg:rgba(91,102,96,.09);
+
+  /* Spectrum */
+  --sr-spectrum:linear-gradient(90deg,#6756D9 0%,#4D7FE8 26%,#9466DF 52%,#D85BA9 78%,#F0719A 100%);
+
+  /* Depth */
+  --sr-elev:var(--sr-emboss);
+  --sr-elev-resonance:
+      var(--sr-emboss-raised),
+      0 4px 22px rgba(103,86,217,.16),
+      0 14px 44px rgba(216,91,169,.14);
+
+  /* Geometry */
+  --sr-r-sm:8px;
+  --sr-r-md:14px;
+  --sr-r-lg:22px;
+  --sr-r-xl:32px;
+  --sr-hairline:rgba(138,107,69,.13);
+  --sr-shell:rgba(138,107,69,.05);
+  --sr-inner-light:inset 0 1px 0 var(--sr-light-edge);
+  /* Pressed out of the paper: light edge on top, warm shade underneath,
+     then a wide soft halo that bleeds back into the ground. */
+  --sr-emboss:
+    inset 0 1.5px 0 var(--sr-light-edge),
+    inset 0 -2px 3px rgba(138,107,69,.13),
+    0 1px 2px rgba(138,107,69,.10),
+    0 12px 22px -10px rgba(138,107,69,.18),
+    0 34px 64px -26px rgba(138,107,69,.26);
+  --sr-emboss-raised:
+    inset 0 1.5px 0 var(--sr-light-edge),
+    inset 0 -2.5px 4px rgba(138,107,69,.15),
+    0 2px 5px rgba(138,107,69,.12),
+    0 20px 34px -14px rgba(138,107,69,.24),
+    0 56px 92px -34px rgba(138,107,69,.30);
+  /* Glow, warm at the core and coloured at the edge */
+  /* Glow is the line's own colour, three steps of the same hue.
+     No foreign warm ring, no white core. */
+  --sr-glow-violet:
+    drop-shadow(0 0 2px rgba(103,86,217,.90))
+    drop-shadow(0 0 7px rgba(103,86,217,.60))
+    drop-shadow(0 0 18px rgba(103,86,217,.34));
+  --sr-glow-blue:
+    drop-shadow(0 0 2px rgba(77,127,232,.90))
+    drop-shadow(0 0 7px rgba(77,127,232,.60))
+    drop-shadow(0 0 18px rgba(77,127,232,.34));
+  --sr-glow-orchid:
+    drop-shadow(0 0 2px rgba(148,102,223,.90))
+    drop-shadow(0 0 7px rgba(148,102,223,.60))
+    drop-shadow(0 0 18px rgba(148,102,223,.34));
+  --sr-glow-rose:
+    drop-shadow(0 0 2px rgba(216,91,169,.90))
+    drop-shadow(0 0 7px rgba(216,91,169,.60))
+    drop-shadow(0 0 18px rgba(216,91,169,.34));
+  --sr-glow-pink:
+    drop-shadow(0 0 2px rgba(240,113,154,.90))
+    drop-shadow(0 0 7px rgba(240,113,154,.60))
+    drop-shadow(0 0 18px rgba(240,113,154,.34));
+  --sr-glow-spectrum:
+    drop-shadow(0 0 2px rgba(148,102,223,.85))
+    drop-shadow(0 0 8px rgba(179,97,196,.55))
+    drop-shadow(0 0 20px rgba(216,91,169,.34));
+  --sr-stroke:1.5;
+
+  /* Space scale (8pt) */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+
+  /* Type */
+  --sr-sans:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --sr-serif:'Instrument Serif','Iowan Old Style',serif;
+  --sr-mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sr-ease:cubic-bezier(.16,1,.3,1);
+  --sr-ease-mass:cubic-bezier(.32,.72,0,1);
+  --sr-ease-out:cubic-bezier(.23,1,.32,1);
+  --sr-ease-in-out:cubic-bezier(.77,0,.175,1);
+  /* Catalogue eases: power2.out for reveals, power3.out for line draws */
+  --sr-power2-out:cubic-bezier(.215,.61,.355,1);
+  --sr-power3-out:cubic-bezier(.165,.84,.44,1);
+
+  /* Grain, procedural, monochrome, 2-3.5% */
+  --sr-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+
+
+
+*,*::before,*::after{box-sizing:border-box}
+/* Shadows and glows must never be cut off: SVG viewports and section
+   wrappers stay open, and every raised surface keeps room around it. */
+svg{overflow:visible}
+section,.sr-wrap,.sr-grid,.sr-hero{overflow:visible}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{
+  margin:0;
+  background:var(--sr-canvas);
+  color:var(--sr-ink);
+  font-family:var(--sr-sans);
+  font-size:16px;
+  line-height:1.65;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{line-height:1.15;font-weight:500;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(34px,5.2vw,58px);font-weight:300;letter-spacing:-.035em}
+h2{font-size:clamp(24px,3vw,34px);font-weight:400;letter-spacing:-.03em}
+h3{font-size:19px}
+h4{font-size:15px;font-weight:600;letter-spacing:.01em}
+p{margin:0 0 var(--s4)}
+a{color:var(--sr-ink)}
+code,kbd{font-family:var(--sr-mono);font-size:.86em;overflow-wrap:anywhere}
+
+/* ============================================================
+   PRIMITIVE, aus der lebenden Referenz uebernommen
+   ============================================================ */
+
+/* --- Eyebrow, Lead, Section-Kopf --- */
+.sr-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sr-secondary);font-weight:500;margin:0 0 var(--s4);
+  padding:5px 11px;border:0;border-radius:99px;
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));
+  box-shadow:var(--sr-emboss)
+}
+.sr-lead{font-size:clamp(17px,2vw,20px);color:var(--sr-secondary);font-weight:300;line-height:1.6;max-width:62ch}
+.sr-muted{color:var(--sr-secondary)}
+.sr-small{font-size:13px;line-height:1.6}
+.sr-sec-head{display:grid;gap:10px;margin-bottom:var(--s6);max-width:62ch}
+.sr-sec-head p{margin:0;font-size:15px}
+
+/* Double bezel: inner core plus outer shell ring, concentric radii, no extra DOM */
+.sr-bezel{
+  margin:10px;
+  box-shadow:
+    0 0 0 9px rgba(138,107,69,.035),
+    0 0 0 10px rgba(138,107,69,.05),
+    var(--sr-emboss-raised);
+}
+
+/* Cards / grid */
+.sr-grid{display:grid;gap:var(--s6)}
+.sr-grid>*{min-width:0}
+.sr-grid.c2{grid-template-columns:repeat(2,1fr)}
+.sr-grid.c3{grid-template-columns:repeat(3,1fr)}
+.sr-grid.c4{grid-template-columns:repeat(4,1fr)}
+.sr-grid.c12{grid-template-columns:repeat(12,1fr)}
+
+/* --- Flaeche und Spektralkante --- */
+.sr-card{
+  background:linear-gradient(180deg,var(--sr-surface-top) 0%,var(--sr-surface) 62%,#FCF7EC 100%);
+  border:0;
+  border-radius:var(--sr-r-lg);
+  padding:var(--s5);
+  box-shadow:var(--sr-emboss);
+  position:relative;
+}
+.sr-card--flat{box-shadow:none}
+.sr-card--resonance{box-shadow:var(--sr-elev-resonance)}
+.sr-card__title{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s3)}
+
+/* Spectral edge. One narrow edge per surface, drawn as a ring that follows the
+   corner radius and fades out into the surface instead of stopping abruptly.
+   Markup: <span class="sr-edge e-bottom"><i></i></span> inside the surface.
+   The span carries the fade mask, the <i> carries the ring. */
+.sr-edge{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+  transition:opacity 240ms var(--sr-ease-out)}
+.sr-edge--toggle{opacity:0}
+.sr-edge--toggle.is-on{opacity:1}
+.sr-edge>i{
+  position:absolute;inset:0;border-radius:inherit;padding:2px;
+  background:var(--sr-spectrum);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  filter:var(--sr-glow-spectrum);
+}
+/* bottom: runs into both lower corners, fades upward.
+   The fade is in pixels, so the visible length of an edge stays the same
+   on a small metric tile and on a large card. */
+.e-bottom{-webkit-mask-image:linear-gradient(to top,#000 0 9px,transparent 46px);
+          mask-image:linear-gradient(to top,#000 0 9px,transparent 46px)}
+/* left: runs into both left corners, fades to the right */
+.e-left{-webkit-mask-image:linear-gradient(to right,#000 0 9px,transparent 44px);
+        mask-image:linear-gradient(to right,#000 0 9px,transparent 44px)}
+/* corner: the corner is rounded away and the edge traces that arc */
+.sr-corner{border-top-right-radius:52px}
+.e-corner{-webkit-mask-image:radial-gradient(124px 124px at 100% 0,#000 26%,transparent 64%);
+          mask-image:radial-gradient(124px 124px at 100% 0,#000 26%,transparent 64%)}
+/* partial: the bottom edge, cut short because the work is not finished */
+/* partial: the bottom edge, cut short because the work is not finished.
+   Vertical fade in pixels like the others, horizontal cut in percent
+   because that one carries the meaning: how far the progress got. */
+.e-partial{
+  -webkit-mask-image:linear-gradient(to top,#000 0 9px,transparent 44px),linear-gradient(to right,#000 0 42%,transparent 74%);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to top,#000 0 9px,transparent 44px),linear-gradient(to right,#000 0 42%,transparent 74%);
+  mask-composite:intersect;
+}
+
+/* Paper material */
+
+/* --- Papier --- */
+.sr-paper{
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 60%),
+    linear-gradient(180deg,var(--sr-paper-light) 0%,var(--sr-paper) 62%,#E6D8B8 100%);
+  color:var(--sr-paper-ink);
+  border:0;
+  border-radius:var(--sr-r-lg);
+  position:relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    inset 0 -1.5px 3px rgba(138,107,69,.14),
+    0 2px 4px rgba(138,107,69,.10),
+    0 18px 34px -16px rgba(138,107,69,.24),
+    0 46px 84px -38px rgba(138,107,69,.26);
+}
+.sr-paper--warm{
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.42) 0%,rgba(255,255,255,0) 58%),
+    linear-gradient(180deg,#EDE1C6 0%,#E5D5B2 100%)
+}
+.sr-paper::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  border-radius:inherit;
+  background-image:var(--sr-grain);background-size:160px 160px;
+  opacity:.035;mix-blend-mode:multiply
+}
+.sr-paper__body{position:relative;padding:var(--s6)}
+.sr-quote{font-family:var(--sr-serif);font-size:22px;line-height:1.45;font-weight:300;margin:0 0 var(--s4)}
+.sr-quote em{font-style:italic}
+
+
+/* --- Do / Dont Haarlinie --- */
+.sr-rule{display:flex;gap:var(--s3);align-items:flex-start;padding:7px 0}
+/* A single hairline where the list turns from what to do into what never to do. */
+.sr-rule--do+.sr-rule--dont,.sr-rule--dont+.sr-rule--do{
+  border-top:1px solid var(--sr-line);margin-top:10px;padding-top:16px
+}
+.sr-rule__mark{
+  flex:none;width:20px;height:20px;border-radius:99px;margin-top:2px;
+  display:grid;place-items:center;font-size:12px;line-height:1
+}
+.sr-rule--do .sr-rule__mark{background:rgba(103,86,217,.1);color:var(--sr-violet)}
+.sr-rule--dont .sr-rule__mark{background:rgba(82,97,102,.09);color:var(--sr-secondary)}
+
+
+/* --- Button, Feld, Badge, Divider, Metrik --- */
+.sr-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font:500 14px/1 var(--sr-sans);
+  padding:11px 12px 11px 20px;border-radius:99px;border:0;
+  background:linear-gradient(180deg,var(--sr-surface-top),#FBF5EA);color:var(--sr-ink);cursor:pointer;
+  box-shadow:var(--sr-emboss);
+  transition:transform 160ms var(--sr-ease-out),box-shadow 200ms var(--sr-ease-out),background 200ms ease
+}
+.sr-btn:not(:has(.sr-btn__icon)){padding:12px 20px}
+.sr-btn__icon{
+  width:30px;height:30px;border-radius:99px;display:grid;place-items:center;
+  background:rgba(18,42,48,.05);
+  transition:transform 200ms var(--sr-ease-out),background 200ms ease
+}
+.sr-btn--primary .sr-btn__icon{background:rgba(255,255,255,.14)}
+.sr-btn{min-height:44px}
+@media (hover:hover) and (pointer:fine){
+  .sr-btn:hover{box-shadow:var(--sr-elev);transform:translateY(-1px)}
+  .sr-btn:hover .sr-btn__icon{transform:translate(2px,-1px) scale(1.06)}
+      .sr-nav a:hover{color:var(--sr-ink)}
+  .sr-nav a:hover::after{right:0}
+  }
+.sr-btn:active{transform:scale(.98);box-shadow:none}
+.sr-btn--primary{background:var(--sr-ink);color:#fff;border-color:var(--sr-ink)}
+.sr-btn--primary:hover{box-shadow:var(--sr-elev-resonance)}
+.sr-btn--spectral{position:relative;border-color:transparent;background:var(--sr-surface)}
+.sr-btn--spectral{box-shadow:0 0 12px rgba(148,102,223,.22),0 0 26px rgba(216,91,169,.16),var(--sr-emboss)}
+.sr-btn--spectral::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+  background:var(--sr-spectrum);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+}
+.sr-btn--ghost{background:transparent;border-color:transparent;color:var(--sr-secondary)}
+.sr-btn--ghost:hover{color:var(--sr-ink);box-shadow:none;transform:none}
+
+/* Form field */
+.sr-field{display:block}
+.sr-field label{display:block;font-size:12px;color:var(--sr-secondary);margin-bottom:6px;letter-spacing:.02em}
+.sr-input{
+  width:100%;font:400 15px/1.4 var(--sr-sans);color:var(--sr-ink);
+  background:#FBF6EC;border:0;
+  border-radius:var(--sr-r-md);padding:12px 14px;outline:none;
+  box-shadow:inset 0 2px 4px rgba(138,107,69,.14),inset 0 -1px 0 rgba(255,255,255,.8);
+  transition:box-shadow .2s ease
+}
+.sr-input:focus{box-shadow:inset 0 2px 4px rgba(138,107,69,.10),0 0 0 3px rgba(103,86,217,.13),0 0 14px rgba(148,102,223,.22)}
+.sr-input::placeholder{color:#9AA5A8}
+
+/* Badges */
+.sr-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:500;letter-spacing:.01em;
+  padding:5px 11px;border-radius:99px;border:0;color:var(--sr-secondary);
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));
+  box-shadow:var(--sr-emboss)
+}
+.sr-badge--resonant{
+  border-color:transparent;color:var(--sr-violet);background:rgba(103,86,217,.09);
+  box-shadow:0 0 10px rgba(103,86,217,.20),inset 0 1px 0 rgba(255,255,255,.7)
+}
+.sr-badge--paper{background:var(--sr-paper);border-color:#E7DFCB;color:#6B5B44}
+.sr-dot{width:6px;height:6px;border-radius:99px;background:var(--sr-spectrum);box-shadow:0 0 6px rgba(216,91,169,.7)}
+
+/* Divider with gap */
+.sr-divider{display:block;width:100%;height:1px;border:0;background:
+  linear-gradient(90deg,var(--sr-line) 0 34%,transparent 34% 46%,var(--sr-line) 46% 100%)}
+
+/* Checklist */
+.sr-check{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.sr-metric{background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));border:0;border-radius:var(--sr-r-md);padding:var(--s4);position:relative;box-shadow:var(--sr-emboss)}
+.sr-metric b{display:block;font-size:26px;font-weight:400;letter-spacing:-.02em;margin-bottom:2px}
+.sr-metric span{font-size:12px;color:var(--sr-secondary)}
+.sr-app-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:var(--s5);align-items:start}
+
+/* --- Status, flach und leise, nie leuchtend --- */
+.sr-msg{
+  display:flex;gap:10px;align-items:flex-start;
+  font-size:13.5px;line-height:1.55;
+  border-radius:var(--sr-r-md);padding:12px 14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6)
+}
+.sr-msg svg{flex:none;margin-top:2px}
+.sr-msg b{font-weight:600}
+.sr-msg--info{background:var(--sr-info-bg);color:var(--sr-info)}
+.sr-msg--success{background:var(--sr-success-bg);color:var(--sr-success)}
+.sr-msg--warning{background:var(--sr-warning-bg);color:var(--sr-warning)}
+.sr-msg--danger{background:var(--sr-danger-bg);color:var(--sr-danger)}
+.sr-msg--neutral{background:var(--sr-neutral-status-bg);color:var(--sr-neutral-status)}
+
+
+/* --- Glow und Spektrum --- */
+.glow-violet{filter:var(--sr-glow-violet)}
+.glow-rose{filter:var(--sr-glow-rose)}
+.glow-spectrum{filter:var(--sr-glow-spectrum)}
+.sr-spectrum-bar{
+  background:var(--sr-spectrum);border-radius:99px;
+  box-shadow:0 0 6px rgba(148,102,223,.70),0 0 16px rgba(148,102,223,.45),0 0 34px rgba(216,91,169,.35),0 2px 6px rgba(138,107,69,.14)
+}
+
+/* --- Ein Dauersignal, Skeleton --- */
+.sr-pulse{transform-box:fill-box;transform-origin:center;animation:sr-breathe 2.6s ease-in-out infinite}
+@keyframes sr-breathe{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.55}}
+
+/* States */
+.sr-skel{position:relative;overflow:hidden;background:var(--sr-skel,#EFF2F0);border-radius:8px;height:12px}
+.sr-skel+.sr-skel{margin-top:10px}
+.sr-skel::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);
+  transform:translateX(-100%);animation:sr-shimmer 1.6s linear infinite
+}
+@keyframes sr-shimmer{to{transform:translateX(100%)}}
+.sr-empty{display:grid;gap:var(--s3);justify-items:start}
+
+/* --- Motion-Utilities --- */
+/* Motion utilities */
+/* Line draw: scaleX equivalent for stroked paths, 1s power3.out. */
+.sr-draw{stroke-dasharray:var(--len,600);stroke-dashoffset:var(--len,600)}
+.is-in .sr-draw{animation:sr-draw 1s var(--sr-power3-out) forwards}
+.is-in .sr-draw--echo{animation-delay:.12s}
+/* Section dividers draw from the left, same constant. */
+.sr-rule-line{transform:scaleX(0);transform-origin:left center}
+.is-in .sr-rule-line{animation:sr-scalex 1s var(--sr-power3-out) forwards}
+@keyframes sr-scalex{to{transform:scaleX(1)}}
+@keyframes sr-draw{to{stroke-dashoffset:0}}
+/* Reveal on scroll. Values are the catalogue constants, not taste:
+   y 2.4rem, 0.9s, power2.out, once, trigger at top 88%.
+   Small elements use 1.6rem / 92%, whole sections 3.2rem / 85%. */
+.sr-fade{opacity:0;transform:translateY(2.4rem)}
+.sr-fade--sm{transform:translateY(1.6rem)}
+.sr-fade--lg{transform:translateY(3.2rem)}
+.is-in .sr-fade,.sr-fade.is-in{animation:sr-fade .9s var(--sr-power2-out) forwards}
+/* Staggered group: 0.12s between siblings, the container is the trigger. */
+.is-in .sr-fade:nth-child(2){animation-delay:.12s}
+.is-in .sr-fade:nth-child(3){animation-delay:.24s}
+.is-in .sr-fade:nth-child(4){animation-delay:.36s}
+.is-in .sr-fade:nth-child(5){animation-delay:.48s}
+@keyframes sr-fade{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .sr-draw,.is-in .sr-draw{stroke-dashoffset:0;animation:none}
+  .sr-fade{opacity:0;transform:none;filter:none}
+  .is-in .sr-fade{animation:sr-fade-opacity .25s ease forwards}
+  @keyframes sr-fade-opacity{to{opacity:1}}
+  .sr-skel::after{animation:none}
+  .sr-pulse{animation:none}
+  .sr-progress__fill{animation:none}
+  .sr-btn:hover,.sr-btn:active{transform:none}
+  .sr-rule-line,.is-in .sr-rule-line{transform:none;animation:none}
+  .sr-edge{transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ============================================================
+   APPLICATION EXAMPLE
+   ============================================================ */
+
+/* --- Demo-Buehne, Label, Inline-Fehler --- */
+.sr-demo{
+  background:linear-gradient(180deg,var(--sr-surface-top) 0%,var(--sr-surface) 60%,#FCF7EC 100%);
+  border:0;border-radius:var(--sr-r-xl);
+  padding:var(--s5);box-shadow:var(--sr-emboss-raised);position:relative;height:100%
+}
+.sr-demo svg{display:block;width:100%;height:auto}
+.sr-demo__label{
+  font-size:15px;font-weight:600;letter-spacing:.01em;
+  color:var(--sr-ink);margin:0 0 var(--s4)
+}
+.sr-label{font-size:13px;font-weight:500;color:var(--sr-secondary);margin:0 0 var(--s4)}
+.sr-error{
+  display:flex;gap:10px;align-items:flex-start;font-size:13px;
+  color:var(--sr-danger);background:var(--sr-danger-bg);
+  border-radius:var(--sr-r-md);padding:11px 13px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6)
+}
+.sr-error b{font-weight:600}
+
+/* --- Fehlende Glow-Utilities, die Tokens existieren bereits --- */
+.glow-blue{filter:var(--sr-glow-blue)}
+.glow-orchid{filter:var(--sr-glow-orchid)}
+.glow-pink{filter:var(--sr-glow-pink)}
+
+/* ============================================================
+   RESPONSIVE, MOBILE FIRST
+   Die Basis ist das Telefon. Jede Query ist min-width und fuegt
+   nur Kapazitaet hinzu. Keine einzige max-width-Query.
+   ============================================================ */
+.sr-wrap{max-width:1120px;margin:0 auto;padding:0 var(--s4)}
+.sr-grid.c2,.sr-grid.c3,.sr-grid.c4,.sr-grid.c12{grid-template-columns:1fr}
+.sp5,.sp7,.sp12{grid-column:auto}
+.sr-metrics{display:grid;grid-template-columns:1fr;gap:var(--s4)}
+.sr-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sr-table th,.sr-table td{padding:10px;white-space:nowrap}
+.sr-table td:last-child{white-space:normal;min-width:200px}
+section{padding:var(--s7) 0}
+
+@media (min-width:640px){
+  .sr-grid.c2,.sr-grid.c4{grid-template-columns:repeat(2,1fr)}
+  .sr-metrics{grid-template-columns:repeat(3,1fr)}
+  .sr-table{display:table;overflow:visible}
+  .sr-table th,.sr-table td{padding:11px 14px;white-space:normal}
+  .sr-wrap{padding:0 var(--s5)}
+  section{padding:clamp(72px,10vw,132px) 0}
+}
+@media (min-width:768px){
+  .sr-grid.c3{grid-template-columns:repeat(3,1fr)}
+  .sr-grid.c12{grid-template-columns:repeat(12,1fr)}
+  .sp5{grid-column:span 5}
+  .sp7{grid-column:span 7}
+  .sp12{grid-column:span 12}
+}
+@media (min-width:1024px){
+  .sr-grid.c4{grid-template-columns:repeat(4,1fr)}
+}
