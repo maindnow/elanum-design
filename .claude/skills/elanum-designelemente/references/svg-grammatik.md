@@ -137,6 +137,21 @@ ist es das eine, was animiert.
 `--len` ist die ungefähre Pfadlänge, grosszügig aufgerundet. Zu klein geschätzt bricht
 die Zeichnung ab, zu gross verzögert nur den sichtbaren Start.
 
+## Instrumente: feste Geometrie zuerst
+
+Ein Navigationsinstrument, also ein Rad, ein Regler, eine Skala, folgt einer anderen
+Reihenfolge als ein freies Markenvisual. Bei einem Instrument ist die exakte Geometrie
+die Informationsarchitektur, und Trace, Echo und Spectrum sind nur die Sprache darüber.
+
+- Die Silhouette bleibt jederzeit exakt, ein Kreis bleibt ein Kreis.
+- Alle Pfade werden aus Polarkoordinaten berechnet, keiner wird von Hand gezeichnet.
+- Gleichartige Elemente teilen denselben Radius, keine variierenden Aussenkanten.
+- Trace, Echo und Spectrum sitzen entlang dieser Geometrie, sie verformen sie nicht.
+
+Wer die Signatur die Form eines Instruments bestimmen lässt, bekommt eine organische
+Blob-Form, die nicht mehr als Instrument gelesen wird. Beispiel im Repository:
+`components/personal-wheel/`.
+
 ## Konstruktionstest
 
 Sechs Fragen. Alle müssen mit Ja beantwortbar sein, sonst wird das Visual neu

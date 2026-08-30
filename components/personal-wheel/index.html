@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ich, dein persönliches Rad</title>
-<meta name="description" content="Das persönliche Rad im Bereich Ich: neun Bereiche entlang deiner Klangsignatur.">
+<meta name="description" content="Das persönliche Rad im Bereich Ich: neun Bereiche in drei Gruppen, als Kreis aus neun gleich grossen Segmenten.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
   <section>
     <div class="sr-sec-head sr-fade">
       <h1>Ich</h1>
-      <p class="sr-muted">Neun Bereiche liegen auf deiner Signatur. Dreh das Rad, der Bereich oben wird gelesen.</p>
+      <p class="sr-muted">Neun Bereiche in drei Gruppen. Dreh das Rad, der Bereich oben wird gelesen.</p>
     </div>
 
     <div class="personal-wheel" data-wheel>
@@ -29,7 +29,7 @@
         <svg class="wheel-svg" viewBox="0 0 320 320" role="group"
              aria-labelledby="wheel-title wheel-desc">
           <title id="wheel-title">Deine persönliche Übersicht</title>
-          <desc id="wheel-desc">Neun Bereiche deiner persönlichen Signatur, angeordnet auf einer offenen Spur. Der Bereich an der Leseposition oben ist aktiv.</desc>
+          <desc id="wheel-desc">Ein Kreis aus neun gleich grossen Segmenten, je drei davon zu einer Oberkategorie zusammengefasst. Das Segment an der Leseposition oben ist aktiv.</desc>
 
           <defs>
             <linearGradient id="wheel-spectrum" x1="0" y1="0" x2="1" y2="1">
@@ -39,42 +39,36 @@
               <stop offset="78%"  stop-color="#D85BA9"/>
               <stop offset="100%" stop-color="#F0719A"/>
             </linearGradient>
-            <!-- Das Echo ist nur an der Leseposition deutlich. Die Maske sitzt
-                 ausserhalb des Rotors, steht also still, während das Echo dreht. -->
-            <radialGradient id="echo-fade-grad" gradientUnits="userSpaceOnUse"
-                            cx="160" cy="34" r="168">
-              <stop offset="0%"   stop-color="#fff" stop-opacity="1"/>
-              <stop offset="42%"  stop-color="#fff" stop-opacity=".55"/>
-              <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-            </radialGradient>
-            <mask id="echo-fade" maskUnits="userSpaceOnUse" x="-40" y="-40" width="400" height="400">
-              <rect x="-40" y="-40" width="400" height="400" fill="url(#echo-fade-grad)"/>
-            </mask>
+            <!-- Leichter Tint für das aktive Stück. Die Farbe selbst sitzt auf
+                 der Kante, die Fläche bleibt eine Andeutung. -->
+            <linearGradient id="wheel-tint" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#6756D9" stop-opacity=".10"/>
+              <stop offset="52%"  stop-color="#9466DF" stop-opacity=".13"/>
+              <stop offset="100%" stop-color="#F0719A" stop-opacity=".10"/>
+            </linearGradient>
           </defs>
-
-          <g class="wheel-echo-layer" mask="url(#echo-fade)">
-            <g class="wheel-rotor" data-rotor>
-              <path class="trace-echo sr-draw sr-draw--echo"></path>
-            </g>
-          </g>
 
           <g class="wheel-rotor" data-rotor>
             <g class="wheel-groups"></g>
-            <path class="trace-main sr-draw"></path>
-            <path class="trace-active"></path>
-            <g class="wheel-hitareas" role="tablist" aria-label="Persönliche Bereiche"></g>
+            <g class="wheel-segments" role="tablist" aria-label="Persönliche Bereiche"></g>
+            <path class="segment-edge"></path>
+            <path class="segment-echo"></path>
+            <g class="wheel-labels"></g>
           </g>
 
+          <!-- Das Zentrum dreht nicht mit und liegt über den Spitzen der Stücke,
+               damit die neun radialen Kanten nicht in einem Punkt zusammenlaufen. -->
           <g class="wheel-center">
-            <text class="wheel-center__eyebrow" x="160" y="152" text-anchor="middle">Ich</text>
-            <text class="wheel-center__name" x="160" y="180" text-anchor="middle">Chris</text>
+            <circle class="wheel-center__disc" cx="160" cy="160" r="34"/>
+            <text class="wheel-center__eyebrow" x="160" y="154" text-anchor="middle">Ich</text>
+            <text class="wheel-center__name" x="160" y="172" text-anchor="middle">Chris</text>
           </g>
         </svg>
       </div>
 
       <!-- Feste Leseposition in Text. Was oben steht, steht hier. -->
       <div class="wheel-reader sr-fade" aria-live="polite">
-        <span class="sr-badge wheel-reader__group">Ich und Orientierung</span>
+        <span class="sr-badge wheel-reader__group">Ich &amp; Orientierung</span>
         <p class="wheel-reader__label">Persönlichkeit</p>
         <p class="wheel-reader__lead">Wie du wahrnimmst, entscheidest und handelst.</p>
       </div>
@@ -107,7 +101,7 @@
              aria-labelledby="tab-direction" data-panel="direction"
              data-lead="Wohin du dich gerade bewegst." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
-          <p>Was dich zieht, woran du festhältst und was du gerade hinter dir lässt. Die Richtung darf sich ändern, das ist der Sinn der offenen Stelle im Rad.</p>
+          <p>Was dich zieht, woran du festhältst und was du gerade hinter dir lässt. Die Richtung darf sich ändern, sie ist kein Ergebnis.</p>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-personality"

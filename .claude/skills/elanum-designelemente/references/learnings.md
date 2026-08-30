@@ -2,7 +2,7 @@
 
 > Erstellt: 2026-08-30
 > Letztes Pruning: 2026-08-30
-> Eintragsanzahl: 6
+> Eintragsanzahl: 9
 
 ---
 
@@ -61,7 +61,23 @@ Styleguide gewinnt, Skill wird korrigiert, Widerspruch hier notieren.
 - <Datum>: <Was widersprach>, <wie korrigiert>
 -->
 
-_(noch keine Abweichungen festgestellt)_
+- **2026-08-30, Kuchenstück-Geometrie schlägt Trace-Geometrie.** Für das
+  persönliche Rad gilt eine vom Auftraggeber gesetzte Sondervorgabe: die äussere
+  Silhouette ist jederzeit ein mathematisch perfekter Kreis, neun Segmente à exakt
+  40 Grad, darüber ein Ring aus drei Abschnitten à 120 Grad. Keine Bézier-Verformung,
+  keine variierenden Radien. Trace, Echo und Spectrum sind dort ausschliesslich
+  sekundäre Effekte entlang dieser festen Geometrie. Der erste Entwurf liess die
+  Klangsignatur die Form bestimmen und wurde als Blob gelesen, nicht als Rad.
+  Merksatz: **Kreis und Segmente sind die Informationsarchitektur, SoulResonance
+  ist die Sprache darüber.** Gilt für Instrumente, nicht für freie Markenvisuals.
+- **2026-08-30, Hairline auf den Segmenten ist hier gewollt.** Das System verbietet
+  Rahmen auf Flächen. Die Segmente tragen trotzdem `stroke:rgba(22,54,59,.16)` mit
+  1px, weil neun angrenzende Stücke ohne Trennung nicht als Stücke lesbar sind. Vom
+  Auftraggeber ausdrücklich so gesetzt. Nicht auf Cards, Buttons oder Felder
+  übertragen, dort gilt weiter Emboss ohne Rahmen.
+- **2026-08-30, kein Korn auf dem Gruppenring.** Papierflächen sollen dunkler und
+  körniger sein. Der Ring bleibt bewusst flach, weil die Vorgabe ihn als visuell
+  ruhigste Ebene definiert und Korn dort Unruhe stiften würde.
 
 ---
 

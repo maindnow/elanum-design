@@ -13,6 +13,26 @@ programmierbare SVG-Geometrie, Farbe, die sich wie Licht verhält.
 | `assets/` | Projekt-Stylesheet und Reveal-Observer, aus den Skill-Assets. |
 | `components/personal-wheel/` | Das persönliche Rad im Bereich Ich. |
 
+## Das persönliche Rad
+
+`components/personal-wheel/` ist ein Navigationsinstrument, kein Diagramm. Seine
+Geometrie ist verbindlich und wird aus Polarkoordinaten berechnet:
+
+- die äussere Silhouette ist jederzeit ein mathematisch perfekter Kreis
+- neun gleich grosse radiale Segmente à exakt 40 Grad, alle mit demselben Aussenradius
+- darüber ein konzentrischer Ring aus drei Abschnitten à 120 Grad, geometrisch an je
+  drei Segmente gekoppelt
+- Radien bei `viewBox="0 0 320 320"`: Zentrum 34, Segmente 112, Gruppenring 121 bis 145
+- keine Bézier-Verformung, keine variierenden Radien, keine asymmetrische Aussenkontur
+
+Trace, Echo und Spectrum kommen ausschliesslich als sekundäre Effekte entlang dieser
+festen Geometrie vor. Kreis und Segmente sind die Informationsarchitektur,
+SoulResonance ist die Sprache darüber.
+
+Inhalt und Geometrie sind getrennt: `ITEMS` in `personal-wheel.js` bestimmt, was in den
+Segmenten steht, `CFG` bestimmt die Geometrie. Wer ein Element umbenennt, fasst das SVG
+nicht an.
+
 ## Den Skill nutzen
 
 Der Skill liegt als Projekt-Skill in `.claude/skills/` und wird von Claude Code in
