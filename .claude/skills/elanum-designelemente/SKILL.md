@@ -176,6 +176,7 @@ geprüft zu haben.
 | Pruning der learnings.md | `references/pruning.md` |
 | Fertiges Basis-Stylesheet | `assets/base.css` |
 | Seitenskelett | `assets/starter.html` |
+| Reveal-Observer, fertig | `assets/reveal.js` |
 | Regel-Linter | `scripts/check_design.py` |
 | Render-Verifikation im Browser | `scripts/verify_render.py` |
 

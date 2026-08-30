@@ -90,28 +90,6 @@
 
 </main>
 
-<script>
-/* Reveal. IntersectionObserver, nie ein Scroll-Listener, jeder Reveal genau einmal. */
-(function(){
-  var groups = [
-    { sel:'[data-reveal="sm"]',            margin:'0px 0px -8% 0px'  },
-    { sel:'[data-reveal="lg"], section',   margin:'0px 0px -15% 0px' },
-    { sel:'[data-reveal], .sr-demo, .sr-fade, .sr-rule-line', margin:'0px 0px -12% 0px' }
-  ];
-  if(!('IntersectionObserver' in window)){
-    document.querySelectorAll('[data-reveal], .sr-demo, .sr-fade, .sr-rule-line')
-      .forEach(function(t){ t.classList.add('is-in'); });
-    return;
-  }
-  groups.forEach(function(g){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
-      });
-    },{ threshold:0.01, rootMargin:g.margin });
-    document.querySelectorAll(g.sel).forEach(function(t){ io.observe(t); });
-  });
-})();
-</script>
+<script src="reveal.js"></script>
 </body>
 </html>

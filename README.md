@@ -10,6 +10,8 @@ programmierbare SVG-Geometrie, Farbe, die sich wie Licht verhält.
 | `docs/soulresonance-styleguide.html` | Die lebende Referenz. Im Browser öffnen. |
 | `docs/soulresonance-design-prompt.md` | Die Designanweisung im Volltext. |
 | `.claude/skills/elanum-designelemente/` | Der Skill für die tägliche Arbeit. |
+| `assets/` | Projekt-Stylesheet und Reveal-Observer, aus den Skill-Assets. |
+| `components/personal-wheel/` | Das persönliche Rad im Bereich Ich. |
 
 ## Den Skill nutzen
 
@@ -32,7 +34,8 @@ diesem Repository automatisch gefunden. Er greift bei Aufgaben wie
 │   └── learnings.md                  Gedächtnis des Skills, wächst durch wrap-up
 ├── assets/
 │   ├── base.css                      Tokens, Reset, Primitive, Responsive
-│   └── starter.html                  Seitenskelett mit Reveal-Observer
+│   ├── reveal.js                     Reveal-Observer, inklusive Erreichbarkeitsprüfung
+│   └── starter.html                  Seitenskelett
 └── scripts/
     ├── check_design.py               Linter für die statisch prüfbaren Regeln
     └── verify_render.py              Render-Verifikation in Chromium
@@ -42,6 +45,7 @@ diesem Repository automatisch gefunden. Er greift bei Aufgaben wie
 
 ```bash
 cp .claude/skills/elanum-designelemente/assets/base.css       ./
+cp .claude/skills/elanum-designelemente/assets/reveal.js      ./
 cp .claude/skills/elanum-designelemente/assets/starter.html   ./
 # bauen, dann:
 python .claude/skills/elanum-designelemente/scripts/check_design.py starter.html

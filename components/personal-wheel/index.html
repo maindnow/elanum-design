@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ich, dein persönliches Rad</title>
+<meta name="description" content="Das persönliche Rad im Bereich Ich: neun Bereiche entlang deiner Klangsignatur.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" href="personal-wheel.css">
+</head>
+<body>
+
+<main class="sr-wrap">
+  <section>
+    <div class="sr-sec-head sr-fade">
+      <h1>Ich</h1>
+      <p class="sr-muted">Neun Bereiche liegen auf deiner Signatur. Dreh das Rad, der Bereich oben wird gelesen.</p>
+    </div>
+
+    <div class="personal-wheel" data-wheel>
+
+      <!-- Rad. Die Leseposition und das Zentrum drehen nicht mit. -->
+      <div class="wheel-stage sr-fade">
+        <span class="wheel-reader__mark" aria-hidden="true"></span>
+
+        <svg class="wheel-svg" viewBox="0 0 320 320" role="group"
+             aria-labelledby="wheel-title wheel-desc">
+          <title id="wheel-title">Deine persönliche Übersicht</title>
+          <desc id="wheel-desc">Neun Bereiche deiner persönlichen Signatur, angeordnet auf einer offenen Spur. Der Bereich an der Leseposition oben ist aktiv.</desc>
+
+          <defs>
+            <linearGradient id="wheel-spectrum" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stop-color="#6756D9"/>
+              <stop offset="26%"  stop-color="#4D7FE8"/>
+              <stop offset="52%"  stop-color="#9466DF"/>
+              <stop offset="78%"  stop-color="#D85BA9"/>
+              <stop offset="100%" stop-color="#F0719A"/>
+            </linearGradient>
+            <!-- Das Echo ist nur an der Leseposition deutlich. Die Maske sitzt
+                 ausserhalb des Rotors, steht also still, während das Echo dreht. -->
+            <radialGradient id="echo-fade-grad" gradientUnits="userSpaceOnUse"
+                            cx="160" cy="34" r="168">
+              <stop offset="0%"   stop-color="#fff" stop-opacity="1"/>
+              <stop offset="42%"  stop-color="#fff" stop-opacity=".55"/>
+              <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+            </radialGradient>
+            <mask id="echo-fade" maskUnits="userSpaceOnUse" x="-40" y="-40" width="400" height="400">
+              <rect x="-40" y="-40" width="400" height="400" fill="url(#echo-fade-grad)"/>
+            </mask>
+          </defs>
+
+          <g class="wheel-echo-layer" mask="url(#echo-fade)">
+            <g class="wheel-rotor" data-rotor>
+              <path class="trace-echo sr-draw sr-draw--echo"></path>
+            </g>
+          </g>
+
+          <g class="wheel-rotor" data-rotor>
+            <g class="wheel-groups"></g>
+            <path class="trace-main sr-draw"></path>
+            <path class="trace-active"></path>
+            <g class="wheel-hitareas" role="tablist" aria-label="Persönliche Bereiche"></g>
+          </g>
+
+          <g class="wheel-center">
+            <text class="wheel-center__eyebrow" x="160" y="152" text-anchor="middle">Ich</text>
+            <text class="wheel-center__name" x="160" y="180" text-anchor="middle">Chris</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Feste Leseposition in Text. Was oben steht, steht hier. -->
+      <div class="wheel-reader sr-fade" aria-live="polite">
+        <span class="sr-badge wheel-reader__group">Ich und Orientierung</span>
+        <p class="wheel-reader__label">Persönlichkeit</p>
+        <p class="wheel-reader__lead">Wie du wahrnimmst, entscheidest und handelst.</p>
+      </div>
+
+      <!-- Inhalt. Wechselt mit der Leseposition. -->
+      <div class="wheel-panels sr-fade">
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-astrology"
+             aria-labelledby="tab-astrology" data-panel="astrology"
+             data-lead="Die Konstellation zum Zeitpunkt deiner Geburt." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Sonne, Mond und Aszendent bilden einen Grundton, in dem sich viele Menschen wiedererkennen. Es ist eine Sprache für Muster, keine Vorhersage.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-numerology"
+             aria-labelledby="tab-numerology" data-panel="numerology"
+             data-lead="Zahlen als Muster deines Namens und Datums." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Aus Geburtsdatum und Namen entsteht ein wiederkehrendes Muster. Es zeigt Themen, die sich durch dein Leben ziehen, und Stellen, an denen du sie immer wieder triffst.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-human-design"
+             aria-labelledby="tab-human-design" data-panel="human-design"
+             data-lead="Wie du Energie aufnimmst und entscheidest." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Typ, Autorität und offene Zentren beschreiben, woher deine Energie kommt und woran du merkst, dass eine Entscheidung stimmig ist.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-direction"
+             aria-labelledby="tab-direction" data-panel="direction"
+             data-lead="Wohin du dich gerade bewegst." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Was dich zieht, woran du festhältst und was du gerade hinter dir lässt. Die Richtung darf sich ändern, das ist der Sinn der offenen Stelle im Rad.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-personality"
+             aria-labelledby="tab-personality" data-panel="personality"
+             data-lead="Wie du wahrnimmst, entscheidest und handelst.">
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Deine Art zu denken, zu fühlen und zu reagieren. Im Alltag, und noch deutlicher unter Druck.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-values"
+             aria-labelledby="tab-values" data-panel="values"
+             data-lead="Woran du misst, was zählt." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Die wenigen Dinge, für die du Unbequemes in Kauf nimmst. Werte zeigen sich weniger im Reden als in dem, was du wirklich wählst.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-attachment"
+             aria-labelledby="tab-attachment" data-panel="attachment"
+             data-lead="Wie du Nähe und Abstand regelst." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Was in dir passiert, wenn jemand näher kommt, und was, wenn jemand geht. Bindung ist ein Muster, kein Urteil.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-closeness"
+             aria-labelledby="tab-closeness" data-panel="closeness"
+             data-lead="Wie du Zuneigung zeigst und annimmst." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Worin du Zuwendung ausdrückst und woran du sie erkennst. Zwei Menschen meinen oft dasselbe und zeigen es völlig verschieden.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-conflict"
+             aria-labelledby="tab-conflict" data-panel="conflict"
+             data-lead="Was du im Streit tust." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Ob du zugehst, ausweichst oder zumachst. Und was dich danach wieder erreichbar macht.</p>
+        </div>
+
+      </div>
+
+      <div class="wheel-nav sr-fade">
+        <button class="sr-btn sr-btn--ghost" type="button" data-nav="prev">Zurück</button>
+        <button class="sr-btn sr-btn--ghost" type="button" data-nav="next">Weiter</button>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script src="personal-wheel.js"></script>
+<script src="../../assets/reveal.js"></script>
+</body>
+</html>

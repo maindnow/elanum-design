@@ -1,0 +1,146 @@
+/* ============================================================
+   Persönliches Rad, elanum
+   Setzt assets/base.css voraus. Keine eigenen Farben, nur Tokens.
+   ============================================================ */
+
+.personal-wheel{ display:grid; gap:var(--s5); }
+
+/* --- Rad --- */
+.wheel-stage{
+  position:relative;
+  display:grid;
+  justify-items:center;
+  padding-top:var(--s4);      /* Luft für die Leseposition, nichts wird beschnitten */
+}
+.wheel-svg{
+  width:100%;
+  max-width:320px;
+  height:auto;
+  display:block;
+  touch-action:none;          /* das Rad dreht, die Seite scrollt nicht mit */
+  cursor:grab;
+}
+.wheel-svg:active{ cursor:grabbing; }
+
+/* Die fixe Leseposition. Sie dreht nicht mit, das Rad dreht unter ihr durch. */
+.wheel-reader__mark{
+  position:absolute;
+  top:0; left:50%;
+  transform:translateX(-50%);
+  width:2px; height:14px;
+  border-radius:99px;
+  background:var(--sr-spectrum);
+  box-shadow:0 0 6px rgba(148,102,223,.75), 0 0 14px rgba(216,91,169,.4);
+  pointer-events:none;
+}
+
+/* --- Ebenen im SVG --- */
+.wheel-rotor{
+  transform-box:view-box;
+  transform-origin:160px 160px;
+  transition:transform 560ms var(--sr-power3-out);
+}
+.wheel-rotor.is-dragging{ transition:none; }
+
+/* Ebene 1 ist reine Konstruktionsgeometrie und bleibt unsichtbar.
+   Sichtbar ist nur die Gruppenrhythmik: drei kurze Abschnitte, keine
+   drei farbigen Tortenstücke. */
+.wheel-group-mark{
+  fill:none;
+  stroke:var(--sr-line);
+  stroke-width:2;
+  stroke-linecap:round;
+}
+
+/* Ebene 2, die Klangsignatur. Tinte leuchtet nicht. */
+.trace-main{
+  fill:none;
+  stroke:var(--sr-ink);
+  stroke-width:1.6;
+  stroke-linecap:round;
+}
+/* Das Echo folgt derselben Bewegung, leicht versetzt. */
+.trace-echo{
+  fill:none;
+  stroke:var(--sr-violet);
+  stroke-width:1.25;
+  stroke-linecap:round;
+  opacity:.55;
+  filter:var(--sr-glow-violet);
+}
+/* Ebene 4, die aktive Resonanzspur. Nur dieser kurze Abschnitt trägt Spektrum. */
+.trace-active{
+  fill:none;
+  stroke:url(#wheel-spectrum);
+  stroke-width:2;
+  stroke-linecap:round;
+  filter:var(--sr-glow-spectrum);
+  transition:opacity 240ms var(--sr-ease-out);
+}
+
+/* Ebene 3, die Interaktionspunkte. */
+.hit-zone{ fill:transparent; }          /* 48px Trefferfläche bei 320px Rad */
+.hit-dot{
+  fill:var(--sr-secondary);
+  transition:fill 240ms var(--sr-ease-out), r 240ms var(--sr-ease-out);
+}
+.hit-ring{ fill:none; stroke:transparent; stroke-width:1.5; }
+.wheel-hit{ cursor:pointer; }
+.wheel-hit.is-active .hit-dot{ fill:var(--sr-violet); filter:var(--sr-glow-violet); }
+.wheel-hit:focus{ outline:none; }
+.wheel-hit:focus-visible .hit-ring{
+  stroke:var(--sr-violet);
+  filter:var(--sr-glow-violet);
+}
+@media (hover:hover) and (pointer:fine){
+  .wheel-hit:hover .hit-dot{ fill:var(--sr-ink); }
+}
+
+/* Ebene 5, das Zentrum. Negativer Raum, kein Button, kein Wert. */
+.wheel-center__eyebrow{
+  fill:var(--sr-secondary);
+  font:500 9px/1 var(--sr-sans);
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+.wheel-center__name{
+  fill:var(--sr-ink);
+  font:300 24px/1 var(--sr-sans);
+  letter-spacing:-.03em;
+}
+
+/* --- Leseposition in Text --- */
+.wheel-reader{ display:grid; gap:6px; justify-items:center; text-align:center; }
+.wheel-reader__label{
+  margin:0;
+  font-size:clamp(24px,3vw,34px);
+  font-weight:400;
+  letter-spacing:-.03em;
+  line-height:1.15;
+}
+.wheel-reader__lead{ margin:0; font-size:15px; color:var(--sr-secondary); max-width:44ch; }
+
+/* --- Inhalt unter dem Rad --- */
+.wheel-panels{ position:relative; max-width:62ch; }
+.wheel-panel{ margin:0; }
+.wheel-panel p{ margin:0; }
+.wheel-nav{ display:flex; gap:var(--s3); justify-content:center; }
+
+/* --- Ab 768px stehen Rad und Inhalt nebeneinander --- */
+@media (min-width:768px){
+  .personal-wheel{
+    grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+    gap:var(--s7);
+    align-items:center;
+  }
+  .personal-wheel > .wheel-stage{ grid-row:span 3; }
+  .wheel-reader{ justify-items:start; text-align:left; }
+  .wheel-nav{ justify-content:flex-start; }
+  .wheel-svg{ max-width:360px; }
+}
+
+/* --- Guards --- */
+@media (prefers-reduced-motion:reduce){
+  .wheel-rotor{ transition:none; }
+  .hit-dot, .trace-active{ transition:none; }
+}
