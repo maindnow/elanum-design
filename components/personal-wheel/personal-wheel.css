@@ -116,8 +116,16 @@
   transition:transform 560ms var(--sr-power3-out), fill 240ms var(--sr-ease-out);
 }
 .segment-label.is-dragging{ transition:fill 240ms var(--sr-ease-out); }
-.wheel-segment.is-done + .segment-label{ fill:var(--sr-ink); }
 .segment-label.is-done{ fill:var(--sr-ink); }
+
+/* Das Ergebnis steht unter dem Namen, in der Farbe seiner Kategorie.
+   Farbige Linien leuchten, Text nicht: kein Glow auf dieser Zeile. */
+.segment-result{
+  fill:var(--cat);
+  font-weight:600;
+  font-size:8.5px;
+  letter-spacing:0;
+}
 .segment-label.is-active{ fill:var(--sr-ink); font-weight:600; }
 
 /* --- Spectrum und Echo, nur entlang der festen Kreisgeometrie --- */

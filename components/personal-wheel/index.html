@@ -110,7 +110,7 @@
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-astrology"
              aria-labelledby="tab-astrology" data-panel="astrology"
-             data-done="true"
+             data-done="true" data-result="Jungfrau"
              data-lead="Die Konstellation zum Zeitpunkt deiner Geburt.">
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Sonne, Mond und Aszendent bilden einen Grundton, in dem sich viele Menschen wiedererkennen. Es ist eine Sprache für Muster, keine Vorhersage.</p>
@@ -119,7 +119,7 @@
             <span class="panel-result__label">Dein Ergebnis</span>
             <dl class="panel-result__value">
               <dt>Sonne</dt>
-              <dd>Zwillinge</dd>
+              <dd>Jungfrau</dd>
               <dt>Mond</dt>
               <dd>Fische</dd>
               <dt>Aszendent</dt>
@@ -130,7 +130,7 @@
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-numerology"
              aria-labelledby="tab-numerology" data-panel="numerology"
-             data-done="true"
+             data-done="true" data-result="7"
              data-lead="Zahlen als Muster deines Namens und Datums." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Aus Geburtsdatum und Namen entsteht ein wiederkehrendes Muster. Es zeigt Themen, die sich durch dein Leben ziehen, und Stellen, an denen du sie immer wieder triffst.</p>
@@ -148,7 +148,7 @@
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-human-design"
              aria-labelledby="tab-human-design" data-panel="human-design"
-             data-done="true"
+             data-done="true" data-result="Generator"
              data-lead="Wie du Energie aufnimmst und entscheidest." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Typ, Autorität und offene Zentren beschreiben, woher deine Energie kommt und woran du merkst, dass eine Entscheidung stimmig ist.</p>
@@ -168,7 +168,7 @@
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-direction"
              aria-labelledby="tab-direction" data-panel="direction"
-             data-done="false"
+             data-done="false" data-result=""
              data-lead="Wohin du dich gerade bewegst." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Was dich zieht, woran du festhältst und was du gerade hinter dir lässt. Die Richtung darf sich ändern, sie ist kein Ergebnis.</p>
@@ -184,25 +184,23 @@
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-personality"
              aria-labelledby="tab-personality" data-panel="personality"
-             data-done="true"
+             data-done="false" data-result=""
              data-lead="Wie du wahrnimmst, entscheidest und handelst." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Deine Art zu denken, zu fühlen und zu reagieren. Im Alltag, und noch deutlicher unter Druck.</p>
           <hr class="panel-rule">
           <div class="panel-result">
             <span class="panel-result__label">Dein Ergebnis</span>
-            <dl class="panel-result__value">
-              <dt>Wahrnehmung</dt>
-              <dd>Zuerst das Muster, dann das Detail</dd>
-              <dt>Unter Druck</dt>
-              <dd>Du wirst leiser, nicht lauter</dd>
-            </dl>
+            <div class="panel-result__empty">
+              <p>Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
+              <button class="sr-btn sr-btn--spectral" type="button">Jetzt ausfüllen</button>
+            </div>
           </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-values"
              aria-labelledby="tab-values" data-panel="values"
-             data-done="true"
+             data-done="true" data-result="Ehrlichkeit"
              data-lead="Woran du misst, was zählt." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Die wenigen Dinge, für die du Unbequemes in Kauf nimmst. Werte zeigen sich weniger im Reden als in dem, was du wirklich wählst.</p>
@@ -222,23 +220,25 @@
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-attachment"
              aria-labelledby="tab-attachment" data-panel="attachment"
-             data-done="false"
+             data-done="true" data-result="Sicher"
              data-lead="Wie du Nähe und Abstand regelst." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Was in dir passiert, wenn jemand näher kommt, und was, wenn jemand geht. Bindung ist ein Muster, kein Urteil.</p>
           <hr class="panel-rule">
           <div class="panel-result">
             <span class="panel-result__label">Dein Ergebnis</span>
-            <div class="panel-result__empty">
-              <p>Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
-              <button class="sr-btn sr-btn--spectral" type="button">Jetzt ausfüllen</button>
-            </div>
+            <dl class="panel-result__value">
+              <dt>Grundmuster</dt>
+              <dd>Sicher</dd>
+              <dt>Unter Stress</dt>
+              <dd>Leicht vermeidend</dd>
+            </dl>
           </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-closeness"
              aria-labelledby="tab-closeness" data-panel="closeness"
-             data-done="false"
+             data-done="false" data-result=""
              data-lead="Wie du Zuneigung zeigst und annimmst." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Worin du Zuwendung ausdrückst und woran du sie erkennst. Zwei Menschen meinen oft dasselbe und zeigen es völlig verschieden.</p>
@@ -254,7 +254,7 @@
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-conflict"
              aria-labelledby="tab-conflict" data-panel="conflict"
-             data-done="false"
+             data-done="false" data-result=""
              data-lead="Was du im Streit tust." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Ob du zugehst, ausweichst oder zumachst. Und was dich danach wieder erreichbar macht.</p>

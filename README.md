@@ -53,9 +53,19 @@ Der Ausfüllstatus steht im Markup, nicht im JavaScript. Ein Panel mit
 `data-done="true"` färbt sein Segment ein und füllt den Punkt. So werden Inhalt und
 Zustand an einer Stelle gepflegt, und die Seite stimmt auch ohne JavaScript.
 
-Unter der Beschreibung hat jedes Panel einen Ergebnisbereich mit mindestens 96px Höhe.
-Ausgefüllte Bereiche zeigen dort ihr Ergebnis, offene einen Leerzustand mit der
-Aufforderung, ihn auszufüllen. Die Ergebnisse in dieser Vorschau sind Beispieldaten.
+Das Ergebnis steht an zwei Stellen, aber nur einmal gepflegt. Im Segment steht unter
+dem Namen die Kurzform in der Farbe der Kategorie, etwa Jungfrau, Generator oder
+Ehrlichkeit. Unter der Beschreibung steht sie ausführlich in einem Ergebnisbereich mit
+mindestens 96px Höhe. Beide lesen aus demselben Markup: `data-result` trägt die
+Kurzform, die Definitionsliste im Panel die Details.
+
+Offene Bereiche zeigen im Segment keine Ergebniszeile, ihr offener Kreis sagt bereits,
+dass noch nichts da ist. Im Panel steht dort ein Leerzustand mit der Aufforderung,
+ihn auszufüllen. Die Ergebnisse in dieser Vorschau sind Beispieldaten.
+
+Kurzformen im Rad müssen in ihr Segment passen. Die verfügbare Breite ist
+`2 · r · sin(20°)` am Radius der Zeile, also rund 42 bis 56 Einheiten. `Lebenszahl 7`
+brauchte 53 bei 44 verfügbaren und musste zu `7` gekürzt werden.
 
 ### Anschauen
 

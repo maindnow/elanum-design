@@ -2,7 +2,7 @@
 
 > Erstellt: 2026-08-30
 > Letztes Pruning: 2026-08-30
-> Eintragsanzahl: 12
+> Eintragsanzahl: 13
 
 ---
 
@@ -46,6 +46,12 @@ Eintrag nur, wenn die Regel mindestens 2x bestätigt wurde.
   Mehrere Rotoren über ein gemeinsames `[data-rotor]` synchron setzen.
 - **Monochrom-Test per `filter:grayscale(1)` im Browser**, 2026-08-30. Beweist Punkt 3
   der Checkliste in Sekunden, statt ihn zu behaupten.
+- **Textbreite im Kreissegment vorher rechnen**, 2026-08-31. Die verfügbare Breite
+  einer waagrechten Zeile in einem Segment ist `2 · r · sin(halber Segmentwinkel)` am
+  Radius dieser Zeile, nicht am Radius des Blocks. Im Rad sind das je nach Zeile 42 bis
+  56 Einheiten. Mit `getComputedTextLength()` im Browser jede Zeile gegen ihren eigenen
+  Radius prüfen, statt einmal grob zu schätzen. So fiel `Lebenszahl 7` mit 53 gegen 44
+  auf und wurde zu `7`.
 - **Kategoriefarben aus dem Spektrum entnehmen, nicht danebenstellen**, 2026-08-31.
   Wenn mehrere Kategorien farblich unterscheidbar sein sollen: Violet, Blue und Rose
   aus der festen Spektrumsreihenfolge nehmen und als Tönung zwischen 7 und 30 Prozent

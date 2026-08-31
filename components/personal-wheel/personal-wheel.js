@@ -26,12 +26,13 @@
     markerRadius: 99,        // Ausfüllstatus, innerhalb des eigenen Stücks
     groupInnerRadius: 124,   // bewusster Gap von 12 Einheiten zum Segmentkreis
     groupOuterRadius: 148,
-    labelRadius: 68,         // volle Bezeichnung, zweizeilig, in der Mitte des Stücks
+    labelRadius: 70,         // Bezeichnung und Ergebnis, in der Mitte des Stücks
     segmentDeg: 40,          // 360 / 9, exakt
     groupGapDeg: 4,          // Trennung zwischen den drei Ringabschnitten
     edgeInsetDeg: 1.5,       // Spektralkante etwas kürzer als das Stück
     echoOffset: 5,           // Echo, fünf Einheiten ausserhalb der Kante, im Gap zum Ring
     labelLine: 9,            // Zeilenabstand der Beschriftung
+    resultGap: 2.5,          // zusätzliche Luft vor der Ergebniszeile
     hoverShift: 3,           // radiale Anhebung beim Hover
     duration: 560            // Rotation, ruhiges Ausklingen ohne Nachschwingen
   };
@@ -178,9 +179,16 @@
     /* Neun Kuchenstücke. Alle mit demselben Aussenradius. */
     /* Der Ausfüllstatus steht im Markup, damit Inhalt und Zustand an einer
        Stelle gepflegt werden und die Seite auch ohne JavaScript stimmt. */
+    function panelOf(id) { return root.querySelector('[data-panel="' + id + '"]'); }
     function isDone(id) {
-      var panel = root.querySelector('[data-panel="' + id + '"]');
+      var panel = panelOf(id);
       return !!panel && panel.getAttribute('data-done') === 'true';
+    }
+    /* Das kurze Ergebnis steht im Markup neben dem ausführlichen, damit im Rad
+       und in der Karte nicht zwei Wahrheiten gepflegt werden müssen. */
+    function resultOf(id) {
+      var panel = panelOf(id);
+      return panel ? (panel.getAttribute('data-result') || '') : '';
     }
 
     /* Helle Grundfläche unter allen Stücken. Die Tönung der Kategorie liegt
@@ -220,18 +228,31 @@
       }));
       segLayer.appendChild(g);
 
-      /* Volle Bezeichnung, zweizeilig, dreht gegen und bleibt aufrecht. */
+      /* Volle Bezeichnung, darunter das Ergebnis. Beides dreht gegen und
+         bleibt aufrecht. Offene Bereiche zeigen keine Ergebniszeile, ihr
+         offener Kreis sagt bereits, dass noch nichts da ist. */
       var p = pt(CFG.labelRadius, a);
+      var result = done ? resultOf(item.id) : '';
       var text = el('text', {
-        class: 'segment-label', x: p[0], y: p[1],
+        class: 'segment-label' + (done ? ' is-done' : ''), x: p[0], y: p[1],
         'text-anchor': 'middle', 'aria-hidden': 'true', 'data-index': i
       });
-      var top = -(item.lines.length - 1) * CFG.labelLine / 2;
+      text.style.setProperty('--cat', cat);
+      var rows = item.lines.length + (result ? 1 : 0);
+      var top = -(rows - 1) * CFG.labelLine / 2;
       item.lines.forEach(function (line, li) {
         var tspan = el('tspan', { x: p[0], y: r2(p[1] + top + li * CFG.labelLine) });
         tspan.textContent = line;
         text.appendChild(tspan);
       });
+      if (result) {
+        var rspan = el('tspan', {
+          class: 'segment-result', x: p[0],
+          y: r2(p[1] + top + item.lines.length * CFG.labelLine + CFG.resultGap)
+        });
+        rspan.textContent = result;
+        text.appendChild(rspan);
+      }
       labelLayer.appendChild(text);
       return { g: g, face: face, label: text, angle: a, done: done };
     });
