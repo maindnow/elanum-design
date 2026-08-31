@@ -53,6 +53,9 @@ der Endpunkt einer offenen Bridge atmet, solange die Verbindung offen ist.
 
 ## Reveal-JavaScript
 
+Nicht neu schreiben. `assets/reveal.js` einbinden, es enthält die Fassung unten plus
+die Erreichbarkeitsprüfung aus dem nächsten Abschnitt.
+
 IntersectionObserver, niemals ein Scroll-Listener. Jeder Reveal läuft einmal.
 
 ```js
@@ -83,6 +86,34 @@ Tabelle erzeugt: -8% für 92%, -12% für 88%, -15% für 85%.
 
 `io.unobserve` ist nicht optional. Es sorgt dafür, dass Zurückscrollen den Reveal nie
 wiederholt.
+
+## Die Erreichbarkeitsfalle
+
+Ein negativer `rootMargin` verschiebt die Triggerlinie nach oben. Auf einer kurzen Seite
+kann ein Element im untersten Bereich diese Linie nie erreichen, weil die Seite nicht
+weit genug scrollt. Es bleibt dann dauerhaft auf `opacity:0`, und der Linter sieht das
+nicht, weil das CSS korrekt ist.
+
+`assets/reveal.js` prüft deshalb vor dem Beobachten:
+
+```js
+var maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
+function reachable(el, marginPct){
+  var absTop = el.getBoundingClientRect().top + window.scrollY;
+  return (absTop - maxScroll) < vh * (1 - marginPct / 100);
+}
+```
+
+Was nicht erreichbar ist, wird ohne Rand beobachtet und zeigt sich, sobald es ins Bild
+kommt. `scripts/verify_render.py` deckt genau diesen Fall auf, weil es nach dem
+Durchscrollen zählt, wie viele Reveal-Elemente wirklich sichtbar sind.
+
+## Rotation eines drehbaren Instruments
+
+Die Tabelle oben kennt keine Rotationsgeste. Für ein Rad oder einen Regler gilt:
+560ms mit `--sr-power3-out`, kein elastisches Nachschwingen. Während einer Zieh-Geste
+wird die Transition abgeschaltet, damit das Element dem Finger direkt folgt, und beim
+Loslassen wieder eingeschaltet, damit es einrastet.
 
 ## Scroll-Fortschritt ohne Scroll-Listener
 

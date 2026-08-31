@@ -1,0 +1,232 @@
+/* ============================================================
+   Persönliches Rad, elanum
+   Setzt assets/base.css voraus. Keine eigenen Farben, nur Tokens.
+
+   Die Kreisgeometrie ist die Informationsarchitektur. Die
+   SoulResonance-Sprache liegt nur darüber: Spectrum als Kante am
+   Aussenbogen, Echo als zweiter Bogen daneben, Glow nur auf diesen beiden.
+   ============================================================ */
+
+.personal-wheel{ display:grid; gap:var(--s5); }
+
+.wheel-stage{ position:relative; display:grid; justify-items:center; padding-top:var(--s4); }
+.wheel-svg{
+  width:100%; max-width:320px; height:auto; display:block;
+  touch-action:none;          /* das Rad dreht, die Seite scrollt nicht mit */
+  cursor:grab;
+}
+.wheel-svg:active{ cursor:grabbing; }
+
+/* Die Leseposition braucht keine Markierung über dem Rad. Das aktive Stück
+   steht oben, trägt den Tint und die Spektralkante, und der Name steht darunter. */
+
+.wheel-rotor{
+  transform-box:view-box; transform-origin:160px 160px;
+  transition:transform 560ms var(--sr-power3-out);
+}
+.wheel-rotor.is-dragging{ transition:none; }
+
+/* --- Die Scheibe wird aus dem Papier gepresst --- */
+.wheel-segments{
+  filter:drop-shadow(0 1px 2px rgba(138,107,69,.14))
+         drop-shadow(0 12px 18px rgba(138,107,69,.16))
+         drop-shadow(0 30px 46px rgba(138,107,69,.14));
+}
+/* Lichtkante oben, warmer Schatten unten. Steht still, das Licht dreht nicht mit. */
+.rim-light{ fill:none; stroke:url(#rim-light); stroke-width:1.5; }
+.rim-shade{ fill:none; stroke:url(#rim-shade); stroke-width:2; }
+
+/* --- Äusserer Gruppenring, deutlich ruhiger als die Stücke --- */
+/* Papier ist das tiefere Material und muss dunkler sein als der Grund,
+   sonst verschwimmt der Ring zu einem Schleier. */
+.wheel-groups{ filter:url(#paper-grain); }
+/* Jede Kategorie trägt ihre eigene Resonanzfarbe, als Tönung auf dem warmen
+   Grund, nie als satte Fläche. */
+.wheel-group{
+  fill:var(--cat);
+  fill-opacity:.16;
+  stroke:none;
+  transition:fill-opacity 240ms var(--sr-ease-out);
+}
+.wheel-group.is-active{ fill-opacity:.30; }
+
+/* Beschriftung des Gruppenrings, auf der Ringgeometrie, nie frei schwebend. */
+.group-label{
+  fill:var(--cat);
+  font:500 7.5px/1 var(--sr-sans);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  opacity:.72;
+  pointer-events:none;
+  dominant-baseline:middle;
+  transition:opacity 240ms var(--sr-ease-out);
+}
+.group-label.is-active{ opacity:1; }
+
+/* --- Die neun Kuchenstücke --- */
+.wheel-segment{ cursor:pointer; }
+/* Die helle Grundfläche der Scheibe. Ohne sie liegt die Tönung direkt auf dem
+   Papiergrund und die Scheibe wirkt nicht mehr gehoben. */
+.wheel-plate{ fill:var(--sr-surface); }
+
+/* Die Farbe sagt, zu welcher Kategorie ein Stück gehört. Die Stärke der
+   Tönung und der Punkt sagen, ob es schon ausgefüllt ist. */
+.segment-face{
+  fill:var(--cat);
+  fill-opacity:.07;
+  stroke:rgba(22,54,59,.16);
+  stroke-width:1;
+  transition:fill-opacity 240ms var(--sr-ease-out), transform 240ms var(--sr-ease-out);
+}
+.wheel-segment.is-done .segment-face{ fill-opacity:.16; }
+
+/* Voller Punkt: ausgefüllt. Offener Kreis: noch offen, die Gap-Sprache. */
+.segment-marker{
+  fill:none;
+  stroke:var(--sr-line);
+  stroke-width:1.2;
+  transition:fill 240ms var(--sr-ease-out);
+}
+.wheel-segment.is-done .segment-marker{
+  fill:var(--cat);
+  stroke:none;
+}
+@media (hover:hover) and (pointer:fine){
+  .wheel-segment:hover .segment-face{
+    fill-opacity:.20;
+    transform:translate(var(--ox), var(--oy));   /* radiale Anhebung */
+  }
+}
+/* Aktiv: die eigene Kategoriefarbe kräftiger, das Spektrum sitzt auf der Kante. */
+.wheel-segment.is-active .segment-face{
+  fill-opacity:.26;
+  stroke:var(--cat);
+  stroke-opacity:.45;
+}
+.wheel-segment:focus{ outline:none; }
+.wheel-segment:focus-visible .segment-face{ stroke:var(--sr-violet); stroke-width:1.5; }
+
+/* --- Kurzbezeichnungen, bleiben immer aufrecht --- */
+.segment-label{
+  fill:var(--sr-secondary);
+  font:500 8px/1 var(--sr-sans);
+  letter-spacing:.01em;
+  pointer-events:none;
+  transform-box:fill-box; transform-origin:center;
+  transition:transform 560ms var(--sr-power3-out), fill 240ms var(--sr-ease-out);
+}
+.segment-label.is-dragging{ transition:fill 240ms var(--sr-ease-out); }
+.segment-label.is-done{ fill:var(--sr-ink); }
+
+/* Das Ergebnis steht unter dem Namen, in der Farbe seiner Kategorie.
+   Farbige Linien leuchten, Text nicht: kein Glow auf dieser Zeile. */
+.segment-result{
+  fill:var(--cat);
+  font-weight:600;
+  font-size:8.5px;
+  letter-spacing:0;
+}
+.segment-label.is-active{ fill:var(--sr-ink); font-weight:600; }
+
+/* --- Spectrum und Echo, nur entlang der festen Kreisgeometrie --- */
+.segment-edge{
+  fill:none; stroke:url(#wheel-spectrum); stroke-width:2; stroke-linecap:round;
+  filter:var(--sr-glow-spectrum);
+}
+.segment-echo{
+  fill:none; stroke:var(--sr-violet); stroke-width:1; stroke-linecap:round;
+  opacity:.3; filter:var(--sr-glow-violet);
+}
+
+/* --- Zentrum, liegt über den Spitzen der Stücke --- */
+.wheel-center__disc{
+  fill:var(--sr-surface-top);
+  filter:drop-shadow(0 1px 2px rgba(138,107,69,.14))
+         drop-shadow(0 8px 14px rgba(138,107,69,.18))
+         drop-shadow(0 20px 30px rgba(138,107,69,.12));
+}
+.wheel-center__light{ fill:none; stroke:url(#rim-light); stroke-width:1.25; }
+.wheel-center__shade{ fill:none; stroke:url(#rim-shade); stroke-width:1.5; }
+.wheel-center__eyebrow{
+  fill:var(--sr-secondary); font:500 8px/1 var(--sr-sans);
+  letter-spacing:.2em; text-transform:uppercase;
+}
+.wheel-center__name{
+  fill:var(--sr-ink); font:300 16px/1 var(--sr-sans); letter-spacing:-.02em;
+}
+
+/* --- Leseposition in Text --- */
+.wheel-reader{ display:grid; gap:6px; justify-items:center; text-align:center; }
+.wheel-reader__label{
+  margin:0; font-size:clamp(24px,3vw,34px); font-weight:400;
+  letter-spacing:-.03em; line-height:1.15;
+}
+.wheel-reader__lead{ margin:0; font-size:15px; color:var(--sr-secondary); max-width:44ch; }
+
+/* --- Fortschritt --- */
+.wheel-progress{
+  font-size:12px; color:var(--sr-secondary);
+  letter-spacing:.02em; margin:0; text-align:center;
+}
+
+/* --- Inhalt und Ergebnis --- */
+.wheel-panels{ position:relative; max-width:62ch; }
+/* display:grid überschreibt die Browserregel für hidden, deshalb muss das
+   Verstecken hier ausdrücklich wieder gewinnen. Sonst stehen alle neun
+   Bereiche gleichzeitig auf der Seite. */
+.wheel-panel{ margin:0; display:grid; gap:var(--s4); }
+.wheel-panel[hidden]{ display:none; }
+.wheel-panel p{ margin:0; }
+
+/* Die eine Haarlinie in der Karte, dort wo sie von der Erklärung
+   zum eigenen Ergebnis wechselt. */
+.panel-rule{
+  height:1px; border:0; margin:0;
+  background:linear-gradient(90deg,var(--sr-line) 0 44%,transparent 44% 52%,var(--sr-line) 52% 100%);
+}
+.panel-result__label{
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--sr-secondary); font-weight:500;
+}
+.panel-result{
+  display:grid; gap:var(--s3);
+  min-height:96px;             /* Platz für das Ergebnis, auch wenn es noch fehlt */
+  align-content:start;
+}
+.panel-result__value{ font-size:15px; line-height:1.65; }
+.panel-result__value dt{
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--sr-secondary); font-weight:500; margin-bottom:2px;
+}
+.panel-result__value dd{ margin:0 0 var(--s3); }
+.panel-result__value dd:last-child{ margin-bottom:0; }
+
+/* Noch nicht ausgefüllt. Ein gültiger Zustand, kein Fehler. */
+.panel-result__empty{
+  display:grid; gap:var(--s3); justify-items:start;
+  padding:var(--s4);
+  border-radius:var(--sr-r-md);
+  background:#FBF6EC;
+  box-shadow:inset 0 2px 4px rgba(138,107,69,.10), inset 0 -1px 0 rgba(255,255,255,.8);
+}
+.panel-result__empty p{ font-size:13.5px; color:var(--sr-secondary); }
+
+.wheel-nav{ display:flex; gap:var(--s3); justify-content:center; }
+
+/* --- Ab 768px stehen Rad und Inhalt nebeneinander --- */
+@media (min-width:768px){
+  .personal-wheel{
+    grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+    gap:var(--s7); align-items:center;
+  }
+  .personal-wheel > .wheel-stage{ grid-row:span 3; }
+  .wheel-reader{ justify-items:start; text-align:left; }
+  .wheel-nav{ justify-content:flex-start; }
+  .wheel-svg{ max-width:420px; }
+}
+
+/* --- Guards --- */
+@media (prefers-reduced-motion:reduce){
+  .wheel-rotor, .segment-label, .segment-face, .wheel-group{ transition:none; }
+  .wheel-segment:hover .segment-face{ transform:none; }
+}
