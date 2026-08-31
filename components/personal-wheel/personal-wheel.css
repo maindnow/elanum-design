@@ -32,15 +32,39 @@
 }
 .wheel-rotor.is-dragging{ transition:none; }
 
+/* --- Die Scheibe wird aus dem Papier gepresst --- */
+.wheel-segments{
+  filter:drop-shadow(0 1px 2px rgba(138,107,69,.14))
+         drop-shadow(0 12px 18px rgba(138,107,69,.16))
+         drop-shadow(0 30px 46px rgba(138,107,69,.14));
+}
+/* Lichtkante oben, warmer Schatten unten. Steht still, das Licht dreht nicht mit. */
+.rim-light{ fill:none; stroke:url(#rim-light); stroke-width:1.5; }
+.rim-shade{ fill:none; stroke:url(#rim-shade); stroke-width:2; }
+
 /* --- Äusserer Gruppenring, deutlich ruhiger als die Stücke --- */
 /* Papier ist das tiefere Material und muss dunkler sein als der Grund,
    sonst verschwimmt der Ring zu einem Schleier. */
+.wheel-groups{ filter:url(#paper-grain); }
 .wheel-group{
   fill:var(--sr-paper-light);
   stroke:none;
   transition:fill 240ms var(--sr-ease-out);
 }
 .wheel-group.is-active{ fill:var(--sr-paper); }
+
+/* Beschriftung des Gruppenrings, auf der Ringgeometrie, nie frei schwebend. */
+.group-label{
+  fill:var(--sr-paper-ink);
+  font:500 7.5px/1 var(--sr-sans);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  opacity:.62;
+  pointer-events:none;
+  dominant-baseline:middle;
+  transition:opacity 240ms var(--sr-ease-out);
+}
+.group-label.is-active{ opacity:1; }
 
 /* --- Die neun Kuchenstücke --- */
 .wheel-segment{ cursor:pointer; }
@@ -90,8 +114,11 @@
 .wheel-center__disc{
   fill:var(--sr-surface-top);
   filter:drop-shadow(0 1px 2px rgba(138,107,69,.14))
-         drop-shadow(0 8px 14px rgba(138,107,69,.16));
+         drop-shadow(0 8px 14px rgba(138,107,69,.18))
+         drop-shadow(0 20px 30px rgba(138,107,69,.12));
 }
+.wheel-center__light{ fill:none; stroke:url(#rim-light); stroke-width:1.25; }
+.wheel-center__shade{ fill:none; stroke:url(#rim-shade); stroke-width:1.5; }
 .wheel-center__eyebrow{
   fill:var(--sr-secondary); font:500 8px/1 var(--sr-sans);
   letter-spacing:.2em; text-transform:uppercase;

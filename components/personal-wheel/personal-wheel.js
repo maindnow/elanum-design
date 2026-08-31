@@ -93,6 +93,15 @@
            ' A' + r + ' ' + r + ' 0 ' + large + ' 1 ' + p1[0] + ' ' + p1[1];
   }
 
+  /* Derselbe Bogen rückwärts. Text darauf liest von aussen betrachtet
+     richtig herum, wenn der Abschnitt in der unteren Hälfte steht. */
+  function arcPathRev(r, a1, a0) {
+    var p1 = pt(r, a1), p0 = pt(r, a0);
+    var large = (a1 - a0) > 180 ? 1 : 0;
+    return 'M' + p1[0] + ' ' + p1[1] +
+           ' A' + r + ' ' + r + ' 0 ' + large + ' 0 ' + p0[0] + ' ' + p0[1];
+  }
+
   function el(name, attrs) {
     var n = document.createElementNS(SVGNS, name), k;
     for (k in attrs) if (attrs[k] !== null && attrs[k] !== undefined) n.setAttribute(k, attrs[k]);
@@ -103,6 +112,8 @@
     var svg = root.querySelector('.wheel-svg');
     var rotor = root.querySelector('[data-rotor]');
     var groupLayer = root.querySelector('.wheel-groups');
+    var groupLabelLayer = root.querySelector('.wheel-group-labels');
+    var groupTracks = [];
     var segLayer = root.querySelector('.wheel-segments');
     var labelLayer = root.querySelector('.wheel-labels');
     var edge = root.querySelector('.segment-edge');
@@ -120,14 +131,39 @@
 
     /* Äusserer Ring: drei Abschnitte à 120 Grad, geometrisch an je drei
        innere Stücke gekoppelt, nicht frei gestaltet. */
+    var defs = svg.querySelector('defs');
+    var rMid = (CFG.groupInnerRadius + CFG.groupOuterRadius) / 2;
+
     GROUPS.forEach(function (g, gi) {
       var a0 = segmentAngle(gi * 3) - half + CFG.groupGapDeg / 2;
       var a1 = segmentAngle(gi * 3 + 2) + half - CFG.groupGapDeg / 2;
-      groupLayer.appendChild(el('path', {
+      var band = el('path', {
         class: 'wheel-group', 'data-group': g.id,
         d: ringPath(a0, a1, CFG.groupInnerRadius, CFG.groupOuterRadius)
+      });
+      band.appendChild(el('title', {})).textContent = g.label;
+      groupLayer.appendChild(band);
+
+      /* Zwei Textbahnen auf demselben Ring. Welche gilt, entscheidet die
+         aktuelle Lage des Abschnitts, damit die Beschriftung nie auf dem
+         Kopf steht. Sie sitzt auf der Ringgeometrie, sie schwebt nicht. */
+      defs.appendChild(el('path', {
+        id: 'track-' + g.id, fill: 'none',
+        d: arcPath(rMid, a0 + 3, a1 - 3)
       }));
-      groupLayer.lastChild.appendChild(el('title', {})).textContent = g.label;
+      defs.appendChild(el('path', {
+        id: 'track-' + g.id + '-flip', fill: 'none',
+        d: arcPathRev(rMid, a1 - 3, a0 + 3)
+      }));
+
+      var text = el('text', { class: 'group-label', 'data-group': g.id, 'aria-hidden': 'true' });
+      var tp = el('textPath', {
+        href: '#track-' + g.id, startOffset: '50%', 'text-anchor': 'middle'
+      });
+      tp.textContent = g.label;
+      text.appendChild(tp);
+      groupLabelLayer.appendChild(text);
+      groupTracks.push({ id: g.id, center: segmentAngle(gi * 3 + 1), path: tp });
     });
 
     /* Neun Kuchenstücke. Alle mit demselben Aussenradius. */
@@ -171,6 +207,13 @@
         s.label.classList.toggle('is-dragging', !animate);
         s.label.style.transform = 'rotate(' + (-rotation) + 'deg)';
       });
+      /* Die Ringbeschriftung wechselt auf die rückwärts laufende Bahn,
+         sobald ihr Abschnitt in die untere Hälfte wandert. */
+      groupTracks.forEach(function (t) {
+        var onScreen = ((t.center + rotation) % 360 + 360) % 360;
+        var flip = onScreen > 90 && onScreen < 270;
+        t.path.setAttribute('href', '#track-' + t.id + (flip ? '-flip' : ''));
+      });
     }
 
     function targetFor(i) {
@@ -197,6 +240,9 @@
         });
         /* Der äussere Ring ist an die Stücke gekoppelt, also schaltet er mit. */
         Array.prototype.forEach.call(groupLayer.children, function (g) {
+          g.classList.toggle('is-active', g.getAttribute('data-group') === item.group);
+        });
+        Array.prototype.forEach.call(groupLabelLayer.children, function (g) {
           g.classList.toggle('is-active', g.getAttribute('data-group') === item.group);
         });
         readerGroup.textContent = (GROUPS.filter(function (g) {

@@ -1,0 +1,1277 @@
+<title>Persönliches Rad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ../../assets/base.css */
+/* ============================================================
+   SOULRESONANCE BASE, elanum
+   Tokens, Reset und Motion-Utilities, extrahiert aus der lebenden
+   Referenz docs/soulresonance-styleguide.html.
+   Diese Datei ist die Basis jedes elanum-Screens. Tokens nie umbenennen,
+   keine zweite Palette danebenstellen.
+   Schrift: Geist, Geist Mono, Instrument Serif.
+   ============================================================ */
+/* ============================================================
+   SOULRESONANCE TOKENS
+   ============================================================ */
+:root{
+  /* Ground: warm paper light, the whole document sits on it */
+  --sr-canvas:#F6F1E5;
+  --sr-surface:#FFFCF5;
+  --sr-surface-top:#FFFEFA;
+  --sr-ink:#16363B;
+  --sr-secondary:#5B6660;
+  --sr-line:#E4DCCB;
+  --sr-warm:#8A6B45;
+  --sr-warm-shadow:rgba(138,107,69,.16);
+  --sr-warm-shadow-soft:rgba(138,107,69,.10);
+  --sr-light-edge:rgba(255,255,255,.95);
+
+  /* Paper surfaces */
+  --sr-paper:#EDE1C6;
+  --sr-paper-light:#F4EBD6;
+  --sr-paper-ink:#2A2118;
+
+  /* Resonance colours */
+  --sr-violet:#6756D9;
+  --sr-blue:#4D7FE8;
+  --sr-orchid:#9466DF;
+  --sr-rose:#D85BA9;
+  --sr-pink:#F0719A;
+
+  /* Status colours. Separate from the brand spectrum on purpose:
+     the spectrum means resonance, status means the system talking to you. */
+  --sr-info:#33638F;
+  --sr-info-bg:rgba(51,99,143,.10);
+  --sr-success:#3F7350;
+  --sr-success-bg:rgba(63,115,80,.11);
+  --sr-warning:#8A5A16;
+  --sr-warning-bg:rgba(138,90,22,.12);
+  --sr-danger:#A32F3C;
+  --sr-danger-bg:rgba(163,47,60,.10);
+  --sr-neutral-status:#5B6660;
+  --sr-neutral-status-bg:rgba(91,102,96,.09);
+
+  /* Spectrum */
+  --sr-spectrum:linear-gradient(90deg,#6756D9 0%,#4D7FE8 26%,#9466DF 52%,#D85BA9 78%,#F0719A 100%);
+
+  /* Depth */
+  --sr-elev:var(--sr-emboss);
+  --sr-elev-resonance:
+      var(--sr-emboss-raised),
+      0 4px 22px rgba(103,86,217,.16),
+      0 14px 44px rgba(216,91,169,.14);
+
+  /* Geometry */
+  --sr-r-sm:8px;
+  --sr-r-md:14px;
+  --sr-r-lg:22px;
+  --sr-r-xl:32px;
+  --sr-hairline:rgba(138,107,69,.13);
+  --sr-shell:rgba(138,107,69,.05);
+  --sr-inner-light:inset 0 1px 0 var(--sr-light-edge);
+  /* Pressed out of the paper: light edge on top, warm shade underneath,
+     then a wide soft halo that bleeds back into the ground. */
+  --sr-emboss:
+    inset 0 1.5px 0 var(--sr-light-edge),
+    inset 0 -2px 3px rgba(138,107,69,.13),
+    0 1px 2px rgba(138,107,69,.10),
+    0 12px 22px -10px rgba(138,107,69,.18),
+    0 34px 64px -26px rgba(138,107,69,.26);
+  --sr-emboss-raised:
+    inset 0 1.5px 0 var(--sr-light-edge),
+    inset 0 -2.5px 4px rgba(138,107,69,.15),
+    0 2px 5px rgba(138,107,69,.12),
+    0 20px 34px -14px rgba(138,107,69,.24),
+    0 56px 92px -34px rgba(138,107,69,.30);
+  /* Glow, warm at the core and coloured at the edge */
+  /* Glow is the line's own colour, three steps of the same hue.
+     No foreign warm ring, no white core. */
+  --sr-glow-violet:
+    drop-shadow(0 0 2px rgba(103,86,217,.90))
+    drop-shadow(0 0 7px rgba(103,86,217,.60))
+    drop-shadow(0 0 18px rgba(103,86,217,.34));
+  --sr-glow-blue:
+    drop-shadow(0 0 2px rgba(77,127,232,.90))
+    drop-shadow(0 0 7px rgba(77,127,232,.60))
+    drop-shadow(0 0 18px rgba(77,127,232,.34));
+  --sr-glow-orchid:
+    drop-shadow(0 0 2px rgba(148,102,223,.90))
+    drop-shadow(0 0 7px rgba(148,102,223,.60))
+    drop-shadow(0 0 18px rgba(148,102,223,.34));
+  --sr-glow-rose:
+    drop-shadow(0 0 2px rgba(216,91,169,.90))
+    drop-shadow(0 0 7px rgba(216,91,169,.60))
+    drop-shadow(0 0 18px rgba(216,91,169,.34));
+  --sr-glow-pink:
+    drop-shadow(0 0 2px rgba(240,113,154,.90))
+    drop-shadow(0 0 7px rgba(240,113,154,.60))
+    drop-shadow(0 0 18px rgba(240,113,154,.34));
+  --sr-glow-spectrum:
+    drop-shadow(0 0 2px rgba(148,102,223,.85))
+    drop-shadow(0 0 8px rgba(179,97,196,.55))
+    drop-shadow(0 0 20px rgba(216,91,169,.34));
+  --sr-stroke:1.5;
+
+  /* Space scale (8pt) */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+
+  /* Type */
+  --sr-sans:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --sr-serif:'Instrument Serif','Iowan Old Style',serif;
+  --sr-mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sr-ease:cubic-bezier(.16,1,.3,1);
+  --sr-ease-mass:cubic-bezier(.32,.72,0,1);
+  --sr-ease-out:cubic-bezier(.23,1,.32,1);
+  --sr-ease-in-out:cubic-bezier(.77,0,.175,1);
+  /* Catalogue eases: power2.out for reveals, power3.out for line draws */
+  --sr-power2-out:cubic-bezier(.215,.61,.355,1);
+  --sr-power3-out:cubic-bezier(.165,.84,.44,1);
+
+  /* Grain, procedural, monochrome, 2-3.5% */
+  --sr-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+
+
+
+*,*::before,*::after{box-sizing:border-box}
+/* Shadows and glows must never be cut off: SVG viewports and section
+   wrappers stay open, and every raised surface keeps room around it. */
+svg{overflow:visible}
+section,.sr-wrap,.sr-grid,.sr-hero{overflow:visible}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{
+  margin:0;
+  background:var(--sr-canvas);
+  color:var(--sr-ink);
+  font-family:var(--sr-sans);
+  font-size:16px;
+  line-height:1.65;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{line-height:1.15;font-weight:500;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(34px,5.2vw,58px);font-weight:300;letter-spacing:-.035em}
+h2{font-size:clamp(24px,3vw,34px);font-weight:400;letter-spacing:-.03em}
+h3{font-size:19px}
+h4{font-size:15px;font-weight:600;letter-spacing:.01em}
+p{margin:0 0 var(--s4)}
+a{color:var(--sr-ink)}
+code,kbd{font-family:var(--sr-mono);font-size:.86em;overflow-wrap:anywhere}
+
+/* ============================================================
+   PRIMITIVE, aus der lebenden Referenz uebernommen
+   ============================================================ */
+
+/* --- Eyebrow, Lead, Section-Kopf --- */
+.sr-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sr-secondary);font-weight:500;margin:0 0 var(--s4);
+  padding:5px 11px;border:0;border-radius:99px;
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));
+  box-shadow:var(--sr-emboss)
+}
+.sr-lead{font-size:clamp(17px,2vw,20px);color:var(--sr-secondary);font-weight:300;line-height:1.6;max-width:62ch}
+.sr-muted{color:var(--sr-secondary)}
+.sr-small{font-size:13px;line-height:1.6}
+.sr-sec-head{display:grid;gap:10px;margin-bottom:var(--s6);max-width:62ch}
+.sr-sec-head p{margin:0;font-size:15px}
+
+/* Double bezel: inner core plus outer shell ring, concentric radii, no extra DOM */
+.sr-bezel{
+  margin:10px;
+  box-shadow:
+    0 0 0 9px rgba(138,107,69,.035),
+    0 0 0 10px rgba(138,107,69,.05),
+    var(--sr-emboss-raised);
+}
+
+/* Cards / grid */
+.sr-grid{display:grid;gap:var(--s6)}
+.sr-grid>*{min-width:0}
+.sr-grid.c2{grid-template-columns:repeat(2,1fr)}
+.sr-grid.c3{grid-template-columns:repeat(3,1fr)}
+.sr-grid.c4{grid-template-columns:repeat(4,1fr)}
+.sr-grid.c12{grid-template-columns:repeat(12,1fr)}
+
+/* --- Flaeche und Spektralkante --- */
+.sr-card{
+  background:linear-gradient(180deg,var(--sr-surface-top) 0%,var(--sr-surface) 62%,#FCF7EC 100%);
+  border:0;
+  border-radius:var(--sr-r-lg);
+  padding:var(--s5);
+  box-shadow:var(--sr-emboss);
+  position:relative;
+}
+.sr-card--flat{box-shadow:none}
+.sr-card--resonance{box-shadow:var(--sr-elev-resonance)}
+.sr-card__title{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s3)}
+
+/* Spectral edge. One narrow edge per surface, drawn as a ring that follows the
+   corner radius and fades out into the surface instead of stopping abruptly.
+   Markup: <span class="sr-edge e-bottom"><i></i></span> inside the surface.
+   The span carries the fade mask, the <i> carries the ring. */
+.sr-edge{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+  transition:opacity 240ms var(--sr-ease-out)}
+.sr-edge--toggle{opacity:0}
+.sr-edge--toggle.is-on{opacity:1}
+.sr-edge>i{
+  position:absolute;inset:0;border-radius:inherit;padding:2px;
+  background:var(--sr-spectrum);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  filter:var(--sr-glow-spectrum);
+}
+/* bottom: runs into both lower corners, fades upward.
+   The fade is in pixels, so the visible length of an edge stays the same
+   on a small metric tile and on a large card. */
+.e-bottom{-webkit-mask-image:linear-gradient(to top,#000 0 9px,transparent 46px);
+          mask-image:linear-gradient(to top,#000 0 9px,transparent 46px)}
+/* left: runs into both left corners, fades to the right */
+.e-left{-webkit-mask-image:linear-gradient(to right,#000 0 9px,transparent 44px);
+        mask-image:linear-gradient(to right,#000 0 9px,transparent 44px)}
+/* corner: the corner is rounded away and the edge traces that arc */
+.sr-corner{border-top-right-radius:52px}
+.e-corner{-webkit-mask-image:radial-gradient(124px 124px at 100% 0,#000 26%,transparent 64%);
+          mask-image:radial-gradient(124px 124px at 100% 0,#000 26%,transparent 64%)}
+/* partial: the bottom edge, cut short because the work is not finished */
+/* partial: the bottom edge, cut short because the work is not finished.
+   Vertical fade in pixels like the others, horizontal cut in percent
+   because that one carries the meaning: how far the progress got. */
+.e-partial{
+  -webkit-mask-image:linear-gradient(to top,#000 0 9px,transparent 44px),linear-gradient(to right,#000 0 42%,transparent 74%);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to top,#000 0 9px,transparent 44px),linear-gradient(to right,#000 0 42%,transparent 74%);
+  mask-composite:intersect;
+}
+
+/* Paper material */
+
+/* --- Papier --- */
+.sr-paper{
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 60%),
+    linear-gradient(180deg,var(--sr-paper-light) 0%,var(--sr-paper) 62%,#E6D8B8 100%);
+  color:var(--sr-paper-ink);
+  border:0;
+  border-radius:var(--sr-r-lg);
+  position:relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    inset 0 -1.5px 3px rgba(138,107,69,.14),
+    0 2px 4px rgba(138,107,69,.10),
+    0 18px 34px -16px rgba(138,107,69,.24),
+    0 46px 84px -38px rgba(138,107,69,.26);
+}
+.sr-paper--warm{
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.42) 0%,rgba(255,255,255,0) 58%),
+    linear-gradient(180deg,#EDE1C6 0%,#E5D5B2 100%)
+}
+.sr-paper::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  border-radius:inherit;
+  background-image:var(--sr-grain);background-size:160px 160px;
+  opacity:.035;mix-blend-mode:multiply
+}
+.sr-paper__body{position:relative;padding:var(--s6)}
+.sr-quote{font-family:var(--sr-serif);font-size:22px;line-height:1.45;font-weight:300;margin:0 0 var(--s4)}
+.sr-quote em{font-style:italic}
+
+
+/* --- Do / Dont Haarlinie --- */
+.sr-rule{display:flex;gap:var(--s3);align-items:flex-start;padding:7px 0}
+/* A single hairline where the list turns from what to do into what never to do. */
+.sr-rule--do+.sr-rule--dont,.sr-rule--dont+.sr-rule--do{
+  border-top:1px solid var(--sr-line);margin-top:10px;padding-top:16px
+}
+.sr-rule__mark{
+  flex:none;width:20px;height:20px;border-radius:99px;margin-top:2px;
+  display:grid;place-items:center;font-size:12px;line-height:1
+}
+.sr-rule--do .sr-rule__mark{background:rgba(103,86,217,.1);color:var(--sr-violet)}
+.sr-rule--dont .sr-rule__mark{background:rgba(82,97,102,.09);color:var(--sr-secondary)}
+
+
+/* --- Button, Feld, Badge, Divider, Metrik --- */
+.sr-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font:500 14px/1 var(--sr-sans);
+  padding:11px 12px 11px 20px;border-radius:99px;border:0;
+  background:linear-gradient(180deg,var(--sr-surface-top),#FBF5EA);color:var(--sr-ink);cursor:pointer;
+  box-shadow:var(--sr-emboss);
+  transition:transform 160ms var(--sr-ease-out),box-shadow 200ms var(--sr-ease-out),background 200ms ease
+}
+.sr-btn:not(:has(.sr-btn__icon)){padding:12px 20px}
+.sr-btn__icon{
+  width:30px;height:30px;border-radius:99px;display:grid;place-items:center;
+  background:rgba(18,42,48,.05);
+  transition:transform 200ms var(--sr-ease-out),background 200ms ease
+}
+.sr-btn--primary .sr-btn__icon{background:rgba(255,255,255,.14)}
+.sr-btn{min-height:44px}
+@media (hover:hover) and (pointer:fine){
+  .sr-btn:hover{box-shadow:var(--sr-elev);transform:translateY(-1px)}
+  .sr-btn:hover .sr-btn__icon{transform:translate(2px,-1px) scale(1.06)}
+      .sr-nav a:hover{color:var(--sr-ink)}
+  .sr-nav a:hover::after{right:0}
+  }
+.sr-btn:active{transform:scale(.98);box-shadow:none}
+.sr-btn--primary{background:var(--sr-ink);color:#fff;border-color:var(--sr-ink)}
+.sr-btn--primary:hover{box-shadow:var(--sr-elev-resonance)}
+.sr-btn--spectral{position:relative;border-color:transparent;background:var(--sr-surface)}
+.sr-btn--spectral{box-shadow:0 0 12px rgba(148,102,223,.22),0 0 26px rgba(216,91,169,.16),var(--sr-emboss)}
+.sr-btn--spectral::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+  background:var(--sr-spectrum);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+}
+.sr-btn--ghost{background:transparent;border-color:transparent;color:var(--sr-secondary)}
+.sr-btn--ghost:hover{color:var(--sr-ink);box-shadow:none;transform:none}
+
+/* Form field */
+.sr-field{display:block}
+.sr-field label{display:block;font-size:12px;color:var(--sr-secondary);margin-bottom:6px;letter-spacing:.02em}
+.sr-input{
+  width:100%;font:400 15px/1.4 var(--sr-sans);color:var(--sr-ink);
+  background:#FBF6EC;border:0;
+  border-radius:var(--sr-r-md);padding:12px 14px;outline:none;
+  box-shadow:inset 0 2px 4px rgba(138,107,69,.14),inset 0 -1px 0 rgba(255,255,255,.8);
+  transition:box-shadow .2s ease
+}
+.sr-input:focus{box-shadow:inset 0 2px 4px rgba(138,107,69,.10),0 0 0 3px rgba(103,86,217,.13),0 0 14px rgba(148,102,223,.22)}
+.sr-input::placeholder{color:#9AA5A8}
+
+/* Badges */
+.sr-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:500;letter-spacing:.01em;
+  padding:5px 11px;border-radius:99px;border:0;color:var(--sr-secondary);
+  background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));
+  box-shadow:var(--sr-emboss)
+}
+.sr-badge--resonant{
+  border-color:transparent;color:var(--sr-violet);background:rgba(103,86,217,.09);
+  box-shadow:0 0 10px rgba(103,86,217,.20),inset 0 1px 0 rgba(255,255,255,.7)
+}
+.sr-badge--paper{background:var(--sr-paper);border-color:#E7DFCB;color:#6B5B44}
+.sr-dot{width:6px;height:6px;border-radius:99px;background:var(--sr-spectrum);box-shadow:0 0 6px rgba(216,91,169,.7)}
+
+/* Divider with gap */
+.sr-divider{display:block;width:100%;height:1px;border:0;background:
+  linear-gradient(90deg,var(--sr-line) 0 34%,transparent 34% 46%,var(--sr-line) 46% 100%)}
+
+/* Checklist */
+.sr-check{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.sr-metric{background:linear-gradient(180deg,var(--sr-surface-top),var(--sr-surface));border:0;border-radius:var(--sr-r-md);padding:var(--s4);position:relative;box-shadow:var(--sr-emboss)}
+.sr-metric b{display:block;font-size:26px;font-weight:400;letter-spacing:-.02em;margin-bottom:2px}
+.sr-metric span{font-size:12px;color:var(--sr-secondary)}
+.sr-app-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:var(--s5);align-items:start}
+
+/* --- Status, flach und leise, nie leuchtend --- */
+.sr-msg{
+  display:flex;gap:10px;align-items:flex-start;
+  font-size:13.5px;line-height:1.55;
+  border-radius:var(--sr-r-md);padding:12px 14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6)
+}
+.sr-msg svg{flex:none;margin-top:2px}
+.sr-msg b{font-weight:600}
+.sr-msg--info{background:var(--sr-info-bg);color:var(--sr-info)}
+.sr-msg--success{background:var(--sr-success-bg);color:var(--sr-success)}
+.sr-msg--warning{background:var(--sr-warning-bg);color:var(--sr-warning)}
+.sr-msg--danger{background:var(--sr-danger-bg);color:var(--sr-danger)}
+.sr-msg--neutral{background:var(--sr-neutral-status-bg);color:var(--sr-neutral-status)}
+
+
+/* --- Glow und Spektrum --- */
+.glow-violet{filter:var(--sr-glow-violet)}
+.glow-rose{filter:var(--sr-glow-rose)}
+.glow-spectrum{filter:var(--sr-glow-spectrum)}
+.sr-spectrum-bar{
+  background:var(--sr-spectrum);border-radius:99px;
+  box-shadow:0 0 6px rgba(148,102,223,.70),0 0 16px rgba(148,102,223,.45),0 0 34px rgba(216,91,169,.35),0 2px 6px rgba(138,107,69,.14)
+}
+
+/* --- Ein Dauersignal, Skeleton --- */
+.sr-pulse{transform-box:fill-box;transform-origin:center;animation:sr-breathe 2.6s ease-in-out infinite}
+@keyframes sr-breathe{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.55}}
+
+/* States */
+.sr-skel{position:relative;overflow:hidden;background:var(--sr-skel,#EFF2F0);border-radius:8px;height:12px}
+.sr-skel+.sr-skel{margin-top:10px}
+.sr-skel::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);
+  transform:translateX(-100%);animation:sr-shimmer 1.6s linear infinite
+}
+@keyframes sr-shimmer{to{transform:translateX(100%)}}
+.sr-empty{display:grid;gap:var(--s3);justify-items:start}
+
+/* --- Motion-Utilities --- */
+/* Motion utilities */
+/* Line draw: scaleX equivalent for stroked paths, 1s power3.out. */
+.sr-draw{stroke-dasharray:var(--len,600);stroke-dashoffset:var(--len,600)}
+.is-in .sr-draw{animation:sr-draw 1s var(--sr-power3-out) forwards}
+.is-in .sr-draw--echo{animation-delay:.12s}
+/* Section dividers draw from the left, same constant. */
+.sr-rule-line{transform:scaleX(0);transform-origin:left center}
+.is-in .sr-rule-line{animation:sr-scalex 1s var(--sr-power3-out) forwards}
+@keyframes sr-scalex{to{transform:scaleX(1)}}
+@keyframes sr-draw{to{stroke-dashoffset:0}}
+/* Reveal on scroll. Values are the catalogue constants, not taste:
+   y 2.4rem, 0.9s, power2.out, once, trigger at top 88%.
+   Small elements use 1.6rem / 92%, whole sections 3.2rem / 85%. */
+.sr-fade{opacity:0;transform:translateY(2.4rem)}
+.sr-fade--sm{transform:translateY(1.6rem)}
+.sr-fade--lg{transform:translateY(3.2rem)}
+.is-in .sr-fade,.sr-fade.is-in{animation:sr-fade .9s var(--sr-power2-out) forwards}
+/* Staggered group: 0.12s between siblings, the container is the trigger. */
+.is-in .sr-fade:nth-child(2){animation-delay:.12s}
+.is-in .sr-fade:nth-child(3){animation-delay:.24s}
+.is-in .sr-fade:nth-child(4){animation-delay:.36s}
+.is-in .sr-fade:nth-child(5){animation-delay:.48s}
+@keyframes sr-fade{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .sr-draw,.is-in .sr-draw{stroke-dashoffset:0;animation:none}
+  .sr-fade{opacity:0;transform:none;filter:none}
+  .is-in .sr-fade{animation:sr-fade-opacity .25s ease forwards}
+  @keyframes sr-fade-opacity{to{opacity:1}}
+  .sr-skel::after{animation:none}
+  .sr-pulse{animation:none}
+  .sr-progress__fill{animation:none}
+  .sr-btn:hover,.sr-btn:active{transform:none}
+  .sr-rule-line,.is-in .sr-rule-line{transform:none;animation:none}
+  .sr-edge{transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ============================================================
+   APPLICATION EXAMPLE
+   ============================================================ */
+
+/* --- Demo-Buehne, Label, Inline-Fehler --- */
+.sr-demo{
+  background:linear-gradient(180deg,var(--sr-surface-top) 0%,var(--sr-surface) 60%,#FCF7EC 100%);
+  border:0;border-radius:var(--sr-r-xl);
+  padding:var(--s5);box-shadow:var(--sr-emboss-raised);position:relative;height:100%
+}
+.sr-demo svg{display:block;width:100%;height:auto}
+.sr-demo__label{
+  font-size:15px;font-weight:600;letter-spacing:.01em;
+  color:var(--sr-ink);margin:0 0 var(--s4)
+}
+.sr-label{font-size:13px;font-weight:500;color:var(--sr-secondary);margin:0 0 var(--s4)}
+.sr-error{
+  display:flex;gap:10px;align-items:flex-start;font-size:13px;
+  color:var(--sr-danger);background:var(--sr-danger-bg);
+  border-radius:var(--sr-r-md);padding:11px 13px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6)
+}
+.sr-error b{font-weight:600}
+
+/* --- Fehlende Glow-Utilities, die Tokens existieren bereits --- */
+.glow-blue{filter:var(--sr-glow-blue)}
+.glow-orchid{filter:var(--sr-glow-orchid)}
+.glow-pink{filter:var(--sr-glow-pink)}
+
+/* ============================================================
+   RESPONSIVE, MOBILE FIRST
+   Die Basis ist das Telefon. Jede Query ist min-width und fuegt
+   nur Kapazitaet hinzu. Keine einzige max-width-Query.
+   ============================================================ */
+.sr-wrap{max-width:1120px;margin:0 auto;padding:0 var(--s4)}
+.sr-grid.c2,.sr-grid.c3,.sr-grid.c4,.sr-grid.c12{grid-template-columns:1fr}
+.sp5,.sp7,.sp12{grid-column:auto}
+.sr-metrics{display:grid;grid-template-columns:1fr;gap:var(--s4)}
+.sr-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sr-table th,.sr-table td{padding:10px;white-space:nowrap}
+.sr-table td:last-child{white-space:normal;min-width:200px}
+section{padding:var(--s7) 0}
+
+@media (min-width:640px){
+  .sr-grid.c2,.sr-grid.c4{grid-template-columns:repeat(2,1fr)}
+  .sr-metrics{grid-template-columns:repeat(3,1fr)}
+  .sr-table{display:table;overflow:visible}
+  .sr-table th,.sr-table td{padding:11px 14px;white-space:normal}
+  .sr-wrap{padding:0 var(--s5)}
+  section{padding:clamp(72px,10vw,132px) 0}
+}
+@media (min-width:768px){
+  .sr-grid.c3{grid-template-columns:repeat(3,1fr)}
+  .sr-grid.c12{grid-template-columns:repeat(12,1fr)}
+  .sp5{grid-column:span 5}
+  .sp7{grid-column:span 7}
+  .sp12{grid-column:span 12}
+}
+@media (min-width:1024px){
+  .sr-grid.c4{grid-template-columns:repeat(4,1fr)}
+}
+
+</style><style>
+/* personal-wheel.css */
+/* ============================================================
+   Persönliches Rad, elanum
+   Setzt assets/base.css voraus. Keine eigenen Farben, nur Tokens.
+
+   Die Kreisgeometrie ist die Informationsarchitektur. Die
+   SoulResonance-Sprache liegt nur darüber: Spectrum als Kante am
+   Aussenbogen, Echo als zweiter Bogen daneben, Glow nur auf diesen beiden.
+   ============================================================ */
+
+.personal-wheel{ display:grid; gap:var(--s5); }
+
+.wheel-stage{ position:relative; display:grid; justify-items:center; padding-top:var(--s4); }
+.wheel-svg{
+  width:100%; max-width:320px; height:auto; display:block;
+  touch-action:none;          /* das Rad dreht, die Seite scrollt nicht mit */
+  cursor:grab;
+}
+.wheel-svg:active{ cursor:grabbing; }
+
+/* Die fixe Leseposition. Sie dreht nicht mit. */
+.wheel-reader__mark{
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:2px; height:14px; border-radius:99px;
+  background:var(--sr-spectrum);
+  box-shadow:0 0 6px rgba(148,102,223,.75), 0 0 14px rgba(216,91,169,.4);
+  pointer-events:none;
+}
+
+.wheel-rotor{
+  transform-box:view-box; transform-origin:160px 160px;
+  transition:transform 560ms var(--sr-power3-out);
+}
+.wheel-rotor.is-dragging{ transition:none; }
+
+/* --- Die Scheibe wird aus dem Papier gepresst --- */
+.wheel-segments{
+  filter:drop-shadow(0 1px 2px rgba(138,107,69,.14))
+         drop-shadow(0 12px 18px rgba(138,107,69,.16))
+         drop-shadow(0 30px 46px rgba(138,107,69,.14));
+}
+/* Lichtkante oben, warmer Schatten unten. Steht still, das Licht dreht nicht mit. */
+.rim-light{ fill:none; stroke:url(#rim-light); stroke-width:1.5; }
+.rim-shade{ fill:none; stroke:url(#rim-shade); stroke-width:2; }
+
+/* --- Äusserer Gruppenring, deutlich ruhiger als die Stücke --- */
+/* Papier ist das tiefere Material und muss dunkler sein als der Grund,
+   sonst verschwimmt der Ring zu einem Schleier. */
+.wheel-groups{ filter:url(#paper-grain); }
+.wheel-group{
+  fill:var(--sr-paper-light);
+  stroke:none;
+  transition:fill 240ms var(--sr-ease-out);
+}
+.wheel-group.is-active{ fill:var(--sr-paper); }
+
+/* Beschriftung des Gruppenrings, auf der Ringgeometrie, nie frei schwebend. */
+.group-label{
+  fill:var(--sr-paper-ink);
+  font:500 7.5px/1 var(--sr-sans);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  opacity:.62;
+  pointer-events:none;
+  dominant-baseline:middle;
+  transition:opacity 240ms var(--sr-ease-out);
+}
+.group-label.is-active{ opacity:1; }
+
+/* --- Die neun Kuchenstücke --- */
+.wheel-segment{ cursor:pointer; }
+.segment-face{
+  fill:var(--sr-surface);
+  stroke:rgba(22,54,59,.16);
+  stroke-width:1;
+  transition:fill 240ms var(--sr-ease-out), transform 240ms var(--sr-ease-out);
+}
+@media (hover:hover) and (pointer:fine){
+  .wheel-segment:hover .segment-face{
+    fill:var(--sr-surface-top);
+    transform:translate(var(--ox), var(--oy));   /* radiale Anhebung */
+  }
+}
+/* Aktiv: leichter Spectrum-Tint, die Farbe selbst sitzt auf der Kante. */
+.wheel-segment.is-active .segment-face{
+  fill:url(#wheel-tint);
+  stroke:rgba(103,86,217,.30);
+}
+.wheel-segment:focus{ outline:none; }
+.wheel-segment:focus-visible .segment-face{ stroke:var(--sr-violet); stroke-width:1.5; }
+
+/* --- Kurzbezeichnungen, bleiben immer aufrecht --- */
+.segment-label{
+  fill:var(--sr-secondary);
+  font:500 9px/1 var(--sr-sans);
+  letter-spacing:.02em;
+  pointer-events:none;
+  transform-box:fill-box; transform-origin:center;
+  transition:transform 560ms var(--sr-power3-out), fill 240ms var(--sr-ease-out);
+}
+.segment-label.is-dragging{ transition:fill 240ms var(--sr-ease-out); }
+.segment-label.is-active{ fill:var(--sr-ink); font-weight:600; }
+
+/* --- Spectrum und Echo, nur entlang der festen Kreisgeometrie --- */
+.segment-edge{
+  fill:none; stroke:url(#wheel-spectrum); stroke-width:2; stroke-linecap:round;
+  filter:var(--sr-glow-spectrum);
+}
+.segment-echo{
+  fill:none; stroke:var(--sr-violet); stroke-width:1; stroke-linecap:round;
+  opacity:.3; filter:var(--sr-glow-violet);
+}
+
+/* --- Zentrum, liegt über den Spitzen der Stücke --- */
+.wheel-center__disc{
+  fill:var(--sr-surface-top);
+  filter:drop-shadow(0 1px 2px rgba(138,107,69,.14))
+         drop-shadow(0 8px 14px rgba(138,107,69,.18))
+         drop-shadow(0 20px 30px rgba(138,107,69,.12));
+}
+.wheel-center__light{ fill:none; stroke:url(#rim-light); stroke-width:1.25; }
+.wheel-center__shade{ fill:none; stroke:url(#rim-shade); stroke-width:1.5; }
+.wheel-center__eyebrow{
+  fill:var(--sr-secondary); font:500 8px/1 var(--sr-sans);
+  letter-spacing:.2em; text-transform:uppercase;
+}
+.wheel-center__name{
+  fill:var(--sr-ink); font:300 16px/1 var(--sr-sans); letter-spacing:-.02em;
+}
+
+/* --- Leseposition in Text --- */
+.wheel-reader{ display:grid; gap:6px; justify-items:center; text-align:center; }
+.wheel-reader__label{
+  margin:0; font-size:clamp(24px,3vw,34px); font-weight:400;
+  letter-spacing:-.03em; line-height:1.15;
+}
+.wheel-reader__lead{ margin:0; font-size:15px; color:var(--sr-secondary); max-width:44ch; }
+
+/* --- Inhalt --- */
+.wheel-panels{ position:relative; max-width:62ch; }
+.wheel-panel{ margin:0; }
+.wheel-panel p{ margin:0; }
+.wheel-nav{ display:flex; gap:var(--s3); justify-content:center; }
+
+/* --- Ab 768px stehen Rad und Inhalt nebeneinander --- */
+@media (min-width:768px){
+  .personal-wheel{
+    grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+    gap:var(--s7); align-items:center;
+  }
+  .personal-wheel > .wheel-stage{ grid-row:span 3; }
+  .wheel-reader{ justify-items:start; text-align:left; }
+  .wheel-nav{ justify-content:flex-start; }
+  .wheel-svg{ max-width:360px; }
+}
+
+/* --- Guards --- */
+@media (prefers-reduced-motion:reduce){
+  .wheel-rotor, .segment-label, .segment-face, .wheel-group{ transition:none; }
+  .wheel-segment:hover .segment-face{ transform:none; }
+}
+
+</style>
+<main class="sr-wrap">
+  <section>
+    <span class="sr-eyebrow sr-fade">Persönliches Rad</span>
+    <div class="sr-sec-head sr-fade">
+      <h1>Ich</h1>
+      <p class="sr-muted">Neun Bereiche in drei Gruppen. Dreh das Rad, der Bereich oben wird gelesen.</p>
+    </div>
+
+    <div class="personal-wheel" data-wheel>
+
+      <!-- Rad. Die Leseposition und das Zentrum drehen nicht mit. -->
+      <div class="wheel-stage sr-fade">
+        <span class="wheel-reader__mark" aria-hidden="true"></span>
+
+        <svg class="wheel-svg" viewBox="0 0 320 320" role="group"
+             aria-labelledby="wheel-title wheel-desc">
+          <title id="wheel-title">Deine persönliche Übersicht</title>
+          <desc id="wheel-desc">Ein Kreis aus neun gleich grossen Segmenten, je drei davon zu einer Oberkategorie zusammengefasst. Das Segment an der Leseposition oben ist aktiv.</desc>
+
+          <defs>
+            <linearGradient id="wheel-spectrum" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stop-color="#6756D9"/>
+              <stop offset="26%"  stop-color="#4D7FE8"/>
+              <stop offset="52%"  stop-color="#9466DF"/>
+              <stop offset="78%"  stop-color="#D85BA9"/>
+              <stop offset="100%" stop-color="#F0719A"/>
+            </linearGradient>
+            <!-- Leichter Tint für das aktive Stück. Die Farbe selbst sitzt auf
+                 der Kante, die Fläche bleibt eine Andeutung. -->
+            <linearGradient id="wheel-tint" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#6756D9" stop-opacity=".10"/>
+              <stop offset="52%"  stop-color="#9466DF" stop-opacity=".13"/>
+              <stop offset="100%" stop-color="#F0719A" stop-opacity=".10"/>
+            </linearGradient>
+            <!-- Licht kommt von oben und dreht nicht mit. Lichtkante auf der
+                 oberen Rundung, warmer Schatten auf der unteren. -->
+            <linearGradient id="rim-light" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#FFFFFF" stop-opacity=".95"/>
+              <stop offset="46%" stop-color="#FFFFFF" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="rim-shade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="52%"  stop-color="#8A6B45" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#8A6B45" stop-opacity=".28"/>
+            </linearGradient>
+            <!-- Korn auf dem Papierring, prozedural, monochrom, rund 6 Prozent.
+                 Keine Rastertextur. -->
+            <filter id="paper-grain" x="-5%" y="-5%" width="110%" height="110%">
+              <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3"
+                            stitchTiles="stitch" result="noise"/>
+              <feColorMatrix in="noise" type="matrix" result="warm"
+                values="0 0 0 0 .42  0 0 0 0 .36  0 0 0 0 .27  0 0 0 .09 0"/>
+              <feComposite in="warm" in2="SourceGraphic" operator="in" result="clipped"/>
+              <feMerge>
+                <feMergeNode in="SourceGraphic"/>
+                <feMergeNode in="clipped"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <g class="wheel-rotor" data-rotor>
+            <g class="wheel-groups"></g>
+            <g class="wheel-group-labels"></g>
+            <g class="wheel-segments" role="tablist" aria-label="Persönliche Bereiche"></g>
+            <g class="wheel-labels"></g>
+            <path class="segment-edge"></path>
+            <path class="segment-echo"></path>
+          </g>
+
+          <!-- Relief. Dreht nicht mit, weil das Licht nicht mitdreht. -->
+          <g class="wheel-rim" aria-hidden="true">
+            <circle class="rim-light" cx="160" cy="160" r="110.5"/>
+            <circle class="rim-shade" cx="160" cy="160" r="110.5"/>
+          </g>
+
+          <!-- Das Zentrum dreht nicht mit und liegt über den Spitzen der Stücke,
+               damit die neun radialen Kanten nicht in einem Punkt zusammenlaufen. -->
+          <g class="wheel-center">
+            <circle class="wheel-center__disc" cx="160" cy="160" r="34"/>
+            <circle class="wheel-center__light" cx="160" cy="160" r="33.4"/>
+            <circle class="wheel-center__shade" cx="160" cy="160" r="33.4"/>
+            <text class="wheel-center__eyebrow" x="160" y="154" text-anchor="middle">Ich</text>
+            <text class="wheel-center__name" x="160" y="172" text-anchor="middle">Chris</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Feste Leseposition in Text. Was oben steht, steht hier. -->
+      <div class="wheel-reader sr-fade" aria-live="polite">
+        <span class="sr-badge wheel-reader__group">Ich &amp; Orientierung</span>
+        <p class="wheel-reader__label">Persönlichkeit</p>
+        <p class="wheel-reader__lead">Wie du wahrnimmst, entscheidest und handelst.</p>
+      </div>
+
+      <!-- Inhalt. Wechselt mit der Leseposition. -->
+      <div class="wheel-panels sr-fade">
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-astrology"
+             aria-labelledby="tab-astrology" data-panel="astrology"
+             data-lead="Die Konstellation zum Zeitpunkt deiner Geburt." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Sonne, Mond und Aszendent bilden einen Grundton, in dem sich viele Menschen wiedererkennen. Es ist eine Sprache für Muster, keine Vorhersage.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-numerology"
+             aria-labelledby="tab-numerology" data-panel="numerology"
+             data-lead="Zahlen als Muster deines Namens und Datums." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Aus Geburtsdatum und Namen entsteht ein wiederkehrendes Muster. Es zeigt Themen, die sich durch dein Leben ziehen, und Stellen, an denen du sie immer wieder triffst.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-human-design"
+             aria-labelledby="tab-human-design" data-panel="human-design"
+             data-lead="Wie du Energie aufnimmst und entscheidest." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Typ, Autorität und offene Zentren beschreiben, woher deine Energie kommt und woran du merkst, dass eine Entscheidung stimmig ist.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-direction"
+             aria-labelledby="tab-direction" data-panel="direction"
+             data-lead="Wohin du dich gerade bewegst." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Was dich zieht, woran du festhältst und was du gerade hinter dir lässt. Die Richtung darf sich ändern, sie ist kein Ergebnis.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-personality"
+             aria-labelledby="tab-personality" data-panel="personality"
+             data-lead="Wie du wahrnimmst, entscheidest und handelst.">
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Deine Art zu denken, zu fühlen und zu reagieren. Im Alltag, und noch deutlicher unter Druck.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-values"
+             aria-labelledby="tab-values" data-panel="values"
+             data-lead="Woran du misst, was zählt." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Die wenigen Dinge, für die du Unbequemes in Kauf nimmst. Werte zeigen sich weniger im Reden als in dem, was du wirklich wählst.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-attachment"
+             aria-labelledby="tab-attachment" data-panel="attachment"
+             data-lead="Wie du Nähe und Abstand regelst." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Was in dir passiert, wenn jemand näher kommt, und was, wenn jemand geht. Bindung ist ein Muster, kein Urteil.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-closeness"
+             aria-labelledby="tab-closeness" data-panel="closeness"
+             data-lead="Wie du Zuneigung zeigst und annimmst." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Worin du Zuwendung ausdrückst und woran du sie erkennst. Zwei Menschen meinen oft dasselbe und zeigen es völlig verschieden.</p>
+        </div>
+
+        <div class="sr-card wheel-panel" role="tabpanel" id="panel-conflict"
+             aria-labelledby="tab-conflict" data-panel="conflict"
+             data-lead="Was du im Streit tust." hidden>
+          <span class="sr-edge e-bottom"><i></i></span>
+          <p>Ob du zugehst, ausweichst oder zumachst. Und was dich danach wieder erreichbar macht.</p>
+        </div>
+
+      </div>
+
+      <div class="wheel-nav sr-fade">
+        <button class="sr-btn sr-btn--ghost" type="button" data-nav="prev">Zurück</button>
+        <button class="sr-btn sr-btn--ghost" type="button" data-nav="next">Weiter</button>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script>
+/* personal-wheel.js */
+/* ============================================================
+   Persönliches Rad, elanum
+
+   VERBINDLICHE GEOMETRIE, nicht verhandelbar:
+   Die äussere Silhouette ist jederzeit ein mathematisch perfekter Kreis.
+   Neun gleich grosse radiale Kuchenstücke à exakt 40 Grad. Je drei
+   aufeinanderfolgende Stücke werden durch einen konzentrischen äusseren
+   Ringabschnitt à 120 Grad zu einer Oberkategorie zusammengefasst.
+   Alle Kreisbögen teilen denselben Mittelpunkt.
+
+   Keine Bézier-Verformung. Keine variierenden Radien. Keine asymmetrische
+   Aussenkontur. Alle Pfade werden aus Polarkoordinaten berechnet, keiner
+   wird von Hand gezeichnet.
+
+   Trace, Echo und Spectrum sind ausschliesslich sekundäre visuelle Effekte
+   entlang dieser festen Kreisgeometrie. Kreis und Segmente sind die
+   Informationsarchitektur, SoulResonance ist die Sprache darüber.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var CFG = {
+    cx: 160, cy: 160,
+    centerRadius: 34,        // Zentrum, liegt über den Spitzen der Kuchenstücke
+    segmentRadius: 112,      // Aussenradius aller neun Stücke, für alle gleich
+    groupInnerRadius: 121,   // bewusster Gap von 9 Einheiten zum Segmentkreis
+    groupOuterRadius: 145,
+    labelRadius: 74,         // Kurzbezeichnung in der Mitte des Stücks
+    segmentDeg: 40,          // 360 / 9, exakt
+    groupGapDeg: 4,          // Trennung zwischen den drei Ringabschnitten
+    edgeInsetDeg: 1.5,       // Spektralkante etwas kürzer als das Stück
+    echoOffset: 5,           // Echo, fünf Einheiten ausserhalb der Kante, im Gap zum Ring
+    hoverShift: 3,           // radiale Anhebung beim Hover
+    duration: 560            // Rotation, ruhiges Ausklingen ohne Nachschwingen
+  };
+
+  /* Im Uhrzeigersinn, beginnend an der Leseposition oben.
+     short bleibt kurz genug, um im Stück lesbar zu sein. */
+  var ITEMS = [
+    { id: 'astrology',    group: 'grundtoene',  label: 'Astrologie',       short: 'Astro' },
+    { id: 'numerology',   group: 'grundtoene',  label: 'Numerologie',      short: 'Num.' },
+    { id: 'human-design', group: 'grundtoene',  label: 'Human Design',     short: 'HD' },
+    { id: 'direction',    group: 'orientation', label: 'Lebensrichtung',   short: 'Weg' },
+    { id: 'personality',  group: 'orientation', label: 'Persönlichkeit',   short: 'Person' },
+    { id: 'values',       group: 'orientation', label: 'Werte',            short: 'Werte' },
+    { id: 'attachment',   group: 'connection',  label: 'Bindungsstil',     short: 'Bindung' },
+    { id: 'closeness',    group: 'connection',  label: 'Nähe & Zuneigung', short: 'Nähe' },
+    { id: 'conflict',     group: 'connection',  label: 'Konfliktstil',     short: 'Konflikt' }
+  ];
+
+  var GROUPS = [
+    { id: 'grundtoene',  label: 'Grundtöne' },
+    { id: 'orientation', label: 'Ich & Orientierung' },
+    { id: 'connection',  label: 'Beziehung & Verbindung' }
+  ];
+
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var TAU = Math.PI / 180;
+
+  function r2(n) { return Math.round(n * 100) / 100; }
+  /* Polarkoordinate. Winkel 0 ist oben, positiv im Uhrzeigersinn. */
+  function pt(r, a) {
+    return [r2(CFG.cx + r * Math.sin(a * TAU)), r2(CFG.cy - r * Math.cos(a * TAU))];
+  }
+
+  /* Mittelwinkel des Stücks i. Stück 1 sitzt bei 0 Grad, also an der Leseposition. */
+  function segmentAngle(i) { return i * CFG.segmentDeg; }
+
+  /* Kuchenstück: von der Mitte zum Aussenradius, ein Kreisbogen dazwischen. */
+  function sectorPath(a0, a1, ro) {
+    var o0 = pt(ro, a0), o1 = pt(ro, a1);
+    var large = (a1 - a0) > 180 ? 1 : 0;
+    return 'M' + CFG.cx + ' ' + CFG.cy +
+           ' L' + o0[0] + ' ' + o0[1] +
+           ' A' + ro + ' ' + ro + ' 0 ' + large + ' 1 ' + o1[0] + ' ' + o1[1] + ' Z';
+  }
+
+  /* Ringabschnitt: zwei konzentrische Bögen, radial geschlossen. */
+  function ringPath(a0, a1, ri, ro) {
+    var o0 = pt(ro, a0), o1 = pt(ro, a1), i1 = pt(ri, a1), i0 = pt(ri, a0);
+    var large = (a1 - a0) > 180 ? 1 : 0;
+    return 'M' + o0[0] + ' ' + o0[1] +
+           ' A' + ro + ' ' + ro + ' 0 ' + large + ' 1 ' + o1[0] + ' ' + o1[1] +
+           ' L' + i1[0] + ' ' + i1[1] +
+           ' A' + ri + ' ' + ri + ' 0 ' + large + ' 0 ' + i0[0] + ' ' + i0[1] + ' Z';
+  }
+
+  /* Reiner Kreisbogen, für Spektralkante und Echo. */
+  function arcPath(r, a0, a1) {
+    var p0 = pt(r, a0), p1 = pt(r, a1);
+    var large = (a1 - a0) > 180 ? 1 : 0;
+    return 'M' + p0[0] + ' ' + p0[1] +
+           ' A' + r + ' ' + r + ' 0 ' + large + ' 1 ' + p1[0] + ' ' + p1[1];
+  }
+
+  /* Derselbe Bogen rückwärts. Text darauf liest von aussen betrachtet
+     richtig herum, wenn der Abschnitt in der unteren Hälfte steht. */
+  function arcPathRev(r, a1, a0) {
+    var p1 = pt(r, a1), p0 = pt(r, a0);
+    var large = (a1 - a0) > 180 ? 1 : 0;
+    return 'M' + p1[0] + ' ' + p1[1] +
+           ' A' + r + ' ' + r + ' 0 ' + large + ' 0 ' + p0[0] + ' ' + p0[1];
+  }
+
+  function el(name, attrs) {
+    var n = document.createElementNS(SVGNS, name), k;
+    for (k in attrs) if (attrs[k] !== null && attrs[k] !== undefined) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+
+  function build(root) {
+    var svg = root.querySelector('.wheel-svg');
+    var rotor = root.querySelector('[data-rotor]');
+    var groupLayer = root.querySelector('.wheel-groups');
+    var groupLabelLayer = root.querySelector('.wheel-group-labels');
+    var groupTracks = [];
+    var segLayer = root.querySelector('.wheel-segments');
+    var labelLayer = root.querySelector('.wheel-labels');
+    var edge = root.querySelector('.segment-edge');
+    var echo = root.querySelector('.segment-echo');
+    var readerLabel = root.querySelector('.wheel-reader__label');
+    var readerLead = root.querySelector('.wheel-reader__lead');
+    var readerGroup = root.querySelector('.wheel-reader__group');
+    var panels = root.querySelectorAll('[data-panel]');
+    var prevBtn = root.querySelector('[data-nav="prev"]');
+    var nextBtn = root.querySelector('[data-nav="next"]');
+    if (!svg || !rotor) return;
+
+    var half = CFG.segmentDeg / 2;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    /* Äusserer Ring: drei Abschnitte à 120 Grad, geometrisch an je drei
+       innere Stücke gekoppelt, nicht frei gestaltet. */
+    var defs = svg.querySelector('defs');
+    var rMid = (CFG.groupInnerRadius + CFG.groupOuterRadius) / 2;
+
+    GROUPS.forEach(function (g, gi) {
+      var a0 = segmentAngle(gi * 3) - half + CFG.groupGapDeg / 2;
+      var a1 = segmentAngle(gi * 3 + 2) + half - CFG.groupGapDeg / 2;
+      var band = el('path', {
+        class: 'wheel-group', 'data-group': g.id,
+        d: ringPath(a0, a1, CFG.groupInnerRadius, CFG.groupOuterRadius)
+      });
+      band.appendChild(el('title', {})).textContent = g.label;
+      groupLayer.appendChild(band);
+
+      /* Zwei Textbahnen auf demselben Ring. Welche gilt, entscheidet die
+         aktuelle Lage des Abschnitts, damit die Beschriftung nie auf dem
+         Kopf steht. Sie sitzt auf der Ringgeometrie, sie schwebt nicht. */
+      defs.appendChild(el('path', {
+        id: 'track-' + g.id, fill: 'none',
+        d: arcPath(rMid, a0 + 3, a1 - 3)
+      }));
+      defs.appendChild(el('path', {
+        id: 'track-' + g.id + '-flip', fill: 'none',
+        d: arcPathRev(rMid, a1 - 3, a0 + 3)
+      }));
+
+      var text = el('text', { class: 'group-label', 'data-group': g.id, 'aria-hidden': 'true' });
+      var tp = el('textPath', {
+        href: '#track-' + g.id, startOffset: '50%', 'text-anchor': 'middle'
+      });
+      tp.textContent = g.label;
+      text.appendChild(tp);
+      groupLabelLayer.appendChild(text);
+      groupTracks.push({ id: g.id, center: segmentAngle(gi * 3 + 1), path: tp });
+    });
+
+    /* Neun Kuchenstücke. Alle mit demselben Aussenradius. */
+    var segs = ITEMS.map(function (item, i) {
+      var a = segmentAngle(i);
+      var g = el('g', {
+        class: 'wheel-segment', role: 'tab', tabindex: '-1',
+        'aria-selected': 'false', 'aria-label': item.label,
+        'aria-controls': 'panel-' + item.id, id: 'tab-' + item.id, 'data-index': i
+      });
+      var face = el('path', {
+        class: 'segment-face', 'data-id': item.id,
+        d: sectorPath(a - half, a + half, CFG.segmentRadius)
+      });
+      /* Radiale Anhebung beim Hover, in Richtung des eigenen Mittelwinkels. */
+      face.style.setProperty('--ox', r2(CFG.hoverShift * Math.sin(a * TAU)) + 'px');
+      face.style.setProperty('--oy', r2(-CFG.hoverShift * Math.cos(a * TAU)) + 'px');
+      g.appendChild(el('title', {})).textContent = item.label;
+      g.appendChild(face);
+      segLayer.appendChild(g);
+
+      var p = pt(CFG.labelRadius, a);
+      var text = el('text', {
+        class: 'segment-label', x: p[0], y: p[1],
+        'text-anchor': 'middle', 'dominant-baseline': 'middle',
+        'aria-hidden': 'true', 'data-index': i
+      });
+      text.textContent = item.short;
+      labelLayer.appendChild(text);
+      return { g: g, face: face, label: text, angle: a };
+    });
+
+    var index = -1;
+    var rotation = 0;
+
+    function applyRotation(animate) {
+      rotor.classList.toggle('is-dragging', !animate);
+      rotor.style.transform = 'rotate(' + rotation + 'deg)';
+      /* Die Kurzbezeichnungen drehen gegen, damit sie immer aufrecht stehen. */
+      segs.forEach(function (s) {
+        s.label.classList.toggle('is-dragging', !animate);
+        s.label.style.transform = 'rotate(' + (-rotation) + 'deg)';
+      });
+      /* Die Ringbeschriftung wechselt auf die rückwärts laufende Bahn,
+         sobald ihr Abschnitt in die untere Hälfte wandert. */
+      groupTracks.forEach(function (t) {
+        var onScreen = ((t.center + rotation) % 360 + 360) % 360;
+        var flip = onScreen > 90 && onScreen < 270;
+        t.path.setAttribute('href', '#track-' + t.id + (flip ? '-flip' : ''));
+      });
+    }
+
+    function targetFor(i) {
+      var desired = -segmentAngle(i);
+      return desired + Math.round((rotation - desired) / 360) * 360;
+    }
+
+    function select(i, animate) {
+      i = ((i % ITEMS.length) + ITEMS.length) % ITEMS.length;
+      var item = ITEMS[i];
+      if (i !== index) {
+        index = i;
+        var a = segmentAngle(i), inset = CFG.edgeInsetDeg;
+        /* Spectrum nur als Kante am Aussenbogen, nie als Fläche. */
+        edge.setAttribute('d', arcPath(CFG.segmentRadius, a - half + inset, a + half - inset));
+        /* Echo, dieselbe Bewegung, vier Einheiten weiter aussen. */
+        echo.setAttribute('d', arcPath(CFG.segmentRadius + CFG.echoOffset,
+                                       a - half + inset * 2, a + half - inset * 2));
+        segs.forEach(function (s, k) {
+          s.g.setAttribute('aria-selected', k === i ? 'true' : 'false');
+          s.g.setAttribute('tabindex', k === i ? '0' : '-1');
+          s.g.classList.toggle('is-active', k === i);
+          s.label.classList.toggle('is-active', k === i);
+        });
+        /* Der äussere Ring ist an die Stücke gekoppelt, also schaltet er mit. */
+        Array.prototype.forEach.call(groupLayer.children, function (g) {
+          g.classList.toggle('is-active', g.getAttribute('data-group') === item.group);
+        });
+        Array.prototype.forEach.call(groupLabelLayer.children, function (g) {
+          g.classList.toggle('is-active', g.getAttribute('data-group') === item.group);
+        });
+        readerGroup.textContent = (GROUPS.filter(function (g) {
+          return g.id === item.group;
+        })[0] || {}).label || '';
+        readerLabel.textContent = item.label;
+        Array.prototype.forEach.call(panels, function (p) {
+          var on = p.getAttribute('data-panel') === item.id;
+          p.hidden = !on;
+          if (on) readerLead.textContent = p.getAttribute('data-lead') || '';
+        });
+      }
+      rotation = targetFor(i);
+      applyRotation(animate === false || reduced.matches ? false : true);
+    }
+
+    /* Drag: das Rad folgt dem Finger, beim Loslassen rastet es ein. */
+    var drag = null;
+    function pointerAngle(e) {
+      var r = svg.getBoundingClientRect();
+      return Math.atan2(e.clientX - (r.left + r.width / 2),
+                        -(e.clientY - (r.top + r.height / 2))) / TAU;
+    }
+
+    svg.addEventListener('pointerdown', function (e) {
+      if (e.button !== undefined && e.button !== 0) return;
+      var a = pointerAngle(e);
+      drag = {
+        last: a, lastTime: e.timeStamp, velocity: 0, moved: 0,
+        target: e.target.closest ? e.target.closest('.wheel-segment') : null
+      };
+      svg.setPointerCapture(e.pointerId);
+    });
+
+    svg.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var a = pointerAngle(e), delta = a - drag.last;
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      drag.velocity = delta / Math.max(1, e.timeStamp - drag.lastTime);
+      drag.last = a;
+      drag.lastTime = e.timeStamp;
+      drag.moved += Math.abs(delta);
+      if (drag.moved > 2) { rotation += delta; applyRotation(false); }
+    });
+
+    function endDrag(e) {
+      if (!drag) return;
+      var d = drag;
+      drag = null;
+      if (svg.hasPointerCapture && svg.hasPointerCapture(e.pointerId)) {
+        svg.releasePointerCapture(e.pointerId);
+      }
+      if (d.moved <= 2) {
+        if (d.target) select(Number(d.target.getAttribute('data-index')));
+        else applyRotation(true);
+        return;
+      }
+      /* Ein kurzer Impuls trägt höchstens zwei Stücke weit. */
+      var impulse = Math.abs(d.velocity) > 0.35
+        ? Math.sign(d.velocity) * Math.min(2, Math.round(Math.abs(d.velocity) * 3)) : 0;
+      var aim = rotation + impulse * CFG.segmentDeg;
+      var best = 0, bestDiff = Infinity;
+      ITEMS.forEach(function (_, i) {
+        var want = -segmentAngle(i);
+        var t = want + Math.round((aim - want) / 360) * 360;
+        var diff = Math.abs(t - aim);
+        if (diff < bestDiff) { bestDiff = diff; best = i; }
+      });
+      select(best);
+    }
+    svg.addEventListener('pointerup', endDrag);
+    svg.addEventListener('pointercancel', endDrag);
+
+    segLayer.addEventListener('keydown', function (e) {
+      var k = e.key, next = null;
+      if (k === 'ArrowRight' || k === 'ArrowDown') next = index + 1;
+      else if (k === 'ArrowLeft' || k === 'ArrowUp') next = index - 1;
+      else if (k === 'Home') next = 0;
+      else if (k === 'End') next = ITEMS.length - 1;
+      else if (k === 'Enter' || k === ' ') {
+        var t = e.target.closest && e.target.closest('.wheel-segment');
+        if (t) next = Number(t.getAttribute('data-index'));
+      }
+      if (next === null) return;
+      e.preventDefault();
+      select(next);
+      segs[index].g.focus();
+    });
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { select(index - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { select(index + 1); });
+
+    select(0, false);
+    root.classList.add('is-ready');
+  }
+
+  function init() {
+    Array.prototype.forEach.call(document.querySelectorAll('.personal-wheel'), build);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+</script>
+<script>
+/* ../../assets/reveal.js */
+/* ============================================================
+   Reveal, elanum
+   IntersectionObserver, nie ein Scroll-Listener. Jeder Reveal genau einmal.
+   Triggerpunkte aus references/motion.md:
+     kleines Element   top 92%   ->  rootMargin -8%
+     normaler Block    top 88%   ->  rootMargin -12%
+     ganze Section     top 85%   ->  rootMargin -15%
+
+   Warum die Erreichbarkeitsprüfung nötig ist:
+   Ein Element in den untersten Prozenten einer kurzen Seite erreicht die
+   verschobene Triggerlinie nie, weil die Seite nicht weit genug scrollt.
+   Ohne diese Prüfung bleibt es dauerhaft unsichtbar. Solche Elemente werden
+   deshalb ohne Rand beobachtet und zeigen sich, sobald sie ins Bild kommen.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var GROUPS = [
+    { sel: '[data-reveal="sm"]', margin: 8 },
+    { sel: '[data-reveal="lg"], section', margin: 15 },
+    { sel: '[data-reveal], .sr-demo, .sr-fade, .sr-rule-line', margin: 12 }
+  ];
+  var ALL = '[data-reveal], .sr-demo, .sr-fade, .sr-rule-line, section';
+
+  function reveal(el) { el.classList.add('is-in'); }
+
+  function run() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll(ALL).forEach(reveal);
+      return;
+    }
+
+    var vh = window.innerHeight;
+    var maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
+
+    /* Kann dieses Element die um marginPct verschobene Linie überhaupt erreichen,
+       wenn die Seite ganz nach unten gescrollt ist? */
+    function reachable(el, marginPct) {
+      var absTop = el.getBoundingClientRect().top + window.scrollY;
+      return (absTop - maxScroll) < vh * (1 - marginPct / 100);
+    }
+
+    var observers = {};
+    function observerFor(marginPct) {
+      if (!observers[marginPct]) {
+        observers[marginPct] = new IntersectionObserver(function (entries, io) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { reveal(e.target); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.01, rootMargin: '0px 0px -' + marginPct + '% 0px' });
+      }
+      return observers[marginPct];
+    }
+
+    var claimed = new WeakSet();
+    GROUPS.forEach(function (g) {
+      document.querySelectorAll(g.sel).forEach(function (el) {
+        if (claimed.has(el)) return;
+        claimed.add(el);
+        observerFor(reachable(el, g.margin) ? g.margin : 0).observe(el);
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();
+
+</script>

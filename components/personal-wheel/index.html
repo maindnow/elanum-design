@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ich, dein persönliches Rad</title>
+<title>Persönliches Rad</title>
 <meta name="description" content="Das persönliche Rad im Bereich Ich: neun Bereiche in drei Gruppen, als Kreis aus neun gleich grossen Segmenten.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +15,7 @@
 
 <main class="sr-wrap">
   <section>
+    <span class="sr-eyebrow sr-fade">Persönliches Rad</span>
     <div class="sr-sec-head sr-fade">
       <h1>Ich</h1>
       <p class="sr-muted">Neun Bereiche in drei Gruppen. Dreh das Rad, der Bereich oben wird gelesen.</p>
@@ -46,20 +47,52 @@
               <stop offset="52%"  stop-color="#9466DF" stop-opacity=".13"/>
               <stop offset="100%" stop-color="#F0719A" stop-opacity=".10"/>
             </linearGradient>
+            <!-- Licht kommt von oben und dreht nicht mit. Lichtkante auf der
+                 oberen Rundung, warmer Schatten auf der unteren. -->
+            <linearGradient id="rim-light" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#FFFFFF" stop-opacity=".95"/>
+              <stop offset="46%" stop-color="#FFFFFF" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="rim-shade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="52%"  stop-color="#8A6B45" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#8A6B45" stop-opacity=".28"/>
+            </linearGradient>
+            <!-- Korn auf dem Papierring, prozedural, monochrom, rund 6 Prozent.
+                 Keine Rastertextur. -->
+            <filter id="paper-grain" x="-5%" y="-5%" width="110%" height="110%">
+              <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3"
+                            stitchTiles="stitch" result="noise"/>
+              <feColorMatrix in="noise" type="matrix" result="warm"
+                values="0 0 0 0 .42  0 0 0 0 .36  0 0 0 0 .27  0 0 0 .09 0"/>
+              <feComposite in="warm" in2="SourceGraphic" operator="in" result="clipped"/>
+              <feMerge>
+                <feMergeNode in="SourceGraphic"/>
+                <feMergeNode in="clipped"/>
+              </feMerge>
+            </filter>
           </defs>
 
           <g class="wheel-rotor" data-rotor>
             <g class="wheel-groups"></g>
+            <g class="wheel-group-labels"></g>
             <g class="wheel-segments" role="tablist" aria-label="Persönliche Bereiche"></g>
+            <g class="wheel-labels"></g>
             <path class="segment-edge"></path>
             <path class="segment-echo"></path>
-            <g class="wheel-labels"></g>
+          </g>
+
+          <!-- Relief. Dreht nicht mit, weil das Licht nicht mitdreht. -->
+          <g class="wheel-rim" aria-hidden="true">
+            <circle class="rim-light" cx="160" cy="160" r="110.5"/>
+            <circle class="rim-shade" cx="160" cy="160" r="110.5"/>
           </g>
 
           <!-- Das Zentrum dreht nicht mit und liegt über den Spitzen der Stücke,
                damit die neun radialen Kanten nicht in einem Punkt zusammenlaufen. -->
           <g class="wheel-center">
             <circle class="wheel-center__disc" cx="160" cy="160" r="34"/>
+            <circle class="wheel-center__light" cx="160" cy="160" r="33.4"/>
+            <circle class="wheel-center__shade" cx="160" cy="160" r="33.4"/>
             <text class="wheel-center__eyebrow" x="160" y="154" text-anchor="middle">Ich</text>
             <text class="wheel-center__name" x="160" y="172" text-anchor="middle">Chris</text>
           </g>

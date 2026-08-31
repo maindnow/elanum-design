@@ -33,6 +33,22 @@ Inhalt und Geometrie sind getrennt: `ITEMS` in `personal-wheel.js` bestimmt, was
 Segmenten steht, `CFG` bestimmt die Geometrie. Wer ein Element umbenennt, fasst das SVG
 nicht an.
 
+### Anschauen
+
+`components/personal-wheel/standalone.html` im Browser öffnen. Die Datei enthält alles
+inline und braucht weder Server noch Nachbardateien.
+
+Sie ist erzeugt, nicht von Hand gepflegt. Nach jeder Änderung an `index.html`,
+`personal-wheel.css` oder `personal-wheel.js`:
+
+```bash
+python components/personal-wheel/build-standalone.py
+```
+
+Das Script setzt alle lokalen Stylesheets und Skripte inline und schreibt zwei Dateien:
+`standalone.html` als vollständiges Dokument und `artifact.html` als reinen Seiteninhalt
+für die Veröffentlichung. Es bricht ab, wenn ein lokaler Verweis übrig bleibt.
+
 ## Den Skill nutzen
 
 Der Skill liegt als Projekt-Skill in `.claude/skills/` und wird von Claude Code in
