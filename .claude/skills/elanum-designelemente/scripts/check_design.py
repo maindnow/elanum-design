@@ -15,6 +15,7 @@ Exit-Codes:
 
 import re
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
 
 EXTS = {".html", ".htm", ".css", ".jsx", ".tsx", ".vue", ".svelte"}
@@ -45,6 +46,62 @@ RULES = [
 
 SURFACE_CLASSES = ("sr-card", "sr-demo", "sr-paper", "sr-metric", "sr-badge",
                    "sr-btn", "sr-eyebrow", "sr-swatch")
+
+
+
+VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input",
+        "link", "meta", "param", "source", "track", "wbr"}
+
+
+class EdgeCounter(HTMLParser):
+    """Zaehlt sr-edge je Flaeche, entlang des echten Elementbaums."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.stack = []        # offene Elemente: [tag, ist_flaeche, kanten, zeile]
+        self.problems = []
+
+    def handle_starttag(self, tag, attrs):
+        cls = dict(attrs).get("class", "") or ""
+        names = cls.split()
+        if "sr-edge" in names:
+            for frame in reversed(self.stack):
+                if frame[1]:
+                    frame[2] += 1
+                    break
+        if tag not in VOID:
+            surface = any(c in SURFACE_CLASSES for c in names)
+            self.stack.append([tag, surface, 0, self.getpos()[0]])
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag not in VOID:
+            self.handle_endtag(tag)
+
+    def handle_endtag(self, tag):
+        for i in range(len(self.stack) - 1, -1, -1):
+            if self.stack[i][0] == tag:
+                for frame in self.stack[i:]:
+                    if frame[1] and frame[2] > 1:
+                        self.problems.append((frame[3], frame[2]))
+                del self.stack[i:]
+                return
+
+
+def edge_findings(html):
+    parser = EdgeCounter()
+    try:
+        parser.feed(html)
+        parser.close()
+    except Exception:
+        return []
+    for frame in parser.stack:            # nicht geschlossene Elemente
+        if frame[1] and frame[2] > 1:
+            parser.problems.append((frame[3], frame[2]))
+    return [("warn", line,
+             "Mehr als eine Spektralkante auf einer Flaeche.",
+             f"{n} Kanten")
+            for line, n in sorted(set(parser.problems))]
 
 
 def strip_comments(text, is_css):
@@ -128,17 +185,12 @@ def check_file(path):
                              "Glow in der Naehe einer Statusfarbe. Status leuchtet nie.",
                              m.group(0)[:70]))
 
-    # Zwei Spektralkanten auf einer Flaeche
+    # Zwei Spektralkanten auf einer Flaeche.
+    # Der Baum wird wirklich durchlaufen, nicht per Textfenster geschaetzt:
+    # ein Grid mit zwei Karten haette sonst faelschlich zwei Kanten "in einer
+    # Flaeche", obwohl jede Karte genau eine traegt.
     if not is_css:
-        for m in re.finditer(r"<(div|section|article|li|a|button)\b[^>]*>", raw):
-            start = m.end()
-            depth_slice = raw[start:start + 4000]
-            edges = re.findall(r'class="[^"]*\bsr-edge\b[^"]*"', depth_slice.split("</div>")[0])
-            if len(edges) > 1:
-                line = raw[:m.start()].count("\n") + 1
-                findings.append(("warn", line,
-                                 "Mehr als eine Spektralkante in einer Flaeche.",
-                                 f"{len(edges)} Kanten"))
+        findings += edge_findings(raw)
 
     # svg{overflow:visible} muss gesetzt sein, wenn SVG vorkommt
     if "<svg" in raw or is_css:

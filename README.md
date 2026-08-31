@@ -7,6 +7,7 @@ programmierbare SVG-Geometrie, Farbe, die sich wie Licht verhält.
 
 | Pfad | Was es ist |
 |---|---|
+| `index.html` | Einstiegsseite, verlinkt Rad und Styleguide. |
 | `docs/soulresonance-styleguide.html` | Die lebende Referenz. Im Browser öffnen. |
 | `docs/soulresonance-design-prompt.md` | Die Designanweisung im Volltext. |
 | `.claude/skills/elanum-designelemente/` | Der Skill für die tägliche Arbeit. |
@@ -82,6 +83,24 @@ python components/personal-wheel/build-standalone.py
 Das Script setzt alle lokalen Stylesheets und Skripte inline und schreibt zwei Dateien:
 `standalone.html` als vollständiges Dokument und `artifact.html` als reinen Seiteninhalt
 für die Veröffentlichung. Es bricht ab, wenn ein lokaler Verweis übrig bleibt.
+
+## GitHub Pages
+
+Die Einstiegsseite liegt in der Wurzel, das Repository lässt sich also direkt als
+statische Seite ausliefern. Pages ist noch nicht aktiviert. Einschalten unter
+Settings, Pages, Source auf "Deploy from a branch", Branch `main` und Ordner `/ (root)`.
+
+Danach:
+
+| Seite | URL |
+|---|---|
+| Einstieg | `https://maindnow.github.io/elanum-design/` |
+| Persönliches Rad | `https://maindnow.github.io/elanum-design/components/personal-wheel/standalone.html` |
+| SoulResonance Styleguide | `https://maindnow.github.io/elanum-design/docs/soulresonance-styleguide.html` |
+
+Solange `main` nur das Fundament trägt, liefert Pages von dort noch kein Rad. Entweder
+zuerst den offenen Pull Request mergen, oder Pages übergangsweise vom Feature-Branch
+ausliefern.
 
 ## Den Skill nutzen
 
