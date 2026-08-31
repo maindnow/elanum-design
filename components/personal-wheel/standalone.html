@@ -540,14 +540,8 @@ section{padding:var(--s7) 0}
 }
 .wheel-svg:active{ cursor:grabbing; }
 
-/* Die fixe Leseposition. Sie dreht nicht mit. */
-.wheel-reader__mark{
-  position:absolute; top:0; left:50%; transform:translateX(-50%);
-  width:2px; height:14px; border-radius:99px;
-  background:var(--sr-spectrum);
-  box-shadow:0 0 6px rgba(148,102,223,.75), 0 0 14px rgba(216,91,169,.4);
-  pointer-events:none;
-}
+/* Die Leseposition braucht keine Markierung über dem Rad. Das aktive Stück
+   steht oben, trägt den Tint und die Spektralkante, und der Name steht darunter. */
 
 .wheel-rotor{
   transform-box:view-box; transform-origin:160px 160px;
@@ -569,20 +563,23 @@ section{padding:var(--s7) 0}
 /* Papier ist das tiefere Material und muss dunkler sein als der Grund,
    sonst verschwimmt der Ring zu einem Schleier. */
 .wheel-groups{ filter:url(#paper-grain); }
+/* Jede Kategorie trägt ihre eigene Resonanzfarbe, als Tönung auf dem warmen
+   Grund, nie als satte Fläche. */
 .wheel-group{
-  fill:var(--sr-paper-light);
+  fill:var(--cat);
+  fill-opacity:.16;
   stroke:none;
-  transition:fill 240ms var(--sr-ease-out);
+  transition:fill-opacity 240ms var(--sr-ease-out);
 }
-.wheel-group.is-active{ fill:var(--sr-paper); }
+.wheel-group.is-active{ fill-opacity:.30; }
 
 /* Beschriftung des Gruppenrings, auf der Ringgeometrie, nie frei schwebend. */
 .group-label{
-  fill:var(--sr-paper-ink);
+  fill:var(--cat);
   font:500 7.5px/1 var(--sr-sans);
   letter-spacing:.16em;
   text-transform:uppercase;
-  opacity:.62;
+  opacity:.72;
   pointer-events:none;
   dominant-baseline:middle;
   transition:opacity 240ms var(--sr-ease-out);
@@ -591,22 +588,43 @@ section{padding:var(--s7) 0}
 
 /* --- Die neun Kuchenstücke --- */
 .wheel-segment{ cursor:pointer; }
+/* Die helle Grundfläche der Scheibe. Ohne sie liegt die Tönung direkt auf dem
+   Papiergrund und die Scheibe wirkt nicht mehr gehoben. */
+.wheel-plate{ fill:var(--sr-surface); }
+
+/* Die Farbe sagt, zu welcher Kategorie ein Stück gehört. Die Stärke der
+   Tönung und der Punkt sagen, ob es schon ausgefüllt ist. */
 .segment-face{
-  fill:var(--sr-surface);
+  fill:var(--cat);
+  fill-opacity:.07;
   stroke:rgba(22,54,59,.16);
   stroke-width:1;
-  transition:fill 240ms var(--sr-ease-out), transform 240ms var(--sr-ease-out);
+  transition:fill-opacity 240ms var(--sr-ease-out), transform 240ms var(--sr-ease-out);
+}
+.wheel-segment.is-done .segment-face{ fill-opacity:.16; }
+
+/* Voller Punkt: ausgefüllt. Offener Kreis: noch offen, die Gap-Sprache. */
+.segment-marker{
+  fill:none;
+  stroke:var(--sr-line);
+  stroke-width:1.2;
+  transition:fill 240ms var(--sr-ease-out);
+}
+.wheel-segment.is-done .segment-marker{
+  fill:var(--cat);
+  stroke:none;
 }
 @media (hover:hover) and (pointer:fine){
   .wheel-segment:hover .segment-face{
-    fill:var(--sr-surface-top);
+    fill-opacity:.20;
     transform:translate(var(--ox), var(--oy));   /* radiale Anhebung */
   }
 }
-/* Aktiv: leichter Spectrum-Tint, die Farbe selbst sitzt auf der Kante. */
+/* Aktiv: die eigene Kategoriefarbe kräftiger, das Spektrum sitzt auf der Kante. */
 .wheel-segment.is-active .segment-face{
-  fill:url(#wheel-tint);
-  stroke:rgba(103,86,217,.30);
+  fill-opacity:.26;
+  stroke:var(--cat);
+  stroke-opacity:.45;
 }
 .wheel-segment:focus{ outline:none; }
 .wheel-segment:focus-visible .segment-face{ stroke:var(--sr-violet); stroke-width:1.5; }
@@ -614,13 +632,15 @@ section{padding:var(--s7) 0}
 /* --- Kurzbezeichnungen, bleiben immer aufrecht --- */
 .segment-label{
   fill:var(--sr-secondary);
-  font:500 9px/1 var(--sr-sans);
-  letter-spacing:.02em;
+  font:500 8px/1 var(--sr-sans);
+  letter-spacing:.01em;
   pointer-events:none;
   transform-box:fill-box; transform-origin:center;
   transition:transform 560ms var(--sr-power3-out), fill 240ms var(--sr-ease-out);
 }
 .segment-label.is-dragging{ transition:fill 240ms var(--sr-ease-out); }
+.wheel-segment.is-done + .segment-label{ fill:var(--sr-ink); }
+.segment-label.is-done{ fill:var(--sr-ink); }
 .segment-label.is-active{ fill:var(--sr-ink); font-weight:600; }
 
 /* --- Spectrum und Echo, nur entlang der festen Kreisgeometrie --- */
@@ -658,10 +678,54 @@ section{padding:var(--s7) 0}
 }
 .wheel-reader__lead{ margin:0; font-size:15px; color:var(--sr-secondary); max-width:44ch; }
 
-/* --- Inhalt --- */
+/* --- Fortschritt --- */
+.wheel-progress{
+  font-size:12px; color:var(--sr-secondary);
+  letter-spacing:.02em; margin:0; text-align:center;
+}
+
+/* --- Inhalt und Ergebnis --- */
 .wheel-panels{ position:relative; max-width:62ch; }
-.wheel-panel{ margin:0; }
+/* display:grid überschreibt die Browserregel für hidden, deshalb muss das
+   Verstecken hier ausdrücklich wieder gewinnen. Sonst stehen alle neun
+   Bereiche gleichzeitig auf der Seite. */
+.wheel-panel{ margin:0; display:grid; gap:var(--s4); }
+.wheel-panel[hidden]{ display:none; }
 .wheel-panel p{ margin:0; }
+
+/* Die eine Haarlinie in der Karte, dort wo sie von der Erklärung
+   zum eigenen Ergebnis wechselt. */
+.panel-rule{
+  height:1px; border:0; margin:0;
+  background:linear-gradient(90deg,var(--sr-line) 0 44%,transparent 44% 52%,var(--sr-line) 52% 100%);
+}
+.panel-result__label{
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--sr-secondary); font-weight:500;
+}
+.panel-result{
+  display:grid; gap:var(--s3);
+  min-height:96px;             /* Platz für das Ergebnis, auch wenn es noch fehlt */
+  align-content:start;
+}
+.panel-result__value{ font-size:15px; line-height:1.65; }
+.panel-result__value dt{
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--sr-secondary); font-weight:500; margin-bottom:2px;
+}
+.panel-result__value dd{ margin:0 0 var(--s3); }
+.panel-result__value dd:last-child{ margin-bottom:0; }
+
+/* Noch nicht ausgefüllt. Ein gültiger Zustand, kein Fehler. */
+.panel-result__empty{
+  display:grid; gap:var(--s3); justify-items:start;
+  padding:var(--s4);
+  border-radius:var(--sr-r-md);
+  background:#FBF6EC;
+  box-shadow:inset 0 2px 4px rgba(138,107,69,.10), inset 0 -1px 0 rgba(255,255,255,.8);
+}
+.panel-result__empty p{ font-size:13.5px; color:var(--sr-secondary); }
+
 .wheel-nav{ display:flex; gap:var(--s3); justify-content:center; }
 
 /* --- Ab 768px stehen Rad und Inhalt nebeneinander --- */
@@ -673,7 +737,7 @@ section{padding:var(--s7) 0}
   .personal-wheel > .wheel-stage{ grid-row:span 3; }
   .wheel-reader{ justify-items:start; text-align:left; }
   .wheel-nav{ justify-content:flex-start; }
-  .wheel-svg{ max-width:360px; }
+  .wheel-svg{ max-width:420px; }
 }
 
 /* --- Guards --- */
@@ -698,8 +762,6 @@ section{padding:var(--s7) 0}
 
       <!-- Rad. Die Leseposition und das Zentrum drehen nicht mit. -->
       <div class="wheel-stage sr-fade">
-        <span class="wheel-reader__mark" aria-hidden="true"></span>
-
         <svg class="wheel-svg" viewBox="0 0 320 320" role="group"
              aria-labelledby="wheel-title wheel-desc">
           <title id="wheel-title">Deine persönliche Übersicht</title>
@@ -770,6 +832,7 @@ section{padding:var(--s7) 0}
             <text class="wheel-center__name" x="160" y="172" text-anchor="middle">Chris</text>
           </g>
         </svg>
+        <p class="wheel-progress" data-progress></p>
       </div>
 
       <!-- Feste Leseposition in Text. Was oben steht, steht hier. -->
@@ -784,67 +847,163 @@ section{padding:var(--s7) 0}
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-astrology"
              aria-labelledby="tab-astrology" data-panel="astrology"
-             data-lead="Die Konstellation zum Zeitpunkt deiner Geburt." hidden>
+             data-done="true"
+             data-lead="Die Konstellation zum Zeitpunkt deiner Geburt.">
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Sonne, Mond und Aszendent bilden einen Grundton, in dem sich viele Menschen wiedererkennen. Es ist eine Sprache für Muster, keine Vorhersage.</p>
+          <hr class="panel-rule">
+          <div class="panel-result">
+            <span class="panel-result__label">Dein Ergebnis</span>
+            <dl class="panel-result__value">
+              <dt>Sonne</dt>
+              <dd>Zwillinge</dd>
+              <dt>Mond</dt>
+              <dd>Fische</dd>
+              <dt>Aszendent</dt>
+              <dd>Waage</dd>
+            </dl>
+          </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-numerology"
              aria-labelledby="tab-numerology" data-panel="numerology"
+             data-done="true"
              data-lead="Zahlen als Muster deines Namens und Datums." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Aus Geburtsdatum und Namen entsteht ein wiederkehrendes Muster. Es zeigt Themen, die sich durch dein Leben ziehen, und Stellen, an denen du sie immer wieder triffst.</p>
+          <hr class="panel-rule">
+          <div class="panel-result">
+            <span class="panel-result__label">Dein Ergebnis</span>
+            <dl class="panel-result__value">
+              <dt>Lebenszahl</dt>
+              <dd>7, der Suchende</dd>
+              <dt>Namenszahl</dt>
+              <dd>3, der Vermittler</dd>
+            </dl>
+          </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-human-design"
              aria-labelledby="tab-human-design" data-panel="human-design"
+             data-done="true"
              data-lead="Wie du Energie aufnimmst und entscheidest." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Typ, Autorität und offene Zentren beschreiben, woher deine Energie kommt und woran du merkst, dass eine Entscheidung stimmig ist.</p>
+          <hr class="panel-rule">
+          <div class="panel-result">
+            <span class="panel-result__label">Dein Ergebnis</span>
+            <dl class="panel-result__value">
+              <dt>Typ</dt>
+              <dd>Generator</dd>
+              <dt>Autorität</dt>
+              <dd>Sakral</dd>
+              <dt>Profil</dt>
+              <dd>3 / 5</dd>
+            </dl>
+          </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-direction"
              aria-labelledby="tab-direction" data-panel="direction"
+             data-done="false"
              data-lead="Wohin du dich gerade bewegst." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Was dich zieht, woran du festhältst und was du gerade hinter dir lässt. Die Richtung darf sich ändern, sie ist kein Ergebnis.</p>
+          <hr class="panel-rule">
+          <div class="panel-result">
+            <span class="panel-result__label">Dein Ergebnis</span>
+            <div class="panel-result__empty">
+              <p>Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
+              <button class="sr-btn sr-btn--spectral" type="button">Jetzt ausfüllen</button>
+            </div>
+          </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-personality"
              aria-labelledby="tab-personality" data-panel="personality"
-             data-lead="Wie du wahrnimmst, entscheidest und handelst.">
+             data-done="true"
+             data-lead="Wie du wahrnimmst, entscheidest und handelst." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Deine Art zu denken, zu fühlen und zu reagieren. Im Alltag, und noch deutlicher unter Druck.</p>
+          <hr class="panel-rule">
+          <div class="panel-result">
+            <span class="panel-result__label">Dein Ergebnis</span>
+            <dl class="panel-result__value">
+              <dt>Wahrnehmung</dt>
+              <dd>Zuerst das Muster, dann das Detail</dd>
+              <dt>Unter Druck</dt>
+              <dd>Du wirst leiser, nicht lauter</dd>
+            </dl>
+          </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-values"
              aria-labelledby="tab-values" data-panel="values"
+             data-done="true"
              data-lead="Woran du misst, was zählt." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Die wenigen Dinge, für die du Unbequemes in Kauf nimmst. Werte zeigen sich weniger im Reden als in dem, was du wirklich wählst.</p>
+          <hr class="panel-rule">
+          <div class="panel-result">
+            <span class="panel-result__label">Dein Ergebnis</span>
+            <dl class="panel-result__value">
+              <dt>Zuerst</dt>
+              <dd>Ehrlichkeit, auch wenn sie kostet</dd>
+              <dt>Dann</dt>
+              <dd>Eigenständigkeit</dd>
+              <dt>Dann</dt>
+              <dd>Verlässlichkeit</dd>
+            </dl>
+          </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-attachment"
              aria-labelledby="tab-attachment" data-panel="attachment"
+             data-done="false"
              data-lead="Wie du Nähe und Abstand regelst." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Was in dir passiert, wenn jemand näher kommt, und was, wenn jemand geht. Bindung ist ein Muster, kein Urteil.</p>
+          <hr class="panel-rule">
+          <div class="panel-result">
+            <span class="panel-result__label">Dein Ergebnis</span>
+            <div class="panel-result__empty">
+              <p>Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
+              <button class="sr-btn sr-btn--spectral" type="button">Jetzt ausfüllen</button>
+            </div>
+          </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-closeness"
              aria-labelledby="tab-closeness" data-panel="closeness"
+             data-done="false"
              data-lead="Wie du Zuneigung zeigst und annimmst." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Worin du Zuwendung ausdrückst und woran du sie erkennst. Zwei Menschen meinen oft dasselbe und zeigen es völlig verschieden.</p>
+          <hr class="panel-rule">
+          <div class="panel-result">
+            <span class="panel-result__label">Dein Ergebnis</span>
+            <div class="panel-result__empty">
+              <p>Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
+              <button class="sr-btn sr-btn--spectral" type="button">Jetzt ausfüllen</button>
+            </div>
+          </div>
         </div>
 
         <div class="sr-card wheel-panel" role="tabpanel" id="panel-conflict"
              aria-labelledby="tab-conflict" data-panel="conflict"
+             data-done="false"
              data-lead="Was du im Streit tust." hidden>
           <span class="sr-edge e-bottom"><i></i></span>
           <p>Ob du zugehst, ausweichst oder zumachst. Und was dich danach wieder erreichbar macht.</p>
+          <hr class="panel-rule">
+          <div class="panel-result">
+            <span class="panel-result__label">Dein Ergebnis</span>
+            <div class="panel-result__empty">
+              <p>Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
+              <button class="sr-btn sr-btn--spectral" type="button">Jetzt ausfüllen</button>
+            </div>
+          </div>
         </div>
-
       </div>
 
       <div class="wheel-nav sr-fade">
@@ -881,15 +1040,17 @@ section{padding:var(--s7) 0}
 
   var CFG = {
     cx: 160, cy: 160,
-    centerRadius: 34,        // Zentrum, liegt über den Spitzen der Kuchenstücke
+    centerRadius: 32,        // Zentrum, liegt über den Spitzen der Kuchenstücke
     segmentRadius: 112,      // Aussenradius aller neun Stücke, für alle gleich
-    groupInnerRadius: 121,   // bewusster Gap von 9 Einheiten zum Segmentkreis
-    groupOuterRadius: 145,
-    labelRadius: 74,         // Kurzbezeichnung in der Mitte des Stücks
+    markerRadius: 99,        // Ausfüllstatus, innerhalb des eigenen Stücks
+    groupInnerRadius: 124,   // bewusster Gap von 12 Einheiten zum Segmentkreis
+    groupOuterRadius: 148,
+    labelRadius: 68,         // volle Bezeichnung, zweizeilig, in der Mitte des Stücks
     segmentDeg: 40,          // 360 / 9, exakt
     groupGapDeg: 4,          // Trennung zwischen den drei Ringabschnitten
     edgeInsetDeg: 1.5,       // Spektralkante etwas kürzer als das Stück
     echoOffset: 5,           // Echo, fünf Einheiten ausserhalb der Kante, im Gap zum Ring
+    labelLine: 9,            // Zeilenabstand der Beschriftung
     hoverShift: 3,           // radiale Anhebung beim Hover
     duration: 560            // Rotation, ruhiges Ausklingen ohne Nachschwingen
   };
@@ -897,22 +1058,27 @@ section{padding:var(--s7) 0}
   /* Im Uhrzeigersinn, beginnend an der Leseposition oben.
      short bleibt kurz genug, um im Stück lesbar zu sein. */
   var ITEMS = [
-    { id: 'astrology',    group: 'grundtoene',  label: 'Astrologie',       short: 'Astro' },
-    { id: 'numerology',   group: 'grundtoene',  label: 'Numerologie',      short: 'Num.' },
-    { id: 'human-design', group: 'grundtoene',  label: 'Human Design',     short: 'HD' },
-    { id: 'direction',    group: 'orientation', label: 'Lebensrichtung',   short: 'Weg' },
-    { id: 'personality',  group: 'orientation', label: 'Persönlichkeit',   short: 'Person' },
-    { id: 'values',       group: 'orientation', label: 'Werte',            short: 'Werte' },
-    { id: 'attachment',   group: 'connection',  label: 'Bindungsstil',     short: 'Bindung' },
-    { id: 'closeness',    group: 'connection',  label: 'Nähe & Zuneigung', short: 'Nähe' },
-    { id: 'conflict',     group: 'connection',  label: 'Konfliktstil',     short: 'Konflikt' }
+    { id: 'astrology',    group: 'grundtoene',  label: 'Astrologie',       lines: ['Astro-', 'logie'] },
+    { id: 'numerology',   group: 'grundtoene',  label: 'Numerologie',      lines: ['Numero-', 'logie'] },
+    { id: 'human-design', group: 'grundtoene',  label: 'Human Design',     lines: ['Human', 'Design'] },
+    { id: 'direction',    group: 'orientation', label: 'Lebensrichtung',   lines: ['Lebens-', 'richtung'] },
+    { id: 'personality',  group: 'orientation', label: 'Persönlichkeit',   lines: ['Persön-', 'lichkeit'] },
+    { id: 'values',       group: 'orientation', label: 'Werte',            lines: ['Werte'] },
+    { id: 'attachment',   group: 'connection',  label: 'Bindungsstil',     lines: ['Bindungs-', 'stil'] },
+    { id: 'closeness',    group: 'connection',  label: 'Nähe & Zuneigung', lines: ['Nähe &', 'Zuneigung'] },
+    { id: 'conflict',     group: 'connection',  label: 'Konfliktstil',     lines: ['Konflikt-', 'stil'] }
   ];
 
+  /* Je Kategorie eine Resonanzfarbe, entnommen aus dem Spektrum in seiner
+     festen Reihenfolge: Violet, Blue, Rose. Keine neuen Farben. */
   var GROUPS = [
-    { id: 'grundtoene',  label: 'Grundtöne' },
-    { id: 'orientation', label: 'Ich & Orientierung' },
-    { id: 'connection',  label: 'Beziehung & Verbindung' }
+    { id: 'grundtoene',  label: 'Grundtöne',              color: '#6756D9' },
+    { id: 'orientation', label: 'Ich & Orientierung',     color: '#4D7FE8' },
+    { id: 'connection',  label: 'Beziehung & Verbindung', color: '#D85BA9' }
   ];
+  function groupOf(id) {
+    return GROUPS.filter(function (g) { return g.id === id; })[0];
+  }
 
   var SVGNS = 'http://www.w3.org/2000/svg';
   var TAU = Math.PI / 180;
@@ -1001,6 +1167,7 @@ section{padding:var(--s7) 0}
         class: 'wheel-group', 'data-group': g.id,
         d: ringPath(a0, a1, CFG.groupInnerRadius, CFG.groupOuterRadius)
       });
+      band.style.setProperty('--cat', g.color);
       band.appendChild(el('title', {})).textContent = g.label;
       groupLayer.appendChild(band);
 
@@ -1017,6 +1184,7 @@ section{padding:var(--s7) 0}
       }));
 
       var text = el('text', { class: 'group-label', 'data-group': g.id, 'aria-hidden': 'true' });
+      text.style.setProperty('--cat', g.color);
       var tp = el('textPath', {
         href: '#track-' + g.id, startOffset: '50%', 'text-anchor': 'middle'
       });
@@ -1027,13 +1195,31 @@ section{padding:var(--s7) 0}
     });
 
     /* Neun Kuchenstücke. Alle mit demselben Aussenradius. */
+    /* Der Ausfüllstatus steht im Markup, damit Inhalt und Zustand an einer
+       Stelle gepflegt werden und die Seite auch ohne JavaScript stimmt. */
+    function isDone(id) {
+      var panel = root.querySelector('[data-panel="' + id + '"]');
+      return !!panel && panel.getAttribute('data-done') === 'true';
+    }
+
+    /* Helle Grundfläche unter allen Stücken. Die Tönung der Kategorie liegt
+       darüber, sonst verliert die Scheibe ihr gehobenes Papier. */
+    segLayer.appendChild(el('circle', {
+      class: 'wheel-plate', cx: CFG.cx, cy: CFG.cy, r: CFG.segmentRadius
+    }));
+
     var segs = ITEMS.map(function (item, i) {
       var a = segmentAngle(i);
+      var cat = groupOf(item.group).color;
+      var done = isDone(item.id);
       var g = el('g', {
-        class: 'wheel-segment', role: 'tab', tabindex: '-1',
-        'aria-selected': 'false', 'aria-label': item.label,
+        class: 'wheel-segment' + (done ? ' is-done' : ''),
+        role: 'tab', tabindex: '-1',
+        'aria-selected': 'false',
+        'aria-label': item.label + (done ? ', ausgefüllt' : ', noch offen'),
         'aria-controls': 'panel-' + item.id, id: 'tab-' + item.id, 'data-index': i
       });
+      g.style.setProperty('--cat', cat);
       var face = el('path', {
         class: 'segment-face', 'data-id': item.id,
         d: sectorPath(a - half, a + half, CFG.segmentRadius)
@@ -1041,20 +1227,40 @@ section{padding:var(--s7) 0}
       /* Radiale Anhebung beim Hover, in Richtung des eigenen Mittelwinkels. */
       face.style.setProperty('--ox', r2(CFG.hoverShift * Math.sin(a * TAU)) + 'px');
       face.style.setProperty('--oy', r2(-CFG.hoverShift * Math.cos(a * TAU)) + 'px');
-      g.appendChild(el('title', {})).textContent = item.label;
+      g.appendChild(el('title', {})).textContent =
+        item.label + (done ? ', ausgefüllt' : ', noch offen');
       g.appendChild(face);
+
+      /* Ausgefüllt ist ein voller Punkt, offen ist ein offener Kreis.
+         Die Öffnung ist die Gap-Sprache: noch nicht abgeschlossen. */
+      var m = pt(CFG.markerRadius, a);
+      g.appendChild(el('circle', {
+        class: 'segment-marker', cx: m[0], cy: m[1], r: 3.2
+      }));
       segLayer.appendChild(g);
 
+      /* Volle Bezeichnung, zweizeilig, dreht gegen und bleibt aufrecht. */
       var p = pt(CFG.labelRadius, a);
       var text = el('text', {
         class: 'segment-label', x: p[0], y: p[1],
-        'text-anchor': 'middle', 'dominant-baseline': 'middle',
-        'aria-hidden': 'true', 'data-index': i
+        'text-anchor': 'middle', 'aria-hidden': 'true', 'data-index': i
       });
-      text.textContent = item.short;
+      var top = -(item.lines.length - 1) * CFG.labelLine / 2;
+      item.lines.forEach(function (line, li) {
+        var tspan = el('tspan', { x: p[0], y: r2(p[1] + top + li * CFG.labelLine) });
+        tspan.textContent = line;
+        text.appendChild(tspan);
+      });
       labelLayer.appendChild(text);
-      return { g: g, face: face, label: text, angle: a };
+      return { g: g, face: face, label: text, angle: a, done: done };
     });
+
+    /* Fortschritt, ohne erfundene Genauigkeit: schlicht gezählt. */
+    var progress = root.querySelector('[data-progress]');
+    if (progress) {
+      var doneCount = segs.filter(function (s) { return s.done; }).length;
+      progress.textContent = doneCount + ' von ' + ITEMS.length + ' ausgefüllt';
+    }
 
     var index = -1;
     var rotation = 0;

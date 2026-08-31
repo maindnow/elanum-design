@@ -33,6 +33,30 @@ Inhalt und Geometrie sind getrennt: `ITEMS` in `personal-wheel.js` bestimmt, was
 Segmenten steht, `CFG` bestimmt die Geometrie. Wer ein Element umbenennt, fasst das SVG
 nicht an.
 
+### Kategorien und Ausfüllstatus
+
+Jede der drei Kategorien trägt eine eigene Resonanzfarbe, entnommen aus dem Spektrum in
+seiner festen Reihenfolge:
+
+| Kategorie | Farbe |
+|---|---|
+| Grundtöne | Violet `#6756D9` |
+| Ich und Orientierung | Blue `#4D7FE8` |
+| Beziehung und Verbindung | Rose `#D85BA9` |
+
+Die Farbe erscheint als Tönung zwischen 7 und 30 Prozent, nie als satte Fläche. Sie
+sagt, zu welcher Kategorie ein Segment gehört. Ob es schon ausgefüllt ist, sagen die
+Stärke der Tönung und der Punkt am äusseren Rand: voller Punkt heisst ausgefüllt,
+offener Kreis heisst noch offen. Der offene Kreis ist die Gap-Sprache des Systems.
+
+Der Ausfüllstatus steht im Markup, nicht im JavaScript. Ein Panel mit
+`data-done="true"` färbt sein Segment ein und füllt den Punkt. So werden Inhalt und
+Zustand an einer Stelle gepflegt, und die Seite stimmt auch ohne JavaScript.
+
+Unter der Beschreibung hat jedes Panel einen Ergebnisbereich mit mindestens 96px Höhe.
+Ausgefüllte Bereiche zeigen dort ihr Ergebnis, offene einen Leerzustand mit der
+Aufforderung, ihn auszufüllen. Die Ergebnisse in dieser Vorschau sind Beispieldaten.
+
 ### Anschauen
 
 `components/personal-wheel/standalone.html` im Browser öffnen. Die Datei enthält alles

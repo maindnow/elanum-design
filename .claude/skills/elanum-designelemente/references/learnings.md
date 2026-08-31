@@ -2,7 +2,7 @@
 
 > Erstellt: 2026-08-30
 > Letztes Pruning: 2026-08-30
-> Eintragsanzahl: 9
+> Eintragsanzahl: 12
 
 ---
 
@@ -23,7 +23,13 @@ Eintrag nur, wenn die Regel mindestens 2x bestätigt wurde.
    am persönlichen Rad, dort blieb die Navigation unter dem Inhalt dauerhaft auf
    `opacity:0`. Nie wieder einen Inline-Observer in eine Seite schreiben, immer
    `assets/reveal.js` einbinden.
-2. **Radienfaktoren einer Signatur auf Mittel 1 normieren.** Wer Faktoren wie
+2. **`display` auf einem Element schlägt `[hidden]`.** Wer einer Fläche
+   `display:grid` oder `display:flex` gibt, hebelt die Browserregel
+   `[hidden]{display:none}` aus, weil die Klassenregel spezifischer ist. Ohne ein
+   zusätzliches `.klasse[hidden]{display:none}` stehen alle Panels gleichzeitig auf
+   der Seite. Gefunden am 2026-08-31 am persönlichen Rad, dort waren alle neun
+   Bereiche sichtbar. Der Linter sieht das nicht, nur der Blick auf die Seite.
+3. **Radienfaktoren einer Signatur auf Mittel 1 normieren.** Wer Faktoren wie
    `.84 bis .97` direkt mit dem Nennradius multipliziert, erhält eine Kurve, die
    komplett innerhalb dieses Radius liegt. Alles, was auf dem Nennradius sitzt,
    schwebt dann in einem leeren Ring darum.
@@ -40,6 +46,14 @@ Eintrag nur, wenn die Regel mindestens 2x bestätigt wurde.
   Mehrere Rotoren über ein gemeinsames `[data-rotor]` synchron setzen.
 - **Monochrom-Test per `filter:grayscale(1)` im Browser**, 2026-08-30. Beweist Punkt 3
   der Checkliste in Sekunden, statt ihn zu behaupten.
+- **Kategoriefarben aus dem Spektrum entnehmen, nicht danebenstellen**, 2026-08-31.
+  Wenn mehrere Kategorien farblich unterscheidbar sein sollen: Violet, Blue und Rose
+  aus der festen Spektrumsreihenfolge nehmen und als Tönung zwischen 7 und 30 Prozent
+  auftragen. Als Tönung auf dem warmen Grund bleibt es Resonanz, als satte Fläche
+  würde es zum Regenbogen-Chart.
+- **Zustand über die Gap-Sprache zeigen**, 2026-08-31. Ausgefüllt ist ein voller
+  Punkt, offen ein offener Kreis. Das ist keine willkürliche Ikonografie, sondern
+  genau die Bedeutung von Gap: noch nicht abgeschlossen, offen für Entwicklung.
 
 ### Was nicht funktioniert
 
@@ -49,6 +63,12 @@ Eintrag nur, wenn die Regel mindestens 2x bestätigt wurde.
   bleiben, hier 44 Grad.
 - **Eine zusätzliche sichtbare Führungsspur neben der Signatur**, 2026-08-30. Sie wird
   als eigene Form gelesen. Konstruktionsgeometrie bleibt unsichtbar.
+- **Getönte Flächen ohne helle Grundfläche darunter**, 2026-08-31. Wer die Füllung
+  einer gehobenen Fläche von `--sr-surface` auf eine Farbtönung umstellt, verliert das
+  gehobene Papier: die Tönung liegt dann direkt auf dem Grund und wirkt flach und grau.
+  Die helle Grundfläche bleibt, die Tönung kommt darüber.
+- **Der Systemdivider in einer breiten Karte**, 2026-08-31. Die 12-Prozent-Lücke liest
+  sich ab etwa 600px Breite als Fehler statt als Gap. Dort auf 8 Prozent verengen.
 
 ---
 

@@ -21,15 +21,17 @@
 
   var CFG = {
     cx: 160, cy: 160,
-    centerRadius: 34,        // Zentrum, liegt über den Spitzen der Kuchenstücke
+    centerRadius: 32,        // Zentrum, liegt über den Spitzen der Kuchenstücke
     segmentRadius: 112,      // Aussenradius aller neun Stücke, für alle gleich
-    groupInnerRadius: 121,   // bewusster Gap von 9 Einheiten zum Segmentkreis
-    groupOuterRadius: 145,
-    labelRadius: 74,         // Kurzbezeichnung in der Mitte des Stücks
+    markerRadius: 99,        // Ausfüllstatus, innerhalb des eigenen Stücks
+    groupInnerRadius: 124,   // bewusster Gap von 12 Einheiten zum Segmentkreis
+    groupOuterRadius: 148,
+    labelRadius: 68,         // volle Bezeichnung, zweizeilig, in der Mitte des Stücks
     segmentDeg: 40,          // 360 / 9, exakt
     groupGapDeg: 4,          // Trennung zwischen den drei Ringabschnitten
     edgeInsetDeg: 1.5,       // Spektralkante etwas kürzer als das Stück
     echoOffset: 5,           // Echo, fünf Einheiten ausserhalb der Kante, im Gap zum Ring
+    labelLine: 9,            // Zeilenabstand der Beschriftung
     hoverShift: 3,           // radiale Anhebung beim Hover
     duration: 560            // Rotation, ruhiges Ausklingen ohne Nachschwingen
   };
@@ -37,22 +39,27 @@
   /* Im Uhrzeigersinn, beginnend an der Leseposition oben.
      short bleibt kurz genug, um im Stück lesbar zu sein. */
   var ITEMS = [
-    { id: 'astrology',    group: 'grundtoene',  label: 'Astrologie',       short: 'Astro' },
-    { id: 'numerology',   group: 'grundtoene',  label: 'Numerologie',      short: 'Num.' },
-    { id: 'human-design', group: 'grundtoene',  label: 'Human Design',     short: 'HD' },
-    { id: 'direction',    group: 'orientation', label: 'Lebensrichtung',   short: 'Weg' },
-    { id: 'personality',  group: 'orientation', label: 'Persönlichkeit',   short: 'Person' },
-    { id: 'values',       group: 'orientation', label: 'Werte',            short: 'Werte' },
-    { id: 'attachment',   group: 'connection',  label: 'Bindungsstil',     short: 'Bindung' },
-    { id: 'closeness',    group: 'connection',  label: 'Nähe & Zuneigung', short: 'Nähe' },
-    { id: 'conflict',     group: 'connection',  label: 'Konfliktstil',     short: 'Konflikt' }
+    { id: 'astrology',    group: 'grundtoene',  label: 'Astrologie',       lines: ['Astro-', 'logie'] },
+    { id: 'numerology',   group: 'grundtoene',  label: 'Numerologie',      lines: ['Numero-', 'logie'] },
+    { id: 'human-design', group: 'grundtoene',  label: 'Human Design',     lines: ['Human', 'Design'] },
+    { id: 'direction',    group: 'orientation', label: 'Lebensrichtung',   lines: ['Lebens-', 'richtung'] },
+    { id: 'personality',  group: 'orientation', label: 'Persönlichkeit',   lines: ['Persön-', 'lichkeit'] },
+    { id: 'values',       group: 'orientation', label: 'Werte',            lines: ['Werte'] },
+    { id: 'attachment',   group: 'connection',  label: 'Bindungsstil',     lines: ['Bindungs-', 'stil'] },
+    { id: 'closeness',    group: 'connection',  label: 'Nähe & Zuneigung', lines: ['Nähe &', 'Zuneigung'] },
+    { id: 'conflict',     group: 'connection',  label: 'Konfliktstil',     lines: ['Konflikt-', 'stil'] }
   ];
 
+  /* Je Kategorie eine Resonanzfarbe, entnommen aus dem Spektrum in seiner
+     festen Reihenfolge: Violet, Blue, Rose. Keine neuen Farben. */
   var GROUPS = [
-    { id: 'grundtoene',  label: 'Grundtöne' },
-    { id: 'orientation', label: 'Ich & Orientierung' },
-    { id: 'connection',  label: 'Beziehung & Verbindung' }
+    { id: 'grundtoene',  label: 'Grundtöne',              color: '#6756D9' },
+    { id: 'orientation', label: 'Ich & Orientierung',     color: '#4D7FE8' },
+    { id: 'connection',  label: 'Beziehung & Verbindung', color: '#D85BA9' }
   ];
+  function groupOf(id) {
+    return GROUPS.filter(function (g) { return g.id === id; })[0];
+  }
 
   var SVGNS = 'http://www.w3.org/2000/svg';
   var TAU = Math.PI / 180;
@@ -141,6 +148,7 @@
         class: 'wheel-group', 'data-group': g.id,
         d: ringPath(a0, a1, CFG.groupInnerRadius, CFG.groupOuterRadius)
       });
+      band.style.setProperty('--cat', g.color);
       band.appendChild(el('title', {})).textContent = g.label;
       groupLayer.appendChild(band);
 
@@ -157,6 +165,7 @@
       }));
 
       var text = el('text', { class: 'group-label', 'data-group': g.id, 'aria-hidden': 'true' });
+      text.style.setProperty('--cat', g.color);
       var tp = el('textPath', {
         href: '#track-' + g.id, startOffset: '50%', 'text-anchor': 'middle'
       });
@@ -167,13 +176,31 @@
     });
 
     /* Neun Kuchenstücke. Alle mit demselben Aussenradius. */
+    /* Der Ausfüllstatus steht im Markup, damit Inhalt und Zustand an einer
+       Stelle gepflegt werden und die Seite auch ohne JavaScript stimmt. */
+    function isDone(id) {
+      var panel = root.querySelector('[data-panel="' + id + '"]');
+      return !!panel && panel.getAttribute('data-done') === 'true';
+    }
+
+    /* Helle Grundfläche unter allen Stücken. Die Tönung der Kategorie liegt
+       darüber, sonst verliert die Scheibe ihr gehobenes Papier. */
+    segLayer.appendChild(el('circle', {
+      class: 'wheel-plate', cx: CFG.cx, cy: CFG.cy, r: CFG.segmentRadius
+    }));
+
     var segs = ITEMS.map(function (item, i) {
       var a = segmentAngle(i);
+      var cat = groupOf(item.group).color;
+      var done = isDone(item.id);
       var g = el('g', {
-        class: 'wheel-segment', role: 'tab', tabindex: '-1',
-        'aria-selected': 'false', 'aria-label': item.label,
+        class: 'wheel-segment' + (done ? ' is-done' : ''),
+        role: 'tab', tabindex: '-1',
+        'aria-selected': 'false',
+        'aria-label': item.label + (done ? ', ausgefüllt' : ', noch offen'),
         'aria-controls': 'panel-' + item.id, id: 'tab-' + item.id, 'data-index': i
       });
+      g.style.setProperty('--cat', cat);
       var face = el('path', {
         class: 'segment-face', 'data-id': item.id,
         d: sectorPath(a - half, a + half, CFG.segmentRadius)
@@ -181,20 +208,40 @@
       /* Radiale Anhebung beim Hover, in Richtung des eigenen Mittelwinkels. */
       face.style.setProperty('--ox', r2(CFG.hoverShift * Math.sin(a * TAU)) + 'px');
       face.style.setProperty('--oy', r2(-CFG.hoverShift * Math.cos(a * TAU)) + 'px');
-      g.appendChild(el('title', {})).textContent = item.label;
+      g.appendChild(el('title', {})).textContent =
+        item.label + (done ? ', ausgefüllt' : ', noch offen');
       g.appendChild(face);
+
+      /* Ausgefüllt ist ein voller Punkt, offen ist ein offener Kreis.
+         Die Öffnung ist die Gap-Sprache: noch nicht abgeschlossen. */
+      var m = pt(CFG.markerRadius, a);
+      g.appendChild(el('circle', {
+        class: 'segment-marker', cx: m[0], cy: m[1], r: 3.2
+      }));
       segLayer.appendChild(g);
 
+      /* Volle Bezeichnung, zweizeilig, dreht gegen und bleibt aufrecht. */
       var p = pt(CFG.labelRadius, a);
       var text = el('text', {
         class: 'segment-label', x: p[0], y: p[1],
-        'text-anchor': 'middle', 'dominant-baseline': 'middle',
-        'aria-hidden': 'true', 'data-index': i
+        'text-anchor': 'middle', 'aria-hidden': 'true', 'data-index': i
       });
-      text.textContent = item.short;
+      var top = -(item.lines.length - 1) * CFG.labelLine / 2;
+      item.lines.forEach(function (line, li) {
+        var tspan = el('tspan', { x: p[0], y: r2(p[1] + top + li * CFG.labelLine) });
+        tspan.textContent = line;
+        text.appendChild(tspan);
+      });
       labelLayer.appendChild(text);
-      return { g: g, face: face, label: text, angle: a };
+      return { g: g, face: face, label: text, angle: a, done: done };
     });
+
+    /* Fortschritt, ohne erfundene Genauigkeit: schlicht gezählt. */
+    var progress = root.querySelector('[data-progress]');
+    if (progress) {
+      var doneCount = segs.filter(function (s) { return s.done; }).length;
+      progress.textContent = doneCount + ' von ' + ITEMS.length + ' ausgefüllt';
+    }
 
     var index = -1;
     var rotation = 0;
