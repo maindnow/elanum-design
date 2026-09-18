@@ -3,12 +3,51 @@
 Designsystem von elanum, in der SoulResonance-Sprache: warmes Papier als Grund,
 programmierbare SVG-Geometrie, Farbe, die sich wie Licht verhält.
 
+## Aktuell: Gestaltungsatlas 4.4, Soft 3D Relief
+
+[Gestaltungsatlas und Dateien](docs/elanum-gestaltungsatlas/) · [HTML-Einstieg](docs/elanum-gestaltungsatlas/index.html) · [Designnotizen](docs/elanum-gestaltungsatlas/DESIGN-NOTES.md)
+
+Der interaktive Gestaltungsatlas zeigt die überarbeitete ELANUM-Richtung als Soft 3D
+Relief: warme Papierflächen, Licht von links oben, erhabene Elemente und vertiefte
+Eingaben. Yrsa und Albert Sans sind samt Lizenzen lokal eingebunden.
+
+- **Logo:** korrekte quadratische Darstellung in Kapitel 03. Spektrum, Ink, Invers
+  und die zusätzliche Papierprägung „Relief“ sind umschaltbar. Die freigegebene
+  Geometrie bleibt unverändert; die ursprünglichen Quelldateien bleiben enthalten.
+- **Beziehungen:** runde, gefüllte Reliefebenen mit eigenständigen Konturen und
+  verbundenen Linien. Gemeinsamer Atemzyklus von 7,8 Sekunden, maximal 7,5 % Radiusänderung.
+- **Interaktion:** weicher Aufbau beim Scrollen, Druck- und Hoverzustände,
+  globale Bewegungspause und Unterstützung für reduzierte Bewegung.
+- **Farbsystem:** neun Feldfarben in drei Gruppen sowie separate Info-, Signal-
+  und Fehlerfarben. Die fachlichen Feldnamen bleiben im Atlas Platzhalter.
+
+### Lokal öffnen
+
+Den Repository-Ordner herunterladen oder klonen und
+`docs/elanum-gestaltungsatlas/index.html` im Browser öffnen. Die benachbarten
+CSS-/JavaScript-Dateien und `assets/` müssen zusammenbleiben. Kein Build, Backend
+oder externer Font-Dienst erforderlich. GitHub zeigt HTML als Quelltext, nicht als
+interaktive Vorschau.
+
+### Einordnung und Prüfung
+
+Der Atlas liegt separat neben der bisherigen SoulResonance-Referenz und ersetzt
+sie nicht automatisch. Die Überarbeitung ist auf dem Branch
+`codex/elanum-styleguide-2026-09-18` abgelegt; damit ist weder ein Merge nach `main`
+noch eine Veröffentlichung über GitHub Pages verbunden.
+
+JavaScript-Syntax und lokale Dateiverweise sind geprüft; Desktop- und mobile
+Ansichten wurden lokal im Browser kontrolliert. Die abweichenden Regeln des
+bisherigen SoulResonance-Linters und die Grenzen der Prüfung stehen in den
+[Import- und Prüfnotizen](docs/elanum-gestaltungsatlas/IMPORT-NOTES.md).
+
 ## Inhalt
 
 | Pfad | Was es ist |
 |---|---|
 | `index.html` | Einstiegsseite, verlinkt Rad und Styleguide. |
 | `docs/soulresonance-styleguide.html` | Die lebende Referenz. Im Browser öffnen. |
+| `docs/elanum-gestaltungsatlas/` | Interaktiver Gestaltungsatlas 4.4, Soft 3D Relief, als separate Designrichtung. |
 | `docs/soulresonance-design-prompt.md` | Die Designanweisung im Volltext. |
 | `.claude/skills/elanum-designelemente/` | Der Skill für die tägliche Arbeit. |
 | `assets/` | Projekt-Stylesheet und Reveal-Observer, aus den Skill-Assets. |

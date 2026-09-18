@@ -1,4 +1,12 @@
-# ELANUM — Gestaltungsatlas 4.3
+# ELANUM — Gestaltungsatlas 4.4
+
+## Soft 3D Relief
+
+Version 4.4 ergänzt eine warme Reliefoberfläche (#F0ECE3): Licht von links oben, weiche Schatten rechts unten und vertiefte Eingaben. `relief.css` überschreibt die früheren Oberflächentokens. Die Basisfarbpalette und kopierbaren Canvas-Tokens sind angepasst.
+
+Die Logo-Card verwendet nun explizit automatische Bildhöhe und quadratische Proportionen statt der festen 960-px-Bildhöhe. Die zusätzliche Ansicht „Relief“ nutzt die unveränderte Ink-Silhouette als eingebettete SVG-Maske. Original und Kurvenkorrektur bleiben umschaltbar. Keine Logo-Quelldatei wurde verändert. Die Prägung ist eine illustrative Materialanwendung; für kleine Grössen bleiben die flachen Varianten vorgesehen.
+
+Beziehungskreise erhalten separate, gefüllte Reliefscheiben. Konturöffnungen und Verbindungen bleiben eigenständige Pfade; Füllung und Kontur atmen synchron. Die Scheiben bleiben mathematisch rund. Bedienzustände behalten zusätzlich Text, Fokusmarkierung und Auswahlkennzeichnung; Schatten allein vermitteln keine Funktion.
 
 ## Richtung
 
@@ -49,4 +57,4 @@ Statusrollen sind separat: Signal/Hinweis #89560E, Info #286F9B, Fehler #A7394D.
 
 ## Dateien
 
-`index.html`, `style.css`, `tactile.css`, `app.js` und `assets/` gemeinsam behalten. `index.html` lässt sich direkt öffnen. Die Font-Dateien sind lokal; ihre OFL-Lizenzen liegen in `assets/fonts/`.
+`index.html`, `style.css`, `tactile.css`, `relief.css`, `app.js` und `assets/` gemeinsam behalten. `index.html` lässt sich direkt öffnen. Die Font-Dateien sind lokal; ihre OFL-Lizenzen liegen in `assets/fonts/`.
