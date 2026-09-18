@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ELANUM Gestaltungsatlas 4.3. Kreis, Freiraum und Verbindung — ein interaktives Markensystem.">
+<title>ELANUM — Gestaltungsatlas</title>
+<link rel="icon" href="assets/ELANUM-System-Ink-Curves.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/AlbertSans-Latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Yrsa-Latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="tactile.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#content">Direkt zum Inhalt</a>
+<header class="mobile-bar"><a class="brand" href="#intro"><img src="assets/ELANUM-System-Ink-Curves.svg" alt=""><span>ELANUM</span></a><button class="menu-toggle" id="menuToggle" aria-label="Navigation öffnen" aria-expanded="false" aria-controls="sidebar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18M3 16h18" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button></header>
+<button class="menu-scrim" id="menuScrim" hidden aria-label="Navigation schliessen" tabindex="-1"></button>
+<aside class="sidebar" id="sidebar" data-open="false">
+<a class="brand" href="#intro"><img src="assets/ELANUM-System-Ink-Curves.svg" alt=""><span>ELANUM</span></a>
+<nav aria-label="Styleguide Navigation">
+<a href="#intro" class="active"><span>—</span>Überblick</a>
+<a href="#foundation"><span>01</span>Haltung</a>
+<a href="#grammar"><span>02</span>Beziehung</a>
+<a href="#signature"><span>03</span>Das Zeichen</a>
+<a href="#color"><span>04</span>Farbe</a>
+<a href="#type"><span>05</span>Typografie</a>
+<a href="#material"><span>06</span>Material</a>
+<a href="#components"><span>07</span>Bedienung</a>
+<a href="#product"><span>08</span>Im Produkt</a>
+<a href="#motion"><span>09</span>Bewegung</a>
+<a href="#voice"><span>10</span>Sprache</a>
+<a href="#review"><span>11</span>Prüfung</a>
+<a href="#tokens"><span>12</span>Assets &amp; Tokens</a>
+</nav>
+<div class="rail-bottom"><button class="motion-toggle" data-motion-toggle aria-pressed="false">Bewegung pausieren</button><p>Gestaltungsatlas 4.3<br>Digital Resonance</p></div>
+</aside>
+<main id="content">
+<section class="hero" id="intro" aria-labelledby="heroTitle">
+<div class="hero-meta"><span>ELANUM / Gestaltungsatlas</span><span>Edition 4.3 · September 2026</span></div>
+<div class="hero-body">
+<div class="hero-copy"><h1 id="heroTitle">Das Eigene.<em>Das Dazwischen.</em></h1><p>Ein digitales System für Selbstverständnis und Beziehung. Klar in der Form. Offen für das, was Menschen verbindet.</p></div>
+<figure class="hero-visual"><img src="assets/ELANUM-Master-Spektrum-Curves.svg" alt="ELANUM Klangsignatur im Originalaufbau mit geglätteten Innenkurven" width="960" height="960"><figcaption>Die bestehende Klangsignatur.<br>Form bewahrt. Kurven präzisiert.</figcaption></figure>
+</div>
+<div class="hero-footer"><a href="#grammar" class="text-link">Beziehungen erleben <span aria-hidden="true">↓</span></a><p>Kreis. Freiraum. Verbindung.<br>Eine gemeinsame Sprache.</p></div>
+</section>
+
+<section class="section foundation" id="foundation">
+<div class="section-heading"><span>01</span><h2>Eigenständig. Nicht isoliert.</h2></div>
+<div class="foundation-layout"><blockquote>Resonanz entsteht nicht durch Verschmelzung. Sondern im <em>Dazwischen.</em></blockquote>
+<div class="principles"><div class="principle"><strong>Air</strong><p>Offene Flächen geben Inhalt und Menschen Raum.</p></div><div class="principle"><strong>Trace</strong><p>Kreis, Öffnung und Verbindung machen Zusammenhänge sichtbar.</p></div><div class="principle"><strong>Spectrum</strong><p>Farbe kennzeichnet einen aktiven Moment, nie einen ganzen Menschen.</p></div><div class="principle"><strong>Paper</strong><p>Eine warme Fläche bewahrt persönliche Gedanken. Sie bleibt die Ausnahme.</p></div></div></div>
+</section>
+
+<section class="section relationship-section" id="grammar">
+<div class="relationship-top"><div class="section-heading"><span>02 / Beziehung</span><h2>Zwei Menschen.<br>Ein Zwischenraum.</h2></div><p>Jeder Kreis steht für einen eigenen Raum. Die Verbindung liegt dazwischen. Verändere Nähe, Resonanz und Offenheit.</p></div>
+<div class="relationship-frame" data-resonance="lab" data-dark="true" role="img" aria-label="Zwei runde, offene Konturen für Du und Mara, verbunden durch eine kurze gebogene Linie."><svg viewBox="0 0 720 400" aria-hidden="true"></svg><div class="relationship-label" data-person="a">Du<span>dein Raum</span></div><div class="relationship-label" data-person="b">Mara<span>ihr Raum</span></div></div>
+<div class="relationship-meta"><p id="labReading" aria-live="polite">Nah beieinander · spürbare Resonanz</p><div class="segmented" role="group" aria-label="Linienfarbe"><button data-lab-mode="spectrum" aria-pressed="true">Spektrum</button><button data-lab-mode="ink" aria-pressed="false">Monochrom</button></div></div>
+<div class="lab-controls">
+<div class="control"><div class="control-head"><label for="proximity">Nähe</label><output id="proximityValue" for="proximity">nah</output></div><input type="range" id="proximity" min="0" max="100" value="58"><p>Der Abstand verändert sich. Die Kreise bleiben eigenständig.</p></div>
+<div class="control"><div class="control-head"><label for="resonance">Resonanz</label><output id="resonanceValue" for="resonance">spürbar</output></div><input type="range" id="resonance" min="0" max="100" value="72"><p>Die Verbindung gewinnt an Präsenz, nicht die ganze Zeichnung.</p></div>
+<div class="control"><div class="control-head"><label for="openness">Freiraum</label><output id="opennessValue" for="openness">offen</output></div><input type="range" id="openness" min="8" max="88" value="34"><p>Die Öffnung wird weiter. Sie zeigt, was nicht abgeschlossen ist.</p></div>
+</div>
+<div class="line-rules"><div><h3>Ein Kreis bleibt ein Kreis.</h3><p>Gleicher Radius in alle Richtungen. Auch während der Bewegung.</p></div><div><h3>Verbindung braucht Anschluss.</h3><p>Die kurze Kurve trifft beide Konturen exakt. Keine schwebenden Enden.</p></div><div><h3>Freiraum bleibt sichtbar.</h3><p>Die Öffnungen bleiben unten. Nähe verändert nie die Identität.</p></div></div>
+<p class="relationship-note">Gestaltungsstudie, keine Messung von Beziehungen. <button class="motion-toggle" data-motion-toggle aria-pressed="false">Bewegung pausieren</button></p>
+</section>
+
+<section class="section" id="signature">
+<div class="section-heading"><span>03</span><h2>Das Zeichen bleibt.</h2></div>
+<div class="signature-layout">
+<figure class="signature-stage" id="signatureStage" data-mode="master"><img id="signatureImage" src="assets/ELANUM-Master-Spektrum-Curves.svg" alt="ELANUM Master Spektrum, kurvenbereinigt" width="960" height="960"><figcaption id="signatureLabel">Spektrum · Kurvenkorrektur</figcaption></figure>
+<div class="signature-copy"><p>Keine neue Form. Keine neue Linie. Die bestehende Klangsignatur bleibt erhalten. Nur die Übergänge der inneren Kurven wurden geglättet.</p>
+<div class="segmented signature-modes" role="group" aria-label="Logodarstellung"><button data-signature-mode="master" aria-pressed="true">Spektrum</button><button data-signature-mode="ink" aria-pressed="false">Ink</button><button data-signature-mode="inverse" aria-pressed="false">Invers</button></div>
+<label class="check-label"><input type="checkbox" id="showOriginal">Original zum Vergleich anzeigen</label>
+<dl class="construction-list"><div><dt>Unverändert</dt><dd>Aussensilhouette und Kreisöffnung</dd></div><div><dt>Erhalten</dt><dd>Alle Ankerpunkte, Linien und Proportionen</dd></div><div><dt>Korrigiert</dt><dd>Tangenten der vorhandenen Innenkurven</dd></div><div><dt>Invers</dt><dd>Dieselbe Ink-Geometrie in Weiss</dd></div></dl>
+<a class="text-link" href="assets/ELANUM-System-Ink-Curves.svg" download>Kurvenbereinigtes Ink <span aria-hidden="true">↓</span></a></div>
+</div>
+<details id="logoAudit"><summary>Kurvenkorrektur im Detail vergleichen</summary><p>Die Originaldateien bleiben separat erhalten. Die Korrektur richtet benachbarte Kurventangenten aus; Ankerpunkte werden nicht verschoben. Die bewusste Öffnung des Logos wird nicht abgerundet oder geschlossen.</p>
+<div class="logo-compare"><figure><img src="assets/ELANUM-System-Ink.svg" alt="Originale Innenkonturen in Ink" loading="lazy"><figcaption>Original</figcaption></figure><figure><img src="assets/ELANUM-System-Ink-Curves.svg" alt="Dieselben Innenkonturen mit geglätteten Übergängen" loading="lazy"><figcaption>Kurvenbereinigt</figcaption></figure></div>
+<div class="geometry-stats"><span><strong>0</strong>verschobene Ankerpunkte</span><span><strong>Identisch</strong>Aussenform &amp; Kreisöffnung</span><span><strong>2 Varianten</strong>Spektrum &amp; Ink, getrennt geprüft</span></div>
+<p style="margin-top:24px"><a href="assets/ELANUM-Konturvergleich.svg" target="_blank" rel="noopener">Überlagerten Konturvergleich öffnen ↗</a></p></details>
+</section>
+
+<section class="section" id="color">
+<div class="section-heading"><span>04</span><h2>Farbe mit einer Aufgabe.</h2></div><p class="section-intro">Neutrale Flächen tragen die Marke. Feldfarben ordnen Inhalte. Statusfarben erklären, was gerade geschieht. Diese drei Rollen bleiben getrennt.</p>
+<div class="base-palette" id="basePalette" aria-label="Basisfarben"></div>
+<div class="spectrum-palette" id="spectrumPalette" aria-label="Markenspektrum"></div>
+<div class="subhead"><h3>Neun Felder. Drei Familien.</h3><p>Die Gruppierung bleibt durch Nummern und Positionen auch ohne Farbe lesbar.</p></div>
+<div class="field-palette" id="fieldPalette"></div><p class="palette-note">Die Feldnummern und Gruppen A–C sind strukturelle Platzhalter. Fachliche Feldbezeichnungen werden nicht vorweggenommen.</p>
+<div class="subhead"><h3>Status ist keine Identität.</h3><p>Immer mit Text und einem unterscheidbaren Zeichen. Nie nur über Farbe.</p></div>
+<div class="semantic-palette" id="semanticPalette"></div>
+</section>
+
+<section class="section" id="type">
+<div class="section-heading"><span>05</span><h2>Yrsa &amp; Albert Sans.</h2></div>
+<div class="type-layout"><div><div class="font-title"><span>Yrsa</span><span>Die Stimme</span></div><p class="type-display">Raum für dich.<em>Und füreinander.</em></p><p class="type-meta">Für Namen, zentrale Gedanken und persönliche Aussagen. Gewicht 400; Kursiv als einzelne Betonung.</p></div><div><div class="font-title"><span>Albert Sans</span><span>Die Orientierung</span></div><p class="type-ui">Was bewegt dich gerade?</p><p class="type-meta">Für Bedienung, Kapitel, Lesetext und Beschriftungen. Gewicht 400–600. Klar lesbar, auch wenn es klein wird.</p><p class="type-meta" style="margin-top:28px">Beide Schriften sind lokal eingebunden. Keine externe Font-Verbindung nötig.</p></div></div>
+<div class="type-test"><label for="typePreview">Eigene Worte testen<br><span class="small">Yrsa · 400</span></label><textarea id="typePreview" rows="2" spellcheck="false">Das Eigene hinterlässt eine Spur.</textarea></div>
+</section>
+
+<section class="section" id="material">
+<div class="section-heading"><span>06</span><h2>Fläche gibt Raum.</h2></div>
+<div class="material-grid"><div class="material-air"><h3>Nicht alles braucht einen Rahmen.</h3><p>Abstand, Ausrichtung und wenige Trennlinien strukturieren die Oberfläche. Gezielte Schatten machen Material und Bedienzustände spürbar.</p><p>Eingaben liegen leicht vertieft. Ein gespeicherter Gedanke hebt sich wie ein Blatt Papier an. Licht kommt von links oben; Druck gibt sanft nach.</p></div><figure class="material-paper"><span>Ein gespeicherter Gedanke</span><blockquote>Du musst nicht jede Spannung sofort auflösen.</blockquote><span>Paper Light · #F8F4EA</span></figure></div>
+</section>
+
+<section class="section" id="components">
+<div class="section-heading"><span>07</span><h2>Bedienung ohne Umwege.</h2></div>
+<div class="component-grid"><div class="component"><h3>Eine klare Entscheidung</h3><div class="actions"><button class="button" id="demoContinue">Weiter</button><button class="button secondary" id="demoLater">Später</button></div><p class="form-note">Primär und sekundär unterscheiden sich durch Gewicht, nicht durch Animation.</p></div>
+<div class="component"><h3>Ein Gedanke</h3><form class="demo-form" id="demoForm"><label for="demoInput">Was beschäftigt dich?</label><input id="demoInput" placeholder="Ein Gedanke für diesen Moment" maxlength="140" aria-describedby="formNote demoResult"><div class="actions"><button class="button compact" type="submit">Vorschau übernehmen</button></div><p class="form-note" id="formNote">Nur diese lokale Vorschau. Kein Versand, keine Speicherung.</p><p class="demo-result" id="demoResult" role="status"></p></form></div>
+<div class="component"><h3>Eine bewusste Auswahl</h3><button class="choice" id="choiceButton" aria-pressed="false"><div><strong>Mehr Raum für mich</strong><span>Heute darf es etwas ruhiger sein.</span></div></button></div>
+<div class="component"><h3>Ein verständlicher Status</h3><div class="segmented" role="group" aria-label="Statusbeispiel wählen"><button data-status="info" aria-pressed="true">Info</button><button data-status="signal" aria-pressed="false">Hinweis</button><button data-status="error" aria-pressed="false">Fehler</button></div><div class="status-demo" id="statusDemo" data-status="info" role="status">ⓘ Deine Angaben kannst du später ergänzen.</div></div></div>
+</section>
+
+<section class="section" id="product">
+<div class="section-heading"><span>08</span><h2>Ein System. Vier Perspektiven.</h2></div>
+<div class="product-tabs" role="tablist" aria-label="Produktbereiche"><button class="product-tab" id="tab-heute" role="tab" aria-selected="true" aria-controls="panel-heute" tabindex="0" data-product="heute">Heute</button><button class="product-tab" id="tab-ich" role="tab" aria-selected="false" aria-controls="panel-ich" tabindex="-1" data-product="ich">Ich</button><button class="product-tab" id="tab-umfeld" role="tab" aria-selected="false" aria-controls="panel-umfeld" tabindex="-1" data-product="umfeld">Umfeld</button><button class="product-tab" id="tab-weg" role="tab" aria-selected="false" aria-controls="panel-weg" tabindex="-1" data-product="weg">Weg</button></div>
+<div class="product-panel" id="panel-heute" role="tabpanel" aria-labelledby="tab-heute"><div class="product-copy"><h3>Dein Tag hat einen eigenen Rhythmus.</h3><p>Ein Gedanke, eine Pause, ein Austausch. Die Tageslinie ordnet Momente, ohne daraus einen Feed zu machen.</p></div><div class="day-list"><article class="day-item"><time>08:00</time><div><h4>Ankommen</h4><p>Ein Gedanke für dich.</p></div></article><article class="day-item"><time>12:40</time><div><h4>Innehalten</h4><p>Eine bewusste Pause.</p></div></article><article class="day-item current"><time>Jetzt</time><div><h4>Im Austausch</h4><p>Ein Moment mit Mara.</p></div></article></div></div>
+<div class="product-panel" id="panel-ich" role="tabpanel" aria-labelledby="tab-ich" hidden><div class="product-copy"><h3>Neun Felder.<br>Ein Fokus.</h3><p>Drei Gruppen mit je drei Feldern. Grosse Abstände trennen Gruppen, kleine trennen Felder. Wähle einen Bereich.</p><div class="wheel-controls" id="wheelControls" role="group" aria-label="Feld im Klangrad auswählen"></div></div><div class="product-visual"><svg id="selfWheel" viewBox="0 0 520 520" role="img" aria-labelledby="wheelAccessibleTitle"><title id="wheelAccessibleTitle">Klangrad: Feld 02 aus Gruppe A ausgewählt.</title><g id="wheelSegments" fill="none" stroke-linecap="round"></g><text x="260" y="248" text-anchor="middle" class="diagram-label">Dein Fokus</text><text id="wheelTitle" x="260" y="293" text-anchor="middle" class="diagram-title" style="font-size:43px">Feld 02</text><text id="wheelGroup" x="260" y="329" text-anchor="middle" class="diagram-small">Gruppe A</text></svg><p class="product-caption">Feldbezeichnungen sind noch offen.</p></div></div>
+<div class="product-panel" id="panel-umfeld" role="tabpanel" aria-labelledby="tab-umfeld" hidden><div class="product-copy"><h3>Nah sein.<br>Eigen bleiben.</h3><p>Zwei kreisförmige Räume. Eine kurze Verbindung. Nähe verändert den Abstand, nicht die Identität.</p></div><div class="product-visual"><div class="relationship-frame" data-resonance="field" role="img" aria-label="Du und Mara als runde offene Konturen mit einer kurzen Verbindung."><svg viewBox="0 0 720 400" aria-hidden="true"></svg><div class="relationship-label" data-person="a">Du<span>dein Raum</span></div><div class="relationship-label" data-person="b">Mara<span>ihr Raum</span></div></div></div></div>
+<div class="product-panel" id="panel-weg" role="tabpanel" aria-labelledby="tab-weg" hidden><div class="product-copy"><h3>Dein Weg<br>bleibt offen.</h3><p>Die Spur verbindet Erfahrungen. Eine Unterbrechung trennt das, was war, von dem, was noch möglich ist.</p></div><div class="product-visual"><svg viewBox="0 0 520 480" role="img" aria-label="Eine gebogene Wegspur verbindet Erkennen, Ausprobieren und Hier bist du. Eine Lücke hält den nächsten Schritt offen."><defs><linearGradient id="wayColor" x1="0" x2="1"><stop stop-color="#6756D9"/><stop offset="1" stop-color="#D85BA9"/></linearGradient></defs><path d="M65 106 H331 A64 64 0 0 1 331 234 H189 A64 64 0 0 0 189 362 H277" fill="none" stroke="#16363B" stroke-width="2"/><path d="M189 234 A64 64 0 0 0 189 362 H277" fill="none" stroke="url(#wayColor)" stroke-width="4" stroke-linecap="round"/><path d="M316 362 H446" fill="none" stroke="#819692" stroke-width="2" stroke-linecap="round"/><g fill="#16363B"><circle cx="65" cy="106" r="4"/><circle cx="306" cy="234" r="4"/><circle cx="277" cy="362" r="4"/></g><g class="diagram-label"><text x="65" y="76">Erkennen</text><text x="235" y="204">Ausprobieren</text><text x="208" y="404">Hier bist du</text><text x="446" y="439" text-anchor="end">Noch offen</text></g></svg></div></div>
+</section>
+
+<section class="section" id="motion">
+<div class="section-heading"><span>09</span><h2>Ein ruhiger Atemzug.</h2></div>
+<p class="section-intro">Langsam im Ausdruck. Direkt in der Bedienung. Nur der Beziehungsraum atmet; Text, Navigation und Logo stehen still.</p>
+<div class="motion-layout"><div class="motion-visual"><div class="relationship-frame" data-resonance="motion" role="img" aria-label="Zwei runde Konturen erweitern und beruhigen sich sanft. Ihre Verbindung bleibt angeschlossen."><svg viewBox="0 0 720 400" aria-hidden="true"></svg><div class="relationship-label" data-person="a">Du</div><div class="relationship-label" data-person="b">Mara</div></div><p class="breath-phase" id="breathPhase" aria-hidden="true">Raum geben</p></div><div><dl class="motion-spec"><div><dt>Raum geben</dt><dd>3,4 s</dd></div><div><dt>Zur Ruhe kommen</dt><dd>4,4 s</dd></div><div><dt>Radiusänderung</dt><dd>max. 7,5 %</dd></div><div><dt>Bedienfeedback</dt><dd>160–220 ms</dd></div></dl><p class="motion-copy">Spürbare Atmung statt Aufpoppen. Einmaliger Linienaufbau in 1,8 Sekunden und weiche Kapitelauftritte begleiten das Entdecken. Ein gemeinsamer Takt hält Konturen und Verbindung zusammen. Pausiert ausserhalb des sichtbaren Bereichs und bei ausgeblendeter Seite.</p></div></div>
+<div class="motion-actions"><button class="motion-toggle" data-motion-toggle aria-pressed="false">Bewegung pausieren</button><p class="small secondary" id="motionPreference">Die Systemeinstellung für reduzierte Bewegung wird respektiert.</p></div>
+</section>
+
+<section class="section" id="voice">
+<div class="section-heading"><span>10</span><h2>Einfach sagen, was ist.</h2></div><div class="voice-list"><article class="voice-item"><span>Rückzug</span><div><blockquote>Du brauchst mehr Raum für dich.</blockquote><p>Keine energetischen Deutungen. Kein Urteil.</p></div></article><article class="voice-item"><span>Unterschied</span><div><blockquote>Hier seid ihr unterschiedlich.</blockquote><p>Keine Diagnose. Keine Bewertung von Kompatibilität.</p></div></article><article class="voice-item"><span>Nähe</span><div><blockquote>Ihr braucht nicht dasselbe, um euch nah zu sein.</blockquote><p>Verständliche Beobachtungen statt Beziehungsscores.</p></div></article></div>
+</section>
+
+<section class="section" id="review">
+<div class="section-heading"><span>11</span><h2>Vor der Freigabe.</h2></div>
+<div class="review-layout"><div><p class="review-count"><span id="scoreNumber">0</span><small> / 8</small></p><p class="review-description" id="scoreMessage" role="status">Bestätigte Gestaltungsregeln. Eine Checkliste ersetzt kein visuelles Review.</p></div><div class="checklist" id="checklist"></div></div>
+</section>
+
+<section class="section" id="tokens">
+<div class="section-heading"><span>12</span><h2>Zum Weiterarbeiten.</h2></div>
+<div class="token-layout"><div class="download-list">
+<a href="assets/ELANUM-Master-Spektrum-Curves.svg" download>Spektrum · Kurvenbereinigt</a><a href="assets/ELANUM-System-Ink-Curves.svg" download>Ink · Kurvenbereinigt</a>
+<a href="assets/ELANUM-Master-Spektrum.svg" download>Spektrum · Unverändertes Original</a><a href="assets/ELANUM-System-Ink.svg" download>Ink · Unverändertes Original</a><a href="assets/ELANUM-Konturvergleich.svg" download>Konturvergleich · Original / Korrektur</a><a href="DESIGN-NOTES.md" download>Gestaltungs- &amp; Konstruktionsnotizen</a>
+<p>Das Logo und die Produktgrafik sind getrennte Systeme. Keine Animation verändert das Logo. Schriften und ihre OFL-Lizenzen liegen im Ordner assets/fonts.</p></div>
+<div class="code-panel"><div class="code-top"><span>ELANUM / Kern-Tokens</span><button id="copyTokens">Kopieren</button></div><pre id="tokenCode">:root {
+  --elanum-canvas: #F8F9F7;
+  --elanum-ink: #16363B;
+  --elanum-text-secondary: #526166;
+  --elanum-text-muted: #617275;
+  --elanum-paper: #F2ECDD;
+  --elanum-paper-light: #F8F4EA;
+
+  --elanum-violet: #6756D9;
+  --elanum-blue: #4D7FE8;
+  --elanum-orchid: #9466DF;
+  --elanum-rose: #D85BA9;
+  --elanum-pink: #F0719A;
+  --elanum-coral: #E87872;
+  --elanum-amber: #C9953E;
+  --elanum-moss: #6D9477;
+  --elanum-teal: #3E898D;
+
+  --elanum-signal: #89560E;
+  --elanum-info: #286F9B;
+  --elanum-error: #A7394D;
+
+  --elanum-radius-control: 8px;
+  --elanum-radius-circle: 50%;
+  --elanum-trace: 1.6px;
+  --elanum-bridge: 2.8px;
+  --elanum-motion-ui: 180ms;
+  --elanum-motion-breath: 7800ms;
+  --elanum-font-display: "Yrsa", serif;
+  --elanum-font-ui: "Albert Sans", sans-serif;
+}</pre></div></div>
+</section>
+<footer class="footer"><p>Das Eigene hinterlässt eine Spur.<br><em>Resonanz verändert sie.</em></p><div class="footer-meta"><span>ELANUM · Digital Resonance</span><span>Gestaltungsatlas 4.3 / September 2026</span></div></footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
