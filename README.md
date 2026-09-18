@@ -1,145 +1,126 @@
-# elanum-design
+# ELANUM Designsystem
 
-Designsystem von elanum, in der SoulResonance-Sprache: warmes Papier als Grund,
-programmierbare SVG-Geometrie, Farbe, die sich wie Licht verhält.
+Dieses Repository enthält das **gesamte ELANUM-Designsystem**, nicht nur das persönliche Rad: Markenreferenzen, Logo- und Gestaltungssprache, Farben, Typografie, Material, Bewegung, UI-Prototypen und Werkzeuge für die Umsetzung.
 
-## Inhalt
+Das persönliche Rad ist eine einzelne Produktkomponente. Der interaktive **Gestaltungsatlas 4.4** entwickelt die Gestaltung in Richtung **Soft 3D Relief / Neumorphic Relief** weiter.
 
-| Pfad | Was es ist |
-|---|---|
-| `index.html` | Einstiegsseite, verlinkt Rad und Styleguide. |
-| `docs/soulresonance-styleguide.html` | Die lebende Referenz. Im Browser öffnen. |
-| `docs/soulresonance-design-prompt.md` | Die Designanweisung im Volltext. |
-| `.claude/skills/elanum-designelemente/` | Der Skill für die tägliche Arbeit. |
-| `assets/` | Projekt-Stylesheet und Reveal-Observer, aus den Skill-Assets. |
-| `components/personal-wheel/` | Das persönliche Rad im Bereich Ich. |
+## Direkt zum richtigen Bereich
 
-## Das persönliche Rad
+| Bereich | Inhalt | Verfügbarkeit |
+| --- | --- | --- |
+| [Gestaltungsatlas 4.4](https://github.com/maindnow/elanum-design/tree/codex/elanum-styleguide-2026-09-18/docs/elanum-gestaltungsatlas) | Logo, Typografie, Farbsystem, Relief, Beziehungen, Animationen und Bedienung | Separater Arbeitsbranch, noch nicht in `main` |
+| [SoulResonance-Referenz](docs/soulresonance-styleguide.html) | Bestehende interaktive Designreferenz | In `main` |
+| [Designanweisung](docs/soulresonance-design-prompt.md) | Gestaltungsregeln im Volltext | In `main` |
+| [Persönliches Rad](components/personal-wheel/standalone.html) | Navigationsprototyp mit neun Bereichen in drei Gruppen | In `main` |
+| [Projekt-Skill](.claude/skills/elanum-designelemente/SKILL.md) | Vorlagen, Regeln und Prüfwerkzeuge für SoulResonance | In `main` |
 
-`components/personal-wheel/` ist ein Navigationsinstrument, kein Diagramm. Seine
-Geometrie ist verbindlich und wird aus Polarkoordinaten berechnet:
+GitHub zeigt HTML-Dateien als Quelltext. Für die interaktiven Ansichten die Dateien lokal im Browser öffnen oder über einen lokalen Webserver bereitstellen.
 
-- die äussere Silhouette ist jederzeit ein mathematisch perfekter Kreis
-- neun gleich grosse radiale Segmente à exakt 40 Grad, alle mit demselben Aussenradius
-- darüber ein konzentrischer Ring aus drei Abschnitten à 120 Grad, geometrisch an je
-  drei Segmente gekoppelt
-- Radien bei `viewBox="0 0 320 320"`: Zentrum 34, Segmente 112, Gruppenring 121 bis 145
-- keine Bézier-Verformung, keine variierenden Radien, keine asymmetrische Aussenkontur
+## Aktuelle Designrichtung: Soft 3D Relief
 
-Trace, Echo und Spectrum kommen ausschliesslich als sekundäre Effekte entlang dieser
-festen Geometrie vor. Kreis und Segmente sind die Informationsarchitektur,
-SoulResonance ist die Sprache darüber.
+Der Gestaltungsatlas kombiniert warme Papierflächen mit Licht von links oben, weichen Schatten, erhabenen Elementen und vertieften Eingaben. Yrsa setzt persönliche Aussagen; Albert Sans führt durch Bedienung und Lesetext.
 
-Inhalt und Geometrie sind getrennt: `ITEMS` in `personal-wheel.js` bestimmt, was in den
-Segmenten steht, `CFG` bestimmt die Geometrie. Wer ein Element umbenennt, fasst das SVG
-nicht an.
+- **Logo:** Spektrum, Ink, Invers und eine zusätzliche Relief-Prägung. Die freigegebene Grundform bleibt erhalten; Originaldateien und separate Kurvenkorrekturen sind enthalten.
+- **Beziehungen:** mathematisch runde, gefüllte Reliefebenen mit offenen Konturen und angeschlossenen Verbindungslinien.
+- **Bewegung:** sanfte Atmung, einmaliger Aufbau beim Scrollen, Druck- und Hoverzustände sowie globale Bewegungspause und reduzierte Bewegung.
+- **Farbe:** neun Feldfarben in drei Gruppen, ergänzt um separate Info-, Signal- und Fehlerfarben.
+- **Interaktion:** Schriftprobe, kopierbare Farbwerte und Tokens, lokale Formulardemos, Produkt-Tabs und eine manuelle Prüfcheckliste.
 
-### Kategorien und Ausfüllstatus
+Die fachlichen Feldnamen im Atlas sind noch Platzhalter. Sie dürfen nicht automatisch mit den benannten Bereichen des persönlichen Rads gleichgesetzt werden.
 
-Jede der drei Kategorien trägt eine eigene Resonanzfarbe, entnommen aus dem Spektrum in
-seiner festen Reihenfolge:
+[Designentscheidungen zum Atlas](https://github.com/maindnow/elanum-design/blob/codex/elanum-styleguide-2026-09-18/docs/elanum-gestaltungsatlas/DESIGN-NOTES.md) · [Prüfstand und bekannte Abweichungen](https://github.com/maindnow/elanum-design/blob/codex/elanum-styleguide-2026-09-18/docs/elanum-gestaltungsatlas/IMPORT-NOTES.md)
 
-| Kategorie | Farbe |
-|---|---|
-| Grundtöne | Violet `#6756D9` |
-| Ich und Orientierung | Blue `#4D7FE8` |
-| Beziehung und Verbindung | Rose `#D85BA9` |
+## Lokal starten
 
-Die Farbe erscheint als Tönung zwischen 7 und 30 Prozent, nie als satte Fläche. Sie
-sagt, zu welcher Kategorie ein Segment gehört. Ob es schon ausgefüllt ist, sagen die
-Stärke der Tönung und der Punkt am äusseren Rand: voller Punkt heisst ausgefüllt,
-offener Kreis heisst noch offen. Der offene Kreis ist die Gap-Sprache des Systems.
+Voraussetzungen: Git und ein aktueller Browser. Python 3 wird nur für den optionalen lokalen Webserver benötigt.
 
-Der Ausfüllstatus steht im Markup, nicht im JavaScript. Ein Panel mit
-`data-done="true"` färbt sein Segment ein und füllt den Punkt. So werden Inhalt und
-Zustand an einer Stelle gepflegt, und die Seite stimmt auch ohne JavaScript.
-
-Das Ergebnis steht an zwei Stellen, aber nur einmal gepflegt. Im Segment steht unter
-dem Namen die Kurzform in der Farbe der Kategorie, etwa Jungfrau, Generator oder
-Ehrlichkeit. Unter der Beschreibung steht sie ausführlich in einem Ergebnisbereich mit
-mindestens 96px Höhe. Beide lesen aus demselben Markup: `data-result` trägt die
-Kurzform, die Definitionsliste im Panel die Details.
-
-Offene Bereiche zeigen im Segment keine Ergebniszeile, ihr offener Kreis sagt bereits,
-dass noch nichts da ist. Im Panel steht dort ein Leerzustand mit der Aufforderung,
-ihn auszufüllen. Die Ergebnisse in dieser Vorschau sind Beispieldaten.
-
-Kurzformen im Rad müssen in ihr Segment passen. Die verfügbare Breite ist
-`2 · r · sin(20°)` am Radius der Zeile, also rund 42 bis 56 Einheiten. `Lebenszahl 7`
-brauchte 53 bei 44 verfügbaren und musste zu `7` gekürzt werden.
-
-### Anschauen
-
-`components/personal-wheel/standalone.html` im Browser öffnen. Die Datei enthält alles
-inline und braucht weder Server noch Nachbardateien.
-
-Sie ist erzeugt, nicht von Hand gepflegt. Nach jeder Änderung an `index.html`,
-`personal-wheel.css` oder `personal-wheel.js`:
+### Bestehendes System auf main
 
 ```bash
-python components/personal-wheel/build-standalone.py
+git clone --branch main https://github.com/maindnow/elanum-design.git
+cd elanum-design
+python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-Das Script setzt alle lokalen Stylesheets und Skripte inline und schreibt zwei Dateien:
-`standalone.html` als vollständiges Dokument und `artifact.html` als reinen Seiteninhalt
-für die Veröffentlichung. Es bricht ab, wenn ein lokaler Verweis übrig bleibt.
+[Lokalen Einstieg öffnen](http://127.0.0.1:4173/). Die Startseite verlinkt SoulResonance und das persönliche Rad. Den Server mit `Ctrl+C` beenden.
 
-## GitHub Pages
+### Neuen Relief-Atlas ansehen
 
-Die Einstiegsseite liegt in der Wurzel, das Repository lässt sich also direkt als
-statische Seite ausliefern. Pages ist noch nicht aktiviert. Einschalten unter
-Settings, Pages, Source auf "Deploy from a branch", Branch `main` und Ordner `/ (root)`.
-
-Danach:
-
-| Seite | URL |
-|---|---|
-| Einstieg | `https://maindnow.github.io/elanum-design/` |
-| Persönliches Rad | `https://maindnow.github.io/elanum-design/components/personal-wheel/standalone.html` |
-| SoulResonance Styleguide | `https://maindnow.github.io/elanum-design/docs/soulresonance-styleguide.html` |
-
-Solange `main` nur das Fundament trägt, liefert Pages von dort noch kein Rad. Entweder
-zuerst den offenen Pull Request mergen, oder Pages übergangsweise vom Feature-Branch
-ausliefern.
-
-## Den Skill nutzen
-
-Der Skill liegt als Projekt-Skill in `.claude/skills/` und wird von Claude Code in
-diesem Repository automatisch gefunden. Er greift bei Aufgaben wie
-"Designelement für elanum", "elanum Komponente bauen" oder
-"Card im SoulResonance-Stil".
-
-```
-.claude/skills/elanum-designelemente/
-├── SKILL.md                          Arbeitsanleitung, vier Modi
-├── references/
-│   ├── tokens.md                     Palette, Relief, Radien, Materialverhältnis
-│   ├── komponenten.md                Card, Kante, Button, Feld, Status, Papier
-│   ├── svg-grammatik.md              Trace, Echo, Gap, Bridge, Spectrum
-│   ├── motion.md                     Konstanten, Guards, Reveal-Code
-│   ├── layout-responsive.md          Breakpoints, Grid, Editorial-Disziplin
-│   ├── acceptance-checkliste.md      18 Punkte vor dem Abliefern
-│   ├── pruning.md                    Wartung der learnings.md
-│   └── learnings.md                  Gedächtnis des Skills, wächst durch wrap-up
-├── assets/
-│   ├── base.css                      Tokens, Reset, Primitive, Responsive
-│   ├── reveal.js                     Reveal-Observer, inklusive Erreichbarkeitsprüfung
-│   └── starter.html                  Seitenskelett
-└── scripts/
-    ├── check_design.py               Linter für die statisch prüfbaren Regeln
-    └── verify_render.py              Render-Verifikation in Chromium
-```
-
-## Ein neues Element bauen
+In einer separaten Arbeitskopie:
 
 ```bash
-cp .claude/skills/elanum-designelemente/assets/base.css       ./
-cp .claude/skills/elanum-designelemente/assets/reveal.js      ./
-cp .claude/skills/elanum-designelemente/assets/starter.html   ./
-# bauen, dann:
-python .claude/skills/elanum-designelemente/scripts/check_design.py starter.html
-python .claude/skills/elanum-designelemente/scripts/verify_render.py starter.html --shots ./shots
+git clone --branch codex/elanum-styleguide-2026-09-18 https://github.com/maindnow/elanum-design.git elanum-relief
+cd elanum-relief
+python3 -m http.server 4174 --bind 127.0.0.1
 ```
 
-`verify_render.py` braucht `pip install playwright`. Chromium wird unter
-`/opt/pw-browsers` gesucht, sonst nimmt Playwright seine eigene Installation.
+[Relief-Atlas lokal öffnen](http://127.0.0.1:4174/docs/elanum-gestaltungsatlas/index.html).
+
+Alternativ die jeweilige HTML-Datei direkt im Browser öffnen. Beim Atlas den vollständigen Ordner mit CSS, JavaScript und Assets zusammen behalten. Er benötigt keinen Build, kein Backend und keinen externen Font-Dienst. Die Eingabedemos versenden oder speichern keine Daten dauerhaft.
+
+## Struktur von main
+
+```text
+index.html                           Einstieg zur bisherigen Referenz und zum Rad
+docs/
+  soulresonance-styleguide.html       Interaktive SoulResonance-Referenz
+  soulresonance-design-prompt.md      Designanweisung
+components/personal-wheel/            Quellen und generierte Rad-Vorschauen
+assets/                              Gemeinsame SoulResonance-Styles und Bewegung
+.claude/skills/elanum-designelemente/  Projekt-Skill, Vorlagen und Prüfskripte
+CLAUDE.md                            Projektregeln und Referenzrangfolge
+```
+
+Der Arbeitsbranch ergänzt `docs/elanum-gestaltungsatlas/` mit eigenem HTML, CSS, JavaScript, SVG-Assets, lokalen Fonts und Designnotizen. Dieser Ordner ist noch nicht Bestandteil von `main`.
+
+## Referenzen und Pflege
+
+Für das bestehende SoulResonance-System gilt die Rangfolge aus [CLAUDE.md](CLAUDE.md):
+
+1. Interaktive SoulResonance-Referenz.
+2. Designanweisung.
+3. Projekt-Skill.
+
+Der Relief-Atlas ist eine separate Weiterentwicklung und ersetzt diese Regeln nicht stillschweigend. Für eine gemeinsame verbindliche Basis müssen Referenz, Tokens, Projekt-Skill und Dokumentation bewusst zusammengeführt werden.
+
+Logo-Geometrie nicht als gewöhnliche Stylingänderung behandeln. Originale erhalten und Änderungen an Konturen separat abstimmen. Bei Änderungen am Atlas auch die sichtbare Farbpalette, den Tokenblock und die Designnotizen pflegen.
+
+## Das persönliche Rad weiterentwickeln
+
+Das Rad ist eine Navigationskomponente mit neun Segmenten à 40 Grad und drei zugehörigen Gruppenbereichen à 120 Grad. Die Kreisgeometrie wird aus Polarkoordinaten berechnet.
+
+In `personal-wheel.js` stehen Inhalte in `ITEMS` und Geometriewerte in `CFG`. Ausfüllstatus und Ergebnisse kommen aus dem HTML-Markup, unter anderem aus `data-done` und `data-result`. Die Vorschau enthält Beispieldaten.
+
+Nach Änderungen an den Quellen die Ausgaben neu erzeugen:
+
+```bash
+python3 components/personal-wheel/build-standalone.py
+```
+
+Das Skript erstellt `standalone.html` und `artifact.html`. Lokale Styles und Skripte werden eingebettet; externe Google-Font-Verweise bleiben bestehen. Anders als der Atlas ist die Schriftversorgung des Rads daher nicht vollständig lokal.
+
+## Qualität und Prüfungen
+
+Für Änderungen am bestehenden SoulResonance-System:
+
+```bash
+python3 .claude/skills/elanum-designelemente/scripts/check_design.py docs/soulresonance-styleguide.html
+python3 .claude/skills/elanum-designelemente/scripts/verify_render.py docs/soulresonance-styleguide.html
+git diff --check
+```
+
+Der Rendercheck benötigt Python Playwright und einen passenden Chromium-Browser. Er prüft verschiedene Bildschirmbreiten mit normaler und reduzierter Bewegung. Die Befehle sind eine Prüfanleitung, keine Aussage, dass der jeweilige Stand alle Prüfungen besteht.
+
+Beim Atlas zusätzlich JavaScript-Syntax, lokale Dateiverweise, Logo-Proportionen, mobile Überläufe, Tastaturbedienung und Bewegungspause prüfen. Sein dokumentierter Stand enthält 14 Abweichungen zu den bisherigen SoulResonance-Linterregeln. Eine vollständige Barrierefreiheitsfreigabe wird nicht behauptet.
+
+## Branches und Veröffentlichung
+
+`main` enthält das bisherige System und diese Projektübersicht. Der Relief-Atlas liegt unter `codex/elanum-styleguide-2026-09-18`. Weitere Arbeitsbranches können unabhängig davon fortgeführt werden.
+
+Am 19. September 2026 verweist der Standardbranch des Repositorys auf `claude/elanum-designelemente-skill-wv45uu`, nicht auf `main`. Deshalb kann die allgemeine GitHub-Startseite eine andere README anzeigen. [Diese README direkt auf main öffnen](https://github.com/maindnow/elanum-design/blob/main/README.md).
+
+Ein Push ist weder ein Merge noch ein Deployment. Der aktuelle GitHub-Pages-Status wird hier nicht vorausgesetzt. Bei einer Veröffentlichung müssen alle benötigten Dateien im tatsächlich veröffentlichten Branch oder Build-Artefakt enthalten sein.
+
+## Nutzungsrechte
+
+Die lokal eingebundenen Fonts des Atlas enthalten ihre OFL-Lizenzen im jeweiligen Font-Ordner. Daraus folgt keine allgemeine Nutzungsfreigabe der ELANUM-Markenassets. Eine allgemeine Repository-Lizenz wird hier nicht vorausgesetzt.
