@@ -1,40 +1,26 @@
-# ELANUM Designsystem
+# ELANUM Styleguide 4.4
 
-Dieses Repository enthält das **gesamte ELANUM-Designsystem**, nicht nur das persönliche Rad: Markenreferenzen, Logo- und Gestaltungssprache, Farben, Typografie, Material, Bewegung, UI-Prototypen und Werkzeuge für die Umsetzung.
+Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Relief**. Dieses Repository enthält ausschliesslich den Styleguide 4.4 mit seinen Assets und seiner Dokumentation.
 
-Das persönliche Rad ist eine einzelne Produktkomponente. Der interaktive **Gestaltungsatlas 4.4** entwickelt die Gestaltung in Richtung **Soft 3D Relief / Neumorphic Relief** weiter.
+[Styleguide-Datei](index.html) · [Designnotizen](DESIGN-NOTES.md)
 
-## Direkt zum richtigen Bereich
+## Was der Styleguide zeigt
 
-| Bereich | Inhalt | Verfügbarkeit |
-| --- | --- | --- |
-| [Gestaltungsatlas 4.4](https://github.com/maindnow/elanum-design/tree/codex/elanum-styleguide-2026-09-18/docs/elanum-gestaltungsatlas) | Logo, Typografie, Farbsystem, Relief, Beziehungen, Animationen und Bedienung | Separater Arbeitsbranch, noch nicht in `main` |
-| [SoulResonance-Referenz](docs/soulresonance-styleguide.html) | Bestehende interaktive Designreferenz | In `main` |
-| [Designanweisung](docs/soulresonance-design-prompt.md) | Gestaltungsregeln im Volltext | In `main` |
-| [Persönliches Rad](components/personal-wheel/standalone.html) | Navigationsprototyp mit neun Bereichen in drei Gruppen | In `main` |
-| [Projekt-Skill](.claude/skills/elanum-designelemente/SKILL.md) | Vorlagen, Regeln und Prüfwerkzeuge für SoulResonance | In `main` |
+- **Logo:** Spektrum, Ink, Invers und Papierrelief. Original und kurvenbereinigte Fassung sind vergleichbar; die freigegebene Grundform bleibt erhalten.
+- **Typografie:** Yrsa für persönliche Aussagen, Albert Sans für Orientierung und Bedienung.
+- **Farbe:** neun Feldfarben in drei Gruppen sowie getrennte Info-, Signal- und Fehlerfarben.
+- **Material:** warme Oberflächen, Licht von links oben, erhabene Flächen und vertiefte Eingaben.
+- **Beziehungen:** runde Reliefebenen, offene Konturen und angeschlossene Verbindungslinien.
+- **Bewegung:** sanfte Atmung, Linienaufbau, Scroll-Auftritte und haptische Bedienzustände.
+- **Interaktion:** Farbkopieren, Schriftprobe, lokale Eingabedemos, Produkt-Tabs und eine manuelle Prüfcheckliste.
 
-GitHub zeigt HTML-Dateien als Quelltext. Für die interaktiven Ansichten die Dateien lokal im Browser öffnen oder über einen lokalen Webserver bereitstellen.
+Das ist ein vollständiger Styleguide, nicht nur eine Rad-Komponente. Die Feldnamen und Gruppen A bis C sind strukturelle Platzhalter, keine fertige fachliche Klassifikation.
 
-## Aktuelle Designrichtung: Soft 3D Relief
+## Lokal öffnen
 
-Der Gestaltungsatlas kombiniert warme Papierflächen mit Licht von links oben, weichen Schatten, erhabenen Elementen und vertieften Eingaben. Yrsa setzt persönliche Aussagen; Albert Sans führt durch Bedienung und Lesetext.
+Das Repository herunterladen und `index.html` im Browser öffnen. Alle Dateien und den Ordner `assets/` zusammen behalten. GitHub selbst zeigt HTML als Quelltext.
 
-- **Logo:** Spektrum, Ink, Invers und eine zusätzliche Relief-Prägung. Die freigegebene Grundform bleibt erhalten; Originaldateien und separate Kurvenkorrekturen sind enthalten.
-- **Beziehungen:** mathematisch runde, gefüllte Reliefebenen mit offenen Konturen und angeschlossenen Verbindungslinien.
-- **Bewegung:** sanfte Atmung, einmaliger Aufbau beim Scrollen, Druck- und Hoverzustände sowie globale Bewegungspause und reduzierte Bewegung.
-- **Farbe:** neun Feldfarben in drei Gruppen, ergänzt um separate Info-, Signal- und Fehlerfarben.
-- **Interaktion:** Schriftprobe, kopierbare Farbwerte und Tokens, lokale Formulardemos, Produkt-Tabs und eine manuelle Prüfcheckliste.
-
-Die fachlichen Feldnamen im Atlas sind noch Platzhalter. Sie dürfen nicht automatisch mit den benannten Bereichen des persönlichen Rads gleichgesetzt werden.
-
-[Designentscheidungen zum Atlas](https://github.com/maindnow/elanum-design/blob/codex/elanum-styleguide-2026-09-18/docs/elanum-gestaltungsatlas/DESIGN-NOTES.md) · [Prüfstand und bekannte Abweichungen](https://github.com/maindnow/elanum-design/blob/codex/elanum-styleguide-2026-09-18/docs/elanum-gestaltungsatlas/IMPORT-NOTES.md)
-
-## Lokal starten
-
-Voraussetzungen: Git und ein aktueller Browser. Python 3 wird nur für den optionalen lokalen Webserver benötigt.
-
-### Bestehendes System auf main
+Alternativ mit Git und Python 3:
 
 ```bash
 git clone --branch main https://github.com/maindnow/elanum-design.git
@@ -42,85 +28,74 @@ cd elanum-design
 python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-[Lokalen Einstieg öffnen](http://127.0.0.1:4173/). Die Startseite verlinkt SoulResonance und das persönliche Rad. Den Server mit `Ctrl+C` beenden.
+Danach [http://127.0.0.1:4173](http://127.0.0.1:4173) öffnen. Den Server mit `Ctrl+C` beenden.
 
-### Neuen Relief-Atlas ansehen
+Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets liegen lokal. Die Eingaben dienen nur der aktuellen Vorschau, ohne Versand oder dauerhafte Speicherung.
 
-In einer separaten Arbeitskopie:
+## Aufbau
 
-```bash
-git clone --branch codex/elanum-styleguide-2026-09-18 https://github.com/maindnow/elanum-design.git elanum-relief
-cd elanum-relief
-python3 -m http.server 4174 --bind 127.0.0.1
-```
+| Datei | Aufgabe |
+| --- | --- |
+| [index.html](index.html) | Direkter Einstieg mit allen Kapiteln |
+| [style.css](style.css) | Basislayout und responsive Darstellung |
+| [tactile.css](tactile.css) | Papiertextur und haptische Zustände |
+| [relief.css](relief.css) | Soft-3D-Oberflächen und Logo-Card |
+| [app.js](app.js) | SVG-Geometrie, Bewegung und Bedienlogik |
+| [assets/](assets/) | Logos, Konturvergleich und lokale Fonts |
+| [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
 
-[Relief-Atlas lokal öffnen](http://127.0.0.1:4174/docs/elanum-gestaltungsatlas/index.html).
+Die Stylesheets werden in der Reihenfolge `style.css`, `tactile.css`, `relief.css` geladen. Die Relief-Regeln überschreiben gezielt die Basis.
 
-Alternativ die jeweilige HTML-Datei direkt im Browser öffnen. Beim Atlas den vollständigen Ordner mit CSS, JavaScript und Assets zusammen behalten. Er benötigt keinen Build, kein Backend und keinen externen Font-Dienst. Die Eingabedemos versenden oder speichern keine Daten dauerhaft.
+## Gestaltungsregeln
 
-## Struktur von main
+### Logo bewahren
 
-```text
-index.html                           Einstieg zur bisherigen Referenz und zum Rad
-docs/
-  soulresonance-styleguide.html       Interaktive SoulResonance-Referenz
-  soulresonance-design-prompt.md      Designanweisung
-components/personal-wheel/            Quellen und generierte Rad-Vorschauen
-assets/                              Gemeinsame SoulResonance-Styles und Bewegung
-.claude/skills/elanum-designelemente/  Projekt-Skill, Vorlagen und Prüfskripte
-CLAUDE.md                            Projektregeln und Referenzrangfolge
-```
+Dateien ohne `-Curves` sind die unveränderten Ausgangsdateien. Die kurvenbereinigten Fassungen erhalten Silhouette, Ankerpunkte und Linienanordnung. Relief ist eine zusätzliche Materialanwendung, kein neues Logo. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.
 
-Der Arbeitsbranch ergänzt `docs/elanum-gestaltungsatlas/` mit eigenem HTML, CSS, JavaScript, SVG-Assets, lokalen Fonts und Designnotizen. Dieser Ordner ist noch nicht Bestandteil von `main`.
+Die Relief-Masken sind zusätzlich in `app.js` eingebettet, damit die lokale Dateiansicht funktioniert. Freigegebene Änderungen an Logo-Assets und Masken gemeinsam pflegen. Das Logo selbst wird nicht animiert.
 
-## Referenzen und Pflege
+### Tiefe und Bedienbarkeit verbinden
 
-Für das bestehende SoulResonance-System gilt die Rangfolge aus [CLAUDE.md](CLAUDE.md):
+Schatten vermitteln Material, aber nicht allein die Funktion. Text, Fokusmarkierungen und Auswahlzustände bleiben erkennbar. Licht fällt konsistent von links oben; Eingaben liegen vertieft, ausgewählte Flächen können sich anheben.
 
-1. Interaktive SoulResonance-Referenz.
-2. Designanweisung.
-3. Projekt-Skill.
+### Bewegung kontrollierbar halten
 
-Der Relief-Atlas ist eine separate Weiterentwicklung und ersetzt diese Regeln nicht stillschweigend. Für eine gemeinsame verbindliche Basis müssen Referenz, Tokens, Projekt-Skill und Dokumentation bewusst zusammengeführt werden.
+Die Kreise atmen in einem gemeinsamen Zyklus: 3,4 Sekunden Ausdehnung und 4,4 Sekunden Beruhigung, maximal 7,5 Prozent Radiusänderung. Füllung, Kontur und Verbindung bleiben synchron. Beschriftungen bleiben ruhig.
 
-Logo-Geometrie nicht als gewöhnliche Stylingänderung behandeln. Originale erhalten und Änderungen an Konturen separat abstimmen. Bei Änderungen am Atlas auch die sichtbare Farbpalette, den Tokenblock und die Designnotizen pflegen.
+Globale Pause und `prefers-reduced-motion` berücksichtigen. Unsichtbare Beziehungsdarstellungen und ausgeblendete Seiten lassen den Atemtakt ruhen. Keine Animation darf Inhalte dauerhaft verstecken.
 
-## Das persönliche Rad weiterentwickeln
+### Dokumentation mitpflegen
 
-Das Rad ist eine Navigationskomponente mit neun Segmenten à 40 Grad und drei zugehörigen Gruppenbereichen à 120 Grad. Die Kreisgeometrie wird aus Polarkoordinaten berechnet.
+Bei Farb- und Tokenänderungen die sichtbare Palette, den kopierbaren Tokenblock und die Designnotizen aktualisieren. Die Checkliste im Styleguide ist eine manuelle Arbeitshilfe, keine automatische Design- oder Accessibility-Freigabe.
 
-In `personal-wheel.js` stehen Inhalte in `ITEMS` und Geometriewerte in `CFG`. Ausfüllstatus und Ergebnisse kommen aus dem HTML-Markup, unter anderem aus `data-done` und `data-result`. Die Vorschau enthält Beispieldaten.
+## Prüfen
 
-Nach Änderungen an den Quellen die Ausgaben neu erzeugen:
+JavaScript-Syntax und Diff prüfen:
 
 ```bash
-python3 components/personal-wheel/build-standalone.py
-```
-
-Das Skript erstellt `standalone.html` und `artifact.html`. Lokale Styles und Skripte werden eingebettet; externe Google-Font-Verweise bleiben bestehen. Anders als der Atlas ist die Schriftversorgung des Rads daher nicht vollständig lokal.
-
-## Qualität und Prüfungen
-
-Für Änderungen am bestehenden SoulResonance-System:
-
-```bash
-python3 .claude/skills/elanum-designelemente/scripts/check_design.py docs/soulresonance-styleguide.html
-python3 .claude/skills/elanum-designelemente/scripts/verify_render.py docs/soulresonance-styleguide.html
+node --check app.js
 git diff --check
 ```
 
-Der Rendercheck benötigt Python Playwright und einen passenden Chromium-Browser. Er prüft verschiedene Bildschirmbreiten mit normaler und reduzierter Bewegung. Die Befehle sind eine Prüfanleitung, keine Aussage, dass der jeweilige Stand alle Prüfungen besteht.
+Zusätzlich im Browser:
 
-Beim Atlas zusätzlich JavaScript-Syntax, lokale Dateiverweise, Logo-Proportionen, mobile Überläufe, Tastaturbedienung und Bewegungspause prüfen. Sein dokumentierter Stand enthält 14 Abweichungen zu den bisherigen SoulResonance-Linterregeln. Eine vollständige Barrierefreiheitsfreigabe wird nicht behauptet.
+- Desktop und Mobil: keine horizontalen Überläufe, lesbare Beschriftungen.
+- Logo: alle vier Modi und Originalvergleich ohne Verzerrung.
+- Interaktion: Regler, Formulare, Farbkopieren und Produkt-Tabs.
+- Tastatur: sichtbarer Fokus und bedienbare Steuerelemente.
+- Bewegung: globale Pause und reduzierte Bewegung.
+- Assets: keine fehlenden Dateien oder Browser-Konsolenfehler.
 
-## Branches und Veröffentlichung
+Vor der Repository-Umstellung wurden Desktop- und mobile Ansichten lokal kontrolliert. Die Relief-Logo-Card wurde bei 390 px ohne horizontalen Überlauf geprüft. Syntax, lokale Dateiverweise und identische Übernahme des freigegebenen Deliverables werden bei der Umstellung kontrolliert. Ein vollständiger Barrierefreiheits- oder geräteübergreifender Audit liegt nicht vor.
 
-`main` enthält das bisherige System und diese Projektübersicht. Der Relief-Atlas liegt unter `codex/elanum-styleguide-2026-09-18`. Weitere Arbeitsbranches können unabhängig davon fortgeführt werden.
+## Stand und Historie
 
-Am 19. September 2026 verweist der Standardbranch des Repositorys auf `claude/elanum-designelemente-skill-wv45uu`, nicht auf `main`. Deshalb kann die allgemeine GitHub-Startseite eine andere README anzeigen. [Diese README direkt auf main öffnen](https://github.com/maindnow/elanum-design/blob/main/README.md).
+Seit der Umstellung am 19. September 2026 ist Styleguide 4.4 der einzige aktuelle Designstand in `main`. Die frühere SoulResonance-Referenz, die separate persönliche Rad-Komponente und deren Projekt-Skill wurden aus dem aktuellen Dateibaum entfernt.
 
-Ein Push ist weder ein Merge noch ein Deployment. Der aktuelle GitHub-Pages-Status wird hier nicht vorausgesetzt. Bei einer Veröffentlichung müssen alle benötigten Dateien im tatsächlich veröffentlichten Branch oder Build-Artefakt enthalten sein.
+Die Git-Historie bleibt erhalten. Der letzte `main`-Stand vor der Ablösung ist Commit `94071d8671c4da6dfab7b06ba855977cf5eea8a9`. Alte Arbeitsbranches können ebenfalls noch vorhanden sein; sie sind keine aktuelle Referenz.
 
-## Nutzungsrechte
+Ein Push auf GitHub ist kein Deployment. Ein öffentlicher Hosting-Status wird hier nicht vorausgesetzt. Für statisches Hosting das gesamte Repository mit `index.html` als Einstieg bereitstellen.
 
-Die lokal eingebundenen Fonts des Atlas enthalten ihre OFL-Lizenzen im jeweiligen Font-Ordner. Daraus folgt keine allgemeine Nutzungsfreigabe der ELANUM-Markenassets. Eine allgemeine Repository-Lizenz wird hier nicht vorausgesetzt.
+## Schriften und Nutzungsrechte
+
+Yrsa und Albert Sans sind lokal eingebunden. Ihre OFL-Lizenzen liegen unter [assets/fonts/](assets/fonts/). Diese Font-Lizenzen erteilen keine allgemeine Nutzungsfreigabe für ELANUM-Markenassets.
