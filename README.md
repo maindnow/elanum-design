@@ -22,7 +22,10 @@ Das ist ein vollständiger Styleguide, nicht nur eine Rad-Komponente. Die Feldna
 
 - Ein mathematisch runder Kreis aus neun Kuchenstücken à exakt 40 Grad, darum ein Ring aus drei Gruppen à 120 Grad. Alle Pfade werden aus Polarkoordinaten berechnet.
 - Relief wie im Styleguide: erhabene Scheibe in einer vertieften Rille, Licht von links oben. Scheibe und Zentrum drehen nicht mit, weil das Licht nicht mitdreht.
-- Die neun Feldfarben tönen die Stücke. Ausgefüllt ist ein gefüllter Punkt, offen ein Kreis mit Öffnung; zusätzlich tragen Text und Legende dieselbe Information.
+- Jeder Bereich hat eine Feldfarbe, und Stück, Ring, Icon und Ergebnis tragen dieselbe. Der Ring geht zwischen zwei Stücken weich über.
+- Neun Linien-Icons in der 4.4-Sprache (Kreise, Öffnungen, Verbindungen) bilden einen Kranz um „Ich“.
+- Status über den Rand jedes Stücks: geschlossen heisst ausgefüllt, mit Öffnung heisst offen. Offene Stücke zeigen zusätzlich „offen“, die Legende erklärt beides.
+- Das gewählte Stück liegt oben und hebt sich als Relief ab; der Schatten fällt immer nach rechts unten.
 - Namen in Albert Sans, Ergebnisse („Jungfrau“, „Generator“) in Yrsa direkt im Stück.
 - Mobile-first: Stück antippen, Rad ziehen oder die Knöpfe unter dem Rad nutzen. Senkrechtes Wischen scrollt die Seite. Tastatur: Pfeiltasten, Home, End.
 
