@@ -26,5 +26,5 @@
 }
 body[data-motion=off] *,body[data-input=keyboard] *{scroll-behavior:auto!important}
 body[data-motion=off] .material-paper,body[data-motion=off] .button,body[data-motion=off] .product-tab,body[data-input=keyboard] .button,body[data-input=keyboard] .product-tab{transform:none!important;transition:none!important}
-@media(max-width:560px){.motion-visual{padding:0}.wheel-controls{grid-template-columns:repeat(3,1fr)}.wheel-controls button{min-height:44px}}
+@media(min-width:561px){.wheel-controls{grid-template-columns:repeat(3,44px)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
