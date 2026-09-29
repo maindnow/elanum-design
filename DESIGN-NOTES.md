@@ -63,9 +63,13 @@ Die Stylesheets beschreiben zuerst das Telefon und ergänzen breitere Ansichten 
 
 `components/personal-wheel/` überträgt 4.4 auf den Bereich „Ich“. Anders als im Styleguide stehen hier echte Bereichsnamen und Beispielergebnisse; die Gruppen heissen Grundtöne, Ich & Orientierung sowie Beziehung & Verbindung.
 
-- Geometrie im 320er-Raum: Zentrum 30, Segmente 114, Rille 125–149, Beschriftung auf Radius 82, Statuspunkte auf Radius 43. Neun Segmente à 40 Grad, Gruppenabstand 4 Grad.
+- Geometrie im 320er-Raum: Zentrum 28, Icons auf Radius 48, Beschriftung auf Radius 92, Statusrand auf 124, Segmente 128, Auswahlbogen 131, Ring 134–154. Neun Segmente à 40 Grad, Gruppenabstand 4 Grad.
 - Die Beschriftung liegt so weit aussen, dass auch die innerste Zeile oben ins Stück passt. Bei allen neun Drehstellungen gemessen: keine Zeile ragt sichtbar über ihr Stück.
-- Die Statuspunkte bilden einen Kranz um „Ich“. Offen ist ein Kreis mit Öffnung, ausgefüllt ein Punkt.
+- Farbe folgt dem Bereich: Stück, Ring, Icon, Statusrand und Ergebnis nutzen dieselbe Feldfarbe. Der Ring wird in 2-Grad-Schritten gezeichnet; um jede Stückgrenze gehen die Nachbarfarben über 16 Grad ineinander über. Die Deckkraft liegt auf der ganzen Gruppe, damit sich die Schritte nicht überlagern.
+- Status: Der Rand eines Stücks ist geschlossen, wenn der Bereich ausgefüllt ist, und hat in der Mitte eine Öffnung von 12 Grad, solange er offen ist. Offene Stücke zeigen zusätzlich „offen“.
+- Icons: neun Linien-Icons im 24er-Raster, Strich 1,6 px, als Kranz um „Ich“. Sie drehen gegen das Rad und bleiben aufrecht.
+- Auswahl: Ein angehobenes Stück steht oben still und trägt den Relief-Schatten (hell links oben, dunkel rechts unten). Es erscheint erst, wenn das Rad ruht, weil das Licht nicht mitdreht.
+- Schriftgrössen auf einem 390-px-Telefon: Namen 11,9 px, Ergebnisse 13,4 px, Ring 10,7 px, Icons 20 px.
 - Ergebnisfarbe: Feldfarbe zu 55 % mit Ink gemischt, damit kleine Schrift lesbar bleibt.
 - Drehung 420 ms mit der 4.4-Kurve, bei reduzierter Bewegung sofort. `touch-action: pan-y` hält senkrechtes Scrollen frei; bricht der Browser die Geste ab, rastet das Rad auf die aktuelle Auswahl zurück.
 

@@ -9,13 +9,15 @@
    Mittelpunkt. Alle Pfade werden aus Polarkoordinaten berechnet.
 
    Aus 4.4 übernommen:
-   - Licht von links oben: Scheibe und Zentrum sind erhabene HTML-Flächen
-     mit dem Relief-Schatten aus relief.css. Sie drehen nicht mit, weil das
-     Licht nicht mitdreht.
-   - Neun Feldfarben in drei Familien, als Tönung, nie als satte Fläche.
-   - Offener Kreis heisst offen: "Die Öffnung zeigt, was nicht abgeschlossen ist."
-   - Auswahl nie nur über Farbe oder Schatten: Bogen, Gewicht, Text und
-     aria-selected tragen dieselbe Information.
+   - Licht von links oben: Scheibe, Zentrum und das angehobene Stück sind
+     Reliefflächen, die nicht mitdrehen, weil das Licht nicht mitdreht.
+   - Neun Feldfarben. Stück, Ring, Icon und Ergebnis eines Bereichs tragen
+     immer dieselbe Farbe; der Ring geht zwischen Nachbarn weich über.
+   - "Die Öffnung zeigt, was nicht abgeschlossen ist": Der Rand eines Stücks
+     ist geschlossen, wenn der Bereich ausgefüllt ist, und hat eine Öffnung,
+     solange er offen ist.
+   - Auswahl nie nur über Farbe oder Schatten: Bogen, Relief, Gewicht, Text
+     und aria-selected tragen dieselbe Information.
    ============================================================ */
 (function () {
   'use strict';
@@ -23,25 +25,30 @@
   var CFG = {
     size: 320,
     cx: 160, cy: 160,
-    centerRadius: 30,       // Zentrum "Ich", liegt über den Spitzen der Segmente
-    segmentRadius: 114,     // Aussenradius aller neun Segmente, für alle gleich
-    markerRadius: 43,       // Ausfüllstatus: neun Punkte als Kranz direkt um "Ich"
-    groupInner: 125,        // bewusster Abstand zum Segmentkreis
-    groupOuter: 149,
-    labelRadius: 82,        // Name und Ergebnis; weit genug aussen, damit auch die innerste Zeile oben ins Stück passt
-    labelLine: 10.5,        // Zeilenabstand der Namen
-    resultGap: 3.5,         // zusätzliche Luft vor dem Ergebnis
+    centerRadius: 28,       // Zentrum "Ich", liegt über den Spitzen der Segmente
+    iconRadius: 48,         // Icons als Kranz um "Ich"
+    iconSize: 18,
+    labelRadius: 92,        // Name und Ergebnis; weit genug aussen, damit auch die innerste Zeile oben ins Stück passt
+    labelLine: 12,          // Zeilenabstand der Namen
+    resultGap: 3,           // zusätzliche Luft vor dem Ergebnis
+    contourRadius: 124,     // Rand, der den Ausfüllstatus zeigt
+    contourInsetDeg: 4,
+    openingDeg: 12,         // Öffnung im Rand offener Stücke
+    segmentRadius: 128,     // Aussenradius aller neun Segmente, für alle gleich
+    activeRadius: 131,      // Auswahlbogen in der Rille zwischen Scheibe und Ring
+    groupInner: 134,        // schlanker Ring, damit die Stücke Fläche bekommen
+    groupOuter: 154,
     segmentDeg: 40,         // 360 / 9, exakt
     groupGapDeg: 4,         // grosse Abstände trennen Gruppen (4.4)
-    activeInsetDeg: 3,      // Auswahlbogen etwas kürzer als das Segment
+    ringStepDeg: 2,         // Feinheit des Farbverlaufs im Ring
+    activeInsetDeg: 4,
     hoverShift: 2           // radiale Anhebung bei Hover, nur mit feinem Zeiger
   };
 
-  /* Feldfarben in der Reihenfolge des 4.4-Feldpalette: A kühl, B warm, C Erde. */
   var GROUPS = [
-    { id: 'grundtoene',  label: 'Grundtöne',              family: 'A' },
-    { id: 'orientation', label: 'Ich & Orientierung',     family: 'B' },
-    { id: 'connection',  label: 'Beziehung & Verbindung', family: 'C' }
+    { id: 'grundtoene',  label: 'Grundtöne' },
+    { id: 'orientation', label: 'Ich & Orientierung' },
+    { id: 'connection',  label: 'Beziehung & Verbindung' }
   ];
   var ITEMS = [
     { id: 'astrology',    group: 'grundtoene',  label: 'Astrologie',       lines: ['Astro-', 'logie'],     color: 'violet' },
@@ -54,6 +61,20 @@
     { id: 'closeness',    group: 'connection',  label: 'Nähe & Zuneigung', lines: ['Nähe &', 'Zuneigung'], color: 'moss' },
     { id: 'conflict',     group: 'connection',  label: 'Konfliktstil',     lines: ['Konflikt-', 'stil'],   color: 'teal' }
   ];
+
+  /* Linien-Icons im 24er-Raster, Sprache aus 4.4: Kreise, Öffnungen,
+     Verbindungen. Strich 1,6 px, runde Enden, keine Füllung. */
+  var ICONS = {
+    'astrology':    '<circle cx="12" cy="12" r="3.6"/><path d="M4.6 15.4A8 8 0 0 1 12 4a8 8 0 0 1 7.4 4.9"/><path d="M19.4 15.1A8 8 0 0 1 8 19"/><circle cx="19.6" cy="12" r="1.3"/>',
+    'numerology':   '<circle cx="6" cy="17" r="2"/><circle cx="12" cy="12" r="2.6"/><circle cx="18.2" cy="6.4" r="1.6"/><path d="M7.5 15.6l2.6-2.2M13.9 10.2l3.1-2.7"/>',
+    'human-design': '<circle cx="12" cy="4.8" r="2.2"/><path d="M12 7v2.4M12 9.4l6 5.6-6 5.6-6-5.6z"/><path d="M9 15h6"/>',
+    'direction':    '<path d="M16.6 7.4A7 7 0 1 0 19 12"/><path d="M12 12l7.6-7.6M15 4.4h4.6V9"/>',
+    'personality':  '<circle cx="12" cy="12" r="1.6"/><path d="M8.3 14.4A4.4 4.4 0 1 1 16.4 12"/><path d="M5 15.6A7.8 7.8 0 1 1 19.8 12.4"/>',
+    'values':       '<path d="M5 9.2L8.4 4.8h7.2L19 9.2 12 19.4z"/><path d="M5 9.2h14M9.6 9.2L12 19.4l2.4-10.2"/>',
+    'attachment':   '<circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/>',
+    'closeness':    '<path d="M12 19c-5.4-3.6-7.6-6.6-7.6-9.4A3.8 3.8 0 0 1 12 8.1a3.8 3.8 0 0 1 7.6 1.5c0 2.8-2.2 5.8-7.6 9.4z"/>',
+    'conflict':     '<path d="M8.4 5.6A7.4 7.4 0 0 0 8.4 18.4M15.6 5.6a7.4 7.4 0 0 1 0 12.8"/><path d="M12.8 6.6l-2 4.8 2.6 1.4-2 4.6"/>'
+  };
 
   var SVGNS = 'http://www.w3.org/2000/svg';
   var TAU = Math.PI / 180;
@@ -88,28 +109,46 @@
   }
   function groupOf(id) { return GROUPS.filter(function (g) { return g.id === id; })[0]; }
   function pct(v) { return (v / CFG.size * 100) + '%'; }
+  function field(item) { return 'var(--elanum-' + item.color + ')'; }
+
+  /* Farbmischung für den Ringverlauf, aus den echten Token-Werten. */
+  function hexRgb(h) {
+    h = h.replace('#', '');
+    if (h.length === 3) h = h.replace(/./g, '$&$&');
+    return [0, 2, 4].map(function (i) { return parseInt(h.substr(i, 2), 16); });
+  }
+  function mix(a, b, t) {
+    return 'rgb(' + a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }).join(',') + ')';
+  }
+  function smooth(t) { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
 
   function build(root) {
     var svg = root.querySelector('.wheel__svg');
-    var rotor = root.querySelector('.wheel__rotor');
+    var rotors = root.querySelectorAll('.wheel__rotor');
     var defs = svg.querySelector('defs');
     var ringLayer = root.querySelector('.wheel__ring');
     var ringLabels = root.querySelector('.wheel__ring-labels');
     var segLayer = root.querySelector('.wheel__segments');
+    var contourLayer = root.querySelector('.wheel__contours');
+    var iconLayer = root.querySelector('.wheel__icons');
     var labelLayer = root.querySelector('.wheel__labels');
     var activeArc = root.querySelector('.wheel__active');
+    var lift = root.querySelector('.wheel__lift');
     var track = root.querySelector('.wheel__track');
     var plate = root.querySelector('.wheel__plate');
     var center = root.querySelector('.wheel__center');
     var readerGroup = root.querySelector('[data-reader-group]');
+    var readerIcon = root.querySelector('[data-reader-icon]');
     var readerName = root.querySelector('[data-reader-name]');
     var readerLead = root.querySelector('[data-reader-lead]');
     var panels = root.querySelectorAll('[data-panel]');
     var progress = root.querySelector('[data-progress]');
-    if (!svg || !rotor) return;
+    if (!svg || !rotors.length) return;
 
     var half = CFG.segmentDeg / 2;
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var tokens = getComputedStyle(root);
+    var rgb = ITEMS.map(function (item) { return hexRgb(tokens.getPropertyValue('--elanum-' + item.color).trim() || '#888888'); });
 
     /* Rille, Scheibe und Zentrum als HTML-Flächen, damit die Relief-Schatten
        aus 4.4 exakt gelten. Grösse aus derselben Geometrie wie das SVG. */
@@ -119,17 +158,35 @@
       p[0].style.width = p[0].style.height = pct(2 * p[1]);
     });
 
+    /* Relief des angehobenen Stücks: heller Schatten links oben, dunkler
+       rechts unten, wie .raised in relief.css. */
+    var filter = el('filter', { id: 'wheel-lift', x: '-40%', y: '-40%', width: '180%', height: '180%', 'color-interpolation-filters': 'sRGB' });
+    filter.appendChild(el('feDropShadow', { dx: 3.6, dy: 3.6, stdDeviation: 4.2, 'flood-color': '#a39b8a', 'flood-opacity': 0.8 }));
+    filter.appendChild(el('feDropShadow', { dx: -2.6, dy: -2.6, stdDeviation: 3, 'flood-color': '#ffffff', 'flood-opacity': 0.95 }));
+    defs.appendChild(filter);
+    lift.setAttribute('d', sectorPath(-half, half, CFG.segmentRadius));
+    lift.setAttribute('filter', 'url(#wheel-lift)');
+
     function panelOf(id) { return root.querySelector('[data-panel="' + id + '"]'); }
     function isDone(id) { var p = panelOf(id); return !!p && p.getAttribute('data-done') === 'true'; }
     function resultOf(id) { var p = panelOf(id); return p ? (p.getAttribute('data-result') || '') : ''; }
 
-    /* Ring: drei Abschnitte à 120 Grad, an je drei Segmente gekoppelt. */
+    /* Ring: drei Abschnitte à 120 Grad. Über jedem Stück liegt dessen
+       Farbe; zwischen zwei Stücken geht sie in feinen Schritten über. */
     var rMid = (CFG.groupInner + CFG.groupOuter) / 2, tracks = [];
     GROUPS.forEach(function (g, gi) {
       var a0 = segAngle(gi * 3) - half + CFG.groupGapDeg / 2;
       var a1 = segAngle(gi * 3 + 2) + half - CFG.groupGapDeg / 2;
-      var band = el('path', { class: 'wheel__band', 'data-group': g.id, d: ringPath(a0, a1, CFG.groupInner, CFG.groupOuter) });
-      band.style.setProperty('--field', 'var(--elanum-' + ITEMS[gi * 3 + 1].color + ')');
+      var band = el('g', { class: 'wheel__band', 'data-group': g.id });
+      for (var a = a0; a < a1 - 1e-6; a += CFG.ringStepDeg) {
+        var b = Math.min(a1, a + CFG.ringStepDeg), mid = (a + b) / 2;
+        var pos = (mid - segAngle(gi * 3)) / CFG.segmentDeg;     // 0, 1, 2 = Mitten der drei Stücke
+        var k = Math.max(0, Math.min(1, Math.floor(pos)));
+        var t = smooth((pos - k - 0.3) / 0.4);                     // Übergang nur um die Stückgrenze
+        var fill = mix(rgb[gi * 3 + k], rgb[gi * 3 + Math.min(2, k + 1)], pos < 0 ? 0 : t);
+        /* Leichte Überlappung verhindert Haarlinien zwischen den Schritten. */
+        band.appendChild(el('path', { d: ringPath(a, Math.min(a1, b + 0.35), CFG.groupInner, CFG.groupOuter), fill: fill }));
+      }
       ringLayer.appendChild(band);
       defs.appendChild(el('path', { id: 'track-' + g.id, fill: 'none', d: arcPath(rMid, a0 + 3, a1 - 3) }));
       defs.appendChild(el('path', { id: 'track-' + g.id + '-flip', fill: 'none', d: arcPathRev(rMid, a1 - 3, a0 + 3) }));
@@ -141,42 +198,60 @@
     });
 
     /* Neun Segmente. */
+    var upright = [];
     var segs = ITEMS.map(function (item, i) {
       var a = segAngle(i), done = isDone(item.id), result = done ? resultOf(item.id) : '';
-      var field = 'var(--elanum-' + item.color + ')';
       var status = done ? 'ausgefüllt: ' + result : 'noch offen';
       var g = el('g', {
         class: 'wheel__slice' + (done ? ' is-done' : ''), role: 'tab', tabindex: '-1',
         'aria-selected': 'false', 'aria-label': item.label + ', ' + status,
         'aria-controls': 'panel-' + item.id, id: 'tab-' + item.id, 'data-index': i
       });
-      g.style.setProperty('--field', field);
+      g.style.setProperty('--field', field(item));
       var face = el('path', { class: 'wheel__face', d: sectorPath(a - half, a + half, CFG.segmentRadius) });
       face.style.setProperty('--ox', r2(CFG.hoverShift * Math.sin(a * TAU)) + 'px');
       face.style.setProperty('--oy', r2(-CFG.hoverShift * Math.cos(a * TAU)) + 'px');
       g.appendChild(face);
-      var m = pt(CFG.markerRadius, a);
-      g.appendChild(el('circle', { class: 'wheel__marker', cx: m[0], cy: m[1], r: 3.4 }));
       segLayer.appendChild(g);
 
-      /* Name in Albert Sans, Ergebnis in Yrsa. Drehen gegen, bleiben aufrecht. */
+      /* Rand: geschlossen = ausgefüllt, mit Öffnung in der Mitte = offen. */
+      var c0 = a - half + CFG.contourInsetDeg, c1 = a + half - CFG.contourInsetDeg, gap = CFG.openingDeg / 2;
+      var contour = el('path', {
+        class: 'wheel__contour' + (done ? ' is-done' : ''),
+        d: done ? arcPath(CFG.contourRadius, c0, c1)
+                : arcPath(CFG.contourRadius, c0, a - gap) + ' ' + arcPath(CFG.contourRadius, a + gap, c1)
+      });
+      contour.style.setProperty('--field', field(item));
+      contourLayer.appendChild(contour);
+
+      /* Icon: aufrecht, dreht gegen das Rad. */
+      var ip = pt(CFG.iconRadius, a), s = CFG.iconSize / 24;
+      var icon = el('g', { class: 'wheel__icon' + (done ? ' is-done' : '') });
+      icon.style.setProperty('--field', field(item));
+      var glyph = el('g', { transform: 'translate(' + r2(ip[0] - 12 * s) + ' ' + r2(ip[1] - 12 * s) + ') scale(' + r2(s) + ')' });
+      glyph.innerHTML = ICONS[item.id];
+      /* Unsichtbare Fläche, damit die Drehachse die Icon-Mitte ist. */
+      glyph.insertBefore(el('rect', { width: 24, height: 24, fill: 'none', stroke: 'none' }), glyph.firstChild);
+      icon.appendChild(glyph);
+      iconLayer.appendChild(icon);
+
+      /* Name in Albert Sans, Ergebnis in Yrsa, sonst "offen". */
       var p = pt(CFG.labelRadius, a);
-      var text = el('text', { class: 'wheel__label' + (done ? ' is-done' : ''), x: p[0], y: p[1],
-                              'text-anchor': 'middle', 'aria-hidden': 'true' });
-      text.style.setProperty('--field', field);
-      var rows = item.lines.length + (result ? 1 : 0);
-      var top = -(rows - 1) * CFG.labelLine / 2 + (result ? -CFG.resultGap / 2 : 0);
+      var text = el('text', { class: 'wheel__label' + (done ? ' is-done' : ''), x: p[0], y: p[1], 'text-anchor': 'middle' });
+      text.style.setProperty('--field', field(item));
+      var rows = item.lines.length + 1;
+      var top = -(rows - 1) * CFG.labelLine / 2 - CFG.resultGap / 2;
       item.lines.forEach(function (line, li) {
         var t = el('tspan', { x: p[0], y: r2(p[1] + top + li * CFG.labelLine), 'dominant-baseline': 'central' });
         t.textContent = line; text.appendChild(t);
       });
-      if (result) {
-        var rs = el('tspan', { class: 'wheel__result', x: p[0], 'dominant-baseline': 'central',
-                               y: r2(p[1] + top + item.lines.length * CFG.labelLine + CFG.resultGap) });
-        rs.textContent = result; text.appendChild(rs);
-      }
+      var rs = el('tspan', { class: done ? 'wheel__result' : 'wheel__open', x: p[0], 'dominant-baseline': 'central',
+                             y: r2(p[1] + top + item.lines.length * CFG.labelLine + CFG.resultGap) });
+      rs.textContent = done ? result : 'offen';
+      text.appendChild(rs);
       labelLayer.appendChild(text);
-      return { g: g, label: text, done: done };
+      upright.push(icon, text);
+      return { g: g, label: text, icon: icon, contour: contour, done: done };
     });
 
     if (progress) {
@@ -184,18 +259,30 @@
       progress.textContent = n + ' von ' + ITEMS.length + ' ausgefüllt';
     }
 
-    var index = -1, rotation = 0;
+    var index = -1, rotation = 0, restTimer = 0;
     function applyRotation(animate) {
-      rotor.classList.toggle('is-still', !animate);
-      rotor.style.transform = 'rotate(' + rotation + 'deg)';
-      segs.forEach(function (s) {
-        s.label.classList.toggle('is-still', !animate);
-        s.label.style.transform = 'rotate(' + (-rotation) + 'deg)';
+      Array.prototype.forEach.call(rotors, function (r) {
+        r.classList.toggle('is-still', !animate);
+        r.style.transform = 'rotate(' + rotation + 'deg)';
+      });
+      upright.forEach(function (u) {
+        u.classList.toggle('is-still', !animate);
+        u.style.transform = 'rotate(' + (-rotation) + 'deg)';
       });
       tracks.forEach(function (t) {
         var onScreen = norm(t.center + rotation);
         t.path.setAttribute('href', '#track-' + t.id + (onScreen > 90 && onScreen < 270 ? '-flip' : ''));
       });
+      /* Das Relief erscheint erst, wenn das gewählte Stück oben ruht. */
+      clearTimeout(restTimer);
+      var off = norm(rotation + segAngle(index));
+      if (off > 0.01 && off < 359.99) { root.classList.add('is-turning'); return; }
+      if (animate) {
+        root.classList.add('is-turning');
+        restTimer = setTimeout(function () { root.classList.remove('is-turning'); }, 380);
+      } else {
+        root.classList.remove('is-turning');
+      }
     }
     function targetFor(i) {
       var want = -segAngle(i);
@@ -207,13 +294,15 @@
       var item = ITEMS[i], a = segAngle(i);
       if (i !== index) {
         index = i;
-        activeArc.setAttribute('d', arcPath(CFG.segmentRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
-        activeArc.style.setProperty('--field', 'var(--elanum-' + item.color + ')');
+        activeArc.setAttribute('d', arcPath(CFG.activeRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
+        activeArc.style.setProperty('--field', field(item));
+        lift.style.setProperty('--field', field(item));
+        lift.classList.toggle('is-done', segs[i].done);
         segs.forEach(function (s, k) {
-          s.g.setAttribute('aria-selected', String(k === i));
-          s.g.setAttribute('tabindex', k === i ? '0' : '-1');
-          s.g.classList.toggle('is-active', k === i);
-          s.label.classList.toggle('is-active', k === i);
+          var on = k === i;
+          s.g.setAttribute('aria-selected', String(on));
+          s.g.setAttribute('tabindex', on ? '0' : '-1');
+          [s.g, s.label, s.icon, s.contour].forEach(function (n) { n.classList.toggle('is-active', on); });
         });
         Array.prototype.forEach.call(ringLayer.children, function (b) {
           b.classList.toggle('is-active', b.getAttribute('data-group') === item.group);
@@ -222,7 +311,8 @@
           t.classList.toggle('is-active', t.getAttribute('data-group') === item.group);
         });
         readerGroup.textContent = groupOf(item.group).label;
-        readerGroup.style.setProperty('--field', 'var(--elanum-' + item.color + ')');
+        readerGroup.parentNode.style.setProperty('--field', field(item));
+        if (readerIcon) readerIcon.innerHTML = ICONS[item.id];
         readerName.textContent = item.label;
         Array.prototype.forEach.call(panels, function (p) {
           var on = p.getAttribute('data-panel') === item.id;

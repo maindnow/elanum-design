@@ -20,7 +20,7 @@
   <main class="me" data-personal-wheel>
     <div class="me__intro">
       <h1>Ich</h1>
-      <p>Neun Bereiche in drei Gruppen. Tippe ein Stück an oder dreh das Rad.</p>
+      <p>Neun Bereiche in drei Gruppen. Tippe ein Stück an oder dreh das Rad. Oben liegt die Auswahl.</p>
     </div>
 
     <section class="me__wheel" id="wheel" aria-label="Persönliches Rad">
@@ -33,8 +33,14 @@
             <g class="wheel__ring" aria-hidden="true"></g>
             <g class="wheel__ring-labels" aria-hidden="true"></g>
             <g class="wheel__segments" role="tablist" aria-label="Bereiche"></g>
-            <g class="wheel__labels" aria-hidden="true"></g>
-            <path class="wheel__active" aria-hidden="true"></path>
+          </g>
+          <!-- Angehobenes Stück: steht still, damit das Licht von links oben kommt -->
+          <path class="wheel__lift" aria-hidden="true"></path>
+          <g class="wheel__rotor" aria-hidden="true">
+            <g class="wheel__contours"></g>
+            <g class="wheel__icons"></g>
+            <g class="wheel__labels"></g>
+            <path class="wheel__active"></path>
           </g>
         </svg>
         <div class="wheel__center" aria-hidden="true"><span>Ich</span></div>
@@ -47,13 +53,13 @@
       </div>
 
       <ul class="legend" aria-label="Legende">
-        <li><span class="legend__mark legend__mark--done" aria-hidden="true"></span>ausgefüllt</li>
-        <li><span class="legend__mark" aria-hidden="true"></span>noch offen</li>
+        <li><svg class="legend__mark" viewBox="0 0 20 12" aria-hidden="true"><path d="M2 10A12 12 0 0 1 18 10"/></svg>ausgefüllt</li>
+        <li><svg class="legend__mark" viewBox="0 0 20 12" aria-hidden="true"><path d="M2 10A12 12 0 0 1 7.51 7.2"/><path d="M12.49 7.2A12 12 0 0 1 18 10"/></svg>noch offen</li>
       </ul>
     </section>
 
     <section class="reader" aria-label="Ausgewählter Bereich">
-      <p class="reader__group" data-reader-group></p>
+      <p class="reader__group"><svg class="reader__icon" data-reader-icon viewBox="0 0 24 24" aria-hidden="true"></svg><span data-reader-group></span></p>
       <h2 class="reader__name" data-reader-name></h2>
       <p class="reader__lead" data-reader-lead></p>
 

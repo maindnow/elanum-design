@@ -103,14 +103,15 @@ img,svg{display:block;max-width:100%}
 .wheel:has(.wheel__slice:focus-visible) .wheel__plate{outline:3px solid var(--elanum-violet);outline-offset:5px}
 
 .wheel__rotor{transform-box:view-box;transform-origin:160px 160px;transition:transform var(--turn) var(--ease)}
-.wheel__label{transform-box:fill-box;transform-origin:center;transition:transform var(--turn) var(--ease)}
-.wheel__rotor.is-still,.wheel__label.is-still{transition:none}
+.wheel__label,.wheel__icon{transform-box:fill-box;transform-origin:center;transition:transform var(--turn) var(--ease)}
+.wheel__rotor.is-still,.wheel__label.is-still,.wheel__icon.is-still{transition:none}
 
-/* Ring: Tönung der mittleren Feldfarbe jeder Gruppe */
-.wheel__band{fill:var(--field);fill-opacity:.13;transition:fill-opacity var(--elanum-motion-ui) ease}
-.wheel__band.is-active{fill-opacity:.26}
+/* Ring: über jedem Stück dessen Farbe. Deckkraft auf der ganzen Gruppe,
+   damit sich die feinen Verlaufsschritte nicht überlagern. */
+.wheel__band{opacity:.22;transition:opacity var(--elanum-motion-ui) ease}
+.wheel__band.is-active{opacity:.4}
 .wheel__ring-label{
-  font:600 9.4px var(--elanum-font-ui);letter-spacing:.12em;text-transform:uppercase;
+  font:600 9.6px var(--elanum-font-ui);letter-spacing:.12em;text-transform:uppercase;
   fill:var(--elanum-text-secondary);dominant-baseline:central;
 }
 .wheel__ring-label.is-active{fill:var(--elanum-ink)}
@@ -122,29 +123,47 @@ img,svg{display:block;max-width:100%}
   stroke:var(--elanum-canvas);stroke-width:2;stroke-linejoin:round;
   transition:fill-opacity var(--elanum-motion-ui) ease,transform var(--elanum-motion-ui) ease;
 }
-.wheel__slice.is-done .wheel__face{fill-opacity:.15}
-.wheel__slice.is-active .wheel__face{fill-opacity:.27}
+.wheel__slice.is-done .wheel__face{fill-opacity:.16}
 
-/* Status: gefüllter Punkt = ausgefüllt, offener Kreis mit Öffnung = noch offen */
-.wheel__marker{
-  fill:none;stroke:var(--field);stroke-width:1.5;
-  stroke-dasharray:17 4.4;stroke-linecap:round;
+/* Angehobenes Stück: steht still oben, Licht von links oben. Erscheint,
+   sobald das Rad ruht. Deckend, damit der Schatten nicht durchscheint. */
+.wheel__lift{
+  fill:color-mix(in srgb,var(--field) 16%,var(--elanum-canvas));
+  stroke:var(--elanum-canvas);stroke-width:1;pointer-events:none;
+  transition:opacity var(--elanum-motion-ui) ease;
 }
-.wheel__slice.is-done .wheel__marker{fill:var(--field);stroke-dasharray:none}
+.wheel__lift.is-done{fill:color-mix(in srgb,var(--field) 26%,var(--elanum-canvas))}
+.is-turning .wheel__lift{opacity:0;transition:none}
 
-.wheel__active{fill:none;stroke:var(--field);stroke-width:4.5;stroke-linecap:round;pointer-events:none}
+/* Status: Rand geschlossen = ausgefüllt, Rand mit Öffnung = noch offen */
+.wheel__contour{
+  fill:none;stroke:var(--field);stroke-width:1.6;stroke-linecap:round;
+  stroke-opacity:.55;vector-effect:non-scaling-stroke;pointer-events:none;
+}
+.wheel__contour.is-done{stroke:color-mix(in oklab,var(--field) 75%,var(--elanum-ink));stroke-opacity:1}
 
-.wheel__label{font:500 9.4px/1 var(--elanum-font-ui);fill:var(--elanum-text-secondary);pointer-events:none}
+.wheel__active{fill:none;stroke:var(--field);stroke-width:3.2;stroke-linecap:round;pointer-events:none}
+
+/* Icons: Linie 1,6 px wie die Traces in 4.4 */
+.wheel__icon{
+  fill:none;stroke:var(--elanum-text-muted);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
+  pointer-events:none;
+}
+.wheel__icon *{vector-effect:non-scaling-stroke}
+.wheel__icon.is-done{stroke:color-mix(in oklab,var(--field) 70%,var(--elanum-ink))}
+.wheel__icon.is-active{stroke:color-mix(in oklab,var(--field) 55%,var(--elanum-ink))}
+
+.wheel__label{font:500 10.6px/1 var(--elanum-font-ui);fill:var(--elanum-text-secondary);pointer-events:none}
 .wheel__label.is-done{fill:var(--elanum-ink)}
 .wheel__label.is-active{font-weight:650;fill:var(--elanum-ink)}
 .wheel__result{
-  font:600 11px var(--elanum-font-display);
+  font:600 12px var(--elanum-font-display);
   fill:color-mix(in oklab,var(--field) 55%,var(--elanum-ink));
 }
+.wheel__open{font:500 9.6px var(--elanum-font-ui);letter-spacing:.06em;fill:var(--elanum-text-muted)}
 
 @media (hover:hover) and (pointer:fine){
-  .wheel__slice:hover .wheel__face{transform:translate(var(--ox),var(--oy));fill-opacity:.2}
-  .wheel__slice.is-active:hover .wheel__face{fill-opacity:.3}
+  .wheel__slice:hover .wheel__face{transform:translate(var(--ox),var(--oy));fill-opacity:.22}
 }
 
 /* ---------- Navigation unter dem Rad, in Daumenreichweite ---------- */
@@ -152,8 +171,7 @@ img,svg{display:block;max-width:100%}
 .wheel-nav__progress{color:var(--elanum-text-secondary);font-size:14px;font-variant-numeric:tabular-nums}
 .legend{display:flex;justify-content:center;gap:20px;margin-top:14px;color:var(--elanum-text-muted);font-size:13px}
 .legend li{display:inline-flex;align-items:center;gap:8px}
-.legend__mark{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--elanum-text-muted);border-top-color:transparent;transform:rotate(-45deg)}
-.legend__mark--done{background:var(--elanum-text-muted);border-color:var(--elanum-text-muted)}
+.legend__mark{width:20px;height:12px;fill:none;stroke:var(--elanum-text-secondary);stroke-width:1.6;stroke-linecap:round}
 
 /* ---------- Buttons aus relief.css ---------- */
 .button{
@@ -176,7 +194,10 @@ img,svg{display:block;max-width:100%}
   display:inline-flex;align-items:center;gap:10px;
   color:var(--elanum-text-secondary);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
 }
-.reader__group::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--field,var(--elanum-violet))}
+.reader__icon{
+  width:28px;height:28px;flex:none;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
+  stroke:color-mix(in oklab,var(--field,var(--elanum-violet)) 70%,var(--elanum-ink));
+}
 .reader__name{font:400 40px/1.05 var(--elanum-font-display);margin-top:-4px}
 .reader__lead{font:400 21px/1.3 var(--elanum-font-display);color:var(--elanum-text-secondary)}
 .panel{display:grid;gap:18px;margin-top:4px;color:var(--elanum-ink)}
@@ -225,6 +246,6 @@ img,svg{display:block;max-width:100%}
 }
 
 @media (prefers-reduced-motion:reduce){
-  .wheel__rotor,.wheel__label,.wheel__face,.wheel__band,.button{transition:none}
+  .wheel__rotor,.wheel__label,.wheel__icon,.wheel__face,.wheel__band,.wheel__lift,.button{transition:none}
   .wheel__slice:hover .wheel__face{transform:none}
 }
