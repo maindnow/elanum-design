@@ -11,8 +11,9 @@
    Aus 4.4 übernommen:
    - Licht von links oben: Scheibe, Zentrum und das angehobene Stück sind
      Reliefflächen, die nicht mitdrehen, weil das Licht nicht mitdreht.
-   - Neun Feldfarben. Stück, Ring, Icon und Ergebnis eines Bereichs tragen
-     immer dieselbe Farbe; der Ring geht zwischen Nachbarn weich über.
+   - Eine Kategorie, eine Farbe: Grundtöne violett, Ich & Orientierung rosé,
+     Beziehung & Verbindung grün. Der Ring trägt die Kategoriefarbe, die drei
+     Stücke darin eine tiefe, mittlere und helle Nuance davon.
    - "Die Öffnung zeigt, was nicht abgeschlossen ist": Der Rand eines Stücks
      ist geschlossen, wenn der Bereich ausgefüllt ist, und hat eine Öffnung,
      solange er offen ist.
@@ -40,26 +41,25 @@
     groupOuter: 154,
     segmentDeg: 40,         // 360 / 9, exakt
     groupGapDeg: 4,         // grosse Abstände trennen Gruppen (4.4)
-    ringStepDeg: 2,         // Feinheit des Farbverlaufs im Ring
     activeInsetDeg: 4,
     hoverShift: 2           // radiale Anhebung bei Hover, nur mit feinem Zeiger
   };
 
   var GROUPS = [
-    { id: 'grundtoene',  label: 'Grundtöne' },
-    { id: 'orientation', label: 'Ich & Orientierung' },
-    { id: 'connection',  label: 'Beziehung & Verbindung' }
+    { id: 'grundtoene',  label: 'Grundtöne',              color: 'a' },
+    { id: 'orientation', label: 'Ich & Orientierung',     color: 'b' },
+    { id: 'connection',  label: 'Beziehung & Verbindung', color: 'c' }
   ];
   var ITEMS = [
-    { id: 'astrology',    group: 'grundtoene',  label: 'Astrologie',       lines: ['Astro-', 'logie'],     color: 'violet' },
-    { id: 'numerology',   group: 'grundtoene',  label: 'Numerologie',      lines: ['Numero-', 'logie'],    color: 'blue' },
-    { id: 'human-design', group: 'grundtoene',  label: 'Human Design',     lines: ['Human', 'Design'],     color: 'orchid' },
-    { id: 'direction',    group: 'orientation', label: 'Lebensrichtung',   lines: ['Lebens-', 'richtung'], color: 'rose' },
-    { id: 'personality',  group: 'orientation', label: 'Persönlichkeit',   lines: ['Persön-', 'lichkeit'], color: 'pink' },
-    { id: 'values',       group: 'orientation', label: 'Werte',            lines: ['Werte'],               color: 'coral' },
-    { id: 'attachment',   group: 'connection',  label: 'Bindungsstil',     lines: ['Bindungs-', 'stil'],   color: 'amber' },
-    { id: 'closeness',    group: 'connection',  label: 'Nähe & Zuneigung', lines: ['Nähe &', 'Zuneigung'], color: 'moss' },
-    { id: 'conflict',     group: 'connection',  label: 'Konfliktstil',     lines: ['Konflikt-', 'stil'],   color: 'teal' }
+    { id: 'astrology',    group: 'grundtoene',  label: 'Astrologie',       lines: ['Astro-', 'logie'],     shade: 'a-1' },
+    { id: 'numerology',   group: 'grundtoene',  label: 'Numerologie',      lines: ['Numero-', 'logie'],    shade: 'a-2' },
+    { id: 'human-design', group: 'grundtoene',  label: 'Human Design',     lines: ['Human', 'Design'],     shade: 'a-3' },
+    { id: 'direction',    group: 'orientation', label: 'Lebensrichtung',   lines: ['Lebens-', 'richtung'], shade: 'b-1' },
+    { id: 'personality',  group: 'orientation', label: 'Persönlichkeit',   lines: ['Persön-', 'lichkeit'], shade: 'b-2' },
+    { id: 'values',       group: 'orientation', label: 'Werte',            lines: ['Werte'],               shade: 'b-3' },
+    { id: 'attachment',   group: 'connection',  label: 'Bindungsstil',     lines: ['Bindungs-', 'stil'],   shade: 'c-1' },
+    { id: 'closeness',    group: 'connection',  label: 'Nähe & Zuneigung', lines: ['Nähe &', 'Zuneigung'], shade: 'c-2' },
+    { id: 'conflict',     group: 'connection',  label: 'Konfliktstil',     lines: ['Konflikt-', 'stil'],   shade: 'c-3' }
   ];
 
   /* Linien-Icons im 24er-Raster, Sprache aus 4.4: Kreise, Öffnungen,
@@ -109,18 +109,8 @@
   }
   function groupOf(id) { return GROUPS.filter(function (g) { return g.id === id; })[0]; }
   function pct(v) { return (v / CFG.size * 100) + '%'; }
-  function field(item) { return 'var(--elanum-' + item.color + ')'; }
-
-  /* Farbmischung für den Ringverlauf, aus den echten Token-Werten. */
-  function hexRgb(h) {
-    h = h.replace('#', '');
-    if (h.length === 3) h = h.replace(/./g, '$&$&');
-    return [0, 2, 4].map(function (i) { return parseInt(h.substr(i, 2), 16); });
-  }
-  function mix(a, b, t) {
-    return 'rgb(' + a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }).join(',') + ')';
-  }
-  function smooth(t) { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
+  /* Nuancen und Kategoriefarben sind Tokens in personal-wheel.css. */
+  function field(item) { return 'var(--pw-' + item.shade + ')'; }
 
   function build(root) {
     var svg = root.querySelector('.wheel__svg');
@@ -147,8 +137,6 @@
 
     var half = CFG.segmentDeg / 2;
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var tokens = getComputedStyle(root);
-    var rgb = ITEMS.map(function (item) { return hexRgb(tokens.getPropertyValue('--elanum-' + item.color).trim() || '#888888'); });
 
     /* Rille, Scheibe und Zentrum als HTML-Flächen, damit die Relief-Schatten
        aus 4.4 exakt gelten. Grösse aus derselben Geometrie wie das SVG. */
@@ -171,22 +159,13 @@
     function isDone(id) { var p = panelOf(id); return !!p && p.getAttribute('data-done') === 'true'; }
     function resultOf(id) { var p = panelOf(id); return p ? (p.getAttribute('data-result') || '') : ''; }
 
-    /* Ring: drei Abschnitte à 120 Grad. Über jedem Stück liegt dessen
-       Farbe; zwischen zwei Stücken geht sie in feinen Schritten über. */
+    /* Ring: drei Abschnitte à 120 Grad, je in der Farbe ihrer Kategorie. */
     var rMid = (CFG.groupInner + CFG.groupOuter) / 2, tracks = [];
     GROUPS.forEach(function (g, gi) {
       var a0 = segAngle(gi * 3) - half + CFG.groupGapDeg / 2;
       var a1 = segAngle(gi * 3 + 2) + half - CFG.groupGapDeg / 2;
-      var band = el('g', { class: 'wheel__band', 'data-group': g.id });
-      for (var a = a0; a < a1 - 1e-6; a += CFG.ringStepDeg) {
-        var b = Math.min(a1, a + CFG.ringStepDeg), mid = (a + b) / 2;
-        var pos = (mid - segAngle(gi * 3)) / CFG.segmentDeg;     // 0, 1, 2 = Mitten der drei Stücke
-        var k = Math.max(0, Math.min(1, Math.floor(pos)));
-        var t = smooth((pos - k - 0.3) / 0.4);                     // Übergang nur um die Stückgrenze
-        var fill = mix(rgb[gi * 3 + k], rgb[gi * 3 + Math.min(2, k + 1)], pos < 0 ? 0 : t);
-        /* Leichte Überlappung verhindert Haarlinien zwischen den Schritten. */
-        band.appendChild(el('path', { d: ringPath(a, Math.min(a1, b + 0.35), CFG.groupInner, CFG.groupOuter), fill: fill }));
-      }
+      var band = el('path', { class: 'wheel__band', 'data-group': g.id, d: ringPath(a0, a1, CFG.groupInner, CFG.groupOuter) });
+      band.style.setProperty('--group', 'var(--pw-' + g.color + ')');
       ringLayer.appendChild(band);
       defs.appendChild(el('path', { id: 'track-' + g.id, fill: 'none', d: arcPath(rMid, a0 + 3, a1 - 3) }));
       defs.appendChild(el('path', { id: 'track-' + g.id + '-flip', fill: 'none', d: arcPathRev(rMid, a1 - 3, a0 + 3) }));
@@ -289,10 +268,25 @@
       return want + Math.round((rotation - want) / 360) * 360;
     }
 
+    /* Wechsel im Lesebereich wie die Produkt-Tabs in 4.4: 240 ms bei
+       Zeigerbedienung, per Tastatur sofort. */
+    var viaKeyboard = false;
+    root.addEventListener('keydown', function () { viaKeyboard = true; }, true);
+    root.addEventListener('pointerdown', function () { viaKeyboard = false; }, true);
+    function crossfade(els) {
+      els.forEach(function (n) {
+        if (!n || !n.animate) return;
+        n.getAnimations().forEach(function (an) { an.cancel(); });
+        n.animate([{ opacity: 0.3, transform: 'translateY(9px)' }, { opacity: 1, transform: 'translateY(0)' }],
+                  { duration: 240, easing: 'cubic-bezier(.23,1,.32,1)' });
+      });
+    }
+
     function select(i, animate) {
       i = ((i % ITEMS.length) + ITEMS.length) % ITEMS.length;
       var item = ITEMS[i], a = segAngle(i);
       if (i !== index) {
+        var first = index < 0;
         index = i;
         activeArc.setAttribute('d', arcPath(CFG.activeRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
         activeArc.style.setProperty('--field', field(item));
@@ -319,6 +313,9 @@
           p.hidden = !on;
           if (on) readerLead.textContent = p.getAttribute('data-lead') || '';
         });
+        if (!first && animate !== false && !reduced.matches && !viaKeyboard) {
+          crossfade([readerGroup.parentNode, readerName, readerLead, panelOf(item.id)]);
+        }
       }
       rotation = targetFor(i);
       applyRotation(animate !== false && !reduced.matches);

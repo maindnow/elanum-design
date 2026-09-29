@@ -36,7 +36,17 @@ Ein gemeinsamer, sanfter Zyklus: 3,4 Sekunden Raum geben und 4,4 Sekunden beruhi
 
 Die Beziehungskreise werden gemeinsam mit der Verbindung in einem einzigen requestAnimationFrame-Takt berechnet. Nur sichtbare Darstellungen werden aktualisiert. Bei ausgeblendeter Seite oder Pause steht der Atemtakt still. Ein globaler Pausenstatus gilt für alle Demos. `prefers-reduced-motion` setzt eine vollständig ruhende Darstellung; Systemeinstellungsänderungen werden auch während der Nutzung erkannt.
 
-Regler reagieren direkt, die grafische Anpassung wird leicht gedämpft. Produkt-Tabs wechseln bei Pointer-Bedienung mit 240 ms, per Tastatur sofort. Kapitel erscheinen einmalig mit 850 ms und kurzem Versatz; Konturen zeichnen sich einmalig in 1,8 s auf. Eine globale Pause beendet auch diese Auftritte. Papier hebt sich bei Hover leicht an; Buttons geben beim Drücken nach. Reduzierte Bewegung deaktiviert diese Bewegungen.
+Regler reagieren direkt, die grafische Anpassung wird leicht gedämpft. Produkt-Tabs wechseln bei Pointer-Bedienung mit 240 ms, per Tastatur sofort. Konturen zeichnen sich einmalig in 1,8 s auf. Eine globale Pause beendet auch diese Auftritte.
+
+### Auftritte nach website-motion
+
+Die Einsatz-Matrix des Skills ordnet den Styleguide als Doku-Site ein: dezente Reveals und Line-Draws, natives Scrollen ohne Lenis, kein Split-Text. Werte aus dem Katalog, nicht geschätzt: Reveal 0,9 s `power2.out` mit 2,4 rem Versatz (klein 1,6 rem, gross 3,2 rem), Start bei 88 % (92 % / 85 %), Staffel 0,12 s, Einstieg 0,14 s, Linie 1 s `power3.out`. Jeder Auftritt läuft einmal.
+
+- Einstieg: Kopfzeile, Titel, Einleitung, Visual und Fuss nacheinander, zusammen 1,5 s.
+- Beim Scrollen: Kapitelköpfe, Einleitungen, Paletten, Komponenten und Listen. Die Tageslinie unter „Heute“ zeichnet sich von oben nach unten.
+- Rad: Scheibe, Ring, Stücke, Icons und Beschriftung bauen sich gestaffelt auf, danach zeichnen sich die Statusränder. Zum Schluss erscheinen Auswahlbogen und angehobenes Stück. Unter 1,5 s, nur Deckkraft und leichte Skalierung, kein Bounce. Der Lesebereich wechselt wie die Produkt-Tabs: 240 ms bei Zeigerbedienung, per Tastatur sofort.
+
+Schutz, damit nichts verschwindet: Ohne JavaScript, bei reduzierter Bewegung oder wenn GSAP nicht lädt, ist alles sofort sichtbar; spätestens nach 5 s in jedem Fall. Auftritte nutzen nur Deckkraft und Transform, nie `visibility`, damit noch nicht gezeigte Elemente per Tab erreichbar bleiben; Fokus zeigt sie sofort. Nach dem Auftritt bleiben keine Inline-Styles zurück, der Endzustand ist pixelgleich mit der Seite ohne Auftritte. Papier hebt sich bei Hover leicht an; Buttons geben beim Drücken nach. Reduzierte Bewegung deaktiviert diese Bewegungen.
 
 ## Farbe
 
@@ -65,7 +75,7 @@ Die Stylesheets beschreiben zuerst das Telefon und ergänzen breitere Ansichten 
 
 - Geometrie im 320er-Raum: Zentrum 28, Icons auf Radius 48, Beschriftung auf Radius 92, Statusrand auf 124, Segmente 128, Auswahlbogen 131, Ring 134–154. Neun Segmente à 40 Grad, Gruppenabstand 4 Grad.
 - Die Beschriftung liegt so weit aussen, dass auch die innerste Zeile oben ins Stück passt. Bei allen neun Drehstellungen gemessen: keine Zeile ragt sichtbar über ihr Stück.
-- Farbe folgt dem Bereich: Stück, Ring, Icon, Statusrand und Ergebnis nutzen dieselbe Feldfarbe. Der Ring wird in 2-Grad-Schritten gezeichnet; um jede Stückgrenze gehen die Nachbarfarben über 16 Grad ineinander über. Die Deckkraft liegt auf der ganzen Gruppe, damit sich die Schritte nicht überlagern.
+- Farbe folgt der Kategorie: Grundtöne violett (#6756D9), Ich & Orientierung rosé (#D85BA9), Beziehung & Verbindung grün (#6D9477), abgeleitet aus den 4.4-Feldfarben Violet, Rose und Moss. Jede Kategorie hat eine tiefe, mittlere und helle Nuance (`--pw-a-1` bis `--pw-c-3` in `personal-wheel.css`), im Uhrzeigersinn von tief nach hell. Der Ring ist pro Kategorie eine einfarbige Fläche. Anders als im Styleguide, wo neun Feldfarben neun Platzhalterfelder unterscheiden, soll im Rad die Kategorie auf einen Blick lesbar sein.
 - Status: Der Rand eines Stücks ist geschlossen, wenn der Bereich ausgefüllt ist, und hat in der Mitte eine Öffnung von 12 Grad, solange er offen ist. Offene Stücke zeigen zusätzlich „offen“.
 - Icons: neun Linien-Icons im 24er-Raster, Strich 1,6 px, als Kranz um „Ich“. Sie drehen gegen das Rad und bleiben aufrecht.
 - Auswahl: Ein angehobenes Stück steht oben still und trägt den Relief-Schatten (hell links oben, dunkel rechts unten). Es erscheint erst, wenn das Rad ruht, weil das Licht nicht mitdreht.
