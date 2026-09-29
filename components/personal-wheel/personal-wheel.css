@@ -33,6 +33,12 @@
   --elanum-font-display:"Yrsa",Georgia,serif;
   --elanum-font-ui:"Albert Sans",system-ui,sans-serif;
 
+  /* Rad: eine Farbe pro Kategorie, abgeleitet aus den 4.4-Feldfarben
+     Violet, Rose und Moss; darin eine tiefe, mittlere und helle Nuance. */
+  --pw-a:#6756D9; --pw-a-1:#4B3CB8; --pw-a-2:#6756D9; --pw-a-3:#9A8EEA;   /* Grundtöne */
+  --pw-b:#D85BA9; --pw-b-1:#B23C86; --pw-b-2:#D85BA9; --pw-b-3:#E896C8;   /* Ich & Orientierung */
+  --pw-c:#6D9477; --pw-c-1:#4C7457; --pw-c-2:#6D9477; --pw-c-3:#9BBBA3;   /* Beziehung & Verbindung */
+
   /* Relief aus relief.css: Licht von links oben */
   --line:#D6D1C5;
   --raised:9px 9px 22px #c9c3b680,-9px -9px 22px #ffffffc9;
@@ -108,9 +114,8 @@ img,svg{display:block;max-width:100%}
 /* Während des Einstiegs (assets/motion.js) steuert nur die Timeline. */
 .wheel.is-entering *{transition:none!important}
 
-/* Ring: über jedem Stück dessen Farbe. Deckkraft auf der ganzen Gruppe,
-   damit sich die feinen Verlaufsschritte nicht überlagern. */
-.wheel__band{opacity:.22;transition:opacity var(--elanum-motion-ui) ease}
+/* Ring: eine Fläche pro Kategorie, in deren Farbe */
+.wheel__band{fill:var(--group);opacity:.22;transition:opacity var(--elanum-motion-ui) ease}
 .wheel__band.is-active{opacity:.4}
 .wheel__ring-label{
   font:600 9.6px var(--elanum-font-ui);letter-spacing:.12em;text-transform:uppercase;
