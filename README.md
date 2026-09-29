@@ -2,7 +2,7 @@
 
 Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Relief**. Dieses Repository enthält ausschliesslich den Styleguide 4.4 mit seinen Assets und seiner Dokumentation.
 
-[Styleguide-Datei](index.html) · [Designnotizen](DESIGN-NOTES.md)
+[Styleguide-Datei](index.html) · [Persönliches Rad](components/personal-wheel/index.html) · [Designnotizen](DESIGN-NOTES.md)
 
 ## Was der Styleguide zeigt
 
@@ -16,9 +16,23 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Re
 
 Das ist ein vollständiger Styleguide, nicht nur eine Rad-Komponente. Die Feldnamen und Gruppen A bis C sind strukturelle Platzhalter, keine fertige fachliche Klassifikation.
 
+## Persönliches Rad
+
+[components/personal-wheel/](components/personal-wheel/index.html) zeigt den Bereich „Ich“ mit echten Namen, Beispielergebnissen und Ausfüllstatus, gestaltet nach 4.4:
+
+- Ein mathematisch runder Kreis aus neun Kuchenstücken à exakt 40 Grad, darum ein Ring aus drei Gruppen à 120 Grad. Alle Pfade werden aus Polarkoordinaten berechnet.
+- Relief wie im Styleguide: erhabene Scheibe in einer vertieften Rille, Licht von links oben. Scheibe und Zentrum drehen nicht mit, weil das Licht nicht mitdreht.
+- Die neun Feldfarben tönen die Stücke. Ausgefüllt ist ein gefüllter Punkt, offen ein Kreis mit Öffnung; zusätzlich tragen Text und Legende dieselbe Information.
+- Namen in Albert Sans, Ergebnisse („Jungfrau“, „Generator“) in Yrsa direkt im Stück.
+- Mobile-first: Stück antippen, Rad ziehen oder die Knöpfe unter dem Rad nutzen. Senkrechtes Wischen scrollt die Seite. Tastatur: Pfeiltasten, Home, End.
+
+Die Inhalte stehen im HTML: `data-done`, `data-result` und `data-lead` am jeweiligen Panel steuern Status, Ergebnis im Stück und Einleitung. „Jetzt ausfüllen“ ist eine Vorschau ohne Speicherung.
+
 ## Lokal öffnen
 
 Das Repository herunterladen und `index.html` im Browser öffnen. Alle Dateien und den Ordner `assets/` zusammen behalten. GitHub selbst zeigt HTML als Quelltext.
+
+Chrome blockiert unter `file://` Schriftdateien. Beide Seiten laden deshalb nur in diesem Fall `assets/fonts/fonts-embedded.css` mit eingebetteten Schriften nach. Die Konsole meldet dann beim Styleguide noch vier abgelehnte Preloads; sie sind harmlos und erscheinen über einen lokalen Server nicht.
 
 Alternativ mit Git und Python 3:
 
@@ -37,14 +51,18 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | Datei | Aufgabe |
 | --- | --- |
 | [index.html](index.html) | Direkter Einstieg mit allen Kapiteln |
-| [style.css](style.css) | Basislayout und responsive Darstellung |
+| [style.css](style.css) | Basislayout, mobile-first mit `min-width`-Stufen 561, 801, 1101 und 1500 px |
 | [tactile.css](tactile.css) | Papiertextur und haptische Zustände |
 | [relief.css](relief.css) | Soft-3D-Oberflächen und Logo-Card |
 | [app.js](app.js) | SVG-Geometrie, Bewegung und Bedienlogik |
 | [assets/](assets/) | Logos, Konturvergleich und lokale Fonts |
+| [components/personal-wheel/](components/personal-wheel/) | Persönliches Rad „Ich“ im 4.4-Look (HTML, CSS, JS) |
+| [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` für die Dateiansicht |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
 
 Die Stylesheets werden in der Reihenfolge `style.css`, `tactile.css`, `relief.css` geladen. Die Relief-Regeln überschreiben gezielt die Basis.
+
+Alle drei Stylesheets sind mobile-first: Grundregeln gelten für das Telefon, breitere Ansichten ergänzen mit `min-width`. Neue Regeln bitte ebenso anlegen, keine `max-width`-Abfragen. Nach Änderungen an den Schriftdateien `python3 tools/embed-fonts.py` ausführen.
 
 ## Gestaltungsregeln
 
@@ -74,12 +92,13 @@ JavaScript-Syntax und Diff prüfen:
 
 ```bash
 node --check app.js
+node --check components/personal-wheel/personal-wheel.js
 git diff --check
 ```
 
 Zusätzlich im Browser:
 
-- Desktop und Mobil: keine horizontalen Überläufe, lesbare Beschriftungen.
+- Desktop und Mobil ab 320 px: keine horizontalen Überläufe, lesbare Beschriftungen, Ziele mindestens 44 px.
 - Logo: alle vier Modi und Originalvergleich ohne Verzerrung.
 - Interaktion: Regler, Formulare, Farbkopieren und Produkt-Tabs.
 - Tastatur: sichtbarer Fokus und bedienbare Steuerelemente.
@@ -90,7 +109,7 @@ Vor der Repository-Umstellung wurden Desktop- und mobile Ansichten lokal kontrol
 
 ## Stand und Historie
 
-Seit der Umstellung am 19. September 2026 ist Styleguide 4.4 der einzige aktuelle Designstand in `main`. Die frühere SoulResonance-Referenz, die separate persönliche Rad-Komponente und deren Projekt-Skill wurden aus dem aktuellen Dateibaum entfernt.
+Seit der Umstellung am 19. September 2026 ist Styleguide 4.4 der einzige aktuelle Designstand in `main`. Die frühere SoulResonance-Referenz, die alte Rad-Komponente und deren Projekt-Skill wurden aus dem aktuellen Dateibaum entfernt. Das persönliche Rad unter `components/personal-wheel/` ist eine Neufassung auf Basis von 4.4, keine Wiederherstellung der alten Komponente.
 
 Die Git-Historie bleibt erhalten. Der letzte `main`-Stand vor der Ablösung ist Commit `94071d8671c4da6dfab7b06ba855977cf5eea8a9`. Alte Arbeitsbranches können ebenfalls noch vorhanden sein; sie sind keine aktuelle Referenz.
 

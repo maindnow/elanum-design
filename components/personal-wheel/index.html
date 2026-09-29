@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F0ECE3">
+  <title>ELANUM · Ich</title>
+  <link rel="icon" href="../../assets/ELANUM-System-Ink-Curves.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="personal-wheel.css">
+  <script>/* Unter file:// blockiert Chrome Schriftdateien. Nur dann die eingebetteten Schriften laden. */if(location.protocol==='file:')document.head.append(Object.assign(document.createElement('link'),{rel:'stylesheet',href:'../../assets/fonts/fonts-embedded.css'}))</script>
+</head>
+<body>
+  <a class="skip-link" href="#wheel">Zum Rad springen</a>
+
+  <header class="top">
+    <span class="brand"><img src="../../assets/ELANUM-System-Ink-Curves.svg" alt="" width="28" height="28"><span>ELANUM</span></span>
+    <a class="top__link" href="../../index.html">Gestaltungsatlas 4.4</a>
+  </header>
+
+  <main class="me" data-personal-wheel>
+    <div class="me__intro">
+      <h1>Ich</h1>
+      <p>Neun Bereiche in drei Gruppen. Tippe ein Stück an oder dreh das Rad.</p>
+    </div>
+
+    <section class="me__wheel" id="wheel" aria-label="Persönliches Rad">
+      <div class="wheel">
+        <div class="wheel__track" aria-hidden="true"></div>
+        <div class="wheel__plate" aria-hidden="true"></div>
+        <svg class="wheel__svg" viewBox="0 0 320 320" focusable="false">
+          <defs></defs>
+          <g class="wheel__rotor">
+            <g class="wheel__ring" aria-hidden="true"></g>
+            <g class="wheel__ring-labels" aria-hidden="true"></g>
+            <g class="wheel__segments" role="tablist" aria-label="Bereiche"></g>
+            <g class="wheel__labels" aria-hidden="true"></g>
+            <path class="wheel__active" aria-hidden="true"></path>
+          </g>
+        </svg>
+        <div class="wheel__center" aria-hidden="true"><span>Ich</span></div>
+      </div>
+
+      <div class="wheel-nav">
+        <button class="button button--secondary" type="button" data-nav="prev" aria-label="Vorheriger Bereich"><span aria-hidden="true">‹</span></button>
+        <p class="wheel-nav__progress" data-progress></p>
+        <button class="button button--secondary" type="button" data-nav="next" aria-label="Nächster Bereich"><span aria-hidden="true">›</span></button>
+      </div>
+
+      <ul class="legend" aria-label="Legende">
+        <li><span class="legend__mark legend__mark--done" aria-hidden="true"></span>ausgefüllt</li>
+        <li><span class="legend__mark" aria-hidden="true"></span>noch offen</li>
+      </ul>
+    </section>
+
+    <section class="reader" aria-label="Ausgewählter Bereich">
+      <p class="reader__group" data-reader-group></p>
+      <h2 class="reader__name" data-reader-name></h2>
+      <p class="reader__lead" data-reader-lead></p>
+
+      <!-- Ausgefüllt: data-done="true" und data-result. Das Ergebnis erscheint auch im Segment. -->
+      <div class="panel" id="panel-astrology" role="tabpanel" aria-labelledby="tab-astrology" data-panel="astrology"
+           data-done="true" data-result="Jungfrau" data-lead="Die Konstellation zum Zeitpunkt deiner Geburt.">
+        <p>Sonne, Mond und Aszendent bilden einen Grundton, in dem sich viele Menschen wiedererkennen. Es ist eine Sprache für Muster, keine Vorhersage.</p>
+        <div class="result">
+          <p class="result__label">Dein Ergebnis</p>
+          <dl>
+            <dt>Sonne</dt><dd>Jungfrau</dd>
+            <dt>Mond</dt><dd>Fische</dd>
+            <dt>Aszendent</dt><dd>Waage</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-numerology" role="tabpanel" aria-labelledby="tab-numerology" data-panel="numerology"
+           data-done="true" data-result="7" data-lead="Zahlen als Muster deines Namens und Datums." hidden>
+        <p>Aus Geburtsdatum und Namen entsteht ein wiederkehrendes Muster. Es zeigt Themen, die sich durch dein Leben ziehen, und Stellen, an denen du sie immer wieder triffst.</p>
+        <div class="result">
+          <p class="result__label">Dein Ergebnis</p>
+          <dl>
+            <dt>Lebenszahl</dt><dd>7, der Suchende</dd>
+            <dt>Namenszahl</dt><dd>3, der Vermittler</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-human-design" role="tabpanel" aria-labelledby="tab-human-design" data-panel="human-design"
+           data-done="true" data-result="Generator" data-lead="Wie du Energie aufnimmst und entscheidest." hidden>
+        <p>Typ, Autorität und offene Zentren beschreiben, woher deine Energie kommt und woran du merkst, dass eine Entscheidung stimmig ist.</p>
+        <div class="result">
+          <p class="result__label">Dein Ergebnis</p>
+          <dl>
+            <dt>Typ</dt><dd>Generator</dd>
+            <dt>Autorität</dt><dd>Sakral</dd>
+            <dt>Profil</dt><dd>3 / 5</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-direction" role="tabpanel" aria-labelledby="tab-direction" data-panel="direction"
+           data-done="false" data-lead="Wohin du dich gerade bewegst." hidden>
+        <p>Was dich zieht, woran du festhältst und was du gerade hinter dir lässt. Die Richtung darf sich ändern, sie ist kein Ergebnis.</p>
+        <div class="open">
+          <p class="status"><span aria-hidden="true">ⓘ</span> Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
+          <button class="button" type="button" data-fill>Jetzt ausfüllen</button>
+          <p class="open__note" data-fill-note aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-personality" role="tabpanel" aria-labelledby="tab-personality" data-panel="personality"
+           data-done="false" data-lead="Wie du wahrnimmst, entscheidest und handelst." hidden>
+        <p>Deine Art zu denken, zu fühlen und zu reagieren. Im Alltag, und noch deutlicher unter Druck.</p>
+        <div class="open">
+          <p class="status"><span aria-hidden="true">ⓘ</span> Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
+          <button class="button" type="button" data-fill>Jetzt ausfüllen</button>
+          <p class="open__note" data-fill-note aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-values" role="tabpanel" aria-labelledby="tab-values" data-panel="values"
+           data-done="true" data-result="Ehrlichkeit" data-lead="Woran du misst, was zählt." hidden>
+        <p>Die wenigen Dinge, für die du Unbequemes in Kauf nimmst. Werte zeigen sich weniger im Reden als in dem, was du wirklich wählst.</p>
+        <div class="result">
+          <p class="result__label">Dein Ergebnis</p>
+          <dl>
+            <dt>Zuerst</dt><dd>Ehrlichkeit, auch wenn sie kostet</dd>
+            <dt>Dann</dt><dd>Eigenständigkeit</dd>
+            <dt>Dann</dt><dd>Verlässlichkeit</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-attachment" role="tabpanel" aria-labelledby="tab-attachment" data-panel="attachment"
+           data-done="true" data-result="Sicher" data-lead="Wie du Nähe und Abstand regelst." hidden>
+        <p>Was in dir passiert, wenn jemand näher kommt, und was, wenn jemand geht. Bindung ist ein Muster, kein Urteil.</p>
+        <div class="result">
+          <p class="result__label">Dein Ergebnis</p>
+          <dl>
+            <dt>Grundmuster</dt><dd>Sicher</dd>
+            <dt>Unter Stress</dt><dd>Leicht vermeidend</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-closeness" role="tabpanel" aria-labelledby="tab-closeness" data-panel="closeness"
+           data-done="false" data-lead="Wie du Zuneigung zeigst und annimmst." hidden>
+        <p>Worin du Zuwendung ausdrückst und woran du sie erkennst. Zwei Menschen meinen oft dasselbe und zeigen es völlig verschieden.</p>
+        <div class="open">
+          <p class="status"><span aria-hidden="true">ⓘ</span> Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
+          <button class="button" type="button" data-fill>Jetzt ausfüllen</button>
+          <p class="open__note" data-fill-note aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-conflict" role="tabpanel" aria-labelledby="tab-conflict" data-panel="conflict"
+           data-done="false" data-lead="Was du im Streit tust." hidden>
+        <p>Ob du zugehst, ausweichst oder zumachst. Und was dich danach wieder erreichbar macht.</p>
+        <div class="open">
+          <p class="status"><span aria-hidden="true">ⓘ</span> Dieser Bereich ist noch offen. Er bleibt leer, bis du ihn ausfüllst.</p>
+          <button class="button" type="button" data-fill>Jetzt ausfüllen</button>
+          <p class="open__note" data-fill-note aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="personal-wheel.js"></script>
+</body>
+</html>

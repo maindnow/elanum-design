@@ -55,6 +55,20 @@ Statusrollen sind separat: Signal/Hinweis #89560E, Info #286F9B, Fehler #A7394D.
 - 44-px-Ziele für Bedienelemente, sichtbarer Tastaturfokus, bewegungsreduzierte Darstellung.
 - Die Prüfcheckliste ist eine Arbeitshilfe und vergibt keine automatische Designfreigabe.
 
+## Mobile-first
+
+Die Stylesheets beschreiben zuerst das Telefon und ergänzen breitere Ansichten mit `min-width` (561, 801, 1101, 1500 px). Die Umstellung von `max-width` war verlustfrei: Bei 14 Breiten (in beiden Bewegungsmodi) und in acht Bedienzuständen bei sieben Breiten stimmte jede berechnete Eigenschaft mit dem vorherigen Stand überein. Danach bewusst geändert: Navigationslinks, Regler und Segmentknöpfe haben 44 px Höhe, der Logo-Prüflink ebenfalls. Das Klangrad lässt sich auf dem Telefon direkt antippen; jedes Feld hat dafür eine unsichtbare, grössere Trefferfläche.
+
+## Persönliches Rad
+
+`components/personal-wheel/` überträgt 4.4 auf den Bereich „Ich“. Anders als im Styleguide stehen hier echte Bereichsnamen und Beispielergebnisse; die Gruppen heissen Grundtöne, Ich & Orientierung sowie Beziehung & Verbindung.
+
+- Geometrie im 320er-Raum: Zentrum 30, Segmente 114, Rille 125–149, Beschriftung auf Radius 82, Statuspunkte auf Radius 43. Neun Segmente à 40 Grad, Gruppenabstand 4 Grad.
+- Die Beschriftung liegt so weit aussen, dass auch die innerste Zeile oben ins Stück passt. Bei allen neun Drehstellungen gemessen: keine Zeile ragt sichtbar über ihr Stück.
+- Die Statuspunkte bilden einen Kranz um „Ich“. Offen ist ein Kreis mit Öffnung, ausgefüllt ein Punkt.
+- Ergebnisfarbe: Feldfarbe zu 55 % mit Ink gemischt, damit kleine Schrift lesbar bleibt.
+- Drehung 420 ms mit der 4.4-Kurve, bei reduzierter Bewegung sofort. `touch-action: pan-y` hält senkrechtes Scrollen frei; bricht der Browser die Geste ab, rastet das Rad auf die aktuelle Auswahl zurück.
+
 ## Dateien
 
-`index.html`, `style.css`, `tactile.css`, `relief.css`, `app.js` und `assets/` gemeinsam behalten. `index.html` lässt sich direkt öffnen. Die Font-Dateien sind lokal; ihre OFL-Lizenzen liegen in `assets/fonts/`.
+`index.html`, `style.css`, `tactile.css`, `relief.css`, `app.js` und `assets/` gemeinsam behalten. `index.html` lässt sich direkt öffnen. Die Font-Dateien sind lokal; ihre OFL-Lizenzen liegen in `assets/fonts/`. Unter `file://` laden die Seiten `assets/fonts/fonts-embedded.css` (erzeugt mit `tools/embed-fonts.py`), weil Chrome dort Schriftdateien blockiert.
