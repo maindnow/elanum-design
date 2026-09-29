@@ -289,10 +289,25 @@
       return want + Math.round((rotation - want) / 360) * 360;
     }
 
+    /* Wechsel im Lesebereich wie die Produkt-Tabs in 4.4: 240 ms bei
+       Zeigerbedienung, per Tastatur sofort. */
+    var viaKeyboard = false;
+    root.addEventListener('keydown', function () { viaKeyboard = true; }, true);
+    root.addEventListener('pointerdown', function () { viaKeyboard = false; }, true);
+    function crossfade(els) {
+      els.forEach(function (n) {
+        if (!n || !n.animate) return;
+        n.getAnimations().forEach(function (an) { an.cancel(); });
+        n.animate([{ opacity: 0.3, transform: 'translateY(9px)' }, { opacity: 1, transform: 'translateY(0)' }],
+                  { duration: 240, easing: 'cubic-bezier(.23,1,.32,1)' });
+      });
+    }
+
     function select(i, animate) {
       i = ((i % ITEMS.length) + ITEMS.length) % ITEMS.length;
       var item = ITEMS[i], a = segAngle(i);
       if (i !== index) {
+        var first = index < 0;
         index = i;
         activeArc.setAttribute('d', arcPath(CFG.activeRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
         activeArc.style.setProperty('--field', field(item));
@@ -319,6 +334,9 @@
           p.hidden = !on;
           if (on) readerLead.textContent = p.getAttribute('data-lead') || '';
         });
+        if (!first && animate !== false && !reduced.matches && !viaKeyboard) {
+          crossfade([readerGroup.parentNode, readerName, readerLead, panelOf(item.id)]);
+        }
       }
       rotation = targetFor(i);
       applyRotation(animate !== false && !reduced.matches);

@@ -217,20 +217,9 @@ rules.forEach(([title,description])=>{const label=document.createElement('label'
 $$('#checklist input').forEach(input=>input.addEventListener('change',()=>{const count=$$('#checklist input:checked').length;$('#scoreNumber').textContent=count;$('#scoreMessage').textContent=count===8?'Alle acht Regeln bestätigt. Die visuelle Freigabe erfolgt separat.':count+' von 8 Gestaltungsregeln bestätigt. Eine Checkliste ersetzt kein visuelles Review.';}));
 $('#copyTokens').addEventListener('click',()=>copyText($('#tokenCode').textContent,'Design-Tokens kopiert'));
 
-// One-time paper-like entrances. Content is never hidden waiting for JavaScript.
+// Entrances and scroll reveals live in assets/motion.js (data-anim in index.html).
 document.addEventListener('keydown',()=>{document.body.dataset.input='keyboard';},{capture:true});
 document.addEventListener('pointerdown',()=>{document.body.dataset.input='pointer';},{capture:true});
-const revealTargets=$$('.section-heading,.relationship-top,.material-paper,.foundation-grid > *, .type-layout > *, .color-group, .component, .voice-list > *, .hero h1, .hero-copy > p');
-const entranceObserver=new IntersectionObserver(entries=>{
-  let stagger=0;
-  entries.forEach(entry=>{
-    if(!entry.isIntersecting)return;
-    entranceObserver.unobserve(entry.target);
-    if(!moving() || document.body.dataset.input==='keyboard')return;
-    entry.target.animate([{opacity:.2,transform:'translateY(24px)'},{opacity:1,transform:'translateY(0)'}],{duration:850,delay:Math.min(stagger++*65,195),easing:'cubic-bezier(.23,1,.32,1)'});
-  });
-},{threshold:.12});
-revealTargets.forEach(element=>entranceObserver.observe(element));
 const lineObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
   if(!entry.isIntersecting)return;
   lineObserver.unobserve(entry.target);

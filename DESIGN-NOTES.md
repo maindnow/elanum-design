@@ -36,7 +36,17 @@ Ein gemeinsamer, sanfter Zyklus: 3,4 Sekunden Raum geben und 4,4 Sekunden beruhi
 
 Die Beziehungskreise werden gemeinsam mit der Verbindung in einem einzigen requestAnimationFrame-Takt berechnet. Nur sichtbare Darstellungen werden aktualisiert. Bei ausgeblendeter Seite oder Pause steht der Atemtakt still. Ein globaler Pausenstatus gilt für alle Demos. `prefers-reduced-motion` setzt eine vollständig ruhende Darstellung; Systemeinstellungsänderungen werden auch während der Nutzung erkannt.
 
-Regler reagieren direkt, die grafische Anpassung wird leicht gedämpft. Produkt-Tabs wechseln bei Pointer-Bedienung mit 240 ms, per Tastatur sofort. Kapitel erscheinen einmalig mit 850 ms und kurzem Versatz; Konturen zeichnen sich einmalig in 1,8 s auf. Eine globale Pause beendet auch diese Auftritte. Papier hebt sich bei Hover leicht an; Buttons geben beim Drücken nach. Reduzierte Bewegung deaktiviert diese Bewegungen.
+Regler reagieren direkt, die grafische Anpassung wird leicht gedämpft. Produkt-Tabs wechseln bei Pointer-Bedienung mit 240 ms, per Tastatur sofort. Konturen zeichnen sich einmalig in 1,8 s auf. Eine globale Pause beendet auch diese Auftritte.
+
+### Auftritte nach website-motion
+
+Die Einsatz-Matrix des Skills ordnet den Styleguide als Doku-Site ein: dezente Reveals und Line-Draws, natives Scrollen ohne Lenis, kein Split-Text. Werte aus dem Katalog, nicht geschätzt: Reveal 0,9 s `power2.out` mit 2,4 rem Versatz (klein 1,6 rem, gross 3,2 rem), Start bei 88 % (92 % / 85 %), Staffel 0,12 s, Einstieg 0,14 s, Linie 1 s `power3.out`. Jeder Auftritt läuft einmal.
+
+- Einstieg: Kopfzeile, Titel, Einleitung, Visual und Fuss nacheinander, zusammen 1,5 s.
+- Beim Scrollen: Kapitelköpfe, Einleitungen, Paletten, Komponenten und Listen. Die Tageslinie unter „Heute“ zeichnet sich von oben nach unten.
+- Rad: Scheibe, Ring, Stücke, Icons und Beschriftung bauen sich gestaffelt auf, danach zeichnen sich die Statusränder. Zum Schluss erscheinen Auswahlbogen und angehobenes Stück. Unter 1,5 s, nur Deckkraft und leichte Skalierung, kein Bounce. Der Lesebereich wechselt wie die Produkt-Tabs: 240 ms bei Zeigerbedienung, per Tastatur sofort.
+
+Schutz, damit nichts verschwindet: Ohne JavaScript, bei reduzierter Bewegung oder wenn GSAP nicht lädt, ist alles sofort sichtbar; spätestens nach 5 s in jedem Fall. Auftritte nutzen nur Deckkraft und Transform, nie `visibility`, damit noch nicht gezeigte Elemente per Tab erreichbar bleiben; Fokus zeigt sie sofort. Nach dem Auftritt bleiben keine Inline-Styles zurück, der Endzustand ist pixelgleich mit der Seite ohne Auftritte. Papier hebt sich bei Hover leicht an; Buttons geben beim Drücken nach. Reduzierte Bewegung deaktiviert diese Bewegungen.
 
 ## Farbe
 

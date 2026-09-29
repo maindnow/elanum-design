@@ -105,6 +105,8 @@ img,svg{display:block;max-width:100%}
 .wheel__rotor{transform-box:view-box;transform-origin:160px 160px;transition:transform var(--turn) var(--ease)}
 .wheel__label,.wheel__icon{transform-box:fill-box;transform-origin:center;transition:transform var(--turn) var(--ease)}
 .wheel__rotor.is-still,.wheel__label.is-still,.wheel__icon.is-still{transition:none}
+/* Während des Einstiegs (assets/motion.js) steuert nur die Timeline. */
+.wheel.is-entering *{transition:none!important}
 
 /* Ring: über jedem Stück dessen Farbe. Deckkraft auf der ganzen Gruppe,
    damit sich die feinen Verlaufsschritte nicht überlagern. */

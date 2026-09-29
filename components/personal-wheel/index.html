@@ -7,6 +7,8 @@
   <title>ELANUM · Ich</title>
   <link rel="icon" href="../../assets/ELANUM-System-Ink-Curves.svg" type="image/svg+xml">
   <link rel="stylesheet" href="personal-wheel.css">
+  <style>html.js:not(.motion-ready):not(.motion-timeout) [data-anim]:not(.reveal-instant){visibility:hidden}</style>
+  <script>/* Motion-Guards nach website-motion P27/P28, siehe ../../assets/motion.js */(function(h,base){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;h.classList.add('js');setTimeout(function(){h.classList.contains('motion-ready')||h.classList.add('motion-timeout')},5000);var go=false;function inject(){if(go)return;go=true;['assets/vendor/gsap/gsap.min.js','assets/vendor/gsap/ScrollTrigger.min.js','assets/motion.js'].forEach(function(f){var s=document.createElement('script');s.src=base+f;s.async=false;document.body.appendChild(s)})}requestAnimationFrame(function(){requestAnimationFrame(function(){setTimeout(inject,0)})});addEventListener('load',inject);setTimeout(inject,2500)})(document.documentElement,'../../')</script>
   <script>/* Unter file:// blockiert Chrome Schriftdateien. Nur dann die eingebetteten Schriften laden. */if(location.protocol==='file:')document.head.append(Object.assign(document.createElement('link'),{rel:'stylesheet',href:'../../assets/fonts/fonts-embedded.css'}))</script>
 </head>
 <body>
@@ -19,12 +21,12 @@
 
   <main class="me" data-personal-wheel>
     <div class="me__intro">
-      <h1>Ich</h1>
-      <p>Neun Bereiche in drei Gruppen. Tippe ein Stück an oder dreh das Rad. Oben liegt die Auswahl.</p>
+      <h1 data-anim="hero">Ich</h1>
+      <p data-anim="hero">Neun Bereiche in drei Gruppen. Tippe ein Stück an oder dreh das Rad. Oben liegt die Auswahl.</p>
     </div>
 
     <section class="me__wheel" id="wheel" aria-label="Persönliches Rad">
-      <div class="wheel">
+      <div class="wheel" data-anim="wheel">
         <div class="wheel__track" aria-hidden="true"></div>
         <div class="wheel__plate" aria-hidden="true"></div>
         <svg class="wheel__svg" viewBox="0 0 320 320" focusable="false">
@@ -46,19 +48,19 @@
         <div class="wheel__center" aria-hidden="true"><span>Ich</span></div>
       </div>
 
-      <div class="wheel-nav">
+      <div class="wheel-nav" data-anim="hero">
         <button class="button button--secondary" type="button" data-nav="prev" aria-label="Vorheriger Bereich"><span aria-hidden="true">‹</span></button>
         <p class="wheel-nav__progress" data-progress></p>
         <button class="button button--secondary" type="button" data-nav="next" aria-label="Nächster Bereich"><span aria-hidden="true">›</span></button>
       </div>
 
-      <ul class="legend" aria-label="Legende">
+      <ul class="legend" aria-label="Legende" data-anim="hero">
         <li><svg class="legend__mark" viewBox="0 0 20 12" aria-hidden="true"><path d="M2 10A12 12 0 0 1 18 10"/></svg>ausgefüllt</li>
         <li><svg class="legend__mark" viewBox="0 0 20 12" aria-hidden="true"><path d="M2 10A12 12 0 0 1 7.51 7.2"/><path d="M12.49 7.2A12 12 0 0 1 18 10"/></svg>noch offen</li>
       </ul>
     </section>
 
-    <section class="reader" aria-label="Ausgewählter Bereich">
+    <section class="reader" aria-label="Ausgewählter Bereich" data-anim="reveal">
       <p class="reader__group"><svg class="reader__icon" data-reader-icon viewBox="0 0 24 24" aria-hidden="true"></svg><span data-reader-group></span></p>
       <h2 class="reader__name" data-reader-name></h2>
       <p class="reader__lead" data-reader-lead></p>
@@ -170,5 +172,6 @@
   </main>
 
   <script src="personal-wheel.js"></script>
+  <script>/* P29: Was beim Laden schon im Bild ist, erscheint sofort. Ausnahme: die Einstiegs-Timeline. */(function(){if(!document.documentElement.classList.contains('js'))return;var vh=innerHeight;document.querySelectorAll('[data-anim]').forEach(function(el){var t=el.getAttribute('data-anim');if(t!=='hero'&&t!=='wheel'&&el.getBoundingClientRect().top<vh)el.classList.add('reveal-instant')})})()</script>
 </body>
 </html>
