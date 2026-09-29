@@ -26,7 +26,7 @@ Das ist ein vollständiger Styleguide, nicht nur eine Rad-Komponente. Die Feldna
 - Namen in Albert Sans, Ergebnisse („Jungfrau“, „Generator“) in Yrsa direkt im Stück.
 - Mobile-first: Stück antippen, Rad ziehen oder die Knöpfe unter dem Rad nutzen. Senkrechtes Wischen scrollt die Seite. Tastatur: Pfeiltasten, Home, End.
 
-Die Inhalte stehen im HTML: `data-done`, `data-result` und `data-lead` am jeweiligen Panel steuern Status, Ergebnis im Stück und Einleitung. „Jetzt ausfüllen“ ist eine Vorschau ohne Speicherung.
+Die Inhalte stehen im HTML: `data-done`, `data-result` und `data-lead` am jeweiligen Panel steuern Status, Ergebnis im Stück und Einleitung. „Jetzt ausfüllen“ ist eine Vorschau ohne Speicherung. Der Styleguide verlinkt das Rad in der Navigation und im Produktbereich „Ich“.
 
 ## Lokal öffnen
 
