@@ -248,7 +248,8 @@ const RULES = [
   ['Text auf Farbe ist lesbar', 'Weisse Schrift nur auf Tief, Ink auf dem Hauch. Elemente tragen nur Icons.'],
   ['Raum statt Rahmen', 'Abstand gliedert, Linien trennen nur Kapitel.'],
   ['Bewegung erklärt', 'Jede Animation zeigt eine Beziehung, eine Reihenfolge oder einen Zustand. Pause und reduzierte Bewegung wirken.'],
-  ['Bedienbar für alle', 'Tastatur, sichtbarer Fokus, 44-px-Ziele, lesbare mobile Beschriftung.']
+  ['Bedienbar für alle', 'Tastatur, sichtbarer Fokus, 44-px-Ziele, lesbare mobile Beschriftung.'],
+  ['Begriffe aus dem Glossar', 'Alles heisst so wie im Glossar. Keine alten Arbeitsnamen.']
 ];
 RULES.forEach(([title, text]) => {
   const label = document.createElement('label');
@@ -259,10 +260,43 @@ RULES.forEach(([title, text]) => {
 $$('#checklist input').forEach(input => input.addEventListener('change', () => {
   const count = $$('#checklist input:checked').length;
   $('#scoreNumber').textContent = count;
-  $('#scoreMessage').textContent = count === RULES.length ? 'Alle acht Regeln bestätigt. Die visuelle Freigabe erfolgt separat.' : count + ' von 8 Regeln bestätigt. Eine Checkliste ersetzt kein visuelles Review.';
+  $('#scoreMessage').textContent = count === RULES.length ? 'Alle ' + RULES.length + ' Regeln bestätigt. Die visuelle Freigabe erfolgt separat.' : count + ' von ' + RULES.length + ' Regeln bestätigt. Eine Checkliste ersetzt kein visuelles Review.';
 }));
 
-/* ---------- 14 Tokens: der Block liest die Werte aus tokens.css ---------- */
+/* ---------- 14 Glossar: verbindliche Begriffe aus assets/glossar.js ---------- */
+const G = window.ELANUM_GLOSSAR;
+$('#glossarRule').textContent = G.rule;
+$('#glossarSentence').textContent = '«' + G.sentence + '»';
+G.groups.forEach(group => {
+  const section = document.createElement('section');
+  section.className = 'glossary__group';
+  section.innerHTML = `<h3 class="block-title">${group.title}</h3>${group.intro ? `<p class="secondary">${group.intro}</p>` : ''}<dl></dl>`;
+  group.terms.forEach(t => {
+    const row = document.createElement('div');
+    row.className = 'glossary__row';
+    row.dataset.search = (t.term + ' ' + t.meaning + ' ' + (t.code || '')).toLowerCase();
+    row.innerHTML = `<dt>${t.term}</dt><dd><span>${t.meaning}</span>${t.code ? `<code>${t.code}</code>` : ''}</dd>`;
+    section.querySelector('dl').append(row);
+  });
+  $('#glossar-list').append(section);
+});
+G.avoid.forEach(([old, now]) => {
+  const row = document.createElement('div');
+  row.innerHTML = `<dt><s>${old}</s></dt><dd>${now}</dd>`;
+  $('#glossarAvoid').append(row);
+});
+const glossarRows = $$('.glossary__row');
+function filterGlossar() {
+  const q = $('#glossarSearch').value.trim().toLowerCase();
+  let shown = 0;
+  glossarRows.forEach(row => { const on = !q || row.dataset.search.includes(q); row.hidden = !on; if (on) shown++; });
+  $$('.glossary__group').forEach(group => { group.hidden = !group.querySelector('.glossary__row:not([hidden])'); });
+  $('#glossarCount').textContent = q ? (shown === 1 ? '1 Begriff' : shown + ' Begriffe') : glossarRows.length + ' Begriffe';
+}
+$('#glossarSearch').addEventListener('input', filterGlossar);
+filterGlossar();
+
+/* ---------- 15 Tokens: der Block liest die Werte aus tokens.css ---------- */
 const TOKEN_GROUPS = [
   ['Fläche und Schrift', ['--canvas', '--paper', '--ink', '--ink-2', '--line']],
   ['Bereiche: tief · Element 1–3 · Hauch', ['--grund-tief', '--grund-1', '--grund-2', '--grund-3', '--grund-hauch', '--ich-tief', '--ich-1', '--ich-2', '--ich-3', '--ich-hauch', '--bezug-tief', '--bezug-1', '--bezug-2', '--bezug-3', '--bezug-hauch']],

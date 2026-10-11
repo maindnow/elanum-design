@@ -4,6 +4,8 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Baus
 
 [Atlas öffnen](index.html) · [Gestaltungsnotizen](DESIGN-NOTES.md) · [Bausteine](components/)
 
+**Benennung:** Im Zentrum steht das Resonanzrad mit neun Elementen. ELANUM begleitet in drei Phasen: **Zu dir**, **Zueinander**, **Miteinander**. Verbindlich ist das [Glossar](GLOSSAR.md).
+
 ## Was der Atlas zeigt
 
 - **Zeichen:** das ELANUM-Zeichen in Spektrum, Ink, Invers und Papierrelief; Original und Kurvenkorrektur vergleichbar. Das Zeichen bewegt sich nie.
@@ -43,6 +45,8 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [assets/motion.js](assets/motion.js) | Alle Bewegung, deklarativ über `data-anim` |
 | [assets/vendor/gsap/](assets/vendor/gsap/) | GSAP 3.15 lokal, mit Lizenzhinweis |
 | [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` neu |
+| [assets/glossar.js](assets/glossar.js) | Glossar: die eine Quelle aller Begriffe |
+| [GLOSSAR.md](GLOSSAR.md) | Glossar als Datei, erzeugt mit `node tools/glossar-md.js` |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
 
 Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Stylesheets, `style.css`.
@@ -54,6 +58,7 @@ Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Style
 - **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Weisse Schrift nur auf Tief, Ink auf dem Hauch; auf den Elementen im Rad steht Text nur in Ink.
 - **Raum statt Rahmen.** Abstand gliedert, Linien trennen nur Kapitel.
 - **Bewegung erklärt und bleibt kontrollierbar.** Jede Animation zeigt eine Beziehung, Reihenfolge oder einen Zustand. Keine Animation versteckt Inhalte dauerhaft; Pause, Tastatur und `prefers-reduced-motion` beenden alle Auftritte.
+- **Begriffe aus dem Glossar.** Neue oder geänderte Begriffe nur in `assets/glossar.js`, danach `node tools/glossar-md.js`.
 - **Dokumentation mitpflegen.** Bei Änderungen an Tokens `tokens.css` anpassen; Palette und Tokenblock lesen die Werte daraus. Nach Änderungen an Schriften `python3 tools/embed-fonts.py` ausführen.
 
 ## Prüfen
