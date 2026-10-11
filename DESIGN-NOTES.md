@@ -1,8 +1,33 @@
 # ELANUM — Gestaltungsatlas 4.5
 
-## Logo: Kreiskonstruktion (4.5)
+## Logo: sechs Grundkreise (Standard)
 
-Version 4.5 baut die Klangsignatur vollständig aus Kreisen auf. Die bisherigen Innenkonturen waren freie Bézier-Kurven: Innerhalb eines Bogens schwankte der Radius (z. B. 289 → 249 → 342), an den Übergängen sprang er (z. B. 245 → 289). Die Tangenten schlossen an, die Krümmung nicht. Dadurch wirkten die Rundungen unruhig. Die Kurvenkorrektur aus 4.4 hat nur Kontrollpunkte verschoben und konnte das nicht beheben.
+Die aktuelle Klangsignatur stammt aus dem ELANUM-Geometrie-Paket, Konstruktionsversion 4. Sie ist auf das Nötigste reduziert: sechs Grundkreise und fünf benannte Brücken.
+
+| Grundkreis | Aufgabe | Radius |
+| --- | --- | --- |
+| C1 Mantel | Runde Aussenform, Mittelpunkt und Radius wie bisher | 460,54 |
+| C2 Zentrum | Kreisöffnung; P1 und P2 liegen auf diesem Kreis | 122,05 |
+| C3 Oberbogen | Wölbung oberhalb des Zentrums | 248,38 |
+| C4 Unterbogen | Grosser Schwung unterhalb des Zentrums | 211,60 |
+| C5 Mündung oben | Oberkante der rechten Öffnung | 161,90 |
+| C6 Mündung unten | Unterkante der rechten Öffnung | 187,74 |
+
+| Brücke | Verbindung | Regel |
+| --- | --- | --- |
+| B1 Rücklauf | P2 am Zentrum zu C3 | Krümmung nimmt linear vom Zentrums- zum Oberbogenradius ab |
+| B2 Anschluss oben | P1 am Zentrum zu C4 | Kurzer Übergang öffnet die untere Aussparung |
+| B3 Öffnung | C3 zu C5 und C6 | Linearer Krümmungswechsel mit genau einem Wendepunkt |
+| B4 Lippen | C5 und C6 zu C1 | Rundet die beiden Enden der rechten Öffnung |
+| B5 Auslauf | C4 zum linken Spaltende | Spaltbreite nimmt durchgehend bis null ab |
+
+Kreisabschnitte sind echte SVG-Bögen. Die Brücken sind kubische B-Splines, exportiert als SVG-Bézierkurven, intern krümmungsstetig. An allen 209 Anschlüssen stimmen Lage, Tangente und Krümmung überein (G2). Die Spalte haben 4,5 Einheiten Breite. Der obere Spalt läuft ohne Einschnürung über B3 in die Öffnung. Beide Spalte beginnen am Zentrum mit Breite null und liegen ausserhalb der Kreisöffnung. Im Spektrum sind alle Farbverläufe aus dem Master erhalten; verdeckte Flächenschliessungen sind Bézierkurven, die Überblendung der linken Farbfläche ist an die neue Kontur angepasst.
+
+`tools/build_logo_geometrie.py` erzeugt Ink, Spektrum, Blueprint, die Detailansicht von B3 und B5, den Formvergleich zur Kurvenkorrektur und `ELANUM-Konstruktion-Geometrisch.json` mit allen Parametern und Prüfwerten. Der Konstruktor ist aus dem Paket übernommen, nur die Pfade sind angepasst. Er benötigt numpy und scipy (`tools/requirements.txt`). Der Lauf reproduziert die SVGs des Pakets byte-genau.
+
+## Vergleichsfassungen: nur Kreisbögen
+
+Vor dem Geometrie-Paket entstanden zwei Fassungen, die ausschliesslich aus Kreisbögen bestehen (Dateien `-Circles` und `-Harmonic`). Sie bleiben zum Vergleich im Styleguide. Die bisherigen Innenkonturen waren freie Bézier-Kurven: Innerhalb eines Bogens schwankte der Radius (z. B. 289 → 249 → 342), an den Übergängen sprang er (z. B. 245 → 289). Die Tangenten schlossen an, die Krümmung nicht. Dadurch wirkten die Rundungen unruhig. Die Kurvenkorrektur aus 4.4 hat nur Kontrollpunkte verschoben und konnte das nicht beheben.
 
 Konstruktionsregeln:
 
@@ -31,7 +56,7 @@ Alle Dateien erzeugt `tools/build_logo_circles.py` (nur Python-Standardbibliothe
 
 Version 4.4 ergänzt eine warme Reliefoberfläche (#F0ECE3): Licht von links oben, weiche Schatten rechts unten und vertiefte Eingaben. `relief.css` überschreibt die früheren Oberflächentokens. Die Basisfarbpalette und kopierbaren Canvas-Tokens sind angepasst.
 
-Die Logo-Card verwendet automatische Bildhöhe und quadratische Proportionen statt der festen 960-px-Bildhöhe. Die Ansicht „Relief“ nutzt die Ink-Silhouette der gewählten Konstruktion als eingebettete SVG-Maske. Seit 4.5 schaltet die Card zwischen „Nah am Original“ und „Goldener Schnitt“ um, zeigt im Modus „Blueprint“ die Konstruktionskreise und blendet auf Wunsch das unveränderte Original ein. Die Prägung ist eine illustrative Materialanwendung; für kleine Grössen bleiben die flachen Varianten vorgesehen.
+Die Logo-Card verwendet automatische Bildhöhe und quadratische Proportionen statt der festen 960-px-Bildhöhe. Die Ansicht „Relief“ nutzt die Ink-Silhouette der gewählten Konstruktion als eingebettete SVG-Maske. Seit 4.5 schaltet die Card zwischen „Sechs Grundkreise“ (Standard), „Nur Kreisbögen“ und „Goldener Schnitt“ um, zeigt im Modus „Blueprint“ die Konstruktion und blendet auf Wunsch das unveränderte Original ein. Die Prägung ist eine illustrative Materialanwendung; für kleine Grössen bleiben die flachen Varianten vorgesehen.
 
 Beziehungskreise erhalten separate, gefüllte Reliefscheiben. Konturöffnungen und Verbindungen bleiben eigenständige Pfade; Füllung und Kontur atmen synchron. Die Scheiben bleiben mathematisch rund. Bedienzustände behalten zusätzlich Text, Fokusmarkierung und Auswahlkennzeichnung; Schatten allein vermitteln keine Funktion.
 
