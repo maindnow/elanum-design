@@ -213,11 +213,11 @@
   function umfeld() {
     all('[data-anim="umfeld"]').forEach(function (el) {
       var api = el._umfeld; if (!api) return;
-      var people = api.parts.people;
       var stage = el.querySelector('.umfeld__stage');
-      hideUntilVisible(people.map(function (p) { return p.name; }).concat(api.parts.me));
       whenVisible(stage, function () {
-        var scale = stage.getBoundingClientRect().width / 720;
+        /* Teile erst jetzt lesen: das Bild baut sich je nach Breite neu auf. */
+        var people = api.parts.people;
+        var scale = stage.getBoundingClientRect().width / api.parts.width;
         var tl = gsap.timeline({ defaults: { ease: M.ease.title } });
         tl.fromTo(api.parts.me, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0)
           .from(api.parts.me, { drawSVG: '0%', duration: 1, ease: M.ease.line }, 0);

@@ -22,5 +22,8 @@
 @media(hover:hover) and (pointer:fine){.umfeld__person:hover{background:var(--paper)}}
 .umfeld__detail{display:grid;gap:14px;justify-items:start}
 .umfeld__state{color:var(--grund-1)}
-@media(max-width:560px){.umfeld__name{font:var(--type-label);font-weight:600}}
+/* Hochformat für schmale Schirme: Namen in echten 15 px, passend in ihren Kreis */
+.umfeld__stage[data-layout=tall]{width:min(100%,440px)}
+.umfeld__stage[data-layout=tall] .umfeld__name{font:var(--type-label);font-weight:600}
+.umfeld__stage[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
 @media(min-width:900px){.umfeld{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}}

@@ -15,8 +15,10 @@
    - Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt seine Nuance
      (tief, mittel, hell), ein offenes nur den Hauch seines Bereichs.
    - Die Kontur bestätigt es: geschlossen = ausgefüllt, Öffnung = offen.
-   - Im Rad stehen nur Icons. Namen und Ergebnisse stehen in der Liste
-     und im Lesebereich, nie kleiner als 15 px.
+   - Im Rad stehen nur Icons. Das gewählte Feld steht direkt unter dem
+     Rad, Namen und Ergebnisse in der Liste und im Lesebereich, nie
+     kleiner als 15 px.
+   - Der Ring zeigt die drei Bereiche gleich stark; er hebt nichts hervor.
    - Auswahl nie nur über Farbe: Bogen, Relief, Liste, Text und
      aria-selected tragen dieselbe Information.
 
@@ -118,7 +120,6 @@
   function html(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   function tone(item, step) { return 'var(--' + item.group + '-' + step + ')'; }
   function fill(item) { return item.done ? tone(item, item.shade) : tone(item, 4); }
-  function iconColor(item) { return !item.done ? tone(item, 1) : item.shade === 1 ? '#fff' : 'var(--ink)'; }
   function iconSvg(id, cls) { return '<svg class="' + (cls || 'icon') + '" viewBox="0 0 24 24" aria-hidden="true">' + ICONS[id] + '</svg>'; }
 
   var count = 0;
@@ -144,12 +145,13 @@
         '</div>' +
         '<div class="rad__nav">' +
           '<button class="button button--secondary button--icon" type="button" data-nav="prev" aria-label="Vorheriges Feld"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg></button>' +
-          '<p class="rad__progress t-label" data-progress></p>' +
+          '<p class="rad__current" data-current aria-hidden="true"></p>' +
           '<button class="button button--secondary button--icon" type="button" data-nav="next" aria-label="Nächstes Feld"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>' +
         '</div>' +
       '</div>' +
       '<section class="rad__reader" role="tabpanel" id="' + uid + '-panel" aria-live="polite"></section>' +
-      '<div class="rad__list" role="tablist" aria-label="Felder im Resonanzrad"></div>';
+      '<div class="rad__overview"><p class="rad__progress t-label" data-progress></p>' +
+      '<div class="rad__list" role="tablist" aria-label="Felder im Resonanzrad"></div></div>';
 
     var svg = root.querySelector('.rad__svg'), defs = svg.querySelector('defs');
     var rotors = root.querySelectorAll('.rad__rotor');
@@ -157,6 +159,7 @@
     var faces = root.querySelector('.rad__faces'), contours = root.querySelector('.rad__contours');
     var icons = root.querySelector('.rad__icons'), active = root.querySelector('.rad__active'), lift = root.querySelector('.rad__lift');
     var wheel = root.querySelector('[data-rad-wheel]'), reader = root.querySelector('.rad__reader'), list = root.querySelector('.rad__list');
+    var current = root.querySelector('[data-current]');
 
     [[root.querySelector('.rad__track'), CFG.groupOuter + 6], [root.querySelector('.rad__plate'), CFG.segmentRadius], [root.querySelector('.rad__center'), CFG.centerRadius]].forEach(function (p) {
       p[0].style.left = p[0].style.top = (CFG.cx - p[1]) / CFG.size * 100 + '%';
@@ -175,13 +178,11 @@
     GROUPS.forEach(function (g, gi) {
       var a0 = segAngle(gi * 3) - half + CFG.groupGapDeg / 2, a1 = segAngle(gi * 3 + 2) + half - CFG.groupGapDeg / 2;
       var band = el('path', { class: 'rad__band', 'data-group': g.id, d: ringPath(a0, a1, CFG.groupInner, CFG.groupOuter) });
-      band.style.setProperty('--band', 'var(--' + g.id + '-4)');
-      band.style.setProperty('--band-active', 'var(--' + g.id + '-1)');
+      band.style.setProperty('--band', 'var(--' + g.id + '-ring, var(--' + g.id + '-4))');
       ring.appendChild(band); bands.push(band);
       defs.appendChild(el('path', { id: uid + '-t-' + g.id, d: arcPath(rMid, a0 + 2, a1 - 2) }));
       defs.appendChild(el('path', { id: uid + '-t-' + g.id + '-flip', d: arcPathRev(rMid, a1 - 2, a0 + 2) }));
       var text = el('text', { class: 'rad__ring-label', 'data-group': g.id, 'dominant-baseline': 'central' });
-      text.style.setProperty('--band-text', 'var(--' + g.id + '-1)');
       var tp = el('textPath', { href: '#' + uid + '-t-' + g.id, startOffset: '50%', 'text-anchor': 'middle' });
       tp.textContent = g.label; text.appendChild(tp); ringLabels.appendChild(text);
       tracks.push({ id: g.id, center: segAngle(gi * 3 + 1), path: tp, text: text });
@@ -206,11 +207,9 @@
       var c0 = a - half + CFG.contourInsetDeg, c1 = a + half - CFG.contourInsetDeg, gap = CFG.openingDeg / 2;
       var contour = el('path', { class: 'rad__contour' + (item.done ? ' is-done' : ''),
         d: item.done ? arcPath(CFG.contourRadius, c0, c1) : arcPath(CFG.contourRadius, c0, a - gap) + ' ' + arcPath(CFG.contourRadius, a + gap, c1) });
-      contour.style.stroke = item.done && item.shade === 1 ? '#fff' : item.done ? 'var(--ink)' : tone(item, 1);
       contours.appendChild(contour);
 
       var icon = el('g', { class: 'rad__icon' });
-      icon.style.color = iconColor(item);
       var glyph = el('g', {});
       glyph.innerHTML = '<rect width="24" height="24" fill="none" stroke="none"/>' + ICONS[item.id];
       icon.appendChild(glyph); icons.appendChild(icon);
@@ -291,16 +290,15 @@
       if (i !== index) {
         index = i;
         active.setAttribute('d', arcPath(CFG.activeRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
-        active.style.stroke = tone(item, 1);
         lift.style.fill = fill(item);
         segs.forEach(function (s, k) {
           var on = k === i;
           s.tab.setAttribute('aria-selected', String(on)); s.tab.tabIndex = on ? 0 : -1;
           s.face.classList.toggle('is-active', on);
         });
-        bands.forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-group') === item.group); });
-        tracks.forEach(function (t) { t.text.classList.toggle('is-active', t.id === item.group); });
         reader.setAttribute('aria-labelledby', segs[i].tab.id);
+        current.innerHTML = iconSvg(item.id) + '<span><strong>' + item.label + '</strong><span>' + (item.done ? item.result : 'noch offen') + '</span></span>';
+        current.style.setProperty('--tone', tone(item, 1));
         renderReader(item);
         if (!first && animate !== false && !reduced.matches && !viaKeyboard && reader.animate) {
           reader.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.23,1,.32,1)' });
@@ -363,7 +361,7 @@
         bands: bands, ringLabels: tracks.map(function (t) { return t.text; }),
         faces: segs.map(function (s) { return s.face; }), contours: segs.map(function (s) { return s.contour; }),
         icons: segs.map(function (s) { return s.icon; }), lift: lift, active: active,
-        groups: GROUPS.map(function (g) { return g.id; }), items: ITEMS, list: list, reader: reader, nav: root.querySelector('.rad__nav')
+        groups: GROUPS.map(function (g) { return g.id; }), items: ITEMS, list: root.querySelector('.rad__overview'), reader: reader, nav: root.querySelector('.rad__nav')
       }
     };
     root._resonanzrad = api;

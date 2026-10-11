@@ -17,24 +17,27 @@
 .rad__rotor.is-still,.rad__icon.is-still{transition:none}
 .rad.is-entering *{transition:none!important}
 
-/* Ring: ruhig im Hauch mit tiefer Schrift; der gewählte Bereich wird tief mit weisser Schrift.
-   Schrift in echten 15 px, egal wie gross das Rad ist. */
-.rad__band{fill:var(--band);transition:fill var(--motion-ui) ease}
-.rad__band.is-active{fill:var(--band-active)}
-.rad__ring-label{font:600 calc(15px * var(--u,1)) var(--ui-font);fill:var(--band-text);pointer-events:none;transition:fill var(--motion-ui) ease}
-.rad__ring-label.is-active{fill:#fff}
+/* Ring: alle drei Bereiche gleich stark, nichts wird hervorgehoben.
+   Schrift in Ink und echten 15 px, egal wie gross das Rad ist. */
+.rad__band{fill:var(--band)}
+.rad__ring-label{font:600 calc(15px * var(--u,1)) var(--ui-font);fill:var(--ink);pointer-events:none}
 
 /* Stücke: Fugen in Scheibenfarbe. Farbe heisst ausgefüllt. */
 .rad__face{stroke:var(--canvas);stroke-width:2.4;stroke-linejoin:round;cursor:pointer;transition:transform var(--motion-ui) ease}
-.rad__contour{fill:none;stroke-width:var(--trace);stroke-linecap:round;vector-effect:non-scaling-stroke;pointer-events:none}
-.rad__icon{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.rad__contour{fill:none;stroke:var(--ink);stroke-width:var(--trace);stroke-linecap:round;vector-effect:non-scaling-stroke;pointer-events:none}
+.rad__icon{color:var(--ink);fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 .rad__icon *{vector-effect:non-scaling-stroke}
-.rad__active{fill:none;stroke-width:4;stroke-linecap:round;pointer-events:none}
+.rad__active{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round;pointer-events:none}
 .rad__lift{stroke:var(--canvas);stroke-width:1;pointer-events:none;transition:opacity var(--motion-ui) ease}
 .is-turning .rad__lift{opacity:0;transition:none}
 @media(hover:hover) and (pointer:fine){.rad__face:hover{transform:translate(var(--ox),var(--oy))}}
 
 .rad__nav{display:flex;align-items:center;justify-content:space-between;gap:16px;width:min(100%,520px)}
+.rad__current{display:flex;align-items:center;justify-content:center;gap:12px;min-width:0;text-align:left}
+.rad__current .icon{color:var(--tone)}
+.rad__current strong{display:block;font:var(--type-label);font-weight:600}
+.rad__current span span{display:block;font:var(--type-label);color:var(--ink-2)}
+.rad__overview{display:grid;gap:20px}
 .rad__progress{color:var(--ink-2)}
 
 /* Lesebereich */
@@ -65,5 +68,6 @@
 
 @media(min-width:900px){
   .rad{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);column-gap:clamp(48px,6vw,96px)}
-  .rad__list{grid-column:1 / -1;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px}
+  .rad__overview{grid-column:1 / -1}
+  .rad__list{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px}
 }
