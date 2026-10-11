@@ -13,8 +13,11 @@ body{background:var(--canvas)}
 .signature-stage figcaption{left:26px;right:26px;bottom:22px;text-align:center;font-size:12px}
 .signature-stage{padding:44px}
 .signature-relief{width:100%;aspect-ratio:1;filter:drop-shadow(4px 5px 3px #aba394) drop-shadow(-4px -4px 2px #fff)}
-.signature-relief span{display:block;width:100%;height:100%;background:linear-gradient(135deg,#faf6ed,#e3ddcf);mask:url(assets/ELANUM-System-Ink-Curves.svg) center/contain no-repeat}
+.signature-relief span{display:block;width:100%;height:100%;background:linear-gradient(135deg,#faf6ed,#e3ddcf);mask:url(assets/ELANUM-System-Ink-Circles.svg) center/contain no-repeat}
 .signature-modes{flex-wrap:wrap;gap:8px}
+.signature-variants{flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.signature-stage[data-mode=blueprint]{background:#F6F1E7}
+.signature-stage[data-mode=blueprint] img{filter:none;border-radius:18px}
 .segmented button{border:0;border-radius:12px;padding:10px 14px}
 .segmented button[aria-pressed=true]{background:var(--canvas);box-shadow:var(--pressed)}
 .relationship-section .segmented button[aria-pressed=true]{background:#203d42;box-shadow:inset 3px 3px 7px #0b242b,inset -3px -3px 7px #355358}
