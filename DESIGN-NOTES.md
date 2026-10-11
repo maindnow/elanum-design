@@ -1,66 +1,101 @@
-# ELANUM — Gestaltungsatlas 4.4
+# ELANUM — Gestaltungsatlas 4.5
 
-## Soft 3D Relief
-
-Version 4.4 ergänzt eine warme Reliefoberfläche (#F0ECE3): Licht von links oben, weiche Schatten rechts unten und vertiefte Eingaben. `relief.css` überschreibt die früheren Oberflächentokens. Die Basisfarbpalette und kopierbaren Canvas-Tokens sind angepasst.
-
-Die Logo-Card verwendet nun explizit automatische Bildhöhe und quadratische Proportionen statt der festen 960-px-Bildhöhe. Die zusätzliche Ansicht „Relief“ nutzt die unveränderte Ink-Silhouette als eingebettete SVG-Maske. Original und Kurvenkorrektur bleiben umschaltbar. Keine Logo-Quelldatei wurde verändert. Die Prägung ist eine illustrative Materialanwendung; für kleine Grössen bleiben die flachen Varianten vorgesehen.
-
-Beziehungskreise erhalten separate, gefüllte Reliefscheiben. Konturöffnungen und Verbindungen bleiben eigenständige Pfade; Füllung und Kontur atmen synchron. Die Scheiben bleiben mathematisch rund. Bedienzustände behalten zusätzlich Text, Fokusmarkierung und Auswahlkennzeichnung; Schatten allein vermitteln keine Funktion.
-
-Alle Bedienelemente liegen im selben Relief: Auch die Auswahlkarte hebt sich an und wird bei Auswahl eingedrückt. Code-Panel und Statusmeldungen sitzen auf der warmen Fläche statt auf den kühlen Tönen aus 4.3; die Status-Tönungen mischen 7 % der Rollenfarbe in #FAF6ED und halten mindestens 4,6:1 Kontrast. Der Tokenblock nennt die tatsächlichen Radien (Control 12 px, Button 16 px, Fläche 28 px), beide Reliefschatten und die gemeinsame Kurve.
+4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Elemente mit eigenen Seiten. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
 
 ## Richtung
 
-Offene digitale Flächen, klare Kreise, bewusst gesetzte Öffnungen und kurze Verbindungen. Yrsa bleibt die Stimme für ausgewählte Aussagen; Albert Sans übernimmt Navigation, Kapitel, Beschriftungen und Lesetext. Der dunkle Beziehungsraum konzentriert die Marke auf ein zentrales interaktives Visual. Gezielte Papierreliefs, eingedrückte Eingaben und angehobene Merkzettel ergänzen die offenen Flächen. Kapitel bauen sich beim ersten Scrollen weich auf; das Logo bleibt unverändert und unbewegt.
+Offene Flächen, klare Kreise, bewusst gesetzte Öffnungen und kurze Verbindungen. Abstand gliedert, Linien trennen nur Kapitel. Der dunkle Beziehungsraum ist das einzige dunkle Kapitel. Das Zeichen bleibt unverändert und unbewegt.
+
+## Typografie: fünf Stufen
+
+In einer App ist die meiste Schrift klein, schnell und bedienbar: Buttons, Listen, Werte, Beschriftungen. Albert Sans trägt sie. Grosse x-Höhe und Tabellenziffern halten sie ab 15 px klar lesbar. Yrsa hat eine kleine x-Höhe und wirkt erst gross. Sie ist die persönliche Stimme für Titel, Namen und eine Aussage pro Kapitel. Kursiv gibt es nicht mehr, betont wird über Grösse, Gewicht oder Farbe.
+
+| Stufe | Schrift | Telefon / Desktop | Einsatz |
+|---|---|---|---|
+| Display | Yrsa 400 | 52 / 96 px | H1, eine grosse Aussage |
+| Titel | Yrsa 400 | 32 / 48 px | Kapitel, Namen, Rad-Zentrum |
+| Überschrift | Albert Sans 600 | 20 / 22 px | Unterabschnitte, Karten, Werte |
+| Text | Albert Sans 400 | 17 / 18 px | Fliesstext |
+| Label | Albert Sans 500, betont 600 | 15 px | Beschriftung, Tabs, Buttons. Das Minimum. |
+
+Sekundärtext ist `#3D5055` (7,2:1 auf Canvas). Im Rad werden Ringschrift und Icons auf echte 15 bzw. 30 px umgerechnet, egal wie gross das Rad gezeigt wird.
+
+## Farbe: drei Rollen
+
+**Neutral:** Canvas `#F0ECE3`, Papier `#F6F1E7`, Ink `#16363B`, Sekundärtext `#3D5055`.
+
+**Bereiche des Resonanzrads:** Jeder Bereich hat einen Grundton mit vier Stufen. Die Stufen haben in allen drei Bereichen dieselben Helligkeitsschritte (OKLCH L 0,46 / 0,62 / 0,80 / 0,93). So sind die drei Felder eines Bereichs klar verschieden und gehören sichtbar zusammen.
+
+| Bereich | 1 Tief | 2 Mittel | 3 Hell | 4 Hauch |
+|---|---|---|---|---|
+| Grundtöne · Violett | `#5A43A4` | `#8675D4` | `#BCB6EE` | `#E7E5FB` |
+| Ich & Orientierung · Koralle | `#93342C` | `#CD6055` | `#EDABA1` | `#FCE1DD` |
+| Beziehung & Verbindung · Petrol | `#006869` | `#009A9B` | `#87CCCC` | `#D6EDED` |
+
+Violett, Koralle und Petrol wurden gegen andere Trios getestet, auch für Farbsehschwächen (kleinster Abstand der mittleren Stufen in OKLab ×100): normal 17,5, Deuteranopie 8,8, Protanopie 12,2. Violett, Rosé und Petrol läge bei Deuteranopie bei 3,6. Merkbar sind die Farben über ihre Bedeutung: Violett für Herkunft und Tiefe, Koralle für Wärme und das Selbst, Petrol für Verbindung und die Nähe zum Ink.
+
+Regeln: Text steht nur auf Stufe 1 (weiss, mindestens 6,6:1) oder auf dem Hauch (Ink, mindestens 10:1), nie auf Stufe 2. Icons in Ink auf Stufe 2 und 3 halten mindestens 3:1. Die frühere Feldpalette aus 4.4 (Blue, Orchid, Pink, Amber, Moss, Teal in Gruppen A–C) ist ersetzt.
+
+**Markenspektrum** Violet → Blue → Orchid → Rose → Pink: nur für das Zeichen und die Verbindungslinie zwischen zwei Menschen. Keine Fläche, keine Kategorie.
+
+**Status:** Info `#2863AB`, Hinweis `#875500`, Fehler `#B02A2D`, Erfolg `#2B7440`, je mit eigener Hauchfläche. Text auf der Fläche hat mindestens 5:1. Jeder Status hat einen 4-px-Balken, ein gefülltes Zeichen im Kreis und ein Label. Weil Koralle-Tief nahe am Fehler-Rot liegt, unterscheidet die Form: Status hat immer Zeichen und Balken, Bereiche nie.
+
+## Material
+
+Warme Reliefoberfläche, Licht von links oben. Was man bedienen kann, hebt sich an (`--raised`), Eingaben liegen vertieft (`--pressed`). Radien: Control 12 px, Button 16 px, Fläche 28 px. Schatten tragen nie allein eine Funktion; Auswahl hat immer auch Text, Fokus oder ein Zeichen.
+
+Buttons blitzen nicht mehr: Die Grundfarbe liegt unter dem Verlauf, und Hover hellt über eine eigene Ebene auf, statt den Hintergrund zu tauschen. In 4.4 tauschte die Hover-Regel den Verlauf gegen eine Fläche, die von transparent einblendete; dazwischen schien die helle Fläche durch.
 
 ## Logo: Korrektur, kein Redesign
 
-Die Dateien ohne Suffix sind die unveränderten Quellen. `-Curves.svg` bezeichnet eine separate Kurvenkorrektur. Aussensilhouette, Kreisöffnung, Kreisradien, Ankerpunkte, Pfadanzahl und Linienanordnung bleiben erhalten. Angepasst wurden nur Bézier-Kontrollpunkte an den vorhandenen Innenkurven, damit benachbarte Tangenten sauber anschliessen. Die bewusste Abzweigung an der Logo-Öffnung bleibt unverändert. Gemeinsame Grenzen der Farbebenen verwenden identische Kontrollpunkte.
+Die Dateien ohne Suffix sind die unveränderten Quellen. `-Curves.svg` ist eine separate Kurvenkorrektur. Aussensilhouette, Kreisöffnung, Kreisradien, Ankerpunkte, Pfadanzahl und Linienanordnung bleiben erhalten. Angepasst wurden nur Bézier-Kontrollpunkte an den vorhandenen Innenkurven. Die grösste abgetastete Abweichung beträgt 5,33 Einheiten im 960er-Koordinatenraum, etwa 0,36 px bei 64 px Darstellung. Invers ist die identische Ink-Datei in Weiss. Relief ist eine Materialanwendung über eine eingebettete Maske der Ink-Silhouette.
 
-Der Guide zeigt beide Versionen über „Original zum Vergleich anzeigen“. Die separate SVG-Konturüberlagerung stellt Original und Korrektur gegenüber. Invers ist die identische Ink-Datei in Weiss, kein weiteres geometrisches Logo.
+## Elemente
 
-Geometrischer Vergleich: 5 Pfade beim Spektrum, 2 bei Ink — jeweils gleich viele wie im Original. Alle Anker und Bogenparameter sind identisch. Die grösste abgetastete Abweichung der Innenkurven beträgt 5,33 Einheiten im 960er-Koordinatenraum, entsprechend etwa 0,36 Pixel bei einer 64-Pixel-Darstellung. Es handelt sich bewusst um eine minimale Korrektur, nicht um eine neue Kreis- oder Spiralform.
+Alle Elemente liegen unter `components/` und laufen als eigene Seite sowie eingebettet im Atlas, mit demselben Code. Sie sind klassische Skripte mit einer `mount()`-Funktion, weil Chrome ES-Module unter `file://` nicht lädt.
 
-## Beziehungskonstruktion
+**Resonanzrad** (`components/resonanzrad/`), wiederhergestellt aus dem persönlichen Rad (Repo-Stand `8995945`) und überarbeitet:
+- Geometrie unverändert verbindlich: exakter Kreis, neun Stücke à 40°, drei Bereiche à 120°, ein gemeinsamer Mittelpunkt.
+- Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt seine Nuance (tief, mittel, hell), ein offenes nur den Hauch seines Bereichs. Die Kontur bestätigt es: geschlossen oder mit Öffnung.
+- Im Rad stehen nur Icons. Namen, Ergebnisse und Status stehen in der Liste darunter und im Lesebereich. Die Liste ist die Tastaturbedienung (Pfeile, Home, End).
+- Der Ring liegt ruhig im Hauch mit tiefer Schrift; der gewählte Bereich wird tief mit weisser Schrift.
 
-- SVG-Koordinatenraum: 720 × 400.
-- Kreisradius: 128, während der Atmung maximal 137,6. Horizontaler und vertikaler Radius sind immer identisch.
-- Kreiszentren: x = 172 + 0,4 × Nähe und x = 720 − erstes Zentrum; y = 200.
-- Konturöffnung: symmetrisch um den unteren Kreispunkt. Kein gestrecktes Oval, keine zufällige Lücke.
-- Die Verbindung trifft die beiden einander zugewandten Kreispunkte exakt. Alle Teile werden aus demselben Zustand berechnet.
-- Namen sind HTML-Text und werden nicht mit dem SVG verkleinert. Die Beschriftung atmet nicht mit.
-- Werte sind illustrative Gestaltungsparameter, keine psychologischen Messwerte.
+**Umfeld** (`components/umfeld/`): Ich in der Mitte, Menschen als eigene, offene Kreise. Abstand zeigt Nähe, die Stärke der Linie die Resonanz, ohne aktive Resonanz gibt es keine Linie. Eine Liste ist die Bedienung, der gewählte Mensch öffnet den Beziehungsraum mit seinen Werten. So trägt das Umfeld mehr als eine einzelne Beziehung.
+
+**Beziehungsraum** (`components/beziehungsraum/`):
+- SVG-Raum 720 × 400, Kreisradius 128, in der Atmung höchstens 137,6, horizontal und vertikal immer gleich.
+- Zentren x = 172 + 0,4 × Nähe und x = 720 − erstes Zentrum, y = 200.
+- Öffnung symmetrisch um den unteren Kreispunkt. Die Verbindung trifft beide Konturen exakt.
+- Namen sind HTML-Text und atmen nicht mit. Werte sind Gestaltungsparameter, keine Messung.
+
+**Weg und Tageslinie** (`components/weg/`, Baustein `.track` in `base.css`): Stationen erledigt (gefüllter Punkt), jetzt (Ring) und offen (Kontur mit Öffnung unten). Bis „jetzt“ führt die Spur, danach eine Unterbrechung. Labels stehen in einer eigenen Spalte und kreuzen die Linie nie. Waagrecht ab 900 px, darunter senkrecht.
+
+**Linien-System:** Kontur 1,6 px, Verbindung 2,8 px, Knoten 3,3 px Radius. **Icons:** 24er-Raster, 1,6 px, runde Enden, keine Füllung, Sprache aus Kreisen, Öffnungen und Verbindungen.
 
 ## Bewegung
 
-Ein gemeinsamer, sanfter Zyklus: 3,4 Sekunden Raum geben und 4,4 Sekunden beruhigen. Die Kosinus-Interpolation hat an beiden Umkehrpunkten Geschwindigkeit null. Die Radiusänderung beträgt maximal 7,5 %. Es gibt weder Bounce noch Aufpoppen oder Wischblenden.
+Bewegung erklärt: Kreise rücken zusammen, das Rad baut sich Bereich für Bereich auf, eine Spur zeichnet sich bis zu dir. GSAP 3.15 mit ScrollTrigger, SplitText und DrawSVG liegt lokal unter `assets/vendor/gsap/`; nur `assets/motion.js` spricht damit. Die Ziele stehen als `data-anim` im Markup. Kein Smooth-Scroll; die beiden Scroll-gekoppelten Szenen nutzen `scrub: 1`.
 
-Die Beziehungskreise werden gemeinsam mit der Verbindung in einem einzigen requestAnimationFrame-Takt berechnet. Nur sichtbare Darstellungen werden aktualisiert. Bei ausgeblendeter Seite oder Pause steht der Atemtakt still. Ein globaler Pausenstatus gilt für alle Demos. `prefers-reduced-motion` setzt eine vollständig ruhende Darstellung; Systemeinstellungsänderungen werden auch während der Nutzung erkannt.
+| Moment | Was sich bewegt |
+|---|---|
+| Einstieg | Titelzeilen steigen maskiert auf (140 ms Versatz), Text und Link folgen, unter 1,5 s. Das Zeichen steht. |
+| Kapiteltitel | Zeilen steigen einmal auf, ab 85 % Fensterhöhe. |
+| Blöcke und Gruppen | Einmal, 900 ms, 24 px, ab 88 %; Gruppen 120 ms Versatz, höchstens 0,48 s. |
+| Beziehung | Kreise starten weit, Konturen zeichnen sich, dann rücken sie auf „nah“, die Verbindung entsteht. Die Regler laufen mit und zeigen, was sie bedeuten. Wer einen Regler anfasst, übernimmt sofort. |
+| Resonanzrad | Das einzige festgehaltene Kapitel (ab 900 px): Zentrum, drei Bereiche nacheinander, Stücke, Füllung der ausgefüllten Felder, Konturen. Daneben erklären vier Schritte, was geschieht. Schmaler läuft dieselbe Folge einmal ohne Festhalten. |
+| Farbe | Jede Rampe wächst von Tief nach Hauch. |
+| Umfeld | Menschen rücken aus dem Rand auf ihre Nähe, danach zeichnen sich die Verbindungen. |
+| Weg und Tageslinie | Die Spur wächst, Stationen erscheinen beim Erreichen. Auf der Element-Seite an den Scroll gekoppelt. |
+| Status | Das Zeichen federt beim Wechsel kurz ein. |
+| Bedienung | 160–220 ms, ohne Blitz. |
+| Immer | Nur die Atmung: 3,4 s Raum geben, 4,4 s zur Ruhe, höchstens 7,5 % Radius. |
 
-Regler reagieren direkt, die grafische Anpassung wird leicht gedämpft. Produkt-Tabs wechseln bei Pointer-Bedienung mit 220 ms, per Tastatur sofort. Papier hebt sich bei Hover in 220 ms leicht an; Buttons geben beim Drücken nach; das Klangrad wechselt das Feld in 200 ms. Alles Bedienfeedback liegt damit zwischen 160 und 220 ms.
+Kein Auftritt versteckt Inhalte. Ohne JavaScript und bei reduzierter Bewegung ist alles sofort sichtbar, spätestens nach 5 s auch dann, wenn GSAP nicht lädt. Was beim Laden schon im Bild ist, erscheint ohne Auftritt. Versteckt wird nur über die Deckkraft, damit alles per Tab erreichbar bleibt. Tastatur, Fokus auf etwas noch Unsichtbarem und die globale Pause beenden alle Auftritte und lösen das festgehaltene Kapitel. Titel werden erst nach dem Laden der Schriften gesplittet, Screenreader lesen den ganzen Satz.
 
-Auftritte folgen dem Katalog `website-motion` in der Dosierung für Doku-Seiten: Der Einstieg baut Kopfzeile, Titel, Text und Fusszeile mit 140 ms Versatz in rund 1,3 s auf, das Logo bleibt stehen. Kapitel, Absätze und Gruppen erscheinen einmalig, sobald sie 88 % der Fensterhöhe erreichen: 900 ms, 24 px Weg, Kurve `cubic-bezier(.23,1,.32,1)`, Gruppen mit höchstens 120 ms Versatz und zusammen unter 0,5 s. Konturen zeichnen sich einmalig in 1,8 s auf, die Wegspur ebenso beim ersten Öffnen, die Tageslinie in 1 s. Die Ziele sind im Markup deklariert (`data-hero`, `data-reveal`, `data-reveal-group`, `data-line`, `data-trace`).
+## Interaktion und Bedienbarkeit
 
-Kein Auftritt versteckt Inhalte: Ohne JavaScript und bei reduzierter Bewegung ist alles sofort sichtbar, und spätestens nach 5 s auch dann, wenn `app.js` nicht lädt. Bereits sichtbare Bereiche erscheinen ohne Auftritt. Versteckt wird nur über die Deckkraft, damit alles per Tab erreichbar bleibt; Fokus, Tastaturbedienung, globale Pause und reduzierte Bewegung zeigen sofort alles. Die Bewegung kommt ohne GSAP oder Smooth-Scroll aus: Sie besteht nur aus einmaligen Auftritten, und der Atemtakt hat seine eigene Uhr.
-
-## Farbe
-
-Markenspektrum: Violet → Blue → Orchid → Rose → Pink. „Pink“ ist kein Statusname mehr. Auf dunklem Ink verwendet die Verbindung aufgehellte Spektralfarben für Lesbarkeit.
-
-Neun Feldfarben sind in drei nummerierte Gruppen A–C gegliedert. Die Nummern sind Platzhalter, keine erfundenen fachlichen Kategorien. Farbe ergänzt die Gruppierung; Nummern, Position und Auswahlstärke tragen die gleiche Information.
-
-Statusrollen sind separat: Signal/Hinweis #89560E, Info #286F9B, Fehler #A7394D. Jede Rolle besitzt zusätzlich ein Zeichen und Text. Kleine Texte stehen nicht weiss auf hellen Markenfarben. Sekundärtext verwendet #526166, zurückhaltender Text #617275.
-
-## Interaktion & Bedienbarkeit
-
-- Alle Demos funktionieren lokal, ohne Backend oder externe Font-Anfragen.
-- Farbwerte und Tokens sind kopierbar; die Texteingabe verändert nur die aktuelle Vorschau.
-- Produkt-Tabs unterstützen Pfeiltasten sowie Home/End und korrekte Tab-/Panel-Zuordnung.
-- Auswahl, Logo-Modi und Pausenstatus sind auch für assistive Technik ausgezeichnet.
-- 44-px-Ziele für Bedienelemente, sichtbarer Tastaturfokus, bewegungsreduzierte Darstellung.
-- Die Prüfcheckliste ist eine Arbeitshilfe und vergibt keine automatische Designfreigabe.
-
-## Dateien
-
-`index.html`, `style.css`, `tactile.css`, `relief.css`, `app.js` und `assets/` gemeinsam behalten. `index.html` lässt sich direkt öffnen. Die Font-Dateien sind lokal; ihre OFL-Lizenzen liegen in `assets/fonts/`.
+- Alles läuft lokal, ohne Backend und ohne externe Anfragen. Unter `file://` lädt `assets/boot.js` eingebettete Schriften.
+- Farbwerte und Tokens sind kopierbar; der Tokenblock liest die Werte live aus `tokens.css`.
+- Tabs, Rad-Liste und Umfeld-Liste sind per Tastatur bedienbar und für assistive Technik ausgezeichnet.
+- 44-px-Ziele, sichtbarer Fokus, bewegungsreduzierte Darstellung.
+- Die Prüfcheckliste ist eine Arbeitshilfe und keine automatische Freigabe.

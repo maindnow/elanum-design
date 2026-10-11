@@ -1,0 +1,3 @@
+# Unveränderte Fremddateien: keine Whitespace-Prüfung
+assets/vendor/** -whitespace
+assets/fonts/fonts-embedded.css -whitespace

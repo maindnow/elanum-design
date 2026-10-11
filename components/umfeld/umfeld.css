@@ -1,0 +1,26 @@
+/* ============================================================
+   ELANUM Umfeld · Darstellung
+   ============================================================ */
+.umfeld{display:grid;gap:clamp(32px,5vw,64px);align-items:center}
+.umfeld__stage{position:relative;width:min(100%,640px);margin:0 auto}
+.umfeld__svg{width:100%;height:auto;overflow:visible}
+.umfeld__contour{fill:none;stroke:var(--ink);stroke-width:var(--trace);stroke-linecap:round;vector-effect:non-scaling-stroke;transition:stroke-width var(--motion-ui) ease}
+.umfeld__contour.is-active{stroke-width:2.6}
+.umfeld__bridge{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.75;transition:opacity var(--motion-ui) ease}
+.umfeld__bridge.is-active{opacity:1}
+.umfeld__nodes circle{fill:var(--ink)}
+.umfeld__name{position:absolute;transform:translate(-50%,-50%);font:var(--type-heading);white-space:nowrap;pointer-events:none}
+.umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
+.umfeld__name.is-active{color:var(--grund-1)}
+
+.umfeld__side{display:grid;gap:32px;align-content:start}
+.umfeld__list{display:grid;gap:6px}
+.umfeld__person{display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;min-height:52px;padding:10px 16px;border:0;border-radius:var(--radius-control);background:transparent;text-align:left;font:var(--type-label);transition:background var(--motion-ui) ease,box-shadow var(--motion-ui) ease}
+.umfeld__person-name{font-weight:600}
+.umfeld__person-state{color:var(--ink-2)}
+.umfeld__person[aria-pressed=true]{background:var(--paper);box-shadow:var(--raised-sm)}
+@media(hover:hover) and (pointer:fine){.umfeld__person:hover{background:var(--paper)}}
+.umfeld__detail{display:grid;gap:14px;justify-items:start}
+.umfeld__state{color:var(--grund-1)}
+@media(max-width:560px){.umfeld__name{font:var(--type-label);font-weight:600}}
+@media(min-width:900px){.umfeld{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}}

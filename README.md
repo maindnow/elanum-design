@@ -1,20 +1,17 @@
-# ELANUM Styleguide 4.4
+# ELANUM Gestaltungsatlas 4.5
 
-Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Relief**. Dieses Repository enthält ausschliesslich den Styleguide 4.4 mit seinen Assets und seiner Dokumentation.
+Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Elementen Resonanzrad, Umfeld, Beziehungsraum sowie Weg und Tageslinie.
 
-[Styleguide-Datei](index.html) · [Designnotizen](DESIGN-NOTES.md)
+[Atlas öffnen](index.html) · [Gestaltungsnotizen](DESIGN-NOTES.md) · [Elemente](components/)
 
-## Was der Styleguide zeigt
+## Was der Atlas zeigt
 
-- **Logo:** Spektrum, Ink, Invers und Papierrelief. Original und kurvenbereinigte Fassung sind vergleichbar; die freigegebene Grundform bleibt erhalten.
-- **Typografie:** Yrsa für persönliche Aussagen, Albert Sans für Orientierung und Bedienung.
-- **Farbe:** neun Feldfarben in drei Gruppen sowie getrennte Info-, Signal- und Fehlerfarben.
-- **Material:** warme Oberflächen, Licht von links oben, erhabene Flächen und vertiefte Eingaben.
-- **Beziehungen:** runde Reliefebenen, offene Konturen und angeschlossene Verbindungslinien.
-- **Bewegung:** sanfte Atmung, Linienaufbau, einmalige Scroll-Auftritte nach dem Katalog `website-motion` und haptische Bedienzustände, ohne Zusatzbibliothek.
-- **Interaktion:** Farbkopieren, Schriftprobe, lokale Eingabedemos, Produkt-Tabs und eine manuelle Prüfcheckliste.
-
-Das ist ein vollständiger Styleguide, nicht nur eine Rad-Komponente. Die Feldnamen und Gruppen A bis C sind strukturelle Platzhalter, keine fertige fachliche Klassifikation.
+- **Zeichen:** Spektrum, Ink, Invers und Papierrelief; Original und Kurvenkorrektur vergleichbar. Das Zeichen bewegt sich nie.
+- **Typografie:** fünf Stufen. Albert Sans trägt die Bedienung, Yrsa ist die Stimme und erscheint nur gross. Kein Kursiv, nichts unter 15 px.
+- **Farbe:** neutrale Flächen, drei Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit je vier Stufen, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
+- **Material:** warme Reliefoberfläche, Licht von links oben, angehobene Bedienung, vertiefte Eingaben.
+- **Elemente:** Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, je als eigene Seite unter `components/` und im Atlas eingebunden.
+- **Bewegung:** erklärend statt nur einblendend. Das Resonanzrad baut sich beim Scrollen auf, Kreise rücken zusammen, Spuren zeichnen sich. Pause und reduzierte Bewegung wirken überall.
 
 ## Lokal öffnen
 
@@ -36,66 +33,47 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 
 | Datei | Aufgabe |
 | --- | --- |
-| [index.html](index.html) | Direkter Einstieg mit allen Kapiteln |
-| [style.css](style.css) | Basislayout und responsive Darstellung |
-| [tactile.css](tactile.css) | Papiertextur und haptische Zustände |
-| [relief.css](relief.css) | Soft-3D-Oberflächen und Logo-Card |
-| [app.js](app.js) | SVG-Geometrie, Bewegung und Bedienlogik |
-| [assets/](assets/) | Logos, Konturvergleich und lokale Fonts |
+| [index.html](index.html) | Atlas mit allen Kapiteln |
+| [tokens.css](tokens.css) | Eine Quelle für Farben, Schrift, Raum, Relief und Bewegung |
+| [base.css](base.css) | Gemeinsame Bausteine: Schriftstufen, Buttons, Status, Stationslinie, Seitenrahmen |
+| [style.css](style.css) | Layout des Atlas |
+| [app.js](app.js) | Bedienlogik des Atlas |
+| [components/](components/) | Elemente als eigene Seiten: `resonanzrad`, `umfeld`, `beziehungsraum`, `weg` |
+| [assets/boot.js](assets/boot.js) | Versteck-Guard, Schriften unter `file://`, GSAP nach dem ersten Paint |
+| [assets/motion.js](assets/motion.js) | Alle Bewegung, deklarativ über `data-anim` |
+| [assets/vendor/gsap/](assets/vendor/gsap/) | GSAP 3.15 lokal, mit Lizenzhinweis |
+| [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` neu |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
 
-Die Stylesheets werden in der Reihenfolge `style.css`, `tactile.css`, `relief.css` geladen. Die Relief-Regeln überschreiben gezielt die Basis.
+Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Stylesheets, `style.css`.
 
 ## Gestaltungsregeln
 
-### Logo bewahren
-
-Dateien ohne `-Curves` sind die unveränderten Ausgangsdateien. Die kurvenbereinigten Fassungen erhalten Silhouette, Ankerpunkte und Linienanordnung. Relief ist eine zusätzliche Materialanwendung, kein neues Logo. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.
-
-Die Relief-Masken sind zusätzlich in `app.js` eingebettet, damit die lokale Dateiansicht funktioniert. Freigegebene Änderungen an Logo-Assets und Masken gemeinsam pflegen. Das Logo selbst wird nicht animiert.
-
-### Tiefe und Bedienbarkeit verbinden
-
-Schatten vermitteln Material, aber nicht allein die Funktion. Text, Fokusmarkierungen und Auswahlzustände bleiben erkennbar. Licht fällt konsistent von links oben; Eingaben liegen vertieft, ausgewählte Flächen können sich anheben.
-
-### Bewegung kontrollierbar halten
-
-Die Kreise atmen in einem gemeinsamen Zyklus: 3,4 Sekunden Ausdehnung und 4,4 Sekunden Beruhigung, maximal 7,5 Prozent Radiusänderung. Füllung, Kontur und Verbindung bleiben synchron. Beschriftungen bleiben ruhig.
-
-Globale Pause und `prefers-reduced-motion` berücksichtigen. Unsichtbare Beziehungsdarstellungen und ausgeblendete Seiten lassen den Atemtakt ruhen. Keine Animation darf Inhalte dauerhaft verstecken: Auftritte werden über `data-reveal`-Attribute im Markup gesteuert, und ohne JavaScript, bei reduzierter Bewegung oder nach spätestens 5 s ist alles sichtbar.
-
-### Dokumentation mitpflegen
-
-Bei Farb- und Tokenänderungen die sichtbare Palette, den kopierbaren Tokenblock und die Designnotizen aktualisieren. Die Checkliste im Styleguide ist eine manuelle Arbeitshilfe, keine automatische Design- oder Accessibility-Freigabe.
+- **Zeichen bewahren.** Dateien ohne `-Curves` sind die unveränderten Quellen. Relief ist eine Materialanwendung, kein neues Logo. Für kleine Darstellungen die flachen Varianten verwenden.
+- **Fünf Schriftstufen.** Display, Titel, Überschrift, Text, Label. Neue Texte verwenden eine dieser Stufen.
+- **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Text nur auf Stufe 1 (weiss) oder dem Hauch (Ink).
+- **Raum statt Rahmen.** Abstand gliedert, Linien trennen nur Kapitel.
+- **Bewegung erklärt und bleibt kontrollierbar.** Jede Animation zeigt eine Beziehung, Reihenfolge oder einen Zustand. Keine Animation versteckt Inhalte dauerhaft; Pause, Tastatur und `prefers-reduced-motion` beenden alle Auftritte.
+- **Dokumentation mitpflegen.** Bei Änderungen an Tokens `tokens.css` anpassen; Palette und Tokenblock lesen die Werte daraus. Nach Änderungen an Schriften `python3 tools/embed-fonts.py` ausführen.
 
 ## Prüfen
 
-JavaScript-Syntax und Diff prüfen:
-
 ```bash
-node --check app.js
+for f in app.js assets/*.js components/*/*.js; do node --check "$f"; done
 git diff --check
 ```
 
-Zusätzlich im Browser:
+Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 
-- Desktop und Mobil: keine horizontalen Überläufe, lesbare Beschriftungen.
-- Logo: alle vier Modi und Originalvergleich ohne Verzerrung.
-- Interaktion: Regler, Formulare, Farbkopieren und Produkt-Tabs.
-- Tastatur: sichtbarer Fokus und bedienbare Steuerelemente.
-- Bewegung: globale Pause und reduzierte Bewegung.
-- Assets: keine fehlenden Dateien oder Browser-Konsolenfehler.
-
-Vor der Repository-Umstellung wurden Desktop- und mobile Ansichten lokal kontrolliert. Die Relief-Logo-Card wurde bei 390 px ohne horizontalen Überlauf geprüft. Syntax, lokale Dateiverweise und identische Übernahme des freigegebenen Deliverables werden bei der Umstellung kontrolliert. Ein vollständiger Barrierefreiheits- oder geräteübergreifender Audit liegt nicht vor.
+- Desktop, Tablet und Telefon: kein horizontaler Überlauf, Texte nie unter 15 px.
+- Resonanzrad: Auswahl per Tipp, Liste und Tastatur; Ausfüllstatus über Farbe und Kontur.
+- Bewegung: Einstieg, festgehaltenes Resonanzrad-Kapitel, Pause, reduzierte Bewegung, Tab-Durchlauf.
+- Assets: keine fehlenden Dateien oder Konsolenfehler, auch unter `file://`.
 
 ## Stand und Historie
 
-Seit der Umstellung am 19. September 2026 ist Styleguide 4.4 der einzige aktuelle Designstand in `main`. Die frühere SoulResonance-Referenz, die separate persönliche Rad-Komponente und deren Projekt-Skill wurden aus dem aktuellen Dateibaum entfernt.
-
-Die Git-Historie bleibt erhalten. Der letzte `main`-Stand vor der Ablösung ist Commit `94071d8671c4da6dfab7b06ba855977cf5eea8a9`. Alte Arbeitsbranches können ebenfalls noch vorhanden sein; sie sind keine aktuelle Referenz.
-
-Ein Push auf GitHub ist kein Deployment. Ein öffentlicher Hosting-Status wird hier nicht vorausgesetzt. Für statisches Hosting das gesamte Repository mit `index.html` als Einstieg bereitstellen.
+4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
 
 ## Schriften und Nutzungsrechte
 
-Yrsa und Albert Sans sind lokal eingebunden. Ihre OFL-Lizenzen liegen unter [assets/fonts/](assets/fonts/). Diese Font-Lizenzen erteilen keine allgemeine Nutzungsfreigabe für ELANUM-Markenassets.
+Yrsa und Albert Sans sind lokal eingebunden. Ihre OFL-Lizenzen liegen unter [assets/fonts/](assets/fonts/). Diese Font-Lizenzen erteilen keine allgemeine Nutzungsfreigabe für ELANUM-Markenassets. GSAP steht unter der GreenSock Standard License, siehe [assets/vendor/gsap/](assets/vendor/gsap/).

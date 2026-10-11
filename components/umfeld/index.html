@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Umfeld</title>
+<link rel="icon" href="../../assets/ELANUM-System-Ink-Curves.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="../beziehungsraum/beziehungsraum.css">
+<link rel="stylesheet" href="umfeld.css">
+</head>
+<body>
+<a class="skip-link" href="#element">Zum Element springen</a>
+<header class="page-top">
+  <a class="brand" href="../../index.html"><img src="../../assets/ELANUM-System-Ink-Curves.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
+  <a class="back-link" href="../../index.html#elemente">Gestaltungsatlas 4.5</a>
+</header>
+<main class="page">
+  <div class="page-intro">
+    <h1 data-anim="hero">Umfeld</h1>
+    <p data-anim="hero">Du stehst in der Mitte. Jeder Mensch ist ein eigener, offener Kreis. Der Abstand zeigt die Nähe, die Linie die Resonanz. Ohne aktive Resonanz bleibt nur der Abstand.</p>
+  </div>
+  <div id="element" data-umfeld data-anim="umfeld"></div>
+</main>
+<script src="umfeld.js"></script>
+<script>ElanumUmfeld.mount(document.querySelector('[data-umfeld]'), { link: '../beziehungsraum/', heading: 'h2' });</script>
+</body>
+</html>
