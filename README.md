@@ -1,12 +1,12 @@
-# ELANUM Styleguide 4.4
+# ELANUM Styleguide 4.5
 
-Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Relief**. Dieses Repository enthält ausschliesslich den Styleguide 4.4 mit seinen Assets und seiner Dokumentation.
+Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Relief**. Dieses Repository enthält ausschliesslich den Styleguide 4.5 mit seinen Assets und seiner Dokumentation.
 
 [Styleguide-Datei](index.html) · [Designnotizen](DESIGN-NOTES.md)
 
 ## Was der Styleguide zeigt
 
-- **Logo:** Spektrum, Ink, Invers und Papierrelief. Original und kurvenbereinigte Fassung sind vergleichbar; die freigegebene Grundform bleibt erhalten.
+- **Logo:** Spektrum, Ink, Invers, Papierrelief und Blueprint. Die Konturen sind vollständig aus Kreisbögen konstruiert, wahlweise nah am Original oder mit Radien im Goldenen Schnitt. Das Original ist zum Vergleich einblendbar.
 - **Typografie:** Yrsa für persönliche Aussagen, Albert Sans für Orientierung und Bedienung.
 - **Farbe:** neun Feldfarben in drei Gruppen sowie getrennte Info-, Signal- und Fehlerfarben.
 - **Material:** warme Oberflächen, Licht von links oben, erhabene Flächen und vertiefte Eingaben.
@@ -41,18 +41,25 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [tactile.css](tactile.css) | Papiertextur und haptische Zustände |
 | [relief.css](relief.css) | Soft-3D-Oberflächen und Logo-Card |
 | [app.js](app.js) | SVG-Geometrie, Bewegung und Bedienlogik |
-| [assets/](assets/) | Logos, Konturvergleich und lokale Fonts |
+| [assets/](assets/) | Logos, Blueprints, Konturvergleich und lokale Fonts |
+| [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt die Kreiskonstruktion des Logos (Ink, Spektrum, Blueprint) |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
 
 Die Stylesheets werden in der Reihenfolge `style.css`, `tactile.css`, `relief.css` geladen. Die Relief-Regeln überschreiben gezielt die Basis.
 
 ## Gestaltungsregeln
 
-### Logo bewahren
+### Logo aus Kreisen
 
-Dateien ohne `-Curves` sind die unveränderten Ausgangsdateien. Die kurvenbereinigten Fassungen erhalten Silhouette, Ankerpunkte und Linienanordnung. Relief ist eine zusätzliche Materialanwendung, kein neues Logo. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.
+Dateien ohne Suffix sind die unveränderten Ausgangsdateien, `-Curves` ist die frühere Kurvenkorrektur. Die aktuellen Fassungen sind `-Circles` (nah am Original) und `-Harmonic` (Radien im Goldenen Schnitt). Jede Kontur ist dort ein Kreisbogen, Bögen gehen tangential ineinander über. `ELANUM-Konstruktion-<Variante>.svg` zeigt die Konstruktionskreise. Relief ist eine Materialanwendung, kein neues Logo. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.
 
-Die Relief-Masken sind zusätzlich in `app.js` eingebettet, damit die lokale Dateiansicht funktioniert. Freigegebene Änderungen an Logo-Assets und Masken gemeinsam pflegen. Das Logo selbst wird nicht animiert.
+Logo-Dateien nicht von Hand bearbeiten. Kreisparameter in `tools/build_logo_circles.py` ändern und neu erzeugen:
+
+```bash
+python3 tools/build_logo_circles.py --masks
+```
+
+Das Skript prüft Knicke und Abweichung und schreibt Ink, Spektrum und Blueprint. Die mit `--masks` ausgegebenen Relief-Masken in `reliefMasks` in `app.js` übernehmen, damit die lokale Dateiansicht funktioniert. Das Logo selbst wird nicht animiert.
 
 ### Tiefe und Bedienbarkeit verbinden
 
@@ -70,17 +77,20 @@ Bei Farb- und Tokenänderungen die sichtbare Palette, den kopierbaren Tokenblock
 
 ## Prüfen
 
-JavaScript-Syntax und Diff prüfen:
+JavaScript-Syntax, Logo-Konstruktion und Diff prüfen:
 
 ```bash
 node --check app.js
+python3 tools/build_logo_circles.py
 git diff --check
 ```
+
+Der Generator muss für alle Ketten einen Knick von 0° melden. Danach darf `git status` keine geänderten Logo-Dateien zeigen.
 
 Zusätzlich im Browser:
 
 - Desktop und Mobil: keine horizontalen Überläufe, lesbare Beschriftungen.
-- Logo: alle vier Modi und Originalvergleich ohne Verzerrung.
+- Logo: beide Konstruktionen, alle fünf Modi und Originalvergleich ohne Verzerrung.
 - Interaktion: Regler, Formulare, Farbkopieren und Produkt-Tabs.
 - Tastatur: sichtbarer Fokus und bedienbare Steuerelemente.
 - Bewegung: globale Pause und reduzierte Bewegung.
@@ -90,7 +100,7 @@ Vor der Repository-Umstellung wurden Desktop- und mobile Ansichten lokal kontrol
 
 ## Stand und Historie
 
-Seit der Umstellung am 19. September 2026 ist Styleguide 4.4 der einzige aktuelle Designstand in `main`. Die frühere SoulResonance-Referenz, die separate persönliche Rad-Komponente und deren Projekt-Skill wurden aus dem aktuellen Dateibaum entfernt.
+Seit der Umstellung am 19. September 2026 ist der Styleguide der einzige aktuelle Designstand in `main`. Version 4.5 (Oktober 2026) ersetzt die Kurvenkorrektur des Logos durch die Kreiskonstruktion. Die frühere SoulResonance-Referenz, die separate persönliche Rad-Komponente und deren Projekt-Skill wurden aus dem aktuellen Dateibaum entfernt.
 
 Die Git-Historie bleibt erhalten. Der letzte `main`-Stand vor der Ablösung ist Commit `94071d8671c4da6dfab7b06ba855977cf5eea8a9`. Alte Arbeitsbranches können ebenfalls noch vorhanden sein; sie sind keine aktuelle Referenz.
 
