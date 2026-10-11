@@ -11,7 +11,9 @@ window.ELANUM_GLOSSAR = {
   groups: [
     { title: 'Marke', terms: [
       { term: 'ELANUM', meaning: 'Die Marke. Immer in Versalien.' },
-      { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke. Varianten: Spektrum, Ink, Invers, Relief. Es bewegt sich nie und wird nicht verändert.', code: 'assets/ELANUM-*.svg' },
+      { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie.', code: 'assets/ELANUM-*-Circles.svg' },
+      { term: 'Kreiskonstruktion', meaning: 'Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, Übergänge ohne Knick. Zwei Varianten: Nah am Original und Goldener Schnitt.', code: 'tools/build_logo_circles.py · -Circles · -Harmonic' },
+      { term: 'Blueprint', meaning: 'Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten.', code: 'assets/ELANUM-Konstruktion-*.svg' },
       { term: 'Resonanz', meaning: 'Das Leitthema: Etwas schwingt mit, zu dir selbst oder zu einem anderen Menschen.' }
     ] },
     { title: 'Phasen', intro: 'Der Weg mit ELANUM, in dieser Reihenfolge.', terms: [
@@ -57,6 +59,7 @@ window.ELANUM_GLOSSAR = {
     ['Dating-Plattform', 'Zueinander'],
     ['Klangrad, persönliches Rad', 'Resonanzrad'],
     ['Klangsignatur, Logo-Signatur', 'ELANUM-Zeichen'],
+    ['Kurvenkorrektur (als aktuelles Zeichen)', 'Kreiskonstruktion'],
     ['Eigenklang, Klang', 'Resonanz'],
     ['Felder, Stücke', 'Elemente'],
     ['Kategorie, Gruppe A–C', 'Bereich']

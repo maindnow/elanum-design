@@ -8,7 +8,7 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Baus
 
 ## Was der Atlas zeigt
 
-- **Zeichen:** das ELANUM-Zeichen in Spektrum, Ink, Invers und Papierrelief; Original und Kurvenkorrektur vergleichbar. Das Zeichen bewegt sich nie.
+- **Zeichen:** das ELANUM-Zeichen, vollständig aus Kreisbögen konstruiert, nah am Original oder mit Radien im Goldenen Schnitt. Spektrum, Ink, Invers, Papierrelief und Blueprint; das Original ist zum Vergleich einblendbar. Das Zeichen bewegt sich nie.
 - **Typografie:** fünf Stufen. Albert Sans trägt die Bedienung, Yrsa ist die Stimme und erscheint nur gross. Kein Kursiv, nichts unter 15 px.
 - **Farbe:** neutrale Flächen, drei ausgeglichene Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit Tief, drei Nuancen der Elemente und Hauch, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
 - **Material:** warme Reliefoberfläche, Licht von links oben, angehobene Bedienung, vertiefte Eingaben.
@@ -45,6 +45,7 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [assets/motion.js](assets/motion.js) | Alle Bewegung, deklarativ über `data-anim` |
 | [assets/vendor/gsap/](assets/vendor/gsap/) | GSAP 3.15 lokal, mit Lizenzhinweis |
 | [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` neu |
+| [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt die Kreiskonstruktion des ELANUM-Zeichens (Ink, Spektrum, Blueprint) |
 | [assets/glossar.js](assets/glossar.js) | Glossar: die eine Quelle aller Begriffe |
 | [GLOSSAR.md](GLOSSAR.md) | Glossar als Datei, erzeugt mit `node tools/glossar-md.js` |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
@@ -53,7 +54,7 @@ Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Style
 
 ## Gestaltungsregeln
 
-- **Zeichen bewahren.** Dateien ohne `-Curves` sind die unveränderten Quellen. Relief ist eine Materialanwendung, kein neues Logo. Für kleine Darstellungen die flachen Varianten verwenden.
+- **Zeichen aus Kreisen.** Dateien ohne Suffix sind die unveränderten Quellen, `-Curves` ist die frühere Kurvenkorrektur. Aktuell sind `-Circles` (nah am Original) und `-Harmonic` (Goldener Schnitt); `ELANUM-Konstruktion-<Variante>.svg` zeigt die Konstruktionskreise. Diese Dateien nie von Hand bearbeiten, sondern mit `python3 tools/build_logo_circles.py --masks` neu erzeugen und die ausgegebenen Masken in `MASKS` in `app.js` übernehmen. Für kleine Darstellungen die flachen Varianten verwenden.
 - **Fünf Schriftstufen.** Display, Titel, Überschrift, Text, Label. Neue Texte verwenden eine dieser Stufen.
 - **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Weisse Schrift nur auf Tief, Ink auf dem Hauch; auf den Elementen im Rad steht Text nur in Ink.
 - **Raum statt Rahmen.** Abstand gliedert, Linien trennen nur Kapitel.
@@ -65,6 +66,7 @@ Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Style
 
 ```bash
 for f in app.js assets/*.js components/*/*.js; do node --check "$f"; done
+python3 tools/build_logo_circles.py
 git diff --check
 ```
 

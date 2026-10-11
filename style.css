@@ -67,12 +67,22 @@ h3.block-title[data-anim]{margin-bottom:36px}
 .signature__stage[data-mode=inverse]{background:linear-gradient(135deg,#28494E,#16363B)}
 .signature__stage[data-mode=inverse] img{filter:brightness(0) invert(1) drop-shadow(2px 3px 2px #0004)}
 .signature__relief{width:100%;aspect-ratio:1;filter:drop-shadow(4px 5px 3px #ABA394) drop-shadow(-4px -4px 2px #fff)}
-.signature__relief span{display:block;width:100%;height:100%;background:linear-gradient(135deg,#FAF6ED,#E3DDCF);-webkit-mask:url(assets/ELANUM-System-Ink-Curves.svg) center/contain no-repeat;mask:url(assets/ELANUM-System-Ink-Curves.svg) center/contain no-repeat}
+.signature__relief span{display:block;width:100%;height:100%;background:linear-gradient(135deg,#FAF6ED,#E3DDCF);-webkit-mask:url(assets/ELANUM-System-Ink-Circles.svg) center/contain no-repeat;mask:url(assets/ELANUM-System-Ink-Circles.svg) center/contain no-repeat}
 .signature__copy{display:grid;gap:28px;justify-items:start}
+.signature__stage[data-mode=blueprint]{background:var(--paper)}
+.signature__stage[data-mode=blueprint] img{filter:none;border-radius:18px}
+.construction{display:grid;gap:10px;width:100%}
+.construction div{display:grid;grid-template-columns:110px 1fr;gap:16px}
+.construction dt{font:var(--type-label);font-weight:600}
+.construction dd{margin:0;color:var(--ink-2)}
+.geometry-stats{display:flex;flex-wrap:wrap;gap:32px 56px;margin:8px 0 32px}
+.geometry-stats dt{font:var(--type-heading)}
+.geometry-stats dd{margin:0;color:var(--ink-2);font:var(--type-label)}
+.logo-audit__links{display:flex;flex-wrap:wrap;gap:12px 32px}
 .logo-audit{margin-top:clamp(56px,7vw,96px)}
 .logo-audit summary{display:flex;align-items:center;min-height:52px;font:var(--type-label);font-weight:600;cursor:pointer}
 .logo-audit>p{margin-top:16px;max-width:var(--measure)}
-.logo-compare{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:40px 0}
+.logo-compare{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin:40px 0}
 .logo-compare img{width:min(100%,260px);margin:0 auto}
 .logo-compare figcaption{margin-top:16px;text-align:center;font:var(--type-label);color:var(--ink-2)}
 
@@ -313,7 +323,7 @@ body[data-motion=off] .paper,body[data-motion=off] .swatch,body[data-motion=off]
   .principles,.components,.statuses,.line-system,.phases{grid-template-columns:1fr}
   .element-cards,.neutrals{grid-template-columns:1fr}
   .type-scale li{grid-template-columns:1fr;gap:8px}
-  .logo-compare{gap:20px}
+  .logo-compare{grid-template-columns:1fr 1fr;gap:20px}
   .lab__reading{text-align:left}
   .line-system div{grid-template-columns:72px 1fr}
   .line-system dt svg{width:72px}

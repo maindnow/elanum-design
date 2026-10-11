@@ -6,7 +6,7 @@
 
 Verbindlich ist das **Glossar**: eine Quelle in `assets/glossar.js`, sichtbar im Atlas (Kapitel Glossar, mit Suche) und als `GLOSSAR.md`, erzeugt mit `node tools/glossar-md.js`. Begriffe gelten in Produkt, Texten, Gestaltung und Code genau in dieser Schreibweise. Änderungen nur mit Freigabe und einer neuen Atlas-Version.
 
-Kurz: ELANUM begleitet in drei Phasen, **Zu dir**, **Zueinander**, **Miteinander**. Im Zentrum steht das **Resonanzrad** mit neun **Elementen** in drei **Bereichen**. Rad, Umfeld, Beziehungsraum und Weg sind **Bausteine**. Das Symbol heisst **ELANUM-Zeichen**. Ältere Arbeitsnamen (Soul Resonance, Soul Kosmos, Dating-Plattform, Klangrad, Klangsignatur, Felder) werden nicht mehr verwendet.
+Kurz: ELANUM begleitet in drei Phasen, **Zu dir**, **Zueinander**, **Miteinander**. Im Zentrum steht das **Resonanzrad** mit neun **Elementen** in drei **Bereichen**. Rad, Umfeld, Beziehungsraum und Weg sind **Bausteine**. Das Symbol heisst **ELANUM-Zeichen**. Ältere Arbeitsnamen (Soul Resonance, Soul Kosmos, Dating-Plattform, Klangrad, ELANUM-Zeichen, Felder) werden nicht mehr verwendet.
 
 ## Richtung
 
@@ -63,9 +63,41 @@ Warme Reliefoberfläche, Licht von links oben. Was man bedienen kann, hebt sich 
 
 Buttons blitzen nicht mehr: Die Grundfarbe liegt unter dem Verlauf, und Hover hellt über eine eigene Ebene auf, statt den Hintergrund zu tauschen. In 4.4 tauschte die Hover-Regel den Verlauf gegen eine Fläche, die von transparent einblendete; dazwischen schien die helle Fläche durch.
 
-## Das ELANUM-Zeichen: Korrektur, kein Redesign
+## Das ELANUM-Zeichen: Kreiskonstruktion
 
-Die Dateien ohne Suffix sind die unveränderten Quellen. `-Curves.svg` ist eine separate Kurvenkorrektur. Aussensilhouette, Kreisöffnung, Kreisradien, Ankerpunkte, Pfadanzahl und Linienanordnung bleiben erhalten. Angepasst wurden nur Bézier-Kontrollpunkte an den vorhandenen Innenkurven. Die grösste abgetastete Abweichung beträgt 5,33 Einheiten im 960er-Koordinatenraum, etwa 0,36 px bei 64 px Darstellung. Invers ist die identische Ink-Datei in Weiss. Relief ist eine Materialanwendung über eine eingebettete Maske der Ink-Silhouette.
+Version 4.5 baut das ELANUM-Zeichen vollständig aus Kreisen auf. Die bisherigen Innenkonturen waren freie Bézier-Kurven: Innerhalb eines Bogens schwankte der Radius (z. B. 289 → 249 → 342), an den Übergängen sprang er (z. B. 245 → 289). Die Tangenten schlossen an, die Krümmung nicht. Dadurch wirkten die Rundungen unruhig. Die Kurvenkorrektur aus 4.4 hat nur Kontrollpunkte verschoben und konnte das nicht beheben.
+
+Konstruktionsregeln:
+
+- Jede Kontur ist eine Kette aus Kreisbögen. Zwei aufeinanderfolgende Bögen berühren sich tangential: Ihre Mittelpunkte liegen mit dem Übergangspunkt auf einer Geraden. Gemessener Knick an allen Übergängen: 0°.
+- Rahmen: Aussenkreis R und Kreisöffnung r₀.
+- Die beiden feinen Linien sind wie Schriftzüge gebaut. Eine Mittellinie aus Kreisbögen trägt die Form. Ihre Radien ändern sich stetig, von Bogen zu Bogen höchstens um etwa den Faktor 1,25; die obere Linie wächst von 144 auf 300. Der Linienkörper ist konzentrisch zur Mittellinie und überall gleich stark (obere Linie 6, untere 5 Einheiten). Erster und letzter Bogen der Mittellinie sind kurze Spitzenbögen (rund 110–150 Einheiten lang). Dort ersetzt je Kante ein Spitzenkreis den Körper; beide Spitzenkreise berühren sich im Endpunkt. Die Stärke nimmt dadurch gleichmässig von 0 auf den vollen Wert zu und am Ende wieder ab, ohne lange Haarlinien.
+- Berührpunkte: E (obere Linie an der Öffnung), S (untere Linie an der Öffnung), T (obere Linie und Kerbe) und W (Spitze der unteren Linie). In T berühren sich vier Kreise in derselben Tangente: Die Linie geht über eine S-Kurve in die Kerbe über.
+- Die Kerbe ist eine Mondsichel zweier Kreise, die sich in T berühren. Sie endet im Schnitt mit dem Aussenkreis.
+- Die Farbkanten des Spektrums (vordere Fläche, Band, Schwanz) laufen auf Konstruktionskreisen. Die Farbkanten laufen auf den Mittellinien. Der Abschluss der vorderen Fläche setzt die untere Linie in W tangential fort. Bewusste Ecken bleiben nur an Abzweigungen, die schon im Original Ecken waren: an der Schwanzkante in T sowie am unteren Bandlappen, wo er von Linie 2 abzweigt und im ausgeblendeten Bereich umknickt.
+- Das Farbnetz des Spektrums (Verläufe, Masken, Farben) ist unverändert aus der Kurvenkorrektur übernommen. Nur die fünf Clip-Pfade sind ersetzt.
+
+Zwei Varianten, gleiche Topologie:
+
+| | Nah am Original (`-Circles`) | Goldener Schnitt (`-Harmonic`) |
+| --- | --- | --- |
+| Radien | Ganzzahlige Leitkreise: 144, 158, 166, 169, 186, 191, 195, 204, 239, 240, 254, 264, 299, 300, 319, 370, 557 | Stufen der Reihe R · φ^(−k/4); vier Stufen ergeben genau den Goldenen Schnitt. Verwendet: k = 11, 10, 9, 8, 7, 6, 5, 4, 3, 0, −2 |
+| Rahmen | R 460,54 · r₀ 122,05 (unverändert) | R 460,54 · r₀ = Stufe 11 = 122,62 |
+| Max. Abweichung zur Kurvenkorrektur | 9,0 Einheiten im 960er-Raster (≈ 0,6 px bei 64 px) | 22,2 Einheiten; die obere Linie liegt weiter aussen, die Kerbe öffnet sich weiter |
+
+Die Abweichung ist entlang der Innenkonturen abgetastet. Sie ist bewusst etwas grösser als bei einer reinen Nachzeichnung: Die alten Kurven hatten selbst Dellen, etwa den fast geraden Abschnitt mit anschliessendem engem Haken am Ende der unteren Linie. Die Konstruktion übernimmt diese Unruhe nicht. Die Blueprints `ELANUM-Konstruktion-Circles.svg` und `ELANUM-Konstruktion-Harmonic.svg` zeigen alle Kreise, Mittelpunkte, Übergänge und Berührpunkte. Gestrichelte Kreise sind die Spitzenkreise der Linien.
+
+Alle Dateien erzeugt `tools/build_logo_circles.py` (nur Python-Standardbibliothek). Das Skript enthält die Kreisparameter beider Varianten, prüft Knicke und Abweichung und schreibt Ink, Spektrum und Blueprint. Mit `--masks` gibt es zusätzlich die Relief-Masken für `app.js` aus. Die Originale und die Kurvenkorrektur bleiben als Referenz unverändert erhalten.
+
+Die Zeichen-Karte im Atlas schaltet zwischen „Nah am Original“ und „Goldener Schnitt“ um, zeigt im Modus „Blueprint“ die Konstruktionskreise und blendet auf Wunsch das unveränderte Original ein. „Relief“ nutzt die Ink-Silhouette der gewählten Konstruktion als eingebettete Maske.
+
+## Frühere Stufe: Kurvenkorrektur (4.4)
+
+Die Dateien ohne Suffix sind die unveränderten Quellen. `-Curves.svg` bezeichnet eine separate Kurvenkorrektur. Aussensilhouette, Kreisöffnung, Kreisradien, Ankerpunkte, Pfadanzahl und Linienanordnung bleiben erhalten. Angepasst wurden nur Bézier-Kontrollpunkte an den vorhandenen Innenkurven, damit benachbarte Tangenten sauber anschliessen. Die bewusste Abzweigung an der Logo-Öffnung bleibt unverändert. Gemeinsame Grenzen der Farbebenen verwenden identische Kontrollpunkte.
+
+Die separate SVG-Konturüberlagerung stellt Original und Korrektur gegenüber. Seit 4.5 ersetzt die Kreiskonstruktion die Kurvenkorrektur im Styleguide; die Dateien bleiben zum Download. Invers ist die identische Ink-Datei in Weiss, kein weiteres geometrisches Logo.
+
+Geometrischer Vergleich: 5 Pfade beim Spektrum, 2 bei Ink — jeweils gleich viele wie im Original. Alle Anker und Bogenparameter sind identisch. Die grösste abgetastete Abweichung der Innenkurven beträgt 5,33 Einheiten im 960er-Koordinatenraum, entsprechend etwa 0,36 Pixel bei einer 64-Pixel-Darstellung. Es handelt sich bewusst um eine minimale Korrektur, nicht um eine neue Kreis- oder Spiralform.
 
 ## Bausteine
 
