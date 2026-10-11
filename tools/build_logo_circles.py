@@ -489,7 +489,8 @@ def blueprint_svg(v, g, rg):
                 role = 'body' if (round(a.c[0], 6), round(a.c[1], 6)) in spine_centers else 'tip'
             else:
                 role = 'notch' if key in ('NU', 'NL') else 'aux'
-            if role != 'body':
+            # Körper- und Spitzenbögen folgen aus Mittellinie und Linienstärke: nur als Bogen gezeigt
+            if role not in ('body', 'tip'):
                 add_circle(a.c, a.r, label_for(v, a.r), role)
             if key not in ('L1c', 'L2c'):
                 used.append((a, key))
@@ -504,13 +505,13 @@ def blueprint_svg(v, g, rg):
     colors = {'main': '#16363B', 'line': '#6756D9', 'tip': '#6756D9', 'notch': '#3E898D', 'aux': '#D85BA9'}
     for c, r, label, role in circles:
         parts.append('<circle cx="%s" cy="%s" r="%s" fill="none" stroke="%s" stroke-opacity="%s" stroke-width="%s"%s/>'
-                     % (f(c[0]), f(c[1]), f(r), colors[role], '.6' if role == 'main' else '.38',
-                        '1.4' if role == 'main' else '.9', ' stroke-dasharray="5 6"' if role == 'tip' else ''))
+                     % (f(c[0]), f(c[1]), f(r), colors[role], {'main': '.6', 'aux': '.22'}.get(role, '.45'),
+                        '1.4' if role == 'main' else '.9', ' stroke-dasharray="4 6"' if role == 'aux' else ''))
     for a, key in used:
         parts.append('<path d="%s" fill="none" stroke="%s" stroke-width="2.2" stroke-linecap="round"/>'
                      % (path([a]), '#D85BA9' if key in ('TB', 'FC', 'LA', 'LB') else '#16363B'))
     for c, r, label, role in circles:
-        if -200 < c[0] < 1500 and -200 < c[1] < 1500:
+        if role != 'aux' and -200 < c[0] < 1500 and -200 < c[1] < 1500:
             parts.append('<path d="M %s %s h 12 M %s %s v 12" stroke="%s" stroke-width="1.2"/>'
                          % (f(c[0] - 6), f(c[1]), f(c[0]), f(c[1] - 6), colors[role]))
     joints = []
@@ -526,21 +527,21 @@ def blueprint_svg(v, g, rg):
     for p in (rg['A'], rg['B']):
         parts.append('<circle cx="%s" cy="%s" r="4" fill="#D85BA9"/>' % (f(p[0]), f(p[1])))
     legend = ['ELANUM / Kreiskonstruktion · %s' % v['title'],
-              'Ink: Aussenkreis R und Öffnung r₀ · Violett: Mittellinien der Linien, gestrichelt ihre Spitzen',
-              'Petrol: Kerbe · Magenta: Farbkanten des Spektrums · Ringe: tangentiale Bogenübergänge',
-              'Linienkörper: konzentrisch zur Mittellinie · E, S, T, W: Punkte, in denen Linien und Kerbe spitz auslaufen']
+              'Ink: Aussenkreis R und Öffnung r₀ · Violett: Mittellinien · Petrol: Kerbe',
+              'Magenta, gestrichelt: Hilfskreise für die Farbkanten des Spektrums · Ringe: Bogenübergänge',
+              'Linienkörper und Spitzen folgen aus Mittellinie und Linienstärke · E, S, T, W: Punkte, in denen Linien und Kerbe auslaufen']
     for k, line in enumerate(legend):
         parts.append('<text x="64" y="%d" font-family="sans-serif" font-size="%d" fill="#16363B"%s>%s</text>'
                      % (60 + 28 * k, 22 if k == 0 else 15, '' if k == 0 else ' fill-opacity=".7"', line))
     given = []
     for _, r, label, role in sorted(circles, key=lambda c: c[1]):
-        if role not in ('tip',) and label not in given:
+        if role != 'aux' and label not in given:
             given.append(label)
     if v['name'] == 'Harmonic':
         foot = 'Radius = R · φ^(−k/4), vier Stufen ergeben den Goldenen Schnitt · verwendete Stufen k: %s' % ' · '.join(
             x.strip('k') for x in given)
     else:
-        foot = 'Radien der Leitkreise: %s · gestrichelt: Spitzenkreise der Linien' % ' · '.join(given)
+        foot = 'Radien der Leitkreise: %s' % ' · '.join(given)
     parts.append('<text x="64" y="1188" font-family="sans-serif" font-size="14" fill="#16363B" fill-opacity=".7">'
                  '%s</text>' % foot)
     return ('<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1240" viewBox="4 -8 1240 1240">'
