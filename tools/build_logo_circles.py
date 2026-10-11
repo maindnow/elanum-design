@@ -317,18 +317,18 @@ CIRCLES = {
     'title': 'nah am Original',
     'O': (624.65, 613.27), 'R': 460.54,          # Aussenkreis (unverändert)
     'H': (531.15, 632.98), 'r0': 122.05,         # Öffnung (unverändert)
-    'T': (809.0, 540.0), 'thT': 61,              # Knotenpunkt von Linie und Kerbe
-    'S': -114.1,                                 # Abzweig der unteren Linie an der Öffnung
+    'T': (809.0, 540.0), 'thT': 59,              # Knotenpunkt von Linie und Kerbe
+    'S': -112.8,                                 # Abzweig der unteren Linie an der Öffnung
     # Mittellinien. Obere Linie von E nach T: Radien, vorgegebene Winkel, Startwert.
     # Erster und letzter Bogen sind die kurzen Spitzen. Radien wachsen stetig;
     # der dritte Winkel wird so gelöst, dass die Kette tangential in T ankommt.
-    'L1': ([144, 158, 195, 240, 300], [64, 109], 33.1),
+    'L1': ([150, 160, 240, 300], [92], 101.9),
     'w1': 6,                                     # Linienstärke
     # Untere Linie ab S mit freier Spitze W: (Radius, Winkel)
-    'L2': [(264, 25.0), (191, 70.2), (239, 98.6), (299, 27.2), (370, 21.6)],
+    'L2': [(287, 20.3), (191, 78.3), (245, 114.3), (401, 26.7)],
     'w2': 5,
     'NU': -166, 'NL': -204,
-    'TB': (76.3, [(-319, 34)], -169),
+    'TB': (81.9, [], -238),
     'FC': 186,
     'LA': (5.37, 60.1, 557, 15.6),               # Abzweig an Linie 2: Richtung von H, Winkel, Radius, Drehung
     'LB': (8.4, -254),
@@ -348,14 +348,14 @@ HARMONIC = {
     'title': 'Radien im Goldenen Schnitt',
     'O': (624.65, 613.27), 'R': step(0),
     'H': (531.15, 632.98), 'r0': step(11),
-    'T': (809.0, 540.0), 'thT': 61,
-    'S': -113.7,
-    'L1': ([step(10), step(8), step(6), step(5), step(3)], [83, 120], 39.6),
+    'T': (809.0, 540.0), 'thT': 59,
+    'S': -114.3,
+    'L1': ([step(10), step(9), step(6), step(4)], [53], 133.2),
     'w1': 6,
-    'L2': [(step(5), 27.1), (step(7), 60.5), (step(6), 81.0), (step(4), 42.8), (step(3), 33.2)],
+    'L2': [(step(5), 27.9), (step(7), 89.7), (step(5), 96.8), (step(2), 29.2)],
     'w2': 5,
-    'NU': -step(9), 'NL': -step(7),
-    'TB': (76.3, [(-step(3), 34)], -step(8)),
+    'NU': -step(8), 'NL': -step(7),
+    'TB': (83.8, [], -step(6)),
     'FC': step(8),
     'LA': (5.37, 60.1, step(-2), 15.6),
     'LB': (8.4, -step(5)),
@@ -384,7 +384,8 @@ def construct(v):
     g['NL'] = [until_circle(T, tT, v['NL'], O, R)]
     a_tb, spec_tb, last_tb = v['TB']
     tb = chain(T, unit(deg(a_tb)), [(r, deg(p)) for r, p in spec_tb])
-    tb.append(until_circle(tb[-1].end, tb[-1].tangent(1), last_tb, O, R))
+    p_tb, t_tb = (tb[-1].end, tb[-1].tangent(1)) if tb else (T, unit(deg(a_tb)))
+    tb.append(until_circle(p_tb, t_tb, last_tb, O, R))
     g['TB'] = tb
 
     # Abschluss der vorderen Fläche: setzt Linie 2 an der Spitze tangential fort
