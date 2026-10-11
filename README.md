@@ -2,7 +2,7 @@
 
 Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Relief**. Dieses Repository enthält ausschliesslich den Styleguide 4.4 mit seinen Assets und seiner Dokumentation.
 
-[Styleguide-Datei](index.html) · [Persönliches Rad](components/personal-wheel/index.html) · [Designnotizen](DESIGN-NOTES.md)
+[Styleguide-Datei](index.html) · [Designnotizen](DESIGN-NOTES.md)
 
 ## Was der Styleguide zeigt
 
@@ -16,26 +16,9 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Re
 
 Das ist ein vollständiger Styleguide, nicht nur eine Rad-Komponente. Die Feldnamen und Gruppen A bis C sind strukturelle Platzhalter, keine fertige fachliche Klassifikation.
 
-## Persönliches Rad
-
-[components/personal-wheel/](components/personal-wheel/index.html) zeigt den Bereich „Ich“ mit echten Namen, Beispielergebnissen und Ausfüllstatus, gestaltet nach 4.4:
-
-- Ein mathematisch runder Kreis aus neun Kuchenstücken à exakt 40 Grad, darum ein Ring aus drei Gruppen à 120 Grad. Alle Pfade werden aus Polarkoordinaten berechnet.
-- Relief wie im Styleguide: erhabene Scheibe in einer vertieften Rille, Licht von links oben. Scheibe und Zentrum drehen nicht mit, weil das Licht nicht mitdreht.
-- Eine Kategorie, eine Farbe: Grundtöne violett, Ich & Orientierung rosé, Beziehung & Verbindung grün. Der Ring trägt die Kategoriefarbe, die drei Stücke darin eine tiefe, mittlere und helle Nuance davon; Icon und Ergebnis folgen der Nuance des Stücks.
-- Neun Linien-Icons in der 4.4-Sprache (Kreise, Öffnungen, Verbindungen) bilden einen Kranz um „Ich“.
-- Status über den Rand jedes Stücks: geschlossen heisst ausgefüllt, mit Öffnung heisst offen. Offene Stücke zeigen zusätzlich „offen“, die Legende erklärt beides.
-- Das gewählte Stück liegt oben und hebt sich als Relief ab; der Schatten fällt immer nach rechts unten.
-- Namen in Albert Sans, Ergebnisse („Jungfrau“, „Generator“) in Yrsa direkt im Stück.
-- Mobile-first: Stück antippen, Rad ziehen oder die Knöpfe unter dem Rad nutzen. Senkrechtes Wischen scrollt die Seite. Tastatur: Pfeiltasten, Home, End.
-
-Die Inhalte stehen im HTML: `data-done`, `data-result` und `data-lead` am jeweiligen Panel steuern Status, Ergebnis im Stück und Einleitung. „Jetzt ausfüllen“ ist eine Vorschau ohne Speicherung. Der Styleguide verlinkt das Rad in der Navigation und im Produktbereich „Ich“.
-
 ## Lokal öffnen
 
 Das Repository herunterladen und `index.html` im Browser öffnen. Alle Dateien und den Ordner `assets/` zusammen behalten. GitHub selbst zeigt HTML als Quelltext.
-
-Chrome blockiert unter `file://` Schriftdateien. Beide Seiten laden deshalb nur in diesem Fall `assets/fonts/fonts-embedded.css` mit eingebetteten Schriften nach. Die Konsole meldet dann beim Styleguide noch vier abgelehnte Preloads; sie sind harmlos und erscheinen über einen lokalen Server nicht.
 
 Alternativ mit Git und Python 3:
 
@@ -47,27 +30,21 @@ python3 -m http.server 4173 --bind 127.0.0.1
 
 Danach [http://127.0.0.1:4173](http://127.0.0.1:4173) öffnen. Den Server mit `Ctrl+C` beenden.
 
-Kein Paketmanager, Build oder Backend erforderlich. Schriften, SVG-Assets und GSAP liegen lokal. Die Eingaben dienen nur der aktuellen Vorschau, ohne Versand oder dauerhafte Speicherung.
+Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets liegen lokal. Die Eingaben dienen nur der aktuellen Vorschau, ohne Versand oder dauerhafte Speicherung.
 
 ## Aufbau
 
 | Datei | Aufgabe |
 | --- | --- |
 | [index.html](index.html) | Direkter Einstieg mit allen Kapiteln |
-| [style.css](style.css) | Basislayout, mobile-first mit `min-width`-Stufen 561, 801, 1101 und 1500 px |
+| [style.css](style.css) | Basislayout und responsive Darstellung |
 | [tactile.css](tactile.css) | Papiertextur und haptische Zustände |
 | [relief.css](relief.css) | Soft-3D-Oberflächen und Logo-Card |
 | [app.js](app.js) | SVG-Geometrie, Bewegung und Bedienlogik |
 | [assets/](assets/) | Logos, Konturvergleich und lokale Fonts |
-| [assets/motion.js](assets/motion.js) | Auftritte beim Laden und Scrollen, gesteuert über `data-anim` |
-| [assets/vendor/gsap/](assets/vendor/gsap/) | GSAP 3.15 und ScrollTrigger, unverändert, lokal |
-| [components/personal-wheel/](components/personal-wheel/) | Persönliches Rad „Ich“ im 4.4-Look (HTML, CSS, JS) |
-| [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` für die Dateiansicht |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
 
 Die Stylesheets werden in der Reihenfolge `style.css`, `tactile.css`, `relief.css` geladen. Die Relief-Regeln überschreiben gezielt die Basis.
-
-Alle drei Stylesheets sind mobile-first: Grundregeln gelten für das Telefon, breitere Ansichten ergänzen mit `min-width`. Neue Regeln bitte ebenso anlegen, keine `max-width`-Abfragen. Nach Änderungen an den Schriftdateien `python3 tools/embed-fonts.py` ausführen.
 
 ## Gestaltungsregeln
 
@@ -87,20 +64,6 @@ Die Kreise atmen in einem gemeinsamen Zyklus: 3,4 Sekunden Ausdehnung und 4,4 Se
 
 Globale Pause und `prefers-reduced-motion` berücksichtigen. Unsichtbare Beziehungsdarstellungen und ausgeblendete Seiten lassen den Atemtakt ruhen. Keine Animation darf Inhalte dauerhaft verstecken.
 
-### Auftritte deklarativ setzen
-
-Auftritte beim Laden und Scrollen folgen dem `website-motion`-Katalog von BEYONDER und werden nur im Markup gesetzt. GSAP-Code gehört ausschliesslich in `assets/motion.js`.
-
-| Attribut | Pattern | Einsatz |
-| --- | --- | --- |
-| `data-anim="hero"` | P03 | Einstieg beim Laden, gestaffelt, unter 1,5 s |
-| `data-anim="reveal"` | P07 | Block erscheint einmal; `data-anim-size="small\|normal\|large"` |
-| `data-anim="stagger"` | P08 | 2 bis 6 gleichartige Kinder nacheinander |
-| `data-anim="line"` | P09 | Linie zeichnet sich; die Linie liest `--draw` (0 bis 1) |
-| `data-anim="wheel"` | P03 | Aufbau des persönlichen Rads |
-
-Jede Seite mit `data-anim` braucht die zwei Inline-Snippets aus `index.html`: den Guard im `<head>` (Runtime nach dem ersten Paint, verstecken höchstens 5 s) und die Markierung vor `</body>` (was beim Laden schon im Bild ist, erscheint sofort). Bei reduzierter Bewegung wird GSAP gar nicht geladen.
-
 ### Dokumentation mitpflegen
 
 Bei Farb- und Tokenänderungen die sichtbare Palette, den kopierbaren Tokenblock und die Designnotizen aktualisieren. Die Checkliste im Styleguide ist eine manuelle Arbeitshilfe, keine automatische Design- oder Accessibility-Freigabe.
@@ -111,14 +74,12 @@ JavaScript-Syntax und Diff prüfen:
 
 ```bash
 node --check app.js
-node --check assets/motion.js
-node --check components/personal-wheel/personal-wheel.js
 git diff --check
 ```
 
 Zusätzlich im Browser:
 
-- Desktop und Mobil ab 320 px: keine horizontalen Überläufe, lesbare Beschriftungen, Ziele mindestens 44 px.
+- Desktop und Mobil: keine horizontalen Überläufe, lesbare Beschriftungen.
 - Logo: alle vier Modi und Originalvergleich ohne Verzerrung.
 - Interaktion: Regler, Formulare, Farbkopieren und Produkt-Tabs.
 - Tastatur: sichtbarer Fokus und bedienbare Steuerelemente.
@@ -129,7 +90,7 @@ Vor der Repository-Umstellung wurden Desktop- und mobile Ansichten lokal kontrol
 
 ## Stand und Historie
 
-Seit der Umstellung am 19. September 2026 ist Styleguide 4.4 der einzige aktuelle Designstand in `main`. Die frühere SoulResonance-Referenz, die alte Rad-Komponente und deren Projekt-Skill wurden aus dem aktuellen Dateibaum entfernt. Das persönliche Rad unter `components/personal-wheel/` ist eine Neufassung auf Basis von 4.4, keine Wiederherstellung der alten Komponente.
+Seit der Umstellung am 19. September 2026 ist Styleguide 4.4 der einzige aktuelle Designstand in `main`. Die frühere SoulResonance-Referenz, die separate persönliche Rad-Komponente und deren Projekt-Skill wurden aus dem aktuellen Dateibaum entfernt.
 
 Die Git-Historie bleibt erhalten. Der letzte `main`-Stand vor der Ablösung ist Commit `94071d8671c4da6dfab7b06ba855977cf5eea8a9`. Alte Arbeitsbranches können ebenfalls noch vorhanden sein; sie sind keine aktuelle Referenz.
 

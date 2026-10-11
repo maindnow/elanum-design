@@ -192,23 +192,15 @@ $$('[data-status]').filter(button=>button.tagName==='BUTTON').forEach(button=>bu
 const tabs=$$('.product-tab');
 function selectProduct(tab){tabs.forEach(item=>{const active=item===tab;item.setAttribute('aria-selected',active);item.tabIndex=active?0:-1;$('#'+item.getAttribute('aria-controls')).hidden=!active;});requestRender();}
 tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>selectProduct(tab));tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();tabs[next].focus();selectProduct(tabs[next]);});});
-const wheelPaths=[],wheelHits=[];
+const wheelPaths=[];
 for(let i=0;i<9;i++){
   const group=Math.floor(i/3),field=i%3,start=-144+group*120+field*36;
   const point=(angle,r)=>[260+r*Math.cos(angle*Math.PI/180),260+r*Math.sin(angle*Math.PI/180)];
   const a=point(start,170),b=point(start+28,170),label=point(start+14,210);
   const path=svgElement('path',{d:`M${a.join(' ')} A170 170 0 0 1 ${b.join(' ')}`});$('#wheelSegments').append(path);wheelPaths.push(path);
   const text=svgElement('text',{x:label[0],y:label[1],'text-anchor':'middle','dominant-baseline':'middle',class:'diagram-small',style:'font-size:23px'});text.textContent=String(i+1).padStart(2,'0');$('#wheelSegments').append(text);
-  // Trefferflaeche ueber Bogen und Ziffer: auf dem Handy direkt am Rad waehlen.
-  // Fuer Tastatur und Screenreader bleiben die Knoepfe der einzige Weg, daher
-  // aria-hidden und nicht fokussierbar, damit es keine doppelten Fokusstopps gibt.
-  const hitA=start-4,hitB=start+32,ri=120,ro=245;
-  const h0=point(hitA,ro),h1=point(hitB,ro),h2=point(hitB,ri),h3=point(hitA,ri);
-  const hit=svgElement('path',{d:`M${h0.join(' ')} A${ro} ${ro} 0 0 1 ${h1.join(' ')} L${h2.join(' ')} A${ri} ${ri} 0 0 0 ${h3.join(' ')} Z`,fill:'transparent',class:'wheel-hit','aria-hidden':'true'});
-  hit.addEventListener('click',()=>selectField(i));wheelHits.push(hit);
   const button=document.createElement('button');button.dataset.field=i;button.textContent=String(i+1).padStart(2,'0');button.setAttribute('aria-label','Feld '+(i+1)+' auswählen');button.addEventListener('click',()=>selectField(i));$('#wheelControls').append(button);
 }
-wheelHits.forEach(hit=>$('#wheelSegments').append(hit));
 function selectField(index){wheelPaths.forEach((path,i)=>{path.setAttribute('stroke',i===index?fieldColors[i]:'#819692');path.setAttribute('stroke-width',i===index?7:2);});$$('[data-field]').forEach(button=>button.setAttribute('aria-pressed',+button.dataset.field===index));$('#wheelTitle').textContent='Feld '+String(index+1).padStart(2,'0');$('#wheelGroup').textContent='Gruppe '+['A','B','C'][Math.floor(index/3)];$('#wheelAccessibleTitle').textContent='Klangrad: Feld '+(index+1)+' aus Gruppe '+['A','B','C'][Math.floor(index/3)]+' ausgewählt.';}
 selectField(1);
 
@@ -217,9 +209,20 @@ rules.forEach(([title,description])=>{const label=document.createElement('label'
 $$('#checklist input').forEach(input=>input.addEventListener('change',()=>{const count=$$('#checklist input:checked').length;$('#scoreNumber').textContent=count;$('#scoreMessage').textContent=count===8?'Alle acht Regeln bestätigt. Die visuelle Freigabe erfolgt separat.':count+' von 8 Gestaltungsregeln bestätigt. Eine Checkliste ersetzt kein visuelles Review.';}));
 $('#copyTokens').addEventListener('click',()=>copyText($('#tokenCode').textContent,'Design-Tokens kopiert'));
 
-// Entrances and scroll reveals live in assets/motion.js (data-anim in index.html).
+// One-time paper-like entrances. Content is never hidden waiting for JavaScript.
 document.addEventListener('keydown',()=>{document.body.dataset.input='keyboard';},{capture:true});
 document.addEventListener('pointerdown',()=>{document.body.dataset.input='pointer';},{capture:true});
+const revealTargets=$$('.section-heading,.relationship-top,.material-paper,.foundation-grid > *, .type-layout > *, .color-group, .component, .voice-list > *, .hero h1, .hero-copy > p');
+const entranceObserver=new IntersectionObserver(entries=>{
+  let stagger=0;
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting)return;
+    entranceObserver.unobserve(entry.target);
+    if(!moving() || document.body.dataset.input==='keyboard')return;
+    entry.target.animate([{opacity:.2,transform:'translateY(24px)'},{opacity:1,transform:'translateY(0)'}],{duration:850,delay:Math.min(stagger++*65,195),easing:'cubic-bezier(.23,1,.32,1)'});
+  });
+},{threshold:.12});
+revealTargets.forEach(element=>entranceObserver.observe(element));
 const lineObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
   if(!entry.isIntersecting)return;
   lineObserver.unobserve(entry.target);
