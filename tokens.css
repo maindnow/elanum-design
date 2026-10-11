@@ -18,8 +18,8 @@
   /* Drei Bereiche des Resonanzrads, ausgeglichen: gleiche Helligkeit
      (OKLCH L 0.46 / 0.74 / 0.81 / 0.875 / 0.94) und angeglichene Sättigung,
      Koralle ×0.9 und Petrol ×0.72, damit kein Bereich dominiert.
-     tief: Schrift, Chips, weisser Text darauf · 1–3: Felder im Rad, Ink-Text
-     darauf mind. 5,4:1 · hauch: Ring, offene Felder, Flächen hinter Ink-Text. */
+     tief: Schrift, Chips, weisser Text darauf · 1–3: Elemente im Rad, Ink-Text
+     darauf mind. 5,4:1 · hauch: Ring, offene Elemente, Flächen hinter Ink-Text. */
   --grund-tief:#59479A; --grund-1:#AAA2DD; --grund-2:#C0BAE9; --grund-3:#D5D1F2; --grund-hauch:#EAE9FB;   /* Grundtöne, Violett */
   --ich-tief:#8E3931;   --ich-1:#D79990;   --ich-2:#E4B3AC;   --ich-3:#F0CCC7;   --ich-hauch:#FAE6E3;     /* Ich & Orientierung, Koralle */
   --bezug-tief:#006868; --bezug-1:#7CB7B7; --bezug-2:#9ECBCA; --bezug-3:#BEDDDC; --bezug-hauch:#DEEFEF;   /* Beziehung & Verbindung, Petrol */

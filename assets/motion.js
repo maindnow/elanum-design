@@ -162,7 +162,7 @@
         .from(parts.ringLabels[g], { opacity: 0, duration: 0.5 }, at + 0.2);
       if (chips[g]) tl.from(chips[g], { opacity: 0.25, x: -8, duration: 0.4 }, at);
     });
-    /* 3 · Drei Felder pro Bereich: Stücke erscheinen, ausgefüllte füllen sich mit ihrer Nuance */
+    /* 3 · Drei Elemente pro Bereich: Stücke erscheinen, ausgefüllte füllen sich mit ihrer Nuance */
     stepIn(2, 3.2);
     tl.from(parts.faces, { opacity: 0, duration: 0.5, stagger: 0.07 }, 3.4)
       .from(parts.icons, { opacity: 0, duration: 0.5, stagger: 0.07 }, 3.6);

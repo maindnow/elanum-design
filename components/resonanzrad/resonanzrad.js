@@ -14,9 +14,9 @@
      Koralle, Beziehung & Verbindung Petrol (tokens.css), ausgeglichen in
      Helligkeit und Sättigung.
    - Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt seine Nuance
-     (Feld 1, 2, 3), ein offenes nur den Hauch seines Bereichs.
+     (Element 1, 2, 3), ein offenes nur den Hauch seines Bereichs.
    - Die Kontur bestätigt es: geschlossen = ausgefüllt, Öffnung = offen.
-   - Im Rad stehen nur Icons. Das gewählte Feld steht direkt unter dem
+   - Im Rad stehen nur Icons. Das gewählte Element steht direkt unter dem
      Rad, Namen und Ergebnisse in der Liste und im Lesebereich, nie
      kleiner als 15 px.
    - Der Ring zeigt die drei Bereiche gleich stark; er hebt nichts hervor.
@@ -146,14 +146,14 @@
           '<div class="rad__center" aria-hidden="true"><span>Ich</span></div>' +
         '</div>' +
         '<div class="rad__nav">' +
-          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="prev" aria-label="Vorheriges Feld"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg></button>' +
+          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="prev" aria-label="Vorheriges Element"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg></button>' +
           '<p class="rad__current" data-current aria-hidden="true"></p>' +
-          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="next" aria-label="Nächstes Feld"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>' +
+          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="next" aria-label="Nächstes Element"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>' +
         '</div>' +
       '</div>' +
       '<section class="rad__reader" role="tabpanel" id="' + uid + '-panel" aria-live="polite"></section>' +
       '<div class="rad__overview"><p class="rad__progress t-label" data-progress></p>' +
-      '<div class="rad__list" role="tablist" aria-label="Felder im Resonanzrad"></div></div>';
+      '<div class="rad__list" role="tablist" aria-label="Elemente im Resonanzrad"></div></div>';
 
     var svg = root.querySelector('.rad__svg'), defs = svg.querySelector('defs');
     var rotors = root.querySelectorAll('.rad__rotor');
