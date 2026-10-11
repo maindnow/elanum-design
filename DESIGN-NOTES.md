@@ -8,21 +8,21 @@ Konstruktionsregeln:
 
 - Jede Kontur ist eine Kette aus Kreisbögen. Zwei aufeinanderfolgende Bögen berühren sich tangential: Ihre Mittelpunkte liegen mit dem Übergangspunkt auf einer Geraden. Gemessener Knick an allen Übergängen: 0°.
 - Rahmen: Aussenkreis R und Kreisöffnung r₀.
-- Die beiden feinen Linien sind Mondsicheln. Die innere Kante ist eine Bogenkette. Die äussere Kante verwendet dieselben Mittelpunkte, um die Linienstärke versetzt (obere Linie 5, untere Linie 4 Einheiten). An den Enden schliessen Kreise an, welche die innere Kante berühren. Dort läuft die Linie spitz aus.
+- Die beiden feinen Linien sind wie Schriftzüge gebaut. Eine Mittellinie aus Kreisbögen trägt die Form. Ihre Radien ändern sich stetig, von Bogen zu Bogen höchstens um etwa den Faktor 1,25; die obere Linie wächst von 144 auf 300. Der Linienkörper ist konzentrisch zur Mittellinie und überall gleich stark (obere Linie 6, untere 5 Einheiten). Erster und letzter Bogen der Mittellinie sind kurze Spitzenbögen (rund 110–150 Einheiten lang). Dort ersetzt je Kante ein Spitzenkreis den Körper; beide Spitzenkreise berühren sich im Endpunkt. Die Stärke nimmt dadurch gleichmässig von 0 auf den vollen Wert zu und am Ende wieder ab, ohne lange Haarlinien.
 - Berührpunkte: E (obere Linie an der Öffnung), S (untere Linie an der Öffnung), T (obere Linie und Kerbe) und W (Spitze der unteren Linie). In T berühren sich vier Kreise in derselben Tangente: Die Linie geht über eine S-Kurve in die Kerbe über.
 - Die Kerbe ist eine Mondsichel zweier Kreise, die sich in T berühren. Sie endet im Schnitt mit dem Aussenkreis.
-- Die Farbkanten des Spektrums (vordere Fläche, Band, Schwanz) laufen auf Konstruktionskreisen. Der Abschluss der vorderen Fläche setzt die untere Linie in W tangential fort. Bewusste Ecken bleiben nur an Abzweigungen, die schon im Original Ecken waren: an der Schwanzkante in T sowie am unteren Bandlappen, wo er von Linie 2 abzweigt und im ausgeblendeten Bereich umknickt.
+- Die Farbkanten des Spektrums (vordere Fläche, Band, Schwanz) laufen auf Konstruktionskreisen. Die Farbkanten laufen auf den Mittellinien. Der Abschluss der vorderen Fläche setzt die untere Linie in W tangential fort. Bewusste Ecken bleiben nur an Abzweigungen, die schon im Original Ecken waren: an der Schwanzkante in T sowie am unteren Bandlappen, wo er von Linie 2 abzweigt und im ausgeblendeten Bereich umknickt.
 - Das Farbnetz des Spektrums (Verläufe, Masken, Farben) ist unverändert aus der Kurvenkorrektur übernommen. Nur die fünf Clip-Pfade sind ersetzt.
 
 Zwei Varianten, gleiche Topologie:
 
 | | Nah am Original (`-Circles`) | Goldener Schnitt (`-Harmonic`) |
 | --- | --- | --- |
-| Radien | Ganzzahlige Leitkreise: 133, 147, 156, 166, 169, 186, 204, 207, 218, 245, 254, 256, 319, 557, 758 | Stufen der Reihe R · φ^(−k/4); vier Stufen ergeben genau den Goldenen Schnitt. Verwendet: k = 11, 10, 9, 8, 7, 6, 5, 3, 0, −2, −4 |
+| Radien | Ganzzahlige Leitkreise: 144, 158, 166, 169, 186, 191, 195, 204, 239, 240, 254, 264, 299, 300, 319, 370, 557 | Stufen der Reihe R · φ^(−k/4); vier Stufen ergeben genau den Goldenen Schnitt. Verwendet: k = 11, 10, 9, 8, 7, 6, 5, 4, 3, 0, −2 |
 | Rahmen | R 460,54 · r₀ 122,05 (unverändert) | R 460,54 · r₀ = Stufe 11 = 122,62 |
-| Max. Abweichung zur Kurvenkorrektur | 7,1 Einheiten im 960er-Raster (≈ 0,5 px bei 64 px) | 12,0 Einheiten; die Kerbe öffnet sich weiter, die untere Linie löst sich früher von der Öffnung |
+| Max. Abweichung zur Kurvenkorrektur | 9,0 Einheiten im 960er-Raster (≈ 0,6 px bei 64 px) | 22,2 Einheiten; die obere Linie liegt weiter aussen, die Kerbe öffnet sich weiter |
 
-Die Abweichung ist entlang der Innenkonturen abgetastet. Die Blueprints `ELANUM-Konstruktion-Circles.svg` und `ELANUM-Konstruktion-Harmonic.svg` zeigen alle Kreise, Mittelpunkte, Übergänge und Berührpunkte. Gestrichelte Kreise folgen aus der Linienstärke.
+Die Abweichung ist entlang der Innenkonturen abgetastet. Sie ist bewusst etwas grösser als bei einer reinen Nachzeichnung: Die alten Kurven hatten selbst Dellen, etwa den fast geraden Abschnitt mit anschliessendem engem Haken am Ende der unteren Linie. Die Konstruktion übernimmt diese Unruhe nicht. Die Blueprints `ELANUM-Konstruktion-Circles.svg` und `ELANUM-Konstruktion-Harmonic.svg` zeigen alle Kreise, Mittelpunkte, Übergänge und Berührpunkte. Gestrichelte Kreise sind die Spitzenkreise der Linien.
 
 Alle Dateien erzeugt `tools/build_logo_circles.py` (nur Python-Standardbibliothek). Das Skript enthält die Kreisparameter beider Varianten, prüft Knicke und Abweichung und schreibt Ink, Spektrum und Blueprint. Mit `--masks` gibt es zusätzlich die Relief-Masken für `app.js` aus. Die Originale und die Kurvenkorrektur bleiben als Referenz unverändert erhalten.
 

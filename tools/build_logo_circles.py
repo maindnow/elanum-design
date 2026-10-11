@@ -7,13 +7,14 @@ Erzeugt aus wenigen Konstruktionskreisen die Logo-Dateien:
   assets/ELANUM-Master-Spektrum-<V>.svg   (Farbnetz aus -Curves, neue Konturen)
   assets/ELANUM-Konstruktion-<V>.svg      (Blueprint mit allen Kreisen)
 
-<V> = Circles (nah am Original) oder Harmonic (Radien aus der Reihe r0 * phi^(k/2)).
+<V> = Circles (nah am Original) oder Harmonic (Radien aus der Reihe R * phi^(-k/4)).
 
 Jede Kontur ist eine Kette aus Kreisbögen. Aufeinanderfolgende Bögen berühren sich
 tangential (ihre Mittelpunkte liegen mit dem Übergangspunkt auf einer Geraden).
 Die einzigen Ecken sind bewusst gesetzte Abzweigungen und die Schnitte mit dem
-Aussenkreis. Die feinen Linien sind Mondsicheln zwischen zwei Kreisketten, die
-sich an ihren Enden berühren und dort spitz auslaufen.
+Aussenkreis. Die feinen Linien folgen einer Mittellinie mit stetig wechselnden
+Radien: Ihr Körper ist konzentrisch und gleich stark, an den Enden laufen sie in
+zwei sich berührenden Spitzenkreisen aus.
 
 Nur Python-Standardbibliothek. Aufruf aus dem Repository-Wurzelverzeichnis:
 
@@ -191,28 +192,37 @@ def closed_chain(p0, t0, radii, phis, hint, p1, t1):
     return arcs + chain(q, tq, [(radii[-2], pa), (rb, pb)])
 
 
-def offset_edge(inner, w, p0, t0, p1, t1):
-    """Zweite Kante einer Linie: die mittleren Bögen sind konzentrisch um w versetzt,
-    der erste und letzte Kreis berühren die innere Kante in p0 bzw. p1 und laufen dort spitz aus."""
-    mid = [(a.c, a.rho + w) for a in inner[1:-1]]
+def stroke(spine, width):
+    """Linie um eine Mittellinie.
 
-    def end_circle(p, t, c, rho):
+    Der Körper ist konzentrisch zur Mittellinie und hat überall dieselbe Stärke.
+    Den ersten und letzten Bogen der Mittellinie ersetzt je Kante ein Spitzenkreis:
+    Er geht durch den Endpunkt der Mittellinie und berührt den versetzten Nachbarbogen.
+    Die beiden Spitzenkreise einer Seite berühren sich im Endpunkt, dort läuft die Linie aus."""
+    p0, t0 = spine[0].start, spine[0].tangent(0)
+    p1, t1 = spine[-1].end, spine[-1].tangent(1)
+
+    def tip_circle(p, t, c, rho):
         n = normal(t)
         d = sub(p, c)
         r = (rho ** 2 - dot(d, d)) / (2 * (dot(d, n) + rho))
         return (add(p, mul(n, r)), r)
 
-    circles = [end_circle(p0, t0, *mid[0])] + mid + [end_circle(p1, t1, *mid[-1])]
-    joints = [p0]
-    for (ca, ra), (cb, rb) in zip(circles, circles[1:]):
-        n = mul(sub(ca, cb), 1 / (ra - rb))
-        joints.append(sub(ca, mul(n, ra)))
-    joints.append(p1)
-    arcs = []
-    for (c, rho), a, b in zip(circles, joints, joints[1:]):
-        na, nb = mul(sub(c, a), 1 / rho), mul(sub(c, b), 1 / rho)
-        arcs.append(Arc(c, rho, a, turn((na[1], -na[0]), (nb[1], -nb[0]), rho)))
-    return arcs
+    edges = []
+    for d in (width / 2, -width / 2):
+        body = [(a.c, a.rho - d) for a in spine[1:-1]]
+        circles = [tip_circle(p0, t0, *body[0])] + body + [tip_circle(p1, t1, *body[-1])]
+        joints = [p0]
+        for (ca, ra), (cb, rb) in zip(circles, circles[1:]):
+            n = mul(sub(ca, cb), 1 / (ra - rb))
+            joints.append(sub(ca, mul(n, ra)))
+        joints.append(p1)
+        arcs = []
+        for (c, rho), a, b in zip(circles, joints, joints[1:]):
+            na, nb = mul(sub(c, a), 1 / rho), mul(sub(c, b), 1 / rho)
+            arcs.append(Arc(c, rho, a, turn((na[1], -na[0]), (nb[1], -nb[0]), rho)))
+        edges.append(arcs)
+    return edges
 
 
 def circle_hits(c1, r1, c2, r2):
@@ -308,12 +318,15 @@ CIRCLES = {
     'O': (624.65, 613.27), 'R': 460.54,          # Aussenkreis (unverändert)
     'H': (531.15, 632.98), 'r0': 122.05,         # Öffnung (unverändert)
     'T': (809.0, 540.0), 'thT': 61,              # Knotenpunkt von Linie und Kerbe
-    'W': (326.5, 861.9), 'thW': -125,            # Spitze der unteren Linie
-    'S': -122,                                   # Abzweig der unteren Linie an der Öffnung
-    'L1i': ([147, 156, 218, 256], [55.5], 131.9),  # Radien, vorgegebene Winkel, Startwert
-    'w1': 5,                                     # Linienstärke der oberen Linie
-    'L2i': ([207, 245, 758, 133], [132.2], 92.2),
-    'w2': 4,                                     # Linienstärke der unteren Linie
+    'S': -114.1,                                 # Abzweig der unteren Linie an der Öffnung
+    # Mittellinien. Obere Linie von E nach T: Radien, vorgegebene Winkel, Startwert.
+    # Erster und letzter Bogen sind die kurzen Spitzen. Radien wachsen stetig;
+    # der dritte Winkel wird so gelöst, dass die Kette tangential in T ankommt.
+    'L1': ([144, 158, 195, 240, 300], [64, 109], 33.1),
+    'w1': 6,                                     # Linienstärke
+    # Untere Linie ab S mit freier Spitze W: (Radius, Winkel)
+    'L2': [(264, 25.0), (191, 70.2), (239, 98.6), (299, 27.2), (370, 21.6)],
+    'w2': 5,
     'NU': -166, 'NL': -204,
     'TB': (76.3, [(-319, 34)], -169),
     'FC': 186,
@@ -335,12 +348,12 @@ HARMONIC = {
     'title': 'Radien im Goldenen Schnitt',
     'O': (624.65, 613.27), 'R': step(0),
     'H': (531.15, 632.98), 'r0': step(11),
-    'T': (809.0, 540.0), 'thT': 62,
-    'S': -124.4,
-    'L1i': ([step(10), step(9), step(6), step(5)], [40], 160.1),
-    'w1': 5,
-    'L2i': [(step(7), 72.8), (step(6), 144.4), (step(-4), 10.6), (step(10), 43.3)],  # freie Spitze
-    'w2': 4,
+    'T': (809.0, 540.0), 'thT': 61,
+    'S': -113.7,
+    'L1': ([step(10), step(8), step(6), step(5), step(3)], [83, 120], 39.6),
+    'w1': 6,
+    'L2': [(step(5), 27.1), (step(7), 60.5), (step(6), 81.0), (step(4), 42.8), (step(3), 33.2)],
+    'w2': 5,
     'NU': -step(9), 'NL': -step(7),
     'TB': (76.3, [(-step(3), 34)], -step(8)),
     'FC': step(8),
@@ -360,20 +373,13 @@ def construct(v):
     S = add(H, mul(unit(aS), r0))
     tS = unit(aS + math.pi / 2)
 
-    def closed(key, p0, t0, p1, t1):
-        radii, phis, hint = v[key]
-        return closed_chain(p0, t0, radii, [deg(x) for x in phis], deg(hint), p1, t1)
-
     g = {}
-    g['L1i'] = closed('L1i', E, (0, 1), T, tT)
-    g['L1o'] = offset_edge(g['L1i'], v['w1'], E, (0, 1), T, tT)
-    if isinstance(v['L2i'], list):            # freie Spitze: Ende ergibt sich aus der Kette
-        g['L2i'] = chain(S, tS, [(r, deg(p)) for r, p in v['L2i']])
-        W, tW = g['L2i'][-1].end, g['L2i'][-1].tangent(1)
-    else:
-        W, tW = v['W'], unit(deg(v['thW']))
-        g['L2i'] = closed('L2i', S, tS, W, tW)
-    g['L2o'] = offset_edge(g['L2i'], v['w2'], S, tS, W, tW)
+    radii, phis, hint = v['L1']
+    g['L1c'] = closed_chain(E, (0, 1), radii, [deg(x) for x in phis], deg(hint), T, tT)
+    g['L2c'] = chain(S, tS, [(r, deg(p)) for r, p in v['L2']])
+    W, tW = g['L2c'][-1].end, g['L2c'][-1].tangent(1)
+    g['L1i'], g['L1o'] = stroke(g['L1c'], v['w1'])
+    g['L2i'], g['L2o'] = stroke(g['L2c'], v['w2'])
     g['NU'] = [until_circle(T, tT, v['NU'], O, R)]
     g['NL'] = [until_circle(T, tT, v['NL'], O, R)]
     a_tb, spec_tb, last_tb = v['TB']
@@ -383,14 +389,14 @@ def construct(v):
 
     # Abschluss der vorderen Fläche: setzt Linie 2 an der Spitze tangential fort
     fc = arc_from(W, tW, v['FC'], TAU - 1e-9)
-    u, i, w = first_hit(fc, g['L1i'])
+    u, i, w = first_hit(fc, g['L1c'])
     g['FC'] = [fc.part(0, u)]
     g['FC_hit'] = (i, w)
 
     # Untere Bandkante: Abzweig an Linie 2, Ecke, Bogen bis zur Schwanzkante
     bearing, ang, rho, turn_deg = v['LA']
-    i, u = at_bearing(g['L2i'], H, bearing)
-    la = arc_from(g['L2i'][i].at(u), unit(deg(ang)), rho, deg(turn_deg))
+    i, u = at_bearing(g['L2c'], H, bearing)
+    la = arc_from(g['L2c'][i].at(u), unit(deg(ang)), rho, deg(turn_deg))
     g['LA_at'] = (i, u)
     ang_b, rho_b = v['LB']
     lb = arc_from(la.end, unit(deg(ang_b)), rho_b, TAU - 1e-9)
@@ -419,17 +425,17 @@ def regions(g):
 
     # Vordere Fläche: Linie 2 bis zur Spitze, Fortsetzung bis Linie 1, Linie 1 zurück zur Öffnung
     i, w = g['FC_hit']
-    l1back = [g['L1i'][i].part(w, 0)] + reverse(g['L1i'][:i])
+    l1back = [g['L1c'][i].part(w, 0)] + reverse(g['L1c'][:i])
     top_ccw = 'A %s %s 0 0 0 %s %s' % (f(r0), f(r0), f(S[0]), f(S[1]))
     top_cw = 'A %s %s 0 0 1 %s %s' % (f(r0), f(r0), f(E[0]), f(E[1]))
-    front = path(g['L2i'] + g['FC'] + l1back) + ' ' + top_ccw + ' Z'
+    front = path(g['L2c'] + g['FC'] + l1back) + ' ' + top_ccw + ' Z'
 
     # Band: Linie 1 bis T, Schwanzkante, untere Bandkante, Linie 2 zurück zur Öffnung
     i, w = g['LB_hit']
     tb_part = g['TB'][:i] + [g['TB'][i].part(0, w)]
     i, u = g['LA_at']
-    l2back = [g['L2i'][i].part(u, 0)] + reverse(g['L2i'][:i])
-    band = path(g['L1i'] + tb_part + reverse(g['LB']) + reverse(g['LA']) + l2back) + ' ' + top_cw + ' Z'
+    l2back = [g['L2c'][i].part(u, 0)] + reverse(g['L2c'][:i])
+    band = path(g['L1c'] + tb_part + reverse(g['LB']) + reverse(g['LA']) + l2back) + ' ' + top_cw + ' Z'
 
     # Schwanz: Schwanzkante bis zum Aussenkreis, Aussenkreis hinauf bis B, Kerbe zurück
     tail = (path(g['TB']) + ' A %s %s 0 0 0 %s %s ' % (f(R), f(R), f(B[0]), f(B[1]))
@@ -473,12 +479,20 @@ def blueprint_svg(v, g, rg):
     add_circle(g['O'], g['R'], label_for(v, g['R']), 'main')
     add_circle(g['H'], g['r0'], label_for(v, g['r0']), 'main')
     used = []
-    for key in ('L1i', 'L1o', 'L2i', 'L2o', 'NU', 'NL', 'TB', 'FC', 'LA', 'LB'):
+    spine_centers = {(round(a.c[0], 6), round(a.c[1], 6)) for k in ('L1c', 'L2c') for a in g[k]}
+    for key in ('L1c', 'L2c', 'L1i', 'L1o', 'L2i', 'L2o', 'NU', 'NL', 'TB', 'FC', 'LA', 'LB'):
         for a in g[key]:
-            role = {'L1i': 'line', 'L2i': 'line', 'L1o': 'derived', 'L2o': 'derived',
-                    'NU': 'notch', 'NL': 'notch'}.get(key, 'aux')
-            add_circle(a.c, a.r, label_for(v, a.r), role)
-            used.append((a, key))
+            if key in ('L1c', 'L2c'):
+                role = 'line'
+            elif key[0] == 'L' and key[1] in '12':
+                # Körperbögen sind konzentrisch zur Mittellinie und folgen aus der Linienstärke
+                role = 'body' if (round(a.c[0], 6), round(a.c[1], 6)) in spine_centers else 'tip'
+            else:
+                role = 'notch' if key in ('NU', 'NL') else 'aux'
+            if role != 'body':
+                add_circle(a.c, a.r, label_for(v, a.r), role)
+            if key not in ('L1c', 'L2c'):
+                used.append((a, key))
 
     parts = []
     parts.append('<rect x="-400" y="-400" width="2200" height="2200" fill="#F6F1E7"/>')
@@ -487,11 +501,11 @@ def blueprint_svg(v, g, rg):
         grid.append('M %d -400 V 1800 M -400 %d H 1800' % (k, k))
     parts.append('<path d="%s" stroke="#16363B" stroke-opacity=".05" stroke-width="1"/>' % ' '.join(grid))
     parts.append('<path d="%s" fill="%s" fill-opacity=".10" fill-rule="evenodd"/>' % (rg['ink'], INK))
-    colors = {'main': '#16363B', 'line': '#6756D9', 'derived': '#6756D9', 'notch': '#3E898D', 'aux': '#D85BA9'}
+    colors = {'main': '#16363B', 'line': '#6756D9', 'tip': '#6756D9', 'notch': '#3E898D', 'aux': '#D85BA9'}
     for c, r, label, role in circles:
         parts.append('<circle cx="%s" cy="%s" r="%s" fill="none" stroke="%s" stroke-opacity="%s" stroke-width="%s"%s/>'
                      % (f(c[0]), f(c[1]), f(r), colors[role], '.6' if role == 'main' else '.38',
-                        '1.4' if role == 'main' else '.9', ' stroke-dasharray="6 6"' if role == 'derived' else ''))
+                        '1.4' if role == 'main' else '.9', ' stroke-dasharray="5 6"' if role == 'tip' else ''))
     for a, key in used:
         parts.append('<path d="%s" fill="none" stroke="%s" stroke-width="2.2" stroke-linecap="round"/>'
                      % (path([a]), '#D85BA9' if key in ('TB', 'FC', 'LA', 'LB') else '#16363B'))
@@ -500,7 +514,7 @@ def blueprint_svg(v, g, rg):
             parts.append('<path d="M %s %s h 12 M %s %s v 12" stroke="%s" stroke-width="1.2"/>'
                          % (f(c[0] - 6), f(c[1]), f(c[0]), f(c[1] - 6), colors[role]))
     joints = []
-    for key in ('L1i', 'L1o', 'L2i', 'L2o', 'TB'):
+    for key in ('L1c', 'L2c', 'TB'):
         joints += [a.end for a in g[key][:-1]]
     for p in joints:
         parts.append('<circle cx="%s" cy="%s" r="3.2" fill="#F6F1E7" stroke="#16363B" stroke-width="1.2"/>' % (f(p[0]), f(p[1])))
@@ -512,21 +526,21 @@ def blueprint_svg(v, g, rg):
     for p in (rg['A'], rg['B']):
         parts.append('<circle cx="%s" cy="%s" r="4" fill="#D85BA9"/>' % (f(p[0]), f(p[1])))
     legend = ['ELANUM / Kreiskonstruktion · %s' % v['title'],
-              'Ink: Aussenkreis R und Öffnung r₀ · Violett: Linienkreise, gestrichelt um die Linienstärke versetzt',
+              'Ink: Aussenkreis R und Öffnung r₀ · Violett: Mittellinien der Linien, gestrichelt ihre Spitzen',
               'Petrol: Kerbe · Magenta: Farbkanten des Spektrums · Ringe: tangentiale Bogenübergänge',
-              'E, S, T, W: Berührpunkte, an denen Linien und Kerbe spitz auslaufen']
+              'Linienkörper: konzentrisch zur Mittellinie · E, S, T, W: Punkte, in denen Linien und Kerbe spitz auslaufen']
     for k, line in enumerate(legend):
         parts.append('<text x="64" y="%d" font-family="sans-serif" font-size="%d" fill="#16363B"%s>%s</text>'
                      % (60 + 28 * k, 22 if k == 0 else 15, '' if k == 0 else ' fill-opacity=".7"', line))
     given = []
     for _, r, label, role in sorted(circles, key=lambda c: c[1]):
-        if role != 'derived' and label not in given:
+        if role not in ('tip',) and label not in given:
             given.append(label)
     if v['name'] == 'Harmonic':
         foot = 'Radius = R · φ^(−k/4), vier Stufen ergeben den Goldenen Schnitt · verwendete Stufen k: %s' % ' · '.join(
             x.strip('k') for x in given)
     else:
-        foot = 'Radien der Leitkreise: %s · gestrichelte Kreise folgen aus der Linienstärke' % ' · '.join(given)
+        foot = 'Radien der Leitkreise: %s · gestrichelt: Spitzenkreise der Linien' % ' · '.join(given)
     parts.append('<text x="64" y="1188" font-family="sans-serif" font-size="14" fill="#16363B" fill-opacity=".7">'
                  '%s</text>' % foot)
     return ('<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1240" viewBox="4 -8 1240 1240">'
@@ -583,11 +597,11 @@ def deviation(g, pts):
 
 def report(v, g, rg):
     print('== %s' % v['name'])
-    for key in ('L1i', 'L1o', 'L2i', 'L2o', 'NU', 'NL', 'TB', 'FC', 'LA', 'LB'):
+    for key in ('L1c', 'L1i', 'L1o', 'L2c', 'L2i', 'L2o', 'NU', 'NL', 'TB', 'FC', 'LA', 'LB'):
         arcs = g[key]
         print('  %-4s Knick %.6f°  Radien %s' % (key, kink(arcs), ', '.join('%.2f' % a.r for a in arcs)))
     for a, b in (('L1i', 'L1o'), ('L2i', 'L2o')):
-        inner = [x.at(k / 40) for x in g[a] for k in range(41)]
+        inner = [x.at(k / 200) for x in g[a] for k in range(201)]
         widths = [min(norm(sub(p, q)) for q in inner) for x in g[b] for p in [x.at(k / 40) for k in range(1, 40)]]
         print('  Linie %s: Breite %.2f bis %.2f, Endkreise %s' % (a[:2], min(widths), max(widths),
               ', '.join('%.2f' % abs(x.rho) for x in (g[b][0], g[b][-1]))))
