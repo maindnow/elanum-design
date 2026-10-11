@@ -11,9 +11,10 @@
 
    BEDEUTUNG
    - Ein Bereich, eine Farbe: Grundtöne Violett, Ich & Orientierung
-     Koralle, Beziehung & Verbindung Petrol (tokens.css).
+     Koralle, Beziehung & Verbindung Petrol (tokens.css), ausgeglichen in
+     Helligkeit und Sättigung.
    - Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt seine Nuance
-     (tief, mittel, hell), ein offenes nur den Hauch seines Bereichs.
+     (Feld 1, 2, 3), ein offenes nur den Hauch seines Bereichs.
    - Die Kontur bestätigt es: geschlossen = ausgefüllt, Öffnung = offen.
    - Im Rad stehen nur Icons. Das gewählte Feld steht direkt unter dem
      Rad, Namen und Ergebnisse in der Liste und im Lesebereich, nie
@@ -119,7 +120,7 @@
   function el(name, attrs) { var n = document.createElementNS(NS, name); for (var k in attrs) if (attrs[k] != null) n.setAttribute(k, attrs[k]); return n; }
   function html(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   function tone(item, step) { return 'var(--' + item.group + '-' + step + ')'; }
-  function fill(item) { return item.done ? tone(item, item.shade) : tone(item, 4); }
+  function fill(item) { return item.done ? tone(item, item.shade) : tone(item, 'hauch'); }
   function iconSvg(id, cls) { return '<svg class="' + (cls || 'icon') + '" viewBox="0 0 24 24" aria-hidden="true">' + ICONS[id] + '</svg>'; }
 
   var count = 0;
@@ -178,7 +179,7 @@
     GROUPS.forEach(function (g, gi) {
       var a0 = segAngle(gi * 3) - half + CFG.groupGapDeg / 2, a1 = segAngle(gi * 3 + 2) + half - CFG.groupGapDeg / 2;
       var band = el('path', { class: 'rad__band', 'data-group': g.id, d: ringPath(a0, a1, CFG.groupInner, CFG.groupOuter) });
-      band.style.setProperty('--band', 'var(--' + g.id + '-ring, var(--' + g.id + '-4))');
+      band.style.setProperty('--band', 'var(--' + g.id + '-hauch)');
       ring.appendChild(band); bands.push(band);
       defs.appendChild(el('path', { id: uid + '-t-' + g.id, d: arcPath(rMid, a0 + 2, a1 - 2) }));
       defs.appendChild(el('path', { id: uid + '-t-' + g.id + '-flip', d: arcPathRev(rMid, a1 - 2, a0 + 2) }));
@@ -298,7 +299,7 @@
         });
         reader.setAttribute('aria-labelledby', segs[i].tab.id);
         current.innerHTML = iconSvg(item.id) + '<span><strong>' + item.label + '</strong><span>' + (item.done ? item.result : 'noch offen') + '</span></span>';
-        current.style.setProperty('--tone', tone(item, 1));
+        current.style.setProperty('--tone', tone(item, 'tief'));
         renderReader(item);
         if (!first && animate !== false && !reduced.matches && !viaKeyboard && reader.animate) {
           reader.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.23,1,.32,1)' });

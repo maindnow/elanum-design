@@ -135,8 +135,8 @@
   /* ---------- Resonanzrad (P10) ---------- */
   function wheelTimeline(scene, parts, steps) {
     var rad = scene.querySelector('.rad'), items = parts.items;
-    var tint = function (it) { return css('--' + it.group + '-4'); };
-    var final = function (it) { return css('--' + it.group + '-' + (it.done ? it.shade : 4)); };
+    var tint = function (it) { return css('--' + it.group + '-hauch'); };
+    var final = function (it) { return css('--' + it.group + '-' + (it.done ? it.shade : 'hauch')); };
     var original = parts.faces.map(function (f) { return f.style.fill; });
     var restore = function () { parts.faces.forEach(function (f, i) { f.style.fill = original[i]; }); };
     finishers.push(restore);

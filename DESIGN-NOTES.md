@@ -24,17 +24,17 @@ Sekundärtext ist `#3D5055` (7,2:1 auf Canvas). Im Rad werden Ringschrift und Ic
 
 **Neutral:** Canvas `#F0ECE3`, Papier `#F6F1E7`, Ink `#16363B`, Sekundärtext `#3D5055`.
 
-**Bereiche des Resonanzrads:** Jeder Bereich hat einen Grundton mit vier Stufen. Die Stufen haben in allen drei Bereichen dieselben Helligkeitsschritte (OKLCH L 0,46 / 0,62 / 0,80 / 0,93). So sind die drei Felder eines Bereichs klar verschieden und gehören sichtbar zusammen.
+**Bereiche des Resonanzrads:** Jeder Bereich hat einen Grundton. Die drei Bereiche sind ausgeglichen: gleiche Helligkeit auf jeder Stufe (OKLCH L 0,46 / 0,66 / 0,75 / 0,84 / 0,93) und angeglichene Sättigung (Koralle ×0,9, Petrol ×0,72), damit kein Bereich dominiert. In 4.5 vor dieser Korrektur wirkten Violett und ein tief gefärbter aktiver Ring zu laut.
 
-| Bereich | 1 Tief | 2 Mittel | 3 Hell | 4 Hauch |
-|---|---|---|---|---|
-| Grundtöne · Violett | `#5A43A4` | `#8675D4` | `#BCB6EE` | `#E7E5FB` |
-| Ich & Orientierung · Koralle | `#93342C` | `#CD6055` | `#EDABA1` | `#FCE1DD` |
-| Beziehung & Verbindung · Petrol | `#006869` | `#009A9B` | `#87CCCC` | `#D6EDED` |
+| Bereich | Tief · Schrift | Feld 1 | Feld 2 | Feld 3 | Hauch · Ring und offen |
+|---|---|---|---|---|---|
+| Grundtöne · Violett | `#59479A` | `#9187CB` | `#ADA6DE` | `#C9C5F0` | `#E7E5FB` |
+| Ich & Orientierung · Koralle | `#8E3931` | `#C37D73` | `#D89D95` | `#ECBEB7` | `#FAE2DE` |
+| Beziehung & Verbindung · Petrol | `#006868` | `#59A0A0` | `#83BAB9` | `#ABD4D3` | `#D8EDEC` |
 
-Violett, Koralle und Petrol wurden gegen andere Trios getestet, auch für Farbsehschwächen (kleinster Abstand der mittleren Stufen in OKLab ×100): normal 17,5, Deuteranopie 8,8, Protanopie 12,2. Violett, Rosé und Petrol läge bei Deuteranopie bei 3,6. Merkbar sind die Farben über ihre Bedeutung: Violett für Herkunft und Tiefe, Koralle für Wärme und das Selbst, Petrol für Verbindung und die Nähe zum Ink.
+Violett, Koralle und Petrol wurden gegen andere Trios getestet, auch für Farbsehschwächen. Merkbar sind sie über ihre Bedeutung: Violett für Herkunft und Tiefe, Koralle für Wärme und das Selbst, Petrol für Verbindung und die Nähe zum Ink.
 
-Regeln: Text steht nur auf Stufe 1 (weiss, mindestens 6,6:1) oder auf dem Hauch (Ink, mindestens 10:1), nie auf Stufe 2. Icons in Ink auf Stufe 2 und 3 halten mindestens 3:1. Die frühere Feldpalette aus 4.4 (Blue, Orchid, Pink, Amber, Moss, Teal in Gruppen A–C) ist ersetzt.
+Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe auf Canvas und Hauch (mindestens 5,4:1). Ink auf dem Hauch (mindestens 10:1). Die Felder 1 bis 3 tragen nur Icons in Ink (mindestens 4:1). Der Ring zeigt alle drei Bereiche gleich stark im Hauch und hebt nichts hervor. Die frühere Feldpalette aus 4.4 (Blue, Orchid, Pink, Amber, Moss, Teal in Gruppen A–C) ist ersetzt.
 
 **Markenspektrum** Violet → Blue → Orchid → Rose → Pink: nur für das Zeichen und die Verbindungslinie zwischen zwei Menschen. Keine Fläche, keine Kategorie.
 

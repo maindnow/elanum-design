@@ -15,12 +15,14 @@
   --ink-2:#3D5055;          /* Sekundärtext, 7,2:1 auf Canvas */
   --line:#D3CDC0;
 
-  /* Drei Bereiche des Resonanzrads. Stufe 1 tief (weisser Text),
-     2 mittel (nur Fläche oder Linie, nie Text darauf), 3 hell,
-     4 Hauch (Fläche hinter Ink-Text). OKLCH L 0.46 / 0.62 / 0.80 / 0.93. */
-  --grund-1:#5A43A4; --grund-2:#8675D4; --grund-3:#BCB6EE; --grund-4:#E7E5FB;   /* Grundtöne, Violett */
-  --ich-1:#93342C;   --ich-2:#CD6055;   --ich-3:#EDABA1;   --ich-4:#FCE1DD;     /* Ich & Orientierung, Koralle */
-  --bezug-1:#006869; --bezug-2:#009A9B; --bezug-3:#87CCCC; --bezug-4:#D6EDED;   /* Beziehung & Verbindung, Petrol */
+  /* Drei Bereiche des Resonanzrads, ausgeglichen: gleiche Helligkeit
+     (OKLCH L 0.46 / 0.66 / 0.75 / 0.84 / 0.93) und angeglichene Sättigung,
+     Koralle ×0.9 und Petrol ×0.72, damit kein Bereich dominiert.
+     tief: Schrift, Chips, weisser Text darauf · 1–3: Felder im Rad, nur
+     Icons darauf · hauch: Ring, offene Felder, Flächen hinter Ink-Text. */
+  --grund-tief:#59479A; --grund-1:#9187CB; --grund-2:#ADA6DE; --grund-3:#C9C5F0; --grund-hauch:#E7E5FB;   /* Grundtöne, Violett */
+  --ich-tief:#8E3931;   --ich-1:#C37D73;   --ich-2:#D89D95;   --ich-3:#ECBEB7;   --ich-hauch:#FAE2DE;     /* Ich & Orientierung, Koralle */
+  --bezug-tief:#006868; --bezug-1:#59A0A0; --bezug-2:#83BAB9; --bezug-3:#ABD4D3; --bezug-hauch:#D8EDEC;   /* Beziehung & Verbindung, Petrol */
 
   /* Markenspektrum: nur Logo und Verbindungslinie */
   --spectrum:linear-gradient(110deg,#6756D9,#4D7FE8 28%,#9466DF 53%,#D85BA9 77%,#F0719A);

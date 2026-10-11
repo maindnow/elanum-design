@@ -138,7 +138,7 @@ function swatch(name, token, dark) {
 }
 [['Canvas', '--canvas'], ['Papier', '--paper'], ['Ink', '--ink', true], ['Text sekundär', '--ink-2', true]].forEach(([name, token, dark]) => $('#neutralPalette').append(swatch(name, token, dark)));
 
-const STEPS = [['Tief', 1], ['Mittel', 2], ['Hell', 3], ['Hauch', 4]];
+const STEPS = [['Tief · Schrift', 'tief'], ['Feld 1', 1], ['Feld 2', 2], ['Feld 3', 3], ['Hauch · Ring und offen', 'hauch']];
 rad.groups.forEach(group => {
   const card = document.createElement('article');
   card.className = 'area-card area'; card.dataset.area = group.id;
@@ -228,7 +228,7 @@ const RULES = [
   ['Kreise bleiben rund', 'Auch in Bewegung und auf kleinen Bildschirmen.'],
   ['Fünf Schriftstufen', 'Yrsa nur gross, kein Kursiv, nichts unter 15 px.'],
   ['Farbe hat eine Rolle', 'Neutral, Bereich oder Status. Die Rollen mischen sich nicht.'],
-  ['Text auf Farbe ist lesbar', 'Nur auf der tiefen Stufe (weiss) oder dem Hauch (Ink).'],
+  ['Text auf Farbe ist lesbar', 'Weisse Schrift nur auf Tief, Ink auf dem Hauch. Felder tragen nur Icons.'],
   ['Raum statt Rahmen', 'Abstand gliedert, Linien trennen nur Kapitel.'],
   ['Bewegung erklärt', 'Jede Animation zeigt eine Beziehung, eine Reihenfolge oder einen Zustand. Pause und reduzierte Bewegung wirken.'],
   ['Bedienbar für alle', 'Tastatur, sichtbarer Fokus, 44-px-Ziele, lesbare mobile Beschriftung.']
@@ -247,7 +247,7 @@ $$('#checklist input').forEach(input => input.addEventListener('change', () => {
 /* ---------- 14 Tokens: der Block liest die Werte aus tokens.css ---------- */
 const TOKEN_GROUPS = [
   ['Fläche und Schrift', ['--canvas', '--paper', '--ink', '--ink-2', '--line']],
-  ['Bereiche: 1 tief · 2 mittel · 3 hell · 4 Hauch', ['--grund-1', '--grund-2', '--grund-3', '--grund-4', '--ich-1', '--ich-2', '--ich-3', '--ich-4', '--bezug-1', '--bezug-2', '--bezug-3', '--bezug-4']],
+  ['Bereiche: tief · Feld 1–3 · Hauch', ['--grund-tief', '--grund-1', '--grund-2', '--grund-3', '--grund-hauch', '--ich-tief', '--ich-1', '--ich-2', '--ich-3', '--ich-hauch', '--bezug-tief', '--bezug-1', '--bezug-2', '--bezug-3', '--bezug-hauch']],
   ['Status', ['--info', '--info-bg', '--hint', '--hint-bg', '--error', '--error-bg', '--success', '--success-bg']],
   ['Typografie', ['--type-display', '--type-title', '--type-heading', '--type-body', '--type-label']],
   ['Raum und Form', ['--gutter', '--section', '--content', '--radius-control', '--radius-button', '--radius-surface', '--raised', '--pressed']],

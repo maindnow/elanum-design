@@ -8,7 +8,7 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Elem
 
 - **Zeichen:** Spektrum, Ink, Invers und Papierrelief; Original und Kurvenkorrektur vergleichbar. Das Zeichen bewegt sich nie.
 - **Typografie:** fünf Stufen. Albert Sans trägt die Bedienung, Yrsa ist die Stimme und erscheint nur gross. Kein Kursiv, nichts unter 15 px.
-- **Farbe:** neutrale Flächen, drei Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit je vier Stufen, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
+- **Farbe:** neutrale Flächen, drei ausgeglichene Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit Tief, drei Feldnuancen und Hauch, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
 - **Material:** warme Reliefoberfläche, Licht von links oben, angehobene Bedienung, vertiefte Eingaben.
 - **Elemente:** Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, je als eigene Seite unter `components/` und im Atlas eingebunden.
 - **Bewegung:** erklärend statt nur einblendend. Das Resonanzrad baut sich beim Scrollen auf, Kreise rücken zusammen, Spuren zeichnen sich. Pause und reduzierte Bewegung wirken überall.
@@ -51,7 +51,7 @@ Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Style
 
 - **Zeichen bewahren.** Dateien ohne `-Curves` sind die unveränderten Quellen. Relief ist eine Materialanwendung, kein neues Logo. Für kleine Darstellungen die flachen Varianten verwenden.
 - **Fünf Schriftstufen.** Display, Titel, Überschrift, Text, Label. Neue Texte verwenden eine dieser Stufen.
-- **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Text nur auf Stufe 1 (weiss) oder dem Hauch (Ink).
+- **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Weisse Schrift nur auf Tief, Ink auf dem Hauch; die Felder tragen nur Icons.
 - **Raum statt Rahmen.** Abstand gliedert, Linien trennen nur Kapitel.
 - **Bewegung erklärt und bleibt kontrollierbar.** Jede Animation zeigt eine Beziehung, Reihenfolge oder einen Zustand. Keine Animation versteckt Inhalte dauerhaft; Pause, Tastatur und `prefers-reduced-motion` beenden alle Auftritte.
 - **Dokumentation mitpflegen.** Bei Änderungen an Tokens `tokens.css` anpassen; Palette und Tokenblock lesen die Werte daraus. Nach Änderungen an Schriften `python3 tools/embed-fonts.py` ausführen.
