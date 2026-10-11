@@ -31,6 +31,7 @@ function setMenu(open) {
   $('#menuToggle').setAttribute('aria-expanded', open);
   $('#menuToggle').setAttribute('aria-label', open ? 'Navigation schliessen' : 'Navigation öffnen');
   $('#menuScrim').hidden = !open;
+  if (open && moving()) $('#menuScrim').animate([{opacity:0},{opacity:1}],{duration:220,easing:'ease-out'});
   document.body.style.overflow = open && mobile.matches ? 'hidden' : '';
 }
 $('#menuToggle').addEventListener('click', () => setMenu($('#sidebar').dataset.open !== 'true'));
@@ -126,7 +127,7 @@ frames.forEach(frame=>visibility.observe(frame.container));
 document.addEventListener('visibilitychange',()=>{lastTime=0;requestRender();});
 function syncMotionButtons(){
   document.body.dataset.motion = paused || reducedMotion.matches ? 'off' : 'on';
-  if (paused || reducedMotion.matches) document.getAnimations().forEach(animation=>animation.finish());
+  if (paused || reducedMotion.matches) { document.getAnimations().forEach(animation=>animation.finish()); if (document.documentElement.classList.contains('motion-ready')) revealAll(); }
   $$('[data-motion-toggle]').forEach(button=>{
     button.setAttribute('aria-pressed',paused || reducedMotion.matches);
     button.disabled=reducedMotion.matches;
@@ -201,7 +202,7 @@ for(let i=0;i<9;i++){
   const text=svgElement('text',{x:label[0],y:label[1],'text-anchor':'middle','dominant-baseline':'middle',class:'diagram-small',style:'font-size:23px'});text.textContent=String(i+1).padStart(2,'0');$('#wheelSegments').append(text);
   const button=document.createElement('button');button.dataset.field=i;button.textContent=String(i+1).padStart(2,'0');button.setAttribute('aria-label','Feld '+(i+1)+' auswählen');button.addEventListener('click',()=>selectField(i));$('#wheelControls').append(button);
 }
-function selectField(index){wheelPaths.forEach((path,i)=>{path.setAttribute('stroke',i===index?fieldColors[i]:'#819692');path.setAttribute('stroke-width',i===index?7:2);});$$('[data-field]').forEach(button=>button.setAttribute('aria-pressed',+button.dataset.field===index));$('#wheelTitle').textContent='Feld '+String(index+1).padStart(2,'0');$('#wheelGroup').textContent='Gruppe '+['A','B','C'][Math.floor(index/3)];$('#wheelAccessibleTitle').textContent='Klangrad: Feld '+(index+1)+' aus Gruppe '+['A','B','C'][Math.floor(index/3)]+' ausgewählt.';}
+function selectField(index){wheelPaths.forEach((path,i)=>{path.style.stroke=i===index?fieldColors[i]:'#819692';path.style.strokeWidth=i===index?7:2;});$$('[data-field]').forEach(button=>button.setAttribute('aria-pressed',+button.dataset.field===index));$('#wheelTitle').textContent='Feld '+String(index+1).padStart(2,'0');$('#wheelGroup').textContent='Gruppe '+['A','B','C'][Math.floor(index/3)];$('#wheelAccessibleTitle').textContent='Klangrad: Feld '+(index+1)+' aus Gruppe '+['A','B','C'][Math.floor(index/3)]+' ausgewählt.';}
 selectField(1);
 
 const rules=[['Logo respektiert','Grundform, Linien und Proportionen bleiben erhalten.'],['Kreise bleiben rund','Auch während Bewegung und auf kleinen Bildschirmen.'],['Verbindung ist verständlich','Konturen, Öffnung und Anschluss haben eine klare Funktion.'],['Farbe hat eine Rolle','Marke, Feldzugehörigkeit und Status werden unterschieden.'],['Typografie schafft Hierarchie','Albert Sans führt, Yrsa betont einzelne Aussagen.'],['Flächen bleiben offen','Keine unnötigen Karten, Schatten oder Verlaufskanten.'],['Bewegung ist kontrollierbar','Pause, reduzierte Bewegung und ruhende Beschriftungen.'],['Details sind lesbar','Kontrast, Tastaturbedienung und mobile Beschriftungen prüfen.']];
@@ -209,33 +210,81 @@ rules.forEach(([title,description])=>{const label=document.createElement('label'
 $$('#checklist input').forEach(input=>input.addEventListener('change',()=>{const count=$$('#checklist input:checked').length;$('#scoreNumber').textContent=count;$('#scoreMessage').textContent=count===8?'Alle acht Regeln bestätigt. Die visuelle Freigabe erfolgt separat.':count+' von 8 Gestaltungsregeln bestätigt. Eine Checkliste ersetzt kein visuelles Review.';}));
 $('#copyTokens').addEventListener('click',()=>copyText($('#tokenCode').textContent,'Design-Tokens kopiert'));
 
-// One-time paper-like entrances. Content is never hidden waiting for JavaScript.
-document.addEventListener('keydown',()=>{document.body.dataset.input='keyboard';},{capture:true});
+// One-time paper-like entrances (website-motion P03/P07–P09, guards P28/P29).
+// Targets are declared in the markup: data-hero, data-reveal, data-reveal-group, data-line, data-trace.
+// The head script hides them only while motion is allowed; nothing stays hidden.
+document.addEventListener('keydown',()=>{if(document.body.dataset.input!=='keyboard'){document.body.dataset.input='keyboard';revealAll();}},{capture:true});
 document.addEventListener('pointerdown',()=>{document.body.dataset.input='pointer';},{capture:true});
-const revealTargets=$$('.section-heading,.relationship-top,.material-paper,.foundation-grid > *, .type-layout > *, .color-group, .component, .voice-list > *, .hero h1, .hero-copy > p');
-const entranceObserver=new IntersectionObserver(entries=>{
-  let stagger=0;
-  entries.forEach(entry=>{
-    if(!entry.isIntersecting)return;
-    entranceObserver.unobserve(entry.target);
-    if(!moving() || document.body.dataset.input==='keyboard')return;
-    entry.target.animate([{opacity:.2,transform:'translateY(24px)'},{opacity:1,transform:'translateY(0)'}],{duration:850,delay:Math.min(stagger++*65,195),easing:'cubic-bezier(.23,1,.32,1)'});
-  });
-},{threshold:.12});
-revealTargets.forEach(element=>entranceObserver.observe(element));
+const motionEase='cubic-bezier(.23,1,.32,1)';
+const revealUnits=[...$$('[data-reveal],[data-line]'),...$$('[data-reveal-group]').flatMap(group=>[...group.children])];
+function showInstantly(element){element.dataset.revealed='';}
+function entrance(element,delay){
+  element.dataset.revealed='';
+  element.animate([{opacity:0,transform:'translateY(24px)'},{opacity:1,transform:'none'}],{duration:900,delay,easing:motionEase,fill:'backwards'});
+}
+function reveal(element){
+  if(element.hasAttribute('data-revealed'))return;
+  if(!moving() || document.body.dataset.input==='keyboard'){showInstantly(element);return;}
+  if(element.hasAttribute('data-reveal-group')){
+    const items=[...element.children].filter(item=>!item.hasAttribute('data-revealed'));
+    const step=Math.min(120,480/Math.max(1,items.length));
+    items.forEach((item,index)=>entrance(item,index*step));
+  }
+  if(element.hasAttribute('data-line')){element.dataset.revealed='';return;}
+  if(!element.hasAttribute('data-reveal-group'))entrance(element,0);
+  element.dataset.revealed='';
+}
+function revealAll(){
+  revealObserver.disconnect();
+  [...revealUnits,...$$('[data-hero],[data-reveal-group]')].forEach(showInstantly);
+  traceWay(false);
+}
+const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
+  if(!entry.isIntersecting)return;
+  revealObserver.unobserve(entry.target);
+  reveal(entry.target);
+}),{rootMargin:'0px 0px -12% 0px'});
+// Above the fold: show immediately, except the hero timeline (P29).
+$$('[data-reveal],[data-reveal-group],[data-line]').forEach(element=>{
+  if(!moving() || element.getBoundingClientRect().top<innerHeight*.88){
+    showInstantly(element);
+    if(element.hasAttribute('data-reveal-group'))[...element.children].forEach(showInstantly);
+  } else revealObserver.observe(element);
+});
+// Hero timeline: four steps, 140 ms apart, finished in about 1.3 s (P03). The logo stays still.
+$$('[data-hero]').forEach((element,index)=>{if(moving())entrance(element,index*140);else showInstantly(element);});
+document.documentElement.classList.add('motion-ready');
+// Focus never lands on something still invisible.
+document.addEventListener('focusin',event=>{
+  const hidden=event.target.closest('[data-reveal]:not([data-revealed]),[data-reveal-group]>:not([data-revealed])');
+  if(hidden){hidden.getAnimations().forEach(animation=>animation.finish());showInstantly(hidden);}
+  event.target.closest('[data-revealed]')?.getAnimations().forEach(animation=>animation.finish());
+});
 const lineObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
   if(!entry.isIntersecting)return;
   lineObserver.unobserve(entry.target);
   if(!moving())return;
   $$('[data-contour]',entry.target).forEach((path,index)=>{
     path.setAttribute('pathLength','1');
-    path.animate([{strokeDasharray:'1',strokeDashoffset:'1',opacity:.2},{strokeDasharray:'1',strokeDashoffset:'0',opacity:1}],{duration:1800,delay:index*120,easing:'cubic-bezier(.23,1,.32,1)'});
+    path.animate([{strokeDasharray:'1',strokeDashoffset:'1',opacity:.2},{strokeDasharray:'1',strokeDashoffset:'0',opacity:1}],{duration:1800,delay:index*120,easing:motionEase});
   });
 }),{threshold:.3});
 frames.forEach(frame=>lineObserver.observe(frame.container));
+// The way trace draws itself once, the first time its panel is shown.
+let wayTraced=false;
+function traceWay(animate){
+  if(wayTraced)return;
+  wayTraced=true;
+  if(!animate)return;
+  $$('[data-trace] path').forEach((path,index)=>{
+    path.setAttribute('pathLength','1');
+    path.animate([{strokeDasharray:'1',strokeDashoffset:'1'},{strokeDasharray:'1',strokeDashoffset:'0'}],{duration:1800,delay:index*120,easing:motionEase});
+  });
+}
 tabs.forEach(tab=>tab.addEventListener('click',event=>{
+  if(tab.dataset.product==='weg')traceWay(moving() && document.body.dataset.input!=='keyboard');
   if(!event.detail || !moving())return;
   const panel=$('#'+tab.getAttribute('aria-controls'));
   panel.getAnimations().forEach(animation=>animation.cancel());
-  panel.animate([{opacity:.3,transform:'translateY(9px)'},{opacity:1,transform:'translateY(0)'}],{duration:240,easing:'cubic-bezier(.23,1,.32,1)'});
+  panel.animate([{opacity:.3,transform:'translateY(9px)'},{opacity:1,transform:'translateY(0)'}],{duration:220,easing:motionEase});
 }));

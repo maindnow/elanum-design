@@ -28,15 +28,21 @@ body{background:var(--canvas)}
 .material-paper::before{width:auto;height:auto;background-color:transparent}
 .button{border:0;border-radius:16px;background:linear-gradient(135deg,#34565a,#16363b);box-shadow:5px 5px 11px #c4bdaf,-4px -4px 10px #fff9}
 .button.secondary{background:var(--canvas);border:0;box-shadow:var(--raised)}
-.button.secondary:active,.choice-button[aria-pressed=true]{box-shadow:var(--pressed)}
+.button.secondary:active{box-shadow:var(--pressed)}
+.choice{border:0;border-radius:16px;background:var(--canvas);box-shadow:var(--raised);transition:box-shadow 180ms ease}
+.choice[aria-pressed=true]{box-shadow:var(--pressed)}
 .demo-form input,.demo-form textarea,#typePreview{border:0;border-radius:16px;background:var(--canvas);box-shadow:var(--pressed);padding:18px}
 .product-tabs{background:var(--canvas);border:0;box-shadow:var(--pressed);gap:8px;padding:8px}
 .product-tab{padding:12px 20px;border:0;border-radius:12px}
 .product-tab[aria-selected=true]{background:linear-gradient(135deg,#faf7ef,#eae4d8);box-shadow:4px 4px 9px #c6bfb2,-3px -3px 8px #fff}
 .color-sample::before{border-radius:12px;box-shadow:3px 4px 8px #b7ad9c60,-3px -3px 7px #fff9}
-.field-color::before{box-shadow:2px 3px 5px #afa59160,-2px -2px 4px #fff9}
+.field-color i{box-shadow:2px 3px 5px #afa59160,-2px -2px 4px #fff9}
 .wheel-controls button{border:0;border-radius:12px;box-shadow:3px 3px 7px #c9c1b5,-3px -3px 7px #fff9}
 .wheel-controls button[aria-pressed=true]{border-radius:12px}
+.code-panel{border-radius:28px;box-shadow:var(--pressed)}
+.status-demo{border-radius:4px 12px 12px 4px;background:color-mix(in srgb,var(--info) 7%,#FAF6ED)}
+.status-demo[data-status=signal]{background:color-mix(in srgb,var(--signal) 7%,#FAF6ED)}
+.status-demo[data-status=error]{background:color-mix(in srgb,var(--error) 7%,#FAF6ED)}
 @media(max-width:800px){.relationship-section{margin:8px 14px 28px;border-radius:30px}.signature-stage{padding:22px 22px 58px;border-radius:26px}}
 @media(max-width:560px){.signature-layout{grid-template-columns:minmax(0,1fr)}.signature-stage{max-width:none}.relationship-section{margin:8px 10px 26px;padding-left:20px;padding-right:20px}.product-tab{padding:12px 10px}.signature-modes{gap:5px}.segmented button{padding:10px 12px}}
 .signature-stage{padding:clamp(34px,4vw,44px)}

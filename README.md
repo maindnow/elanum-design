@@ -11,7 +11,7 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Re
 - **Farbe:** neun Feldfarben in drei Gruppen sowie getrennte Info-, Signal- und Fehlerfarben.
 - **Material:** warme Oberflächen, Licht von links oben, erhabene Flächen und vertiefte Eingaben.
 - **Beziehungen:** runde Reliefebenen, offene Konturen und angeschlossene Verbindungslinien.
-- **Bewegung:** sanfte Atmung, Linienaufbau, Scroll-Auftritte und haptische Bedienzustände.
+- **Bewegung:** sanfte Atmung, Linienaufbau, einmalige Scroll-Auftritte nach dem Katalog `website-motion` und haptische Bedienzustände, ohne Zusatzbibliothek.
 - **Interaktion:** Farbkopieren, Schriftprobe, lokale Eingabedemos, Produkt-Tabs und eine manuelle Prüfcheckliste.
 
 Das ist ein vollständiger Styleguide, nicht nur eine Rad-Komponente. Die Feldnamen und Gruppen A bis C sind strukturelle Platzhalter, keine fertige fachliche Klassifikation.
@@ -62,7 +62,7 @@ Schatten vermitteln Material, aber nicht allein die Funktion. Text, Fokusmarkier
 
 Die Kreise atmen in einem gemeinsamen Zyklus: 3,4 Sekunden Ausdehnung und 4,4 Sekunden Beruhigung, maximal 7,5 Prozent Radiusänderung. Füllung, Kontur und Verbindung bleiben synchron. Beschriftungen bleiben ruhig.
 
-Globale Pause und `prefers-reduced-motion` berücksichtigen. Unsichtbare Beziehungsdarstellungen und ausgeblendete Seiten lassen den Atemtakt ruhen. Keine Animation darf Inhalte dauerhaft verstecken.
+Globale Pause und `prefers-reduced-motion` berücksichtigen. Unsichtbare Beziehungsdarstellungen und ausgeblendete Seiten lassen den Atemtakt ruhen. Keine Animation darf Inhalte dauerhaft verstecken: Auftritte werden über `data-reveal`-Attribute im Markup gesteuert, und ohne JavaScript, bei reduzierter Bewegung oder nach spätestens 5 s ist alles sichtbar.
 
 ### Dokumentation mitpflegen
 

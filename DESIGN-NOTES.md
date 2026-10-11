@@ -8,6 +8,8 @@ Die Logo-Card verwendet nun explizit automatische Bildhöhe und quadratische Pro
 
 Beziehungskreise erhalten separate, gefüllte Reliefscheiben. Konturöffnungen und Verbindungen bleiben eigenständige Pfade; Füllung und Kontur atmen synchron. Die Scheiben bleiben mathematisch rund. Bedienzustände behalten zusätzlich Text, Fokusmarkierung und Auswahlkennzeichnung; Schatten allein vermitteln keine Funktion.
 
+Alle Bedienelemente liegen im selben Relief: Auch die Auswahlkarte hebt sich an und wird bei Auswahl eingedrückt. Code-Panel und Statusmeldungen sitzen auf der warmen Fläche statt auf den kühlen Tönen aus 4.3; die Status-Tönungen mischen 7 % der Rollenfarbe in #FAF6ED und halten mindestens 4,6:1 Kontrast. Der Tokenblock nennt die tatsächlichen Radien (Control 12 px, Button 16 px, Fläche 28 px), beide Reliefschatten und die gemeinsame Kurve.
+
 ## Richtung
 
 Offene digitale Flächen, klare Kreise, bewusst gesetzte Öffnungen und kurze Verbindungen. Yrsa bleibt die Stimme für ausgewählte Aussagen; Albert Sans übernimmt Navigation, Kapitel, Beschriftungen und Lesetext. Der dunkle Beziehungsraum konzentriert die Marke auf ein zentrales interaktives Visual. Gezielte Papierreliefs, eingedrückte Eingaben und angehobene Merkzettel ergänzen die offenen Flächen. Kapitel bauen sich beim ersten Scrollen weich auf; das Logo bleibt unverändert und unbewegt.
@@ -36,7 +38,11 @@ Ein gemeinsamer, sanfter Zyklus: 3,4 Sekunden Raum geben und 4,4 Sekunden beruhi
 
 Die Beziehungskreise werden gemeinsam mit der Verbindung in einem einzigen requestAnimationFrame-Takt berechnet. Nur sichtbare Darstellungen werden aktualisiert. Bei ausgeblendeter Seite oder Pause steht der Atemtakt still. Ein globaler Pausenstatus gilt für alle Demos. `prefers-reduced-motion` setzt eine vollständig ruhende Darstellung; Systemeinstellungsänderungen werden auch während der Nutzung erkannt.
 
-Regler reagieren direkt, die grafische Anpassung wird leicht gedämpft. Produkt-Tabs wechseln bei Pointer-Bedienung mit 240 ms, per Tastatur sofort. Kapitel erscheinen einmalig mit 850 ms und kurzem Versatz; Konturen zeichnen sich einmalig in 1,8 s auf. Eine globale Pause beendet auch diese Auftritte. Papier hebt sich bei Hover leicht an; Buttons geben beim Drücken nach. Reduzierte Bewegung deaktiviert diese Bewegungen.
+Regler reagieren direkt, die grafische Anpassung wird leicht gedämpft. Produkt-Tabs wechseln bei Pointer-Bedienung mit 220 ms, per Tastatur sofort. Papier hebt sich bei Hover in 220 ms leicht an; Buttons geben beim Drücken nach; das Klangrad wechselt das Feld in 200 ms. Alles Bedienfeedback liegt damit zwischen 160 und 220 ms.
+
+Auftritte folgen dem Katalog `website-motion` in der Dosierung für Doku-Seiten: Der Einstieg baut Kopfzeile, Titel, Text und Fusszeile mit 140 ms Versatz in rund 1,3 s auf, das Logo bleibt stehen. Kapitel, Absätze und Gruppen erscheinen einmalig, sobald sie 88 % der Fensterhöhe erreichen: 900 ms, 24 px Weg, Kurve `cubic-bezier(.23,1,.32,1)`, Gruppen mit höchstens 120 ms Versatz und zusammen unter 0,5 s. Konturen zeichnen sich einmalig in 1,8 s auf, die Wegspur ebenso beim ersten Öffnen, die Tageslinie in 1 s. Die Ziele sind im Markup deklariert (`data-hero`, `data-reveal`, `data-reveal-group`, `data-line`, `data-trace`).
+
+Kein Auftritt versteckt Inhalte: Ohne JavaScript und bei reduzierter Bewegung ist alles sofort sichtbar, und spätestens nach 5 s auch dann, wenn `app.js` nicht lädt. Bereits sichtbare Bereiche erscheinen ohne Auftritt. Versteckt wird nur über die Deckkraft, damit alles per Tab erreichbar bleibt; Fokus, Tastaturbedienung, globale Pause und reduzierte Bewegung zeigen sofort alles. Die Bewegung kommt ohne GSAP oder Smooth-Scroll aus: Sie besteht nur aus einmaligen Auftritten, und der Atemtakt hat seine eigene Uhr.
 
 ## Farbe
 
