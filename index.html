@@ -169,6 +169,11 @@
   </div>
   <div class="spectrum" id="spectrumPalette" data-anim="reveal"></div>
   <div class="block-head" data-anim="reveal">
+    <h3 class="block-title">Verläufe als Liste</h3>
+    <p class="secondary">Jeder Verlauf als kommaseparierte Liste seiner Farbstopps, zum Kopieren in Figma, CSS oder jedes andere Werkzeug.</p>
+  </div>
+  <div class="gradients" id="gradientList" data-anim="stagger"></div>
+  <div class="block-head" data-anim="reveal">
     <h3 class="block-title">Status ist keine Identität</h3>
     <p class="secondary">Kräftige Rollenfarbe, Balken, Zeichen und Text. So unterscheidet sich ein Status immer von einem Bereich, auch ohne Farbe.</p>
   </div>
@@ -204,7 +209,7 @@
       <p>Nicht alles braucht einen Rahmen. Abstand und Ausrichtung strukturieren die Oberfläche, Linien trennen nur Kapitel.</p>
       <p>Licht kommt von links oben. Was man bedienen kann, hebt sich an. Eingaben liegen vertieft. Ein gespeicherter Gedanke wird zu einem Blatt Papier.</p>
     </div>
-    <figure class="paper" data-anim="reveal">
+    <figure class="paper glow-edge" data-anim="reveal">
       <figcaption class="t-label secondary">Ein gespeicherter Gedanke</figcaption>
       <blockquote>Du musst nicht jede Spannung sofort auflösen.</blockquote>
     </figure>
@@ -219,7 +224,7 @@
   <div class="components" data-anim="stagger">
     <div class="component">
       <h3>Eine klare Entscheidung</h3>
-      <div class="actions"><button class="button" id="demoContinue">Weiter</button><button class="button button--secondary" id="demoLater">Später</button></div>
+      <div class="actions"><button class="button" id="demoContinue">Weiter</button><button class="button button--secondary glow-edge" id="demoLater">Später</button></div>
       <p class="secondary">Primär und sekundär unterscheiden sich durch Gewicht. Beim Zeigen hellt sich die Fläche auf, beim Drücken gibt sie nach.</p>
     </div>
     <div class="component">
@@ -234,7 +239,7 @@
     </div>
     <div class="component">
       <h3>Eine bewusste Auswahl</h3>
-      <button class="choice" id="choiceButton" aria-pressed="false"><span><strong>Mehr Raum für mich</strong><span>Heute darf es etwas ruhiger sein.</span></span></button>
+      <button class="choice glow-edge" id="choiceButton" aria-pressed="false"><span><strong>Mehr Raum für mich</strong><span>Heute darf es etwas ruhiger sein.</span></span></button>
     </div>
     <div class="component">
       <h3>Ein verständlicher Status</h3>
@@ -251,9 +256,9 @@
     <p class="chapter-intro">Das Resonanzrad zeigt dich. Heute, Umfeld und Weg zeigen deinen Tag, deine Menschen und deine Entwicklung, mit denselben Kreisen und Linien.</p>
   </header>
   <div class="segmented product-tabs" role="tablist" aria-label="Produktbereiche">
-    <button class="product-tab" id="tab-heute" role="tab" aria-selected="true" aria-controls="panel-heute" tabindex="0">Heute</button>
-    <button class="product-tab" id="tab-umfeld" role="tab" aria-selected="false" aria-controls="panel-umfeld" tabindex="-1">Umfeld</button>
-    <button class="product-tab" id="tab-weg" role="tab" aria-selected="false" aria-controls="panel-weg" tabindex="-1">Weg</button>
+    <button class="product-tab glow-edge" id="tab-heute" role="tab" aria-selected="true" aria-controls="panel-heute" tabindex="0">Heute</button>
+    <button class="product-tab glow-edge" id="tab-umfeld" role="tab" aria-selected="false" aria-controls="panel-umfeld" tabindex="-1">Umfeld</button>
+    <button class="product-tab glow-edge" id="tab-weg" role="tab" aria-selected="false" aria-controls="panel-weg" tabindex="-1">Weg</button>
   </div>
   <div class="product-panel" id="panel-heute" role="tabpanel" aria-labelledby="tab-heute">
     <div class="product-copy"><h3 class="t-title">Dein Tag hat einen eigenen Rhythmus.</h3><p class="secondary">Ein Gedanke, eine Pause, ein Austausch. Die Tageslinie ordnet Momente, ohne daraus einen Feed zu machen.</p></div>
@@ -285,10 +290,10 @@
     <p class="chapter-intro">Alle Darstellungen gibt es als eigene Seite, zum Prüfen, Zeigen und Weiterbauen. Sie nutzen dieselben Tokens und denselben Code wie dieser Atlas.</p>
   </header>
   <ul class="element-cards" data-anim="stagger">
-    <li><a class="element-card area" data-area="grund" href="components/resonanzrad/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="52 4.5"/><circle cx="32" cy="32" r="8" fill="currentColor"/></svg></span><span class="element-card__name">Resonanzrad</span><span class="secondary">Neun Felder, drei Bereiche, Ausfüllstatus.</span></a></li>
-    <li><a class="element-card area" data-area="bezug" href="components/umfeld/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="32" cy="32" r="9"/><circle cx="14" cy="16" r="6"/><circle cx="52" cy="22" r="6"/><circle cx="46" cy="52" r="6"/><path d="M25 26l-6-5M41 29l6-3M38 39l4 7"/></svg></span><span class="element-card__name">Umfeld</span><span class="secondary">Ich in der Mitte, Menschen nach Nähe und Resonanz.</span></a></li>
-    <li><a class="element-card area" data-area="ich" href="components/beziehungsraum/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M10 40a13 13 0 1 1 15 0M39 40a13 13 0 1 1 15 0"/><path d="M30 32c2 3 2 3 4 0"/></svg></span><span class="element-card__name">Beziehungsraum</span><span class="secondary">Zwei eigene Räume und ihre Verbindung.</span></a></li>
-    <li><a class="element-card area" data-area="grund" href="components/weg/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 32h30"/><path d="M46 32h10" stroke-dasharray="3 4"/><circle cx="8" cy="32" r="3" fill="currentColor"/><circle cx="23" cy="32" r="3" fill="currentColor"/><circle cx="38" cy="32" r="5"/></svg></span><span class="element-card__name">Weg &amp; Tageslinie</span><span class="secondary">Stationen: erledigt, jetzt, offen.</span></a></li>
+    <li><a class="element-card area glow-edge" data-area="grund" href="components/resonanzrad/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="52 4.5"/><circle cx="32" cy="32" r="8" fill="currentColor"/></svg></span><span class="element-card__name">Resonanzrad</span><span class="secondary">Neun Felder, drei Bereiche, Ausfüllstatus.</span></a></li>
+    <li><a class="element-card area glow-edge" data-area="bezug" href="components/umfeld/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="32" cy="32" r="9"/><circle cx="14" cy="16" r="6"/><circle cx="52" cy="22" r="6"/><circle cx="46" cy="52" r="6"/><path d="M25 26l-6-5M41 29l6-3M38 39l4 7"/></svg></span><span class="element-card__name">Umfeld</span><span class="secondary">Ich in der Mitte, Menschen nach Nähe und Resonanz.</span></a></li>
+    <li><a class="element-card area glow-edge" data-area="ich" href="components/beziehungsraum/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M10 40a13 13 0 1 1 15 0M39 40a13 13 0 1 1 15 0"/><path d="M30 32c2 3 2 3 4 0"/></svg></span><span class="element-card__name">Beziehungsraum</span><span class="secondary">Zwei eigene Räume und ihre Verbindung.</span></a></li>
+    <li><a class="element-card area glow-edge" data-area="grund" href="components/weg/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 32h30"/><path d="M46 32h10" stroke-dasharray="3 4"/><circle cx="8" cy="32" r="3" fill="currentColor"/><circle cx="23" cy="32" r="3" fill="currentColor"/><circle cx="38" cy="32" r="5"/></svg></span><span class="element-card__name">Weg &amp; Tageslinie</span><span class="secondary">Stationen: erledigt, jetzt, offen.</span></a></li>
   </ul>
   <div class="block-head" data-anim="reveal">
     <h3 class="block-title">Ein Linien-System</h3>
@@ -360,16 +365,16 @@
   </header>
   <div class="tokens">
     <div class="downloads" data-anim="stagger">
-      <a href="assets/ELANUM-Master-Spektrum-Curves.svg" download>Spektrum · kurvenbereinigt</a>
-      <a href="assets/ELANUM-System-Ink-Curves.svg" download>Ink · kurvenbereinigt</a>
-      <a href="assets/ELANUM-Master-Spektrum.svg" download>Spektrum · Original</a>
-      <a href="assets/ELANUM-System-Ink.svg" download>Ink · Original</a>
-      <a href="assets/ELANUM-Konturvergleich.svg" download>Konturvergleich</a>
-      <a href="tokens.css" download>tokens.css</a>
-      <a href="DESIGN-NOTES.md" download>Gestaltungsnotizen</a>
+      <a class="glow-edge" href="assets/ELANUM-Master-Spektrum-Curves.svg" download>Spektrum · kurvenbereinigt</a>
+      <a class="glow-edge" href="assets/ELANUM-System-Ink-Curves.svg" download>Ink · kurvenbereinigt</a>
+      <a class="glow-edge" href="assets/ELANUM-Master-Spektrum.svg" download>Spektrum · Original</a>
+      <a class="glow-edge" href="assets/ELANUM-System-Ink.svg" download>Ink · Original</a>
+      <a class="glow-edge" href="assets/ELANUM-Konturvergleich.svg" download>Konturvergleich</a>
+      <a class="glow-edge" href="tokens.css" download>tokens.css</a>
+      <a class="glow-edge" href="DESIGN-NOTES.md" download>Gestaltungsnotizen</a>
     </div>
     <div class="code-panel" data-anim="reveal">
-      <div class="code-panel__top"><span class="t-label">tokens.css</span><button class="button button--secondary" id="copyTokens">Kopieren</button></div>
+      <div class="code-panel__top"><span class="t-label">tokens.css</span><button class="button button--secondary glow-edge" id="copyTokens">Kopieren</button></div>
       <pre id="tokenCode"></pre>
     </div>
   </div>

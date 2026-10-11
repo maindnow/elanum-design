@@ -10,7 +10,7 @@
 [data-dark] [data-contour]{filter:drop-shadow(0 2px 1px #071D23AA)}
 [data-dark] .relationship-label span:not([data-name]){color:#CBD9D6}
 [data-contour]{stroke-linejoin:round;opacity:.8}
-[data-bridge]{filter:drop-shadow(0 2px 2px #16363B40)}
+[data-bridge]{filter:drop-shadow(0 0 5px #9466DF80) drop-shadow(0 2px 2px #16363B33)}
 @media(max-width:560px){
   .relationship-frame{margin-left:-8px;margin-right:-8px;width:calc(100% + 16px)}
   .relationship-label span:not([data-name]){margin-top:6px}

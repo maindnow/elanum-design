@@ -33,7 +33,8 @@
   var CFG = {
     size: 320, cx: 160, cy: 160,
     centerRadius: 34,
-    iconRadius: 84,
+    labelRadius: 80,
+    labelRadiusCompact: 82,
     contourRadius: 120,
     contourInsetDeg: 5,
     openingDeg: 12,
@@ -55,36 +56,36 @@
 
   /* Inhalte der Demo. done/result zeigen den Ausfüllstatus. */
   var ITEMS = [
-    { id: 'astrology', group: 'grund', shade: 1, label: 'Astrologie', done: true, result: 'Jungfrau',
+    { id: 'astrology', group: 'grund', shade: 1, label: 'Astrologie', lines: ['Astro-', 'logie'], done: true, result: 'Jungfrau',
       lead: 'Die Konstellation zum Zeitpunkt deiner Geburt.',
       text: 'Sonne, Mond und Aszendent bilden einen Grundton, in dem sich viele Menschen wiedererkennen. Es ist eine Sprache für Muster, keine Vorhersage.',
       rows: [['Sonne', 'Jungfrau'], ['Mond', 'Fische'], ['Aszendent', 'Waage']] },
-    { id: 'numerology', group: 'grund', shade: 2, label: 'Numerologie', done: true, result: '7',
+    { id: 'numerology', group: 'grund', shade: 2, label: 'Numerologie', lines: ['Numero-', 'logie'], done: true, result: '7',
       lead: 'Zahlen als Muster deines Namens und Datums.',
       text: 'Aus Geburtsdatum und Namen entsteht ein wiederkehrendes Muster. Es zeigt Themen, die sich durch dein Leben ziehen.',
       rows: [['Lebenszahl', '7, der Suchende'], ['Namenszahl', '3, der Vermittler']] },
-    { id: 'human-design', group: 'grund', shade: 3, label: 'Human Design', done: true, result: 'Generator',
+    { id: 'human-design', group: 'grund', shade: 3, label: 'Human Design', lines: ['Human', 'Design'], done: true, result: 'Generator',
       lead: 'Wie du Energie aufnimmst und entscheidest.',
       text: 'Typ, Autorität und offene Zentren beschreiben, woher deine Energie kommt und woran du merkst, dass eine Entscheidung stimmig ist.',
       rows: [['Typ', 'Generator'], ['Autorität', 'Sakral'], ['Profil', '3 / 5']] },
-    { id: 'direction', group: 'ich', shade: 1, label: 'Lebensrichtung', done: false,
+    { id: 'direction', group: 'ich', shade: 1, label: 'Lebensrichtung', lines: ['Lebens-', 'richtung'], done: false,
       lead: 'Wohin du dich gerade bewegst.',
       text: 'Was dich zieht, woran du festhältst und was du gerade hinter dir lässt. Die Richtung darf sich ändern, sie ist kein Ergebnis.' },
-    { id: 'personality', group: 'ich', shade: 2, label: 'Persönlichkeit', done: false,
+    { id: 'personality', group: 'ich', shade: 2, label: 'Persönlichkeit', lines: ['Persön-', 'lichkeit'], done: false,
       lead: 'Wie du wahrnimmst, entscheidest und handelst.',
       text: 'Deine Art zu denken, zu fühlen und zu reagieren. Im Alltag, und noch deutlicher unter Druck.' },
-    { id: 'values', group: 'ich', shade: 3, label: 'Werte', done: true, result: 'Ehrlichkeit',
+    { id: 'values', group: 'ich', shade: 3, label: 'Werte', lines: ['Werte'], done: true, result: 'Ehrlichkeit',
       lead: 'Woran du misst, was zählt.',
       text: 'Die wenigen Dinge, für die du Unbequemes in Kauf nimmst. Werte zeigen sich weniger im Reden als in dem, was du wirklich wählst.',
       rows: [['Zuerst', 'Ehrlichkeit, auch wenn sie kostet'], ['Dann', 'Eigenständigkeit'], ['Dann', 'Verlässlichkeit']] },
-    { id: 'attachment', group: 'bezug', shade: 1, label: 'Bindungsstil', done: true, result: 'Sicher',
+    { id: 'attachment', group: 'bezug', shade: 1, label: 'Bindungsstil', lines: ['Bindungs-', 'stil'], done: true, result: 'Sicher',
       lead: 'Wie du Nähe und Abstand regelst.',
       text: 'Was in dir passiert, wenn jemand näher kommt, und was, wenn jemand geht. Bindung ist ein Muster, kein Urteil.',
       rows: [['Grundmuster', 'Sicher'], ['Unter Stress', 'Leicht vermeidend']] },
-    { id: 'closeness', group: 'bezug', shade: 2, label: 'Nähe & Zuneigung', done: false,
+    { id: 'closeness', group: 'bezug', shade: 2, label: 'Nähe & Zuneigung', lines: ['Nähe &', 'Zuneigung'], done: false,
       lead: 'Wie du Zuneigung zeigst und annimmst.',
       text: 'Worin du Zuwendung ausdrückst und woran du sie erkennst. Zwei Menschen meinen oft dasselbe und zeigen es völlig verschieden.' },
-    { id: 'conflict', group: 'bezug', shade: 3, label: 'Konfliktstil', done: false,
+    { id: 'conflict', group: 'bezug', shade: 3, label: 'Konfliktstil', lines: ['Konflikt-', 'stil'], done: false,
       lead: 'Was du im Streit tust.',
       text: 'Ob du zugehst, ausweichst oder zumachst. Und was dich danach wieder erreichbar macht.' }
   ];
@@ -145,9 +146,9 @@
           '<div class="rad__center" aria-hidden="true"><span>Ich</span></div>' +
         '</div>' +
         '<div class="rad__nav">' +
-          '<button class="button button--secondary button--icon" type="button" data-nav="prev" aria-label="Vorheriges Feld"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg></button>' +
+          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="prev" aria-label="Vorheriges Feld"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg></button>' +
           '<p class="rad__current" data-current aria-hidden="true"></p>' +
-          '<button class="button button--secondary button--icon" type="button" data-nav="next" aria-label="Nächstes Feld"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>' +
+          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="next" aria-label="Nächstes Feld"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>' +
         '</div>' +
       '</div>' +
       '<section class="rad__reader" role="tabpanel" id="' + uid + '-panel" aria-live="polite"></section>' +
@@ -171,7 +172,12 @@
     filter.appendChild(el('feDropShadow', { dx: 3.6, dy: 3.6, stdDeviation: 4.2, 'flood-color': '#a39b8a', 'flood-opacity': 0.8 }));
     filter.appendChild(el('feDropShadow', { dx: -2.6, dy: -2.6, stdDeviation: 3, 'flood-color': '#ffffff', 'flood-opacity': 0.95 }));
     defs.appendChild(filter);
+    /* Auswahlbogen im Markenspektrum, glühend */
+    var spec = el('linearGradient', { id: uid + '-spectrum', gradientUnits: 'userSpaceOnUse', x1: 100, y1: 0, x2: 220, y2: 0 });
+    ['#6756D9', '#4D7FE8', '#9466DF', '#D85BA9', '#F0719A'].forEach(function (c, k) { spec.appendChild(el('stop', { offset: k / 4, 'stop-color': c })); });
+    defs.appendChild(spec);
     lift.setAttribute('d', sectorPath(-half, half, CFG.segmentRadius));
+    active.style.stroke = 'url(#' + uid + '-spectrum)';
     lift.setAttribute('filter', 'url(#' + uid + '-lift)');
 
     /* ---------- Ring: drei Bereiche ---------- */
@@ -210,13 +216,18 @@
         d: item.done ? arcPath(CFG.contourRadius, c0, c1) : arcPath(CFG.contourRadius, c0, a - gap) + ' ' + arcPath(CFG.contourRadius, a + gap, c1) });
       contours.appendChild(contour);
 
+      /* Beschriftung im Stück: Icon, Name, Ergebnis. Steht aufrecht, auch wenn das Rad dreht. */
       var icon = el('g', { class: 'rad__icon' });
-      var glyph = el('g', {});
+      var glyph = el('g', { class: 'rad__glyph' });
       glyph.innerHTML = '<rect width="24" height="24" fill="none" stroke="none"/>' + ICONS[item.id];
-      icon.appendChild(glyph); icons.appendChild(icon);
+      var name = el('text', { class: 'rad__name-in', 'text-anchor': 'middle' });
+      var lines = item.lines.map(function (line) { var t = el('tspan', {}); t.textContent = line; name.appendChild(t); return t; });
+      var result = el('text', { class: 'rad__result-in' + (item.done ? '' : ' is-open'), 'text-anchor': 'middle' });
+      result.textContent = item.done ? item.result : 'offen';
+      icon.appendChild(glyph); icon.appendChild(name); icon.appendChild(result); icons.appendChild(icon);
       upright.push(icon);
 
-      var tab = html('button', 'rad__item'); tab.type = 'button';
+      var tab = html('button', 'rad__item glow-edge'); tab.type = 'button';
       tab.setAttribute('role', 'tab'); tab.id = uid + '-tab-' + item.id;
       tab.setAttribute('aria-controls', uid + '-panel'); tab.setAttribute('aria-selected', 'false'); tab.tabIndex = -1;
       tab.dataset.index = i;
@@ -225,19 +236,26 @@
         '<span class="rad__item-state">' + (item.done ? item.result : 'offen') + '</span>';
       tab.setAttribute('aria-label', item.label + ', ' + (item.done ? 'ausgefüllt: ' + item.result : 'noch offen'));
       groupLists[item.group].appendChild(tab);
-      return { face: face, contour: contour, icon: icon, glyph: glyph, tab: tab, angle: a };
+      return { face: face, contour: contour, icon: icon, glyph: glyph, name: name, lines: lines, result: result, tab: tab, angle: a };
     });
     var doneCount = ITEMS.filter(function (it) { return it.done; }).length;
     root.querySelector('[data-progress]').textContent = doneCount + ' von ' + ITEMS.length + ' ausgefüllt';
 
-    /* Icons und Ringtext in echten 15 bzw. 24 Pixeln, egal wie gross das Rad ist. */
+    /* Schrift in echten 15 px, Icon in 22 px, egal wie gross das Rad ist.
+       Ab 420 px Raddurchmesser: Icon, Name und Ergebnis. Darunter nur der
+       Name; Icon und Ergebnis stehen dann direkt unter dem Rad. */
     function layoutIcons() {
-      var w = wheel.getBoundingClientRect().width || 320, u = CFG.size / w;
+      var w = wheel.getBoundingClientRect().width || 320, u = CFG.size / w, full = w >= 420;
       root.style.setProperty('--u', u);
-      var s = 30 * u / 24;   /* Icons im Rad: 30 px, Strich bleibt 1,6 px */
-      segs.forEach(function (s0) {
-        var p = pt(CFG.iconRadius, s0.angle);
-        s0.glyph.setAttribute('transform', 'translate(' + r2(p[0] - 12 * s) + ' ' + r2(p[1] - 12 * s) + ') scale(' + r2(s) + ')');
+      root.classList.toggle('is-compact', !full);
+      var line = 18 * u, icon = full ? 22 * u : 0, gap = full ? 5 * u : 0, s = icon / 24;
+      segs.forEach(function (s0, i) {
+        var item = ITEMS[i], p = pt(full ? CFG.labelRadius : CFG.labelRadiusCompact, s0.angle);
+        var rows = item.lines.length + (full ? 1 : 0);
+        var height = icon + gap + rows * line, top = p[1] - height / 2;
+        s0.glyph.setAttribute('transform', 'translate(' + r2(p[0] - 12 * s) + ' ' + r2(top) + ') scale(' + r2(s) + ')');
+        s0.lines.forEach(function (t, k) { t.setAttribute('x', p[0]); t.setAttribute('y', r2(top + icon + gap + (k + 0.78) * line)); });
+        s0.result.setAttribute('x', p[0]); s0.result.setAttribute('y', r2(top + icon + gap + (item.lines.length + 0.78) * line));
         s0.icon.style.transformOrigin = p[0] + 'px ' + p[1] + 'px';
       });
     }

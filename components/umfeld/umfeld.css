@@ -7,7 +7,7 @@
 .umfeld__contour{fill:none;stroke:var(--ink);stroke-width:var(--trace);stroke-linecap:round;vector-effect:non-scaling-stroke;transition:stroke-width var(--motion-ui) ease}
 .umfeld__contour.is-active{stroke-width:2.6}
 .umfeld__bridge{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.75;transition:opacity var(--motion-ui) ease}
-.umfeld__bridge.is-active{opacity:1}
+.umfeld__bridge.is-active{opacity:1;filter:drop-shadow(0 0 5px #9466DF99)}
 .umfeld__nodes circle{fill:var(--ink)}
 .umfeld__name{position:absolute;transform:translate(-50%,-50%);font:var(--type-heading);white-space:nowrap;pointer-events:none}
 .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}

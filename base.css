@@ -51,8 +51,14 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
 .button--icon{min-width:52px;padding:0}
 .button:disabled{opacity:.45;cursor:default}
 @media(hover:hover) and (pointer:fine){
-  .button:hover::before{opacity:.09}
-  .button--secondary:hover::before{opacity:.05}
+  .button:hover::before{opacity:.14}
+  .button--secondary:hover::before{opacity:.06}
+  body:not([data-motion=off]) .button:hover{transform:translateY(-2px);box-shadow:var(--glow)}
+  body:not([data-motion=off]) .button--secondary:hover{box-shadow:var(--raised-sm),var(--glow)}
+  .button:active{transform:translateY(1px) scale(.98)}
+  .segmented button:not([aria-pressed=true]):not([aria-selected=true]):hover{background:#FFFFFF8C;color:var(--ink);box-shadow:var(--raised-sm)}
+  .back-link:hover,.brand:hover{color:var(--grund-tief)}
+  .back-link:hover{border-bottom-width:2px}
 }
 
 .segmented{display:inline-flex;flex-wrap:wrap;gap:6px;padding:6px;border-radius:calc(var(--radius-control) + 6px);background:var(--canvas);box-shadow:var(--pressed)}
@@ -88,7 +94,9 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
 .track__station:last-child{padding-bottom:0}
 .track__marker{position:relative;z-index:1;width:var(--marker);height:var(--marker);margin-top:6px;border-radius:50%}
 .track__station[data-state=done] .track__marker{background:var(--ink);transform:scale(.72)}
-.track__station[data-state=now] .track__marker{background:var(--canvas);box-shadow:0 0 0 var(--trace) var(--grund-tief),0 0 0 6px var(--grund-hauch)}
+.track__station[data-state=now] .track__marker{background:var(--canvas);box-shadow:0 0 0 var(--trace) var(--grund-tief),0 0 0 6px var(--grund-hauch);animation:now-glow var(--motion-breath) ease-in-out infinite}
+@keyframes now-glow{0%,100%{box-shadow:0 0 0 1.6px var(--grund-tief),0 0 0 6px var(--grund-hauch),0 0 0 0 #6756D900}43%{box-shadow:0 0 0 1.6px #9466DF,0 0 0 6px var(--grund-hauch),0 0 22px 8px #D85BA955}}
+body[data-motion=off] .track__marker{animation-play-state:paused}
 .track__station[data-state=open] .track__marker{border:var(--trace) solid var(--ink-2);-webkit-mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0);mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0)}
 .track__seg{position:absolute;left:calc(var(--marker) / 2 - .8px);top:calc(6px + var(--marker) / 2);bottom:calc(-6px - var(--marker) / 2);width:var(--trace);background:var(--ink);transform-origin:top}
 .track__station:last-child .track__seg{display:none}
@@ -118,6 +126,23 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
 .page-intro{max-width:var(--measure);margin-bottom:clamp(48px,7vw,96px)}
 .page-intro h1{font:var(--type-display);letter-spacing:-.025em}
 .page-intro p{margin-top:24px;color:var(--ink-2)}
+
+/* ---------- Glührand ----------
+   Ein Rand, dessen Farbe dem Markenspektrum entlang wandert, und ein
+   weiches Glühen. Sichtbar bei Hover, Fokus und Auswahl. Ohne Bewegung
+   steht der Verlauf still. */
+@property --edge-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes edge-turn{to{--edge-angle:360deg}}
+@keyframes glow-breathe{0%,100%{box-shadow:var(--glow)}43%{box-shadow:0 12px 36px -8px #4D7FE880,0 0 30px -4px #9466DF66}}
+.glow-edge{position:relative;isolation:isolate}
+.glow-edge::after{content:"";position:absolute;inset:0;z-index:2;padding:2px;border-radius:inherit;pointer-events:none;
+  background:conic-gradient(from var(--edge-angle),var(--edge-stops));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  opacity:0;transition:opacity 220ms ease;animation:edge-turn 6s linear infinite}
+.glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true])::after,.glow-edge:focus-visible::after{opacity:1}
+.glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true]){animation:glow-breathe var(--motion-breath) ease-in-out infinite}
+@media(hover:hover) and (pointer:fine){.glow-edge:hover::after{opacity:1}}
+body[data-motion=off] .glow-edge::after,body[data-motion=off] .glow-edge{animation-play-state:paused}
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}

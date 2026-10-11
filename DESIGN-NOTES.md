@@ -24,25 +24,36 @@ Sekundärtext ist `#3D5055` (7,2:1 auf Canvas). Im Rad werden Ringschrift und Ic
 
 **Neutral:** Canvas `#F0ECE3`, Papier `#F6F1E7`, Ink `#16363B`, Sekundärtext `#3D5055`.
 
-**Bereiche des Resonanzrads:** Jeder Bereich hat einen Grundton. Die drei Bereiche sind ausgeglichen: gleiche Helligkeit auf jeder Stufe (OKLCH L 0,46 / 0,66 / 0,75 / 0,84 / 0,93) und angeglichene Sättigung (Koralle ×0,9, Petrol ×0,72), damit kein Bereich dominiert. In 4.5 vor dieser Korrektur wirkten Violett und ein tief gefärbter aktiver Ring zu laut.
+**Bereiche des Resonanzrads:** Jeder Bereich hat einen Grundton. Die drei Bereiche sind ausgeglichen: gleiche Helligkeit auf jeder Stufe (OKLCH L 0,46 / 0,74 / 0,81 / 0,875 / 0,94) und angeglichene Sättigung (Koralle ×0,9, Petrol ×0,72), damit kein Bereich dominiert. In 4.5 vor dieser Korrektur wirkten Violett und ein tief gefärbter aktiver Ring zu laut.
 
 | Bereich | Tief · Schrift | Feld 1 | Feld 2 | Feld 3 | Hauch · Ring und offen |
 |---|---|---|---|---|---|
-| Grundtöne · Violett | `#59479A` | `#9187CB` | `#ADA6DE` | `#C9C5F0` | `#E7E5FB` |
-| Ich & Orientierung · Koralle | `#8E3931` | `#C37D73` | `#D89D95` | `#ECBEB7` | `#FAE2DE` |
-| Beziehung & Verbindung · Petrol | `#006868` | `#59A0A0` | `#83BAB9` | `#ABD4D3` | `#D8EDEC` |
+| Grundtöne · Violett | `#59479A` | `#AAA2DD` | `#C0BAE9` | `#D5D1F2` | `#EAE9FB` |
+| Ich & Orientierung · Koralle | `#8E3931` | `#D79990` | `#E4B3AC` | `#F0CCC7` | `#FAE6E3` |
+| Beziehung & Verbindung · Petrol | `#006868` | `#7CB7B7` | `#9ECBCA` | `#BEDDDC` | `#DEEFEF` |
 
 Violett, Koralle und Petrol wurden gegen andere Trios getestet, auch für Farbsehschwächen. Merkbar sind sie über ihre Bedeutung: Violett für Herkunft und Tiefe, Koralle für Wärme und das Selbst, Petrol für Verbindung und die Nähe zum Ink.
 
-Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe auf Canvas und Hauch (mindestens 5,4:1). Ink auf dem Hauch (mindestens 10:1). Die Felder 1 bis 3 tragen nur Icons in Ink (mindestens 4:1). Der Ring zeigt alle drei Bereiche gleich stark im Hauch und hebt nichts hervor. Die frühere Feldpalette aus 4.4 (Blue, Orchid, Pink, Amber, Moss, Teal in Gruppen A–C) ist ersetzt.
+Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe auf Canvas und Hauch (mindestens 5,4:1). Ink auf dem Hauch (mindestens 10:1). Auf den Feldern 1 bis 3 stehen Icon, Name und Ergebnis in Ink (mindestens 5,4:1). Die Felder sind bewusst hell, damit das Rad auch nach dem Aufbau ruhig bleibt. Der Ring zeigt alle drei Bereiche gleich stark im Hauch und hebt nichts hervor. Die frühere Feldpalette aus 4.4 (Blue, Orchid, Pink, Amber, Moss, Teal in Gruppen A–C) ist ersetzt.
 
-**Markenspektrum** Violet → Blue → Orchid → Rose → Pink: nur für das Zeichen und die Verbindungslinie zwischen zwei Menschen. Keine Fläche, keine Kategorie.
+**Markenspektrum** Violet → Blue → Orchid → Rose → Pink: für das Zeichen, die Verbindungslinie und den Glührand. Keine Fläche, keine Kategorie.
+
+**Verläufe als Liste** (auch im Atlas kopierbar, Werte in `tokens.css`):
+
+- Markenspektrum: `#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A`
+- Verbindung: `#6756D9, #D85BA9`
+- Glührand, geschlossener Kreis: `#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A, #6756D9`
+- Grundtöne, tief bis Hauch: `#59479A, #AAA2DD, #C0BAE9, #D5D1F2, #EAE9FB`
+- Ich & Orientierung, tief bis Hauch: `#8E3931, #D79990, #E4B3AC, #F0CCC7, #FAE6E3`
+- Beziehung & Verbindung, tief bis Hauch: `#006868, #7CB7B7, #9ECBCA, #BEDDDC, #DEEFEF`
 
 **Status:** Info `#2863AB`, Hinweis `#875500`, Fehler `#B02A2D`, Erfolg `#2B7440`, je mit eigener Hauchfläche. Text auf der Fläche hat mindestens 5:1. Jeder Status hat einen 4-px-Balken, ein gefülltes Zeichen im Kreis und ein Label. Weil Koralle-Tief nahe am Fehler-Rot liegt, unterscheidet die Form: Status hat immer Zeichen und Balken, Bereiche nie.
 
 ## Material
 
 Warme Reliefoberfläche, Licht von links oben. Was man bedienen kann, hebt sich an (`--raised`), Eingaben liegen vertieft (`--pressed`). Radien: Control 12 px, Button 16 px, Fläche 28 px. Schatten tragen nie allein eine Funktion; Auswahl hat immer auch Text, Fokus oder ein Zeichen.
+
+**Glührand und Hover:** Bedienbare Flächen zeigen bei Hover, Fokus und Auswahl einen Rand, dessen Farbe dem Markenspektrum entlang im Kreis wandert (6 s pro Umlauf), dazu ein weiches Glühen. Ausgewählte Flächen (gewähltes Feld, gewählte Person, aktiver Tab, bewusste Auswahl) glühen im Atemtakt. Jeder Hover ist gut sichtbar: Karten heben sich und glühen, Listen und Navigation bekommen eine Fläche, Links werden violett mit kräftigerer Unterstreichung, Buttons hellen auf und heben sich. Ohne Bewegung steht der Verlauf still.
 
 Buttons blitzen nicht mehr: Die Grundfarbe liegt unter dem Verlauf, und Hover hellt über eine eigene Ebene auf, statt den Hintergrund zu tauschen. In 4.4 tauschte die Hover-Regel den Verlauf gegen eine Fläche, die von transparent einblendete; dazwischen schien die helle Fläche durch.
 
@@ -57,7 +68,7 @@ Alle Elemente liegen unter `components/` und laufen als eigene Seite sowie einge
 **Resonanzrad** (`components/resonanzrad/`), wiederhergestellt aus dem persönlichen Rad (Repo-Stand `8995945`) und überarbeitet:
 - Geometrie unverändert verbindlich: exakter Kreis, neun Stücke à 40°, drei Bereiche à 120°, ein gemeinsamer Mittelpunkt.
 - Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt seine Nuance (tief, mittel, hell), ein offenes nur den Hauch seines Bereichs. Die Kontur bestätigt es: geschlossen oder mit Öffnung.
-- Im Rad stehen nur Icons. Das gewählte Feld steht direkt unter dem Rad zwischen den Pfeilen, damit es auch auf dem Telefon sofort sichtbar ist. Namen, Ergebnisse und Status stehen in der Liste und im Lesebereich. Die Liste ist die Tastaturbedienung (Pfeile, Home, End).
+- Im Rad stehen Icon, Name und Ergebnis jedes Felds in echten 15 px, weil man sich Icons allein nicht merkt. Ist das Rad schmaler als 420 px, steht im Stück nur der Name; Icon und Ergebnis zeigt dann die Zeile direkt unter dem Rad. Der Auswahlbogen läuft im Markenspektrum und glüht. Namen, Ergebnisse und Status stehen in der Liste und im Lesebereich. Die Liste ist die Tastaturbedienung (Pfeile, Home, End).
 - Der Ring zeigt die drei Bereiche gleich stark und hebt nichts hervor. Icons, Konturen und Auswahlbogen sind Ink.
 
 **Umfeld** (`components/umfeld/`): Ich in der Mitte, Menschen als eigene, offene Kreise. Abstand zeigt Nähe, die Stärke der Linie die Resonanz, ohne aktive Resonanz gibt es keine Linie. Eine Liste ist die Bedienung, der gewählte Mensch öffnet den Beziehungsraum mit seinen Werten. So trägt das Umfeld mehr als eine einzelne Beziehung. Unter 560 px Breite gilt ein Hochformat mit grösseren Kreisen, damit die Namen in echten 15 px hineinpassen.
@@ -87,8 +98,11 @@ Bewegung erklärt: Kreise rücken zusammen, das Rad baut sich Bereich für Berei
 | Umfeld | Menschen rücken aus dem Rand auf ihre Nähe, danach zeichnen sich die Verbindungen. |
 | Weg und Tageslinie | Die Spur wächst, Stationen erscheinen beim Erreichen. Auf der Element-Seite an den Scroll gekoppelt. |
 | Status | Das Zeichen federt beim Wechsel kurz ein. |
+| Glühen | Die Station „jetzt“, der Auswahlbogen im Rad und ausgewählte Flächen glühen im Atemtakt; Verbindungslinien leuchten weich. |
 | Bedienung | 160–220 ms, ohne Blitz. |
 | Immer | Nur die Atmung: 3,4 s Raum geben, 4,4 s zur Ruhe, höchstens 7,5 % Radius. |
+
+Alle Auftritte setzen ihre Endwerte ausdrücklich, und der Versteck-Guard wird vor dem Anlegen gelöst; vorher sprangen manche Blöcke am Ende schlagartig auf. Das festgehaltene Kapitel wird zuerst angelegt, damit alle Auftritte dahinter zur richtigen Stelle auslösen, und jeder einmalige Auftritt gilt bis zum Seitenende, damit auch schnelles Scrollen oder ein Sprung über die Navigation ihn auslöst. Ohne Festhalten (Telefon) baut sich nur das Rad auf, Lesebereich und Liste sind sofort da.
 
 Kein Auftritt versteckt Inhalte. Ohne JavaScript und bei reduzierter Bewegung ist alles sofort sichtbar, spätestens nach 5 s auch dann, wenn GSAP nicht lädt. Was beim Laden schon im Bild ist, erscheint ohne Auftritt. Versteckt wird nur über die Deckkraft, damit alles per Tab erreichbar bleibt. Tastatur, Fokus auf etwas noch Unsichtbarem und die globale Pause beenden alle Auftritte und lösen das festgehaltene Kapitel. Titel werden erst nach dem Laden der Schriften gesplittet, Screenreader lesen den ganzen Satz.
 

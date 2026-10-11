@@ -129,7 +129,7 @@ rad.mount($('[data-resonanzrad]'), { heading: 'h3' });
 /* ---------- 05 Farbe: Werte kommen live aus tokens.css ---------- */
 function swatch(name, token, dark) {
   const hex = css(token), button = document.createElement('button');
-  button.className = 'swatch'; button.style.setProperty('--swatch', hex);
+  button.className = 'swatch glow-edge'; button.style.setProperty('--swatch', hex);
   if (dark) button.dataset.dark = '';
   button.setAttribute('aria-label', `${name} ${hex} kopieren`);
   button.innerHTML = `<strong>${name}</strong><span>${hex}</span>`;
@@ -157,6 +157,23 @@ $('#spectrumPalette').innerHTML = '<div class="spectrum__bar" role="img" aria-la
   SPECTRUM.map(([name, hex]) => `<button type="button" data-copy="${hex}" aria-label="${name} ${hex} kopieren">${name} ${hex}</button>`).join('') + '</div>';
 $('#spectrumPalette').addEventListener('click', event => { const b = event.target.closest('[data-copy]'); if (b) copyText(b.dataset.copy, b.dataset.copy + ' kopiert'); });
 
+/* Verläufe: Farbstopps als kommaseparierte Liste, live aus tokens.css */
+const GRADIENTS = [
+  ['Markenspektrum', 'Zeichen und Verbindung', css('--spectrum-stops')],
+  ['Verbindung', 'Linie zwischen zwei Menschen', css('--bridge-stops')],
+  ['Glührand', 'Rand bei Hover, Fokus und Auswahl, wandert im Kreis', css('--edge-stops'), true],
+  ...rad.groups.map(group => [group.label, 'Tief bis Hauch', ['tief', 1, 2, 3, 'hauch'].map(n => css(`--${group.id}-${n}`)).join(', ')])
+];
+GRADIENTS.forEach(([name, use, stops, edge]) => {
+  const row = document.createElement('div');
+  row.className = 'gradient';
+  row.innerHTML = `<span class="gradient__bar${edge ? ' gradient__bar--edge' : ''}" style="--stops:${stops}" aria-hidden="true"></span>` +
+    `<span><span class="gradient__name">${name}</span> <span class="secondary t-label">· ${use}</span><code class="gradient__stops">${stops}</code></span>` +
+    `<button type="button" class="gradient__copy" aria-label="${name} als Liste kopieren">Kopieren</button>`;
+  row.querySelector('button').addEventListener('click', () => copyText(stops, name + ' kopiert'));
+  $('#gradientList').append(row);
+});
+
 const STATUS = {
   info: { name: 'Info', sign: 'i', token: '--info', text: 'Deine Angaben kannst du später ergänzen.', role: 'Sachliche Orientierung.' },
   hint: { name: 'Hinweis', sign: '!', token: '--hint', text: 'Hier fehlen noch Angaben. Du kannst trotzdem weitergehen.', role: 'Aufmerksamkeit, kein Alarm.' },
@@ -166,7 +183,7 @@ const STATUS = {
 const statusInner = (key, text) => `<span class="status__sign" aria-hidden="true">${STATUS[key].sign}</span><div><strong class="status__title">${STATUS[key].name}</strong><p class="status__text">${text}</p></div>`;
 Object.entries(STATUS).forEach(([key, item]) => {
   const hex = css(item.token), button = document.createElement('button');
-  button.type = 'button'; button.className = 'status'; button.dataset.role = key;
+  button.type = 'button'; button.className = 'status glow-edge'; button.dataset.role = key;
   button.setAttribute('aria-label', `${item.name} ${hex} kopieren`);
   button.innerHTML = statusInner(key, item.role).replace('</p></div>', `<span class="status__hex">${hex}</span></p></div>`);
   button.addEventListener('click', () => copyText(hex, hex + ' kopiert'));
@@ -235,6 +252,7 @@ const RULES = [
 ];
 RULES.forEach(([title, text]) => {
   const label = document.createElement('label');
+  label.className = 'glow-edge';
   label.innerHTML = `<input type="checkbox"><span><strong>${title}</strong><span>${text}</span></span>`;
   $('#checklist').append(label);
 });

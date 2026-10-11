@@ -9,9 +9,9 @@
 /* ---------- Seitenleiste und mobile Leiste ---------- */
 .sidebar{position:fixed;inset:0 auto 0 0;z-index:20;width:var(--rail);display:flex;flex-direction:column;gap:40px;padding:32px 28px 28px;background:var(--canvas);border-right:1px solid var(--line);overflow:auto}
 .sidebar nav{display:grid}
-.sidebar nav a{display:flex;align-items:center;min-height:40px;font:var(--type-label);color:var(--ink-2);text-decoration:none;transition:color var(--motion-ui) ease}
+.sidebar nav a{display:flex;align-items:center;min-height:40px;margin:0 -12px;padding:0 12px;border-radius:10px;font:var(--type-label);color:var(--ink-2);text-decoration:none;transition:color var(--motion-ui) ease,background var(--motion-ui) ease}
 .sidebar nav a.active{color:var(--ink);font-weight:600}
-.sidebar nav a.active::before{content:"";width:8px;height:8px;margin-right:12px;margin-left:-20px;border-radius:50%;background:var(--grund-tief)}
+.sidebar nav a.active::before{content:"";width:8px;height:8px;margin-right:10px;border-radius:50%;background:var(--grund-tief)}
 .rail-bottom{margin-top:auto;display:grid;gap:12px;padding-top:20px;border-top:1px solid var(--line);font:var(--type-label);color:var(--ink-2)}
 .motion-toggle{display:flex;align-items:center;gap:12px;min-height:44px;padding:0;border:0;background:transparent;font:var(--type-label);text-align:left;color:var(--ink)}
 .motion-toggle::before{content:"";flex:none;width:12px;height:12px;border:var(--trace) solid currentColor;border-radius:50%}
@@ -113,6 +113,14 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .area-card__fields li{display:flex;align-items:center;gap:14px;font:var(--type-label)}
 .area-card__fields .icon{color:var(--tone)}
 .spectrum{display:grid;gap:16px}
+.gradients{display:grid;gap:12px}
+.gradient{display:grid;grid-template-columns:minmax(120px,240px) minmax(0,1fr) auto;gap:24px;align-items:center;padding:14px 16px;border-radius:var(--radius-control)}
+.gradient__bar{height:40px;border-radius:var(--radius-control);background:linear-gradient(90deg,var(--stops));box-shadow:var(--raised-sm)}
+.gradient__bar--edge{background:conic-gradient(from var(--edge-angle),var(--stops));border-radius:50%;width:40px;animation:edge-turn 6s linear infinite}
+.gradient__name{font:var(--type-label);font-weight:600}
+.gradient__stops{display:block;font:400 15px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink-2);word-break:break-word}
+.gradient__copy{min-height:44px;padding:0 4px;border:0;background:transparent;font:var(--type-label);font-weight:600;color:var(--ink-2)}
+@media(max-width:640px){.gradient{grid-template-columns:1fr;gap:10px}}
 .spectrum__bar{height:56px;border-radius:var(--radius-control);background:var(--spectrum);box-shadow:var(--raised-sm)}
 .spectrum__values{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 .spectrum__values button{min-height:44px;padding:0;border:0;background:transparent;font:var(--type-label);color:var(--ink-2)}
@@ -210,7 +218,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .tokens{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:clamp(40px,6vw,96px);align-items:start}
 .downloads{display:grid;gap:4px}
 .downloads a{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:52px;padding:0 16px;border-radius:var(--radius-control);font:var(--type-label);font-weight:600;text-decoration:none;transition:background var(--motion-ui) ease}
-.downloads a::after{content:"";width:12px;height:12px;border-right:var(--trace) solid currentColor;border-bottom:var(--trace) solid currentColor;transform:translateY(-3px) rotate(45deg)}
+.downloads a::before{content:"";order:1;width:12px;height:12px;border-right:var(--trace) solid currentColor;border-bottom:var(--trace) solid currentColor;transform:translateY(-3px) rotate(45deg);transition:transform var(--motion-ui) var(--ease)}
 .code-panel{min-width:0;padding:28px;border-radius:var(--radius-surface);background:var(--canvas);box-shadow:var(--pressed)}
 .code-panel__top{display:flex;justify-content:space-between;align-items:center;gap:16px}
 .code-panel pre{max-height:560px;margin:24px 0 0;overflow:auto;font:400 15px/1.75 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre}
@@ -222,11 +230,26 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .toast{position:fixed;bottom:28px;left:calc(50% + var(--rail) / 2);z-index:40;max-width:calc(100vw - 32px);padding:14px 22px;border-radius:var(--radius-control);background:var(--ink);color:#fff;font:var(--type-label);opacity:0;transform:translate(-50%,8px);pointer-events:none;transition:opacity var(--motion-ui) ease,transform var(--motion-ui) var(--ease)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
+/* Hover: immer gut sichtbar. Farbe oder Fläche ändert sich, Karten heben
+   sich und glühen, Auswahlflächen bekommen den Glührand (base.css). */
 @media(hover:hover) and (pointer:fine){
-  .sidebar nav a:hover,.text-link:hover{color:var(--grund-tief)}
-  .downloads a:hover{background:var(--paper)}
+  .sidebar nav a:hover{color:var(--ink);background:var(--grund-hauch)}
+  .text-link:hover{color:var(--grund-tief);border-bottom-width:2px}
+  .text-link .icon{transition:transform var(--motion-ui) var(--ease)}
+  body[data-motion=on] .text-link:hover .icon{transform:translateY(3px)}
+  .downloads a:hover{background:var(--paper);box-shadow:var(--raised-sm)}
+  body[data-motion=on] .downloads a:hover::before{transform:translate(0,0) rotate(45deg)}
+  .checklist label:hover{background:var(--paper)}
+  .check-label:hover,.logo-audit summary:hover,.motion-toggle:hover{color:var(--grund-tief)}
+  .menu-toggle:hover{background:var(--paper);border-radius:12px}
+  .ramp button:hover{background:var(--paper);border-radius:var(--radius-control)}
+  .spectrum__values button:hover,.gradient__copy:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
+  .choice:hover{background:var(--paper)}
+  .element-card:hover,.swatch:hover,.statuses .status:hover,.paper:hover{box-shadow:var(--raised-sm),var(--glow)}
   body[data-motion=on] .paper:hover{transform:perspective(1000px) translateY(-6px) rotateX(2deg) rotateY(-1deg)}
-  body[data-motion=on] .swatch:hover{transform:translateY(-3px)}
+  body[data-motion=on] .swatch:hover,body[data-motion=on] .statuses .status:hover{transform:translateY(-4px)}
+  body[data-motion=on] .choice:hover{transform:translateY(-2px)}
+  .statuses .status{transition:transform var(--motion-ui) var(--ease),box-shadow var(--motion-ui) ease}
 }
 body[data-motion=off] .paper,body[data-motion=off] .swatch,body[data-motion=off] .element-card{transform:none!important;transition:none!important}
 

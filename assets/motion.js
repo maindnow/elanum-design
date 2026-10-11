@@ -62,7 +62,7 @@
         var split = window.SplitText.create(el, { type: 'lines', mask: 'lines' });
         tl.from(split.lines, { yPercent: 100, duration: M.duration.title, ease: M.ease.title, stagger: M.stagger.hero }, 0);
       } else {
-        tl.from(el, { y: M.y, opacity: 0, duration: M.duration.reveal, clearProps: CLEAR }, 0.3 + i * M.stagger.hero);
+        tl.fromTo(el, { y: M.y, opacity: 0 }, { y: 0, opacity: 1, duration: M.duration.reveal, clearProps: CLEAR }, 0.3 + i * M.stagger.hero);
       }
     });
   }
@@ -73,7 +73,7 @@
       if (aboveFold(el)) return;
       var split = window.SplitText.create(el, { type: 'lines', mask: 'lines' });
       gsap.from(split.lines, { yPercent: 100, duration: M.duration.title, ease: M.ease.title, stagger: M.stagger.hero,
-        scrollTrigger: { trigger: el, start: M.start.large, once: true } });
+        scrollTrigger: { trigger: el, start: M.start.large, end: 'max', once: true } });
     });
   }
 
@@ -81,22 +81,22 @@
   function reveals() {
     all('[data-anim="reveal"]').forEach(function (el) {
       if (aboveFold(el)) return;
-      gsap.from(el, { y: M.y, opacity: 0, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR,
-        scrollTrigger: { trigger: el, start: M.start.normal, once: true } });
+      gsap.fromTo(el, { y: M.y, opacity: 0 }, { y: 0, opacity: 1, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR,
+        scrollTrigger: { trigger: el, start: M.start.normal, end: 'max', once: true } });
     });
     all('[data-anim="stagger"]').forEach(function (el) {
       if (aboveFold(el)) return;
       var kids = Array.prototype.slice.call(el.children);
-      gsap.from(kids, { y: M.y, opacity: 0, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR,
+      gsap.fromTo(kids, { y: M.y, opacity: 0 }, { y: 0, opacity: 1, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR,
         stagger: kids.length > 4 ? { amount: M.stagger.amount } : M.stagger.items,
-        scrollTrigger: { trigger: el, start: M.start.normal, once: true } });
+        scrollTrigger: { trigger: el, start: M.start.normal, end: 'max', once: true } });
     });
     /* Farbrampen: jede Stufe wächst von links, tief zuerst. Die Abstufung wird sichtbar. */
     all('[data-anim="ramp"]').forEach(function (el) {
       if (aboveFold(el)) return;
       var card = el.closest('.area-card') || el;
-      var tl = gsap.timeline({ scrollTrigger: { trigger: card, start: M.start.normal, once: true } });
-      tl.from(card, { y: M.y, opacity: 0, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR })
+      var tl = gsap.timeline({ scrollTrigger: { trigger: card, start: M.start.normal, end: 'max', once: true } });
+      tl.fromTo(card, { y: M.y, opacity: 0 }, { y: 0, opacity: 1, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR })
         .from(all('.ramp__bar', el), { scaleX: 0, duration: M.duration.line, ease: M.ease.line, stagger: M.stagger.items }, 0.15)
         .from(all('.ramp button > span:not(.ramp__bar), .area-card__fields li', card), { opacity: 0, duration: 0.5, stagger: 0.05 }, 0.5);
     });
@@ -126,7 +126,7 @@
       var approach = tl.getById('approach');
       var end = function () { if (tl.progress() < 1) tl.progress(1); };
       sliders.forEach(function (s) { if (s) s.addEventListener('pointerdown', end, { once: true }); });
-      ScrollTrigger.create({ trigger: frame, start: 'top 70%', once: true, onEnter: function () { tl.play(); } });
+      ScrollTrigger.create({ trigger: frame, start: 'top 70%', end: 'max', once: true, onEnter: function () { tl.play(); } });
       var finished = false;
       finishers.push(function () { if (finished) return; finished = true; tl.progress(1); approach.eventCallback('onUpdate', null); apply(goal); });
     });
@@ -174,9 +174,13 @@
     tl.from(parts.contours, { drawSVG: '0%', duration: 0.9, ease: M.ease.line, stagger: 0.06 }, 5.8)
       .to([parts.lift, parts.active], { opacity: 1, duration: 0.5 }, 6.6);
     if (steps) tl.to(steps[3], { opacity: 0, y: -16, duration: 0.4 }, 7.4);
-    tl.from(parts.reader, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, steps ? 7.6 : 6.4)
-      .from([parts.nav, parts.list], { opacity: 0, y: M.y, duration: 0.6, stagger: 0.1, clearProps: CLEAR }, steps ? 7.7 : 6.5)
-      .call(function () { rad.classList.remove('is-entering'); restore(); });
+    /* Lesebereich und Liste sind Inhalt: Nur im festgehaltenen Kapitel
+       erscheinen sie am Ende der Erklärung, sonst sind sie sofort da. */
+    if (steps) {
+      tl.from(parts.reader, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 7.6)
+        .from([parts.nav, parts.list], { opacity: 0, y: M.y, duration: 0.6, stagger: 0.1, clearProps: CLEAR }, 7.7);
+    }
+    tl.call(function () { rad.classList.remove('is-entering'); restore(); });
     return tl;
   }
   function resonanzrad() {
@@ -202,8 +206,8 @@
           return function () { stepsList.hidden = true; };
         }
         var once = wheelTimeline(scene, parts, null).pause();
-        once.timeScale(1.6);
-        ScrollTrigger.create({ trigger: parts.wheel, start: 'top 75%', once: true, onEnter: function () { once.play(); } });
+        once.timeScale(2.2);   /* ohne Festhalten: Aufbau in gut 3 s */
+        ScrollTrigger.create({ trigger: parts.wheel, start: 'top 75%', end: 'max', once: true, onEnter: function () { once.play(); } });
         if (aboveFold(parts.wheel)) once.play();
       });
     });
@@ -292,9 +296,14 @@
   /* Start nach fonts.ready, damit Titel mit der echten Schrift gesplittet werden. */
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () {
     if (document.body.dataset.motion === 'off') { ready(); return; }
-    ctx.add(function () { hero(); titles(); reveals(); beziehung(); umfeld(); tracks(); });
-    resonanzrad();
-    ScrollTrigger.refresh();
+    /* Erst den Guard lösen, dann im selben Task die Startwerte setzen: so liest
+       GSAP die echten Endwerte (Deckkraft 1), und dazwischen wird nichts gezeichnet. */
     ready();
+    /* Das festgehaltene Kapitel zuerst anlegen, damit alle Auftritte dahinter
+       seine Scrollstrecke kennen und nicht zu früh auslösen. */
+    resonanzrad();
+    ctx.add(function () { hero(); titles(); reveals(); beziehung(); umfeld(); tracks(); });
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
   });
 })();
