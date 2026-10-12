@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Beziehungsraum</title>
+<link rel="icon" href="../../assets/ELANUM-System-Ink-Geometrisch.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="beziehungsraum.css">
+<link rel="stylesheet" href="page.css">
+</head>
+<body>
+<a class="skip-link" href="#element">Zum Element springen</a>
+<header class="page-top">
+  <a class="brand" href="../../index.html"><img src="../../assets/ELANUM-System-Ink-Geometrisch.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
+  <a class="back-link glow-edge" href="../../index.html#bausteine">Gestaltungsatlas 4.5</a>
+</header>
+<main class="page">
+  <div class="page-intro">
+    <h1 data-anim="hero">Beziehungsraum</h1>
+    <p data-anim="hero">Zwei eigene Räume und eine Verbindung dazwischen. Nähe verändert den Abstand, nie die Identität. Die Kreise bleiben rund und atmen gemeinsam.</p>
+  </div>
+  <div class="relationship-frame" id="element" data-beziehung data-anim="beziehung" role="img" aria-label="Zwei runde, offene Konturen, verbunden durch eine kurze gebogene Linie.">
+    <svg viewBox="0 0 720 400" aria-hidden="true"></svg>
+    <div class="relationship-label" data-person="a">Du<span>dein Raum</span></div>
+    <div class="relationship-label" data-person="b"><span data-name>Mara</span><span>ihr Raum</span></div>
+  </div>
+  <div class="bz-controls">
+    <p class="bz-reading t-heading" id="labReading" aria-live="polite"></p>
+    <div class="bz-sliders">
+      <div class="control"><div class="control__head"><label for="proximity">Nähe</label><output id="proximityValue" for="proximity"></output></div><input type="range" id="proximity" min="0" max="100" value="58"></div>
+      <div class="control"><div class="control__head"><label for="resonance">Resonanz</label><output id="resonanceValue" for="resonance"></output></div><input type="range" id="resonance" min="0" max="100" value="72"></div>
+      <div class="control"><div class="control__head"><label for="openness">Freiraum</label><output id="opennessValue" for="openness"></output></div><input type="range" id="openness" min="8" max="88" value="34"></div>
+    </div>
+    <div class="bz-foot"><button class="motion-toggle glow-edge" data-motion-toggle aria-pressed="false">Bewegung pausieren</button><a class="back-link glow-edge" href="../umfeld/">Zum Umfeld</a></div>
+  </div>
+</main>
+<script src="beziehungsraum.js"></script>
+<script src="page.js"></script>
+</body>
+</html>

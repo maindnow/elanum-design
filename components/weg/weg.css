@@ -1,0 +1,4 @@
+/* ELANUM Weg und Tageslinie · Seite. Der Baustein .track liegt in base.css. */
+.weg-block{display:grid;gap:16px;padding-bottom:clamp(96px,14vw,200px)}
+.weg-block .track{margin-top:clamp(40px,6vw,72px)}
+.weg-block:last-child{padding-bottom:40vh}
