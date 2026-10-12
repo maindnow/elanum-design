@@ -25,38 +25,17 @@ Kreisabschnitte sind echte SVG-Bögen. Die Brücken sind kubische B-Splines, exp
 
 `tools/build_logo_geometrie.py` erzeugt Ink, Spektrum, Blueprint, die Detailansicht von B3 und B5, den Formvergleich zur Kurvenkorrektur und `ELANUM-Konstruktion-Geometrisch.json` mit allen Parametern und Prüfwerten. Der Konstruktor ist aus dem Paket übernommen, nur die Pfade sind angepasst. Er benötigt numpy und scipy (`tools/requirements.txt`). Der Lauf reproduziert die SVGs des Pakets byte-genau.
 
-## Vergleichsfassungen: nur Kreisbögen
+## Entstehung
 
-Vor dem Geometrie-Paket entstanden zwei Fassungen, die ausschliesslich aus Kreisbögen bestehen (Dateien `-Circles` und `-Harmonic`). Sie bleiben zum Vergleich im Styleguide. Die bisherigen Innenkonturen waren freie Bézier-Kurven: Innerhalb eines Bogens schwankte der Radius (z. B. 289 → 249 → 342), an den Übergängen sprang er (z. B. 245 → 289). Die Tangenten schlossen an, die Krümmung nicht. Dadurch wirkten die Rundungen unruhig. Die Kurvenkorrektur aus 4.4 hat nur Kontrollpunkte verschoben und konnte das nicht beheben.
+Die bisherigen Innenkonturen waren freie Bézier-Kurven. Innerhalb eines Bogens schwankte der Radius (z. B. 289 → 249 → 342), an den Übergängen sprang er (z. B. 245 → 289). Die Tangenten schlossen an, die Krümmung nicht, deshalb wirkten die Rundungen unruhig. Die Kurvenkorrektur aus 4.4 hat nur Kontrollpunkte verschoben und konnte das nicht beheben.
 
-Konstruktionsregeln:
-
-- Jede Kontur ist eine Kette aus Kreisbögen. Zwei aufeinanderfolgende Bögen berühren sich tangential: Ihre Mittelpunkte liegen mit dem Übergangspunkt auf einer Geraden. Gemessener Knick an allen Übergängen: 0°.
-- Rahmen: Aussenkreis R und Kreisöffnung r₀.
-- Die beiden feinen Linien sind wie Schriftzüge gebaut. Jede folgt einer Mittellinie aus nur vier Kreisbögen: Spitze, zwei Körperbögen, Spitze. Die Radien wachsen stetig, bei der oberen Linie 150 → 160 → 240 → 300. Der Linienkörper ist konzentrisch zur Mittellinie und überall gleich stark (obere Linie 6, untere 5 Einheiten). An den beiden Spitzenbögen ersetzt je Kante ein Spitzenkreis den Körper; beide Spitzenkreise berühren sich im Endpunkt. Die Stärke nimmt dadurch gleichmässig von 0 auf den vollen Wert zu und am Ende wieder ab, ohne lange Haarlinien.
-- Berührpunkte: E (obere Linie an der Öffnung), S (untere Linie an der Öffnung), T (obere Linie und Kerbe) und W (Spitze der unteren Linie). In T berühren sich vier Kreise in derselben Tangente: Die Linie geht über eine S-Kurve in die Kerbe über.
-- Die Kerbe ist eine Mondsichel zweier Kreise, die sich in T berühren. Sie endet im Schnitt mit dem Aussenkreis.
-- Die Farbkanten des Spektrums (vordere Fläche, Band, Schwanz) laufen auf Konstruktionskreisen. Die Farbkanten laufen auf den Mittellinien. Der Abschluss der vorderen Fläche setzt die untere Linie in W tangential fort. Die Schwanzkante ist ein einziger Bogen. Bewusste Ecken bleiben nur an Abzweigungen, die schon im Original Ecken waren: an der Schwanzkante in T sowie am unteren Bandlappen, wo er von Linie 2 abzweigt und im ausgeblendeten Bereich umknickt.
-- Das Farbnetz des Spektrums (Verläufe, Masken, Farben) ist unverändert aus der Kurvenkorrektur übernommen. Nur die fünf Clip-Pfade sind ersetzt.
-
-Zwei Varianten, gleiche Topologie:
-
-| | Nah am Original (`-Circles`) | Goldener Schnitt (`-Harmonic`) |
-| --- | --- | --- |
-| Radien | Ganzzahlige Leitkreise: 150, 160, 166, 191, 204, 240, 245, 287, 300, 401 | Stufen der Reihe R · φ^(−k/4); vier Stufen ergeben genau den Goldenen Schnitt. Verwendet: k = 11, 10, 9, 8, 7, 6, 5, 4, 2, 0 |
-| Rahmen | R 460,54 · r₀ 122,05 (unverändert) | R 460,54 · r₀ = Stufe 11 = 122,62 |
-| Kreise | 12 Leitkreise und 4 Hilfskreise für Farbkanten | 12 Leitkreise und 4 Hilfskreise für Farbkanten |
-| Max. Abweichung zur Kurvenkorrektur | 7,1 Einheiten im 960er-Raster (≈ 0,5 px bei 64 px) | 10,7 Einheiten; die Kerbe ist schmaler, die obere Linie liegt etwas anders |
-
-Die Abweichung ist entlang der Innenkonturen abgetastet. Sie ist bewusst etwas grösser als bei einer reinen Nachzeichnung: Die alten Kurven hatten selbst Dellen, etwa den fast geraden Abschnitt mit anschliessendem engem Haken am Ende der unteren Linie. Die Konstruktion übernimmt diese Unruhe nicht. Die Blueprints `ELANUM-Konstruktion-Circles.svg` und `ELANUM-Konstruktion-Harmonic.svg` zeigen alle Kreise, Mittelpunkte, Übergänge und Berührpunkte. Volle Kreise sind Leitkreise: Aussenkreis, Öffnung, je vier Kreise der beiden Mittellinien und die zwei Kreise der Kerbe. Gestrichelt sind die vier Hilfskreise der Farbkanten (Schwanzkante, Abschluss der vorderen Fläche, unterer Bandlappen). Körper- und Spitzenbögen der Linien folgen aus Mittellinie und Linienstärke und erscheinen nur als Bögen.
-
-Alle Dateien erzeugt `tools/build_logo_circles.py` (nur Python-Standardbibliothek). Das Skript enthält die Kreisparameter beider Varianten, prüft Knicke und Abweichung und schreibt Ink, Spektrum und Blueprint. Mit `--masks` gibt es zusätzlich die Relief-Masken für `app.js` aus. Die Originale und die Kurvenkorrektur bleiben als Referenz unverändert erhalten.
+Als Zwischenstufen entstanden Fassungen nur aus Kreisbögen, eine nah am Original und eine mit Radien im Goldenen Schnitt. Sie wurden verworfen. Reine Kreisbögen lassen an jedem Übergang einen kleinen Krümmungssprung, und sie brauchten deutlich mehr Kreise. Die Brücken mit stetiger Krümmung sind ruhiger und kommen mit sechs Grundkreisen aus.
 
 ## Soft 3D Relief
 
 Version 4.4 ergänzt eine warme Reliefoberfläche (#F0ECE3): Licht von links oben, weiche Schatten rechts unten und vertiefte Eingaben. `relief.css` überschreibt die früheren Oberflächentokens. Die Basisfarbpalette und kopierbaren Canvas-Tokens sind angepasst.
 
-Die Logo-Card verwendet automatische Bildhöhe und quadratische Proportionen statt der festen 960-px-Bildhöhe. Die Ansicht „Relief“ nutzt die Ink-Silhouette der gewählten Konstruktion als eingebettete SVG-Maske. Seit 4.5 schaltet die Card zwischen „Sechs Grundkreise“ (Standard), „Nur Kreisbögen“ und „Goldener Schnitt“ um, zeigt im Modus „Blueprint“ die Konstruktion und blendet auf Wunsch das unveränderte Original ein. Die Prägung ist eine illustrative Materialanwendung; für kleine Grössen bleiben die flachen Varianten vorgesehen.
+Die Logo-Card verwendet automatische Bildhöhe und quadratische Proportionen statt der festen 960-px-Bildhöhe. Die Ansicht „Relief“ nutzt die Ink-Silhouette der gewählten Konstruktion als eingebettete SVG-Maske. Seit 4.5 zeigt die Card im Modus „Blueprint“ die Konstruktion aus sechs Grundkreisen und blendet auf Wunsch das unveränderte Original ein. Die Prägung ist eine illustrative Materialanwendung; für kleine Grössen bleiben die flachen Varianten vorgesehen.
 
 Beziehungskreise erhalten separate, gefüllte Reliefscheiben. Konturöffnungen und Verbindungen bleiben eigenständige Pfade; Füllung und Kontur atmen synchron. Die Scheiben bleiben mathematisch rund. Bedienzustände behalten zusätzlich Text, Fokusmarkierung und Auswahlkennzeichnung; Schatten allein vermitteln keine Funktion.
 

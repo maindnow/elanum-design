@@ -6,7 +6,7 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Re
 
 ## Was der Styleguide zeigt
 
-- **Logo:** Spektrum, Ink, Invers, Papierrelief und Blueprint. Die Klangsignatur besteht aus sechs Grundkreisen und fünf krümmungsstetigen Brücken. Zwei Fassungen nur aus Kreisbögen und das Original sind zum Vergleich einblendbar.
+- **Logo:** Spektrum, Ink, Invers, Papierrelief und Blueprint. Die Klangsignatur besteht aus sechs Grundkreisen und fünf krümmungsstetigen Brücken. Das Original ist zum Vergleich einblendbar.
 - **Typografie:** Yrsa für persönliche Aussagen, Albert Sans für Orientierung und Bedienung.
 - **Farbe:** neun Feldfarben in drei Gruppen sowie getrennte Info-, Signal- und Fehlerfarben.
 - **Material:** warme Oberflächen, Licht von links oben, erhabene Flächen und vertiefte Eingaben.
@@ -43,7 +43,6 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [app.js](app.js) | SVG-Geometrie, Bewegung und Bedienlogik |
 | [assets/](assets/) | Logos, Blueprints, Konturvergleich und lokale Fonts |
 | [tools/build_logo_geometrie.py](tools/build_logo_geometrie.py) | Erzeugt das Logo aus sechs Grundkreisen (Ink, Spektrum, Blueprint, Prüfwerte) |
-| [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt die Vergleichsfassungen nur aus Kreisbögen |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
 
 Die Stylesheets werden in der Reihenfolge `style.css`, `tactile.css`, `relief.css` geladen. Die Relief-Regeln überschreiben gezielt die Basis.
@@ -52,17 +51,16 @@ Die Stylesheets werden in der Reihenfolge `style.css`, `tactile.css`, `relief.cs
 
 ### Logo aus Kreisen
 
-Dateien ohne Suffix sind die unveränderten Ausgangsdateien, `-Curves` ist die frühere Kurvenkorrektur. Die aktuelle Klangsignatur ist `-Geometrisch`: sechs Grundkreise (C1 bis C6) und fünf benannte Brücken (B1 bis B5) mit stetiger Krümmung. `-Circles` und `-Harmonic` sind Vergleichsfassungen nur aus Kreisbögen. `ELANUM-Konstruktion-<Variante>.svg` zeigt jeweils die Konstruktion. Relief ist eine Materialanwendung, kein neues Logo. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.
+Dateien ohne Suffix sind die unveränderten Ausgangsdateien, `-Curves` ist die frühere Kurvenkorrektur. Die aktuelle Klangsignatur ist `-Geometrisch`: sechs Grundkreise (C1 bis C6) und fünf benannte Brücken (B1 bis B5) mit stetiger Krümmung. `ELANUM-Konstruktion-Geometrisch.svg` zeigt die Konstruktion. Relief ist eine Materialanwendung, kein neues Logo. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.
 
-Logo-Dateien nicht von Hand bearbeiten. Parameter in den Generatoren ändern und neu erzeugen:
+Logo-Dateien nicht von Hand bearbeiten. Parameter im Generator ändern und neu erzeugen:
 
 ```bash
-pip install -r tools/requirements.txt   # numpy und scipy, nur für die Grundkreis-Fassung
+pip install -r tools/requirements.txt   # numpy und scipy
 python3 tools/build_logo_geometrie.py
-python3 tools/build_logo_circles.py --masks
 ```
 
-Die Generatoren prüfen Anschlüsse und Breiten. Die Relief-Masken in `reliefMasks` in `app.js` sind die base64-kodierten Ink-Dateien; nach einer Änderung neu einbetten, damit die lokale Dateiansicht funktioniert. Das Logo selbst wird nicht animiert.
+Der Generator prüft Anschlüsse, Krümmung und Breiten. Die Relief-Masken in `reliefMasks` in `app.js` sind die base64-kodierten Ink-Dateien; nach einer Änderung `ELANUM-System-Ink-Geometrisch.svg` neu einbetten, damit die lokale Dateiansicht funktioniert. Das Logo selbst wird nicht animiert.
 
 ### Tiefe und Bedienbarkeit verbinden
 
@@ -85,16 +83,15 @@ JavaScript-Syntax, Logo-Konstruktion und Diff prüfen:
 ```bash
 node --check app.js
 python3 tools/build_logo_geometrie.py
-python3 tools/build_logo_circles.py
 git diff --check
 ```
 
-Beide Generatoren müssen ohne Fehler durchlaufen; sie brechen bei einem Knick oder Krümmungssprung ab beziehungsweise melden 0° Knick. Danach darf `git status` keine geänderten SVG-Dateien zeigen.
+Der Generator muss ohne Fehler durchlaufen; er bricht bei einem Knick oder Krümmungssprung ab. Danach darf `git status` keine geänderten SVG-Dateien zeigen.
 
 Zusätzlich im Browser:
 
 - Desktop und Mobil: keine horizontalen Überläufe, lesbare Beschriftungen.
-- Logo: alle drei Konstruktionen, alle fünf Modi und Originalvergleich ohne Verzerrung.
+- Logo: alle fünf Modi und Originalvergleich ohne Verzerrung.
 - Interaktion: Regler, Formulare, Farbkopieren und Produkt-Tabs.
 - Tastatur: sichtbarer Fokus und bedienbare Steuerelemente.
 - Bewegung: globale Pause und reduzierte Bewegung.
