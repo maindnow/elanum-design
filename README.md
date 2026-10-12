@@ -1,5 +1,18 @@
 # ELANUM Gestaltungsatlas 4.5
 
+![Gestaltungsatlas: Einstieg mit dem ELANUM-Zeichen im Goldenen Schnitt](docs/screenshots/atlas-desktop.png)
+
+<table>
+  <tr>
+    <td width="66%"><img src="docs/screenshots/atlas-resonanzrad.png" alt="Resonanzrad: ausgefüllte Elemente in der Farbe ihres Bereichs, offene grau mit Plus"></td>
+    <td width="34%"><img src="docs/screenshots/atlas-mobil.png" alt="Gestaltungsatlas auf dem Telefon"></td>
+  </tr>
+  <tr>
+    <td>Resonanzrad</td>
+    <td>Auf dem Telefon</td>
+  </tr>
+</table>
+
 Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Bausteinen Resonanzrad, Umfeld, Beziehungsraum sowie Weg und Tageslinie. Im Zentrum steht das Resonanzrad mit seinen neun Elementen.
 
 [Atlas öffnen](index.html) · [Gestaltungsnotizen](DESIGN-NOTES.md) · [Bausteine](components/)
@@ -46,6 +59,7 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [assets/vendor/gsap/](assets/vendor/gsap/) | GSAP 3.15 lokal, mit Lizenzhinweis |
 | [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` neu |
 | [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt das ELANUM-Zeichen im Goldenen Schnitt (Ink, Spektrum, Blueprint), prüft Knicke; mit `--masks` die Relief-Maske. Nur Python-Standardbibliothek |
+| [tools/screenshots.js](tools/screenshots.js) | Erzeugt die Screenshots in `docs/screenshots/` neu (Server auf Port 4173, braucht Playwright) |
 | [assets/glossar.js](assets/glossar.js) | Glossar: die eine Quelle aller Begriffe |
 | [GLOSSAR.md](GLOSSAR.md) | Glossar als Datei, erzeugt mit `node tools/glossar-md.js` |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
