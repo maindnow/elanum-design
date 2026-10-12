@@ -11,9 +11,9 @@ Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und C
 | Begriff | Bedeutung | Im Code |
 |---|---|---|
 | **ELANUM** | Die Marke. Immer in Versalien. |  |
-| **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie. | `assets/ELANUM-*-Circles.svg` |
-| **Kreiskonstruktion** | Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, Übergänge ohne Knick. Zwei Varianten: Nah am Original und Goldener Schnitt. | `tools/build_logo_circles.py · -Circles · -Harmonic` |
-| **Blueprint** | Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten. | `assets/ELANUM-Konstruktion-*.svg` |
+| **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, gebaut aus sechs Grundkreisen und fünf Brücken. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie. | `assets/ELANUM-*-Geometrisch.svg` |
+| **Kreiskonstruktion** | Bauweise des ELANUM-Zeichens: sechs Grundkreise (Mantel, Zentrum, Oberbogen, Unterbogen, zwei Mündungen), verbunden durch fünf Brücken mit stetiger Krümmung, ohne Knick. | `tools/build_logo_geometrie.py` |
+| **Blueprint** | Darstellung des ELANUM-Zeichens mit Grundkreisen, Brücken und Berührpunkten. | `assets/ELANUM-Konstruktion-Geometrisch.svg` |
 | **Resonanz** | Das Leitthema: Etwas schwingt mit, zu dir selbst oder zu einem anderen Menschen. |  |
 
 ## Phasen

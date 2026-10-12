@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#F0ECE3">
 <meta name="description" content="ELANUM Gestaltungsatlas 4.5. Kreis, Freiraum und Verbindung, ein interaktives Markensystem.">
 <title>ELANUM · Gestaltungsatlas</title>
-<link rel="icon" href="assets/ELANUM-System-Ink-Circles.svg" type="image/svg+xml">
+<link rel="icon" href="assets/ELANUM-System-Ink-Geometrisch.svg" type="image/svg+xml">
 <script src="assets/boot.js" data-base=""></script>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="base.css">
@@ -19,13 +19,13 @@
 <a class="skip-link" href="#content">Direkt zum Inhalt</a>
 
 <header class="mobile-bar">
-  <a class="brand" href="#intro"><img src="assets/ELANUM-System-Ink-Circles.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
+  <a class="brand" href="#intro"><img src="assets/ELANUM-System-Ink-Geometrisch.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
   <button class="menu-toggle glow-edge" id="menuToggle" aria-label="Navigation öffnen" aria-expanded="false" aria-controls="sidebar"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
 </header>
 <button class="menu-scrim" id="menuScrim" hidden aria-label="Navigation schliessen" tabindex="-1"></button>
 
 <aside class="sidebar" id="sidebar" data-open="false">
-  <a class="brand" href="#intro"><img src="assets/ELANUM-System-Ink-Circles.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
+  <a class="brand" href="#intro"><img src="assets/ELANUM-System-Ink-Geometrisch.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
   <nav aria-label="Kapitel">
     <a href="#intro" class="glow-edge active">Überblick</a>
     <a class="glow-edge" href="#haltung">Haltung</a>
@@ -58,7 +58,7 @@
     <p class="hero__text" data-anim="hero">Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg. Klar in der Form, offen für das, was Menschen verbindet.</p>
     <a href="#beziehung" class="text-link glow-edge" data-anim="hero">Beziehungen erleben <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6.5 12.5l5.5 5.5 5.5-5.5"/></svg></a>
   </div>
-  <figure class="hero__visual"><img src="assets/ELANUM-Master-Spektrum-Circles.svg" alt="ELANUM-Zeichen, aus Kreisbögen konstruiert" width="960" height="960"></figure>
+  <figure class="hero__visual"><img src="assets/ELANUM-Master-Spektrum-Geometrisch.svg" alt="ELANUM-Zeichen aus sechs Grundkreisen" width="960" height="960"></figure>
 </section>
 
 <section class="chapter" id="haltung" aria-labelledby="haltungTitle">
@@ -93,33 +93,32 @@
   </header>
   <div class="signature">
     <figure class="signature__stage" id="signatureStage" data-mode="master">
-      <img id="signatureImage" src="assets/ELANUM-Master-Spektrum-Circles.svg" alt="ELANUM-Zeichen in Spektrum, Kreiskonstruktion nah am Original" width="960" height="960">
+      <img id="signatureImage" src="assets/ELANUM-Master-Spektrum-Geometrisch.svg" alt="ELANUM-Zeichen in Spektrum, Sechs Grundkreise" width="960" height="960">
       <div class="signature__relief" id="signatureRelief" role="img" aria-label="ELANUM-Kontur als helle Papierprägung" hidden><span></span></div>
     </figure>
     <div class="signature__copy" data-anim="reveal">
-      <p>Das ELANUM-Zeichen bleibt, seine Konturen sind neu konstruiert. Jede Rundung ist ein Kreisbogen, und jeder Bogen geht ohne Knick in den nächsten über. Die feinen Linien sind überall gleich stark und laufen in kurzen Spitzen aus. Das Zeichen bewegt sich nie.</p>
-      <div class="segmented" role="group" aria-label="Konstruktion"><button class="glow-edge" data-signature-variant="Circles" aria-pressed="true">Nah am Original</button><button class="glow-edge" data-signature-variant="Harmonic" aria-pressed="false">Goldener Schnitt</button></div>
+      <p>Das ELANUM-Zeichen bleibt, seine Konturen sind neu konstruiert. Sechs Grundkreise tragen die Form: Mantel, Zentrum, Oberbogen, Unterbogen und zwei Mündungskreise. Fünf benannte Brücken verbinden sie mit gleicher Tangente und gleicher Krümmung, ohne Knick und ohne Krümmungssprung. Das Zeichen bewegt sich nie.</p>
       <div class="segmented" role="group" aria-label="Darstellung des Zeichens">
         <button class="glow-edge" data-signature-mode="master" aria-pressed="true">Spektrum</button><button class="glow-edge" data-signature-mode="ink" aria-pressed="false">Ink</button><button class="glow-edge" data-signature-mode="inverse" aria-pressed="false">Invers</button><button class="glow-edge" data-signature-mode="relief" aria-pressed="false">Relief</button><button class="glow-edge" data-signature-mode="blueprint" aria-pressed="false">Blueprint</button>
       </div>
-      <p class="secondary" id="signatureLabel">Spektrum · Nah am Original</p>
+      <p class="secondary" id="signatureLabel">Spektrum · Sechs Grundkreise</p>
       <label class="check-label glow-edge"><input type="checkbox" id="showOriginal">Original zum Vergleich anzeigen</label>
-      <dl class="construction"><div><dt>Rahmen</dt><dd>Aussenkreis und Kreisöffnung wie bisher</dd></div><div><dt>Konturen</dt><dd>Nur Kreisbögen, ohne Knick verbunden</dd></div><div><dt>Linien</dt><dd>Gleich starker Körper, kurze Spitzen</dd></div><div><dt>Varianten</dt><dd>Nah am Original oder Radien im Goldenen Schnitt</dd></div></dl>
-      <p class="secondary">Blueprint zeigt alle Konstruktionskreise. Relief ist eine Materialanwendung, kein neues Zeichen. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.</p>
-      <a class="text-link glow-edge" href="assets/ELANUM-System-Ink-Circles.svg" download>Ink · Kreiskonstruktion laden <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6.5 12.5l5.5 5.5 5.5-5.5"/></svg></a>
+      <dl class="construction"><div><dt>Grundkreise</dt><dd>C1 Mantel, C2 Zentrum, C3 Oberbogen, C4 Unterbogen, C5 und C6 Mündung</dd></div><div><dt>Brücken</dt><dd>B1 bis B5 mit stetiger Krümmung</dd></div><div><dt>Linien</dt><dd>Oberer Spalt läuft ohne Einschnürung in die Öffnung</dd></div></dl>
+      <p class="secondary">Blueprint zeigt Grundkreise und Brücken. Relief ist eine Materialanwendung, kein neues Zeichen. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.</p>
+      <a class="text-link glow-edge" href="assets/ELANUM-System-Ink-Geometrisch.svg" download>Ink · Sechs Grundkreise laden <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6.5 12.5l5.5 5.5 5.5-5.5"/></svg></a>
     </div>
   </div>
   <details class="logo-audit">
     <summary>Konstruktion im Detail vergleichen</summary>
-    <p class="secondary">Die freien Bézier-Kurven des Originals hatten innerhalb einzelner Bögen schwankende Radien und Krümmungssprünge an den Übergängen. Die Kreiskonstruktion ersetzt sie durch Bögen mit festem Radius. „Nah am Original“ folgt der bisherigen Form mit höchstens rund 9 Einheiten Abweichung im 960er-Raster. „Goldener Schnitt“ nimmt alle Radien aus der Reihe R·φ^(−k/4); vier Stufen ergeben genau den Goldenen Schnitt. Dafür verschieben sich obere Linie und Kerbe sichtbar. Original und frühere Kurvenkorrektur bleiben als Referenz erhalten.</p>
+    <p class="secondary">Die freien Bézier-Kurven des Originals hatten innerhalb einzelner Bögen schwankende Radien und Krümmungssprünge an den Übergängen. Die aktuelle Konstruktion nutzt sechs Grundkreise. Wo sich eine Krümmung ändern muss, übernehmen fünf benannte Brücken: B1 Rücklauf aus dem Zentrum, B2 Anschluss oben, B3 Übergang zur Öffnung mit genau einem Wendepunkt, B4 gerundete Lippen und B5 schlanker Auslauf. An allen 209 Anschlüssen stimmen Lage, Tangente und Krümmung überein. Original und frühere Kurvenkorrektur bleiben als Referenz erhalten.</p>
     <div class="logo-compare">
       <figure><img src="assets/ELANUM-System-Ink.svg" alt="Originale Konturen in Ink" loading="lazy"><figcaption>Original</figcaption></figure>
-      <figure><img src="assets/ELANUM-System-Ink-Circles.svg" alt="Kreiskonstruktion nah am Original in Ink" loading="lazy"><figcaption>Nah am Original</figcaption></figure>
-      <figure><img src="assets/ELANUM-Konstruktion-Circles.svg" alt="Blueprint der Kreiskonstruktion nah am Original" loading="lazy"><figcaption>Blueprint · Nah am Original</figcaption></figure>
-      <figure><img src="assets/ELANUM-Konstruktion-Harmonic.svg" alt="Blueprint der Kreiskonstruktion im Goldenen Schnitt" loading="lazy"><figcaption>Blueprint · Goldener Schnitt</figcaption></figure>
+      <figure><img src="assets/ELANUM-System-Ink-Geometrisch.svg" alt="ELANUM-Zeichen aus sechs Grundkreisen in Ink" loading="lazy"><figcaption>Sechs Grundkreise</figcaption></figure>
+      <figure><img src="assets/ELANUM-Konstruktion-Geometrisch.svg" alt="Blueprint mit sechs Grundkreisen und fünf Brücken" loading="lazy"><figcaption>Blueprint · Grundkreise und Brücken</figcaption></figure>
+      <figure><img src="assets/ELANUM-Anschluesse-Geometrisch.svg" alt="Detail der Brücken B3 und B5" loading="lazy"><figcaption>Detail · B3 und B5</figcaption></figure>
     </div>
-    <dl class="geometry-stats"><div><dt>0°</dt><dd>Knick zwischen Bögen</dd></div><div><dt>≈ 9</dt><dd>Einheiten max. Abweichung, nah am Original</dd></div><div><dt>11 Stufen</dt><dd>der Goldener-Schnitt-Reihe</dd></div></dl>
-    <p class="logo-audit__links"><a class="text-link glow-edge" href="assets/ELANUM-Konstruktion-Circles.svg" target="_blank" rel="noopener">Blueprint nah am Original öffnen</a> <a class="text-link glow-edge" href="assets/ELANUM-Konstruktion-Harmonic.svg" target="_blank" rel="noopener">Blueprint Goldener Schnitt öffnen</a> <a class="text-link glow-edge" href="assets/ELANUM-Konturvergleich.svg" target="_blank" rel="noopener">Frühere Kurvenkorrektur</a></p>
+    <dl class="geometry-stats"><div><dt>6</dt><dd>Grundkreise</dd></div><div><dt>5</dt><dd>benannte Brücken</dd></div><div><dt>0°</dt><dd>Knick, ohne Krümmungssprung</dd></div></dl>
+    <p class="logo-audit__links"><a class="text-link glow-edge" href="assets/ELANUM-Konstruktion-Geometrisch.svg" target="_blank" rel="noopener">Blueprint öffnen</a> <a class="text-link glow-edge" href="assets/ELANUM-Konturvergleich-Geometrisch.svg" target="_blank" rel="noopener">Formvergleich zur Kurvenkorrektur</a> <a class="text-link glow-edge" href="assets/ELANUM-Konturvergleich.svg" target="_blank" rel="noopener">Frühere Kurvenkorrektur</a></p>
   </details>
 </section>
 
@@ -402,12 +401,10 @@
   </header>
   <div class="tokens">
     <div class="downloads" data-anim="stagger">
-      <a class="glow-edge" href="assets/ELANUM-Master-Spektrum-Circles.svg" download>Spektrum · Kreiskonstruktion</a>
-      <a class="glow-edge" href="assets/ELANUM-System-Ink-Circles.svg" download>Ink · Kreiskonstruktion</a>
-      <a class="glow-edge" href="assets/ELANUM-Master-Spektrum-Harmonic.svg" download>Spektrum · Goldener Schnitt</a>
-      <a class="glow-edge" href="assets/ELANUM-System-Ink-Harmonic.svg" download>Ink · Goldener Schnitt</a>
-      <a class="glow-edge" href="assets/ELANUM-Konstruktion-Circles.svg" download>Blueprint · Nah am Original</a>
-      <a class="glow-edge" href="assets/ELANUM-Konstruktion-Harmonic.svg" download>Blueprint · Goldener Schnitt</a>
+      <a class="glow-edge" href="assets/ELANUM-Master-Spektrum-Geometrisch.svg" download>Spektrum · Sechs Grundkreise</a>
+      <a class="glow-edge" href="assets/ELANUM-System-Ink-Geometrisch.svg" download>Ink · Sechs Grundkreise</a>
+      <a class="glow-edge" href="assets/ELANUM-Konstruktion-Geometrisch.svg" download>Blueprint · Sechs Grundkreise</a>
+      <a class="glow-edge" href="assets/ELANUM-Konstruktion-Geometrisch.json" download>Konstruktion · Parameter und Prüfwerte</a>
       <a class="glow-edge" href="assets/ELANUM-Master-Spektrum.svg" download>Spektrum · Original</a>
       <a class="glow-edge" href="assets/ELANUM-System-Ink.svg" download>Ink · Original</a>
       <a class="glow-edge" href="assets/ELANUM-Konturvergleich.svg" download>Frühere Kurvenkorrektur</a>
