@@ -138,7 +138,12 @@
     var tint = function (it) { return css('--' + it.group + '-hauch'); };
     var final = function (it) { return css('--' + it.group + '-' + (it.done ? it.shade : 'hauch')); };
     var original = parts.faces.map(function (f) { return f.style.fill; });
-    var restore = function () { parts.faces.forEach(function (f, i) { f.style.fill = original[i]; }); };
+    /* Endzustand sichern: Füllung zurück, Auswahlbogen und Anhebung sichtbar.
+       Nötig nach Pause oder Tab, weil revert() die Deckkraft 0 vom Start zurücklässt. */
+    var restore = function () {
+      parts.faces.forEach(function (f, i) { f.style.fill = original[i]; });
+      [parts.lift, parts.active].forEach(function (n) { n.style.removeProperty('opacity'); });
+    };
     finishers.push(restore);
     var tl = gsap.timeline({ defaults: { ease: M.ease.reveal } });
     tl.call(function () { rad.classList.add('is-entering'); }, null, 0);

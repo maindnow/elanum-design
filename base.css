@@ -58,7 +58,7 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
   .button:active{transform:translateY(1px) scale(.98)}
   .segmented button:not([aria-pressed=true]):not([aria-selected=true]):hover{background:#FFFFFF8C;color:var(--ink);box-shadow:var(--raised-sm)}
   .back-link:hover,.brand:hover{color:var(--grund-tief)}
-  .back-link:hover{border-bottom-width:2px}
+  .back-link:hover{background:var(--paper);text-decoration-thickness:2px}
 }
 
 .segmented{display:inline-flex;flex-wrap:wrap;gap:6px;padding:6px;border-radius:calc(var(--radius-control) + 6px);background:var(--canvas);box-shadow:var(--pressed)}
@@ -121,7 +121,8 @@ body[data-motion=off] .track__marker{animation-play-state:paused}
 .page-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px var(--gutter);max-width:calc(var(--content) + 2 * var(--gutter));margin:0 auto}
 .brand{display:inline-flex;align-items:center;gap:12px;min-height:44px;text-decoration:none;font:var(--type-label);font-weight:600;letter-spacing:.18em}
 .brand img{width:30px;height:30px}
-.back-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;font:var(--type-label);text-decoration:none;border-bottom:1px solid currentColor}
+.back-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin-left:-14px;padding:0 14px;border-radius:var(--radius-control);font:var(--type-label);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;transition:background var(--motion-ui) ease}
+.page-top .back-link{margin:0 -14px 0 0}
 .page{max-width:calc(var(--content) + 2 * var(--gutter));margin:0 auto;padding:clamp(40px,8vw,96px) var(--gutter) var(--section)}
 .page-intro{max-width:var(--measure);margin-bottom:clamp(48px,7vw,96px)}
 .page-intro h1{font:var(--type-display);letter-spacing:-.025em}
@@ -134,15 +135,34 @@ body[data-motion=off] .track__marker{animation-play-state:paused}
 @property --edge-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
 @keyframes edge-turn{to{--edge-angle:360deg}}
 @keyframes glow-breathe{0%,100%{box-shadow:var(--glow)}43%{box-shadow:0 12px 36px -8px #4D7FE880,0 0 30px -4px #9466DF66}}
-.glow-edge{position:relative;isolation:isolate}
-.glow-edge::after{content:"";position:absolute;inset:0;z-index:2;padding:2px;border-radius:inherit;pointer-events:none;
+.glow-edge,.button{position:relative;isolation:isolate}
+.glow-edge::after,.button::after{content:"";position:absolute;inset:0;z-index:2;padding:2px;border-radius:inherit;pointer-events:none;
   background:conic-gradient(from var(--edge-angle),var(--edge-stops));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
   opacity:0;transition:opacity 220ms ease;animation:edge-turn 6s linear infinite}
-.glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true])::after,.glow-edge:focus-visible::after{opacity:1}
+.glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true])::after,:is(.glow-edge,.button):focus-visible::after,.glow-edge:has(:focus-visible)::after{opacity:1}
 .glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true]){animation:glow-breathe var(--motion-breath) ease-in-out infinite}
-@media(hover:hover) and (pointer:fine){.glow-edge:hover::after{opacity:1}}
-body[data-motion=off] .glow-edge::after,body[data-motion=off] .glow-edge{animation-play-state:paused}
+@media(hover:hover) and (pointer:fine){:is(.glow-edge,.button):not(:disabled):hover::after{opacity:1}}
+body[data-motion=off] :is(.glow-edge,.button)::after,body[data-motion=off] .glow-edge{animation-play-state:paused}
+
+/* Eingabefelder: Die Hülle trägt Vertiefung und Glührand, das Feld ist nur Schrift. */
+.field{display:block;width:100%;border-radius:var(--radius-button);background:var(--canvas);box-shadow:var(--pressed);transition:box-shadow var(--motion-ui) ease}
+.field--area{border-radius:var(--radius-surface)}
+.field>input,.field>textarea{display:block;width:100%;min-height:56px;padding:16px 20px;border:0;border-radius:inherit;background:transparent;font:var(--type-body);color:var(--ink);outline:none}
+.field>input::placeholder,.field>textarea::placeholder{color:var(--ink-2)}
+.field:focus-within{box-shadow:var(--pressed),var(--glow)}
+.field:has([aria-invalid=true]){box-shadow:var(--pressed),inset 0 0 0 2px var(--error)}
+
+/* Schieberegler: Der Griff bekommt bei Hover und Fokus einen Ring im Markenspektrum
+   und ein weiches Glühen. Der Thumb ist ein Pseudo-Element ohne eigene Animation,
+   darum steht der Verlauf hier still (Violett aussen, Rosé als Glühen). */
+input[type=range]:focus-visible{outline:none}
+input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+@media(hover:hover) and (pointer:fine){
+  input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+  input[type=range]:hover::-moz-range-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+}
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}

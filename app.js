@@ -152,7 +152,7 @@ rad.groups.forEach(group => {
   card.className = 'area-card area'; card.dataset.area = group.id;
   const ramp = STEPS.map(([step, n]) => {
     const hex = css(`--${group.id}-${n}`);
-    return `<button type="button" style="--swatch:${hex}" data-copy="${hex}" aria-label="${group.label} ${step} ${hex} kopieren"><span class="ramp__bar"></span><span>${step}</span><span>${hex}</span></button>`;
+    return `<button type="button" class="glow-edge" style="--swatch:${hex}" data-copy="${hex}" aria-label="${group.label} ${step} ${hex} kopieren"><span class="ramp__bar"></span><span>${step}</span><span>${hex}</span></button>`;
   }).join('');
   const fields = rad.items.filter(item => item.group === group.id).map(item => `<li>${rad.iconSvg(item.id)}${item.label}</li>`).join('');
   card.innerHTML = `<h4 class="area-card__name">${group.label}</h4><div class="ramp" data-anim="ramp">${ramp}</div><ul class="area-card__fields">${fields}</ul>`;
@@ -162,7 +162,7 @@ $('#areaPalette').addEventListener('click', event => { const b = event.target.cl
 
 const SPECTRUM = [['Violet', '#6756D9'], ['Blue', '#4D7FE8'], ['Orchid', '#9466DF'], ['Rose', '#D85BA9'], ['Pink', '#F0719A']];
 $('#spectrumPalette').innerHTML = '<div class="spectrum__bar" role="img" aria-label="Markenspektrum von Violett bis Pink"></div><div class="spectrum__values">' +
-  SPECTRUM.map(([name, hex]) => `<button type="button" data-copy="${hex}" aria-label="${name} ${hex} kopieren">${name} ${hex}</button>`).join('') + '</div>';
+  SPECTRUM.map(([name, hex]) => `<button type="button" class="glow-edge" data-copy="${hex}" aria-label="${name} ${hex} kopieren">${name} ${hex}</button>`).join('') + '</div>';
 $('#spectrumPalette').addEventListener('click', event => { const b = event.target.closest('[data-copy]'); if (b) copyText(b.dataset.copy, b.dataset.copy + ' kopiert'); });
 
 /* Verläufe: Farbstopps als kommaseparierte Liste, live aus tokens.css */
@@ -177,7 +177,7 @@ GRADIENTS.forEach(([name, use, stops, edge]) => {
   row.className = 'gradient';
   row.innerHTML = `<span class="gradient__bar${edge ? ' gradient__bar--edge' : ''}" style="--stops:${stops}" aria-hidden="true"></span>` +
     `<span><span class="gradient__name">${name}</span> <span class="secondary t-label">· ${use}</span><code class="gradient__stops">${stops}</code></span>` +
-    `<button type="button" class="gradient__copy" aria-label="${name} als Liste kopieren">Kopieren</button>`;
+    `<button type="button" class="gradient__copy glow-edge" aria-label="${name} als Liste kopieren">Kopieren</button>`;
   row.querySelector('button').addEventListener('click', () => copyText(stops, name + ' kopiert'));
   $('#gradientList').append(row);
 });

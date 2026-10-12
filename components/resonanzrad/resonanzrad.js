@@ -172,12 +172,7 @@
     filter.appendChild(el('feDropShadow', { dx: 3.6, dy: 3.6, stdDeviation: 4.2, 'flood-color': '#a39b8a', 'flood-opacity': 0.8 }));
     filter.appendChild(el('feDropShadow', { dx: -2.6, dy: -2.6, stdDeviation: 3, 'flood-color': '#ffffff', 'flood-opacity': 0.95 }));
     defs.appendChild(filter);
-    /* Auswahlbogen im Markenspektrum, glühend */
-    var spec = el('linearGradient', { id: uid + '-spectrum', gradientUnits: 'userSpaceOnUse', x1: 100, y1: 0, x2: 220, y2: 0 });
-    ['#6756D9', '#4D7FE8', '#9466DF', '#D85BA9', '#F0719A'].forEach(function (c, k) { spec.appendChild(el('stop', { offset: k / 4, 'stop-color': c })); });
-    defs.appendChild(spec);
     lift.setAttribute('d', sectorPath(-half, half, CFG.segmentRadius));
-    active.style.stroke = 'url(#' + uid + '-spectrum)';
     lift.setAttribute('filter', 'url(#' + uid + '-lift)');
 
     /* ---------- Ring: drei Bereiche ---------- */
@@ -310,6 +305,8 @@
         index = i;
         active.setAttribute('d', arcPath(CFG.activeRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
         lift.style.fill = fill(item);
+        /* Auswahlbogen in der Farbe seines Bereichs, nicht im Markenspektrum */
+        root.style.setProperty('--arc', tone(item, 'tief'));
         segs.forEach(function (s, k) {
           var on = k === i;
           s.tab.setAttribute('aria-selected', String(on)); s.tab.tabIndex = on ? 0 : -1;

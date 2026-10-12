@@ -30,17 +30,17 @@ Sekundärtext ist `#3D5055` (7,2:1 auf Canvas). Im Rad werden Ringschrift und Ic
 
 **Neutral:** Canvas `#F0ECE3`, Papier `#F6F1E7`, Ink `#16363B`, Sekundärtext `#3D5055`.
 
-**Bereiche des Resonanzrads:** Jeder Bereich hat einen Grundton. Die drei Bereiche sind ausgeglichen: gleiche Helligkeit auf jeder Stufe (OKLCH L 0,46 / 0,74 / 0,81 / 0,875 / 0,94) und angeglichene Sättigung (Koralle ×0,9, Petrol ×0,72), damit kein Bereich dominiert. In 4.5 vor dieser Korrektur wirkten Violett und ein tief gefärbter aktiver Ring zu laut.
+**Bereiche des Resonanzrads:** Jeder Bereich hat einen Grundton. Die drei Bereiche sind ausgeglichen: gleiche Helligkeit auf jeder Stufe (OKLCH L 0,46 / 0,83 / 0,875 / 0,915 / 0,955) und angeglichene Sättigung (Petrol rund ×0,7, weil es sonst schwerer wirkt), damit kein Bereich dominiert. Die Elementstufen liegen bewusst eng und hell beieinander (benachbarte Stufen ΔE ≥ 4): Ein ausgefülltes Element wirkt nie schwerer als seine Nachbarn. Frühere Stände von 4.5 hatten Stufe 1 bei L 0,74; Astrologie und Bindungsstil wirkten dadurch zu stark.
 
 | Bereich | Tief · Schrift | Element 1 | Element 2 | Element 3 | Hauch · Ring und offen |
 |---|---|---|---|---|---|
-| Grundtöne · Violett | `#59479A` | `#AAA2DD` | `#C0BAE9` | `#D5D1F2` | `#EAE9FB` |
-| Ich & Orientierung · Koralle | `#8E3931` | `#D79990` | `#E4B3AC` | `#F0CCC7` | `#FAE6E3` |
-| Beziehung & Verbindung · Petrol | `#006868` | `#7CB7B7` | `#9ECBCA` | `#BEDDDC` | `#DEEFEF` |
+| Grundtöne · Violett | `#59479A` | `#C6C1F0` | `#D5D1F7` | `#E2DFFB` | `#EFEEFE` |
+| Ich & Orientierung · Koralle | `#8E3931` | `#EEB8AF` | `#F5CAC3` | `#FADBD5` | `#FFEBE7` |
+| Beziehung & Verbindung · Petrol | `#006868` | `#A5D1D1` | `#BBDEDE` | `#CFE9E9` | `#E3F4F4` |
 
 Violett, Koralle und Petrol wurden gegen andere Trios getestet, auch für Farbsehschwächen. Merkbar sind sie über ihre Bedeutung: Violett für Herkunft und Tiefe, Koralle für Wärme und das Selbst, Petrol für Verbindung und die Nähe zum Ink.
 
-Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe auf Canvas und Hauch (mindestens 5,4:1). Ink auf dem Hauch (mindestens 10:1). Auf den Stufen 1 bis 3 stehen Icon, Name und Ergebnis in Ink (mindestens 5,4:1). Diese Stufen sind bewusst hell, damit das Rad auch nach dem Aufbau ruhig bleibt. Der Ring zeigt alle drei Bereiche gleich stark im Hauch und hebt nichts hervor. Die frühere Feldpalette aus 4.4 (Blue, Orchid, Pink, Amber, Moss, Teal in Gruppen A–C) ist ersetzt.
+Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe auf Canvas und Hauch (mindestens 5,4:1). Ink auf dem Hauch (mindestens 10:1). Auf den Stufen 1 bis 3 stehen Icon, Name und Ergebnis in Ink (mindestens 7,5:1). Diese Stufen sind bewusst hell, damit das Rad auch nach dem Aufbau ruhig bleibt. Der Ring zeigt alle drei Bereiche gleich stark im Hauch und hebt nichts hervor. Der Auswahlbogen über dem gewählten Element steht in Tief seines Bereichs und glüht in derselben Farbe, nie im Markenspektrum: Violett auf Petrol oder Koralle wirkt fremd. Die frühere Feldpalette aus 4.4 (Blue, Orchid, Pink, Amber, Moss, Teal in Gruppen A–C) ist ersetzt.
 
 **Markenspektrum** Violet → Blue → Orchid → Rose → Pink: für das Zeichen, die Verbindungslinie und den Glührand. Keine Fläche, keine Kategorie.
 
@@ -49,9 +49,9 @@ Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe au
 - Markenspektrum: `#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A`
 - Verbindung: `#6756D9, #D85BA9`
 - Glührand, geschlossener Kreis: `#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A, #6756D9`
-- Grundtöne, tief bis Hauch: `#59479A, #AAA2DD, #C0BAE9, #D5D1F2, #EAE9FB`
-- Ich & Orientierung, tief bis Hauch: `#8E3931, #D79990, #E4B3AC, #F0CCC7, #FAE6E3`
-- Beziehung & Verbindung, tief bis Hauch: `#006868, #7CB7B7, #9ECBCA, #BEDDDC, #DEEFEF`
+- Grundtöne, tief bis Hauch: `#59479A, #C6C1F0, #D5D1F7, #E2DFFB, #EFEEFE`
+- Ich & Orientierung, tief bis Hauch: `#8E3931, #EEB8AF, #F5CAC3, #FADBD5, #FFEBE7`
+- Beziehung & Verbindung, tief bis Hauch: `#006868, #A5D1D1, #BBDEDE, #CFE9E9, #E3F4F4`
 
 **Status:** Info `#2863AB`, Hinweis `#875500`, Fehler `#B02A2D`, Erfolg `#2B7440`, je mit eigener Hauchfläche. Text auf der Fläche hat mindestens 5:1. Jeder Status hat einen 4-px-Balken, ein gefülltes Zeichen im Kreis und ein Label. Weil Koralle-Tief nahe am Fehler-Rot liegt, unterscheidet die Form: Status hat immer Zeichen und Balken, Bereiche nie.
 
@@ -60,6 +60,10 @@ Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe au
 Warme Reliefoberfläche, Licht von links oben. Was man bedienen kann, hebt sich an (`--raised`), Eingaben liegen vertieft (`--pressed`). Radien: Control 12 px, Button 16 px, Fläche 28 px. Schatten tragen nie allein eine Funktion; Auswahl hat immer auch Text, Fokus oder ein Zeichen.
 
 **Glührand und Hover:** Bedienbare Flächen zeigen bei Hover, Fokus und Auswahl einen Rand, dessen Farbe dem Markenspektrum entlang im Kreis wandert (6 s pro Umlauf), dazu ein weiches Glühen. Ausgewählte Flächen (gewähltes Element, gewählte Person, aktiver Tab, bewusste Auswahl) glühen im Atemtakt. Jeder Hover ist gut sichtbar: Karten heben sich und glühen, Listen und Navigation bekommen eine Fläche, Links werden violett mit kräftigerer Unterstreichung, Buttons hellen auf und heben sich. Ohne Bewegung steht der Verlauf still.
+
+Der Glührand gilt durchgängig für alles, was man bedienen kann: Buttons (über `.button` automatisch), Segmente, Tabs, Listen, Navigation, Links mit Klasse, Farbstufen, Kopieren-Knöpfe, Checkbox-Zeilen und Pause-Schalter. Eingabefelder und Textfelder liegen in einer Hülle `.field.glow-edge`, die Vertiefung und Rand trägt; sie leuchtet bei Hover und sobald das Feld den Fokus hat. Schieberegler zeigen den wandernden Rand als Ring um den Griff. Ausnahmen: das ELANUM-Zeichen als Link, Textlinks im Fliesstext und der Sprunglink (Fokusring).
+
+Das Papier (gespeicherter Gedanke) hat dieselben 28 px Radius wie jede Fläche und einen eigenen, ruhigeren Schatten (`--paper-shadow`).
 
 Buttons blitzen nicht mehr: Die Grundfarbe liegt unter dem Verlauf, und Hover hellt über eine eigene Ebene auf, statt den Hintergrund zu tauschen. In 4.4 tauschte die Hover-Regel den Verlauf gegen eine Fläche, die von transparent einblendete; dazwischen schien die helle Fläche durch.
 
@@ -106,7 +110,7 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 **Resonanzrad** (`components/resonanzrad/`), wiederhergestellt aus dem persönlichen Rad (Repo-Stand `8995945`) und überarbeitet:
 - Geometrie unverändert verbindlich: exakter Kreis, neun Stücke à 40°, drei Bereiche à 120°, ein gemeinsamer Mittelpunkt.
 - Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt seine Nuance (tief, mittel, hell), ein offenes nur den Hauch seines Bereichs. Die Kontur bestätigt es: geschlossen oder mit Öffnung.
-- Im Rad stehen Icon, Name und Ergebnis jedes Elements in echten 15 px, weil man sich Icons allein nicht merkt. Ist das Rad schmaler als 420 px, steht im Stück nur der Name; Icon und Ergebnis zeigt dann die Zeile direkt unter dem Rad. Der Auswahlbogen läuft im Markenspektrum und glüht. Namen, Ergebnisse und Status stehen in der Liste und im Lesebereich. Die Liste ist die Tastaturbedienung (Pfeile, Home, End).
+- Im Rad stehen Icon, Name und Ergebnis jedes Elements in echten 15 px, weil man sich Icons allein nicht merkt. Ist das Rad schmaler als 420 px, steht im Stück nur der Name; Icon und Ergebnis zeigt dann die Zeile direkt unter dem Rad. Der Auswahlbogen steht in der Farbe seines Bereichs und glüht im Atemtakt. Namen, Ergebnisse und Status stehen in der Liste und im Lesebereich. Die Liste ist die Tastaturbedienung (Pfeile, Home, End).
 - Der Ring zeigt die drei Bereiche gleich stark und hebt nichts hervor. Icons, Konturen und Auswahlbogen sind Ink.
 
 **Umfeld** (`components/umfeld/`): Ich in der Mitte, Menschen als eigene, offene Kreise. Abstand zeigt Nähe, die Stärke der Linie die Resonanz, ohne aktive Resonanz gibt es keine Linie. Eine Liste ist die Bedienung, der gewählte Mensch öffnet den Beziehungsraum mit seinen Werten. So trägt das Umfeld mehr als eine einzelne Beziehung. Unter 560 px Breite gilt ein Hochformat mit grösseren Kreisen, damit die Namen in echten 15 px hineinpassen.
