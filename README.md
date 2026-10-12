@@ -1,20 +1,19 @@
-# ELANUM Styleguide 4.5
+# ELANUM Gestaltungsatlas 4.5
 
-Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief / Neumorphic Relief**. Dieses Repository enthält ausschliesslich den Styleguide 4.5 mit seinen Assets und seiner Dokumentation.
+Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Bausteinen Resonanzrad, Umfeld, Beziehungsraum sowie Weg und Tageslinie. Im Zentrum steht das Resonanzrad mit seinen neun Elementen.
 
-[Styleguide-Datei](index.html) · [Designnotizen](DESIGN-NOTES.md)
+[Atlas öffnen](index.html) · [Gestaltungsnotizen](DESIGN-NOTES.md) · [Bausteine](components/)
 
-## Was der Styleguide zeigt
+**Benennung:** Im Zentrum steht das Resonanzrad mit neun Elementen. ELANUM begleitet in drei Phasen: **Zu dir**, **Zueinander**, **Miteinander**. Verbindlich ist das [Glossar](GLOSSAR.md).
 
-- **Logo:** Spektrum, Ink, Invers, Papierrelief und Blueprint. Die Konturen sind vollständig aus Kreisbögen konstruiert, wahlweise nah am Original oder mit Radien im Goldenen Schnitt. Das Original ist zum Vergleich einblendbar.
-- **Typografie:** Yrsa für persönliche Aussagen, Albert Sans für Orientierung und Bedienung.
-- **Farbe:** neun Feldfarben in drei Gruppen sowie getrennte Info-, Signal- und Fehlerfarben.
-- **Material:** warme Oberflächen, Licht von links oben, erhabene Flächen und vertiefte Eingaben.
-- **Beziehungen:** runde Reliefebenen, offene Konturen und angeschlossene Verbindungslinien.
-- **Bewegung:** sanfte Atmung, Linienaufbau, Scroll-Auftritte und haptische Bedienzustände.
-- **Interaktion:** Farbkopieren, Schriftprobe, lokale Eingabedemos, Produkt-Tabs und eine manuelle Prüfcheckliste.
+## Was der Atlas zeigt
 
-Das ist ein vollständiger Styleguide, nicht nur eine Rad-Komponente. Die Feldnamen und Gruppen A bis C sind strukturelle Platzhalter, keine fertige fachliche Klassifikation.
+- **Zeichen:** das ELANUM-Zeichen, vollständig aus Kreisbögen konstruiert, nah am Original oder mit Radien im Goldenen Schnitt. Spektrum, Ink, Invers, Papierrelief und Blueprint; das Original ist zum Vergleich einblendbar. Das Zeichen bewegt sich nie.
+- **Typografie:** fünf Stufen. Albert Sans trägt die Bedienung, Yrsa ist die Stimme und erscheint nur gross. Kein Kursiv, nichts unter 15 px.
+- **Farbe:** neutrale Flächen, drei ausgeglichene Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit Tief, drei Nuancen der Elemente und Hauch, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
+- **Material:** warme Reliefoberfläche, Licht von links oben, angehobene Bedienung, vertiefte Eingaben.
+- **Bausteine:** Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, je als eigene Seite unter `components/` und im Atlas eingebunden.
+- **Bewegung:** erklärend statt nur einblendend. Das Resonanzrad baut sich beim Scrollen auf, Kreise rücken zusammen, Spuren zeichnen sich. Pause und reduzierte Bewegung wirken überall.
 
 ## Lokal öffnen
 
@@ -36,76 +35,52 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 
 | Datei | Aufgabe |
 | --- | --- |
-| [index.html](index.html) | Direkter Einstieg mit allen Kapiteln |
-| [style.css](style.css) | Basislayout und responsive Darstellung |
-| [tactile.css](tactile.css) | Papiertextur und haptische Zustände |
-| [relief.css](relief.css) | Soft-3D-Oberflächen und Logo-Card |
-| [app.js](app.js) | SVG-Geometrie, Bewegung und Bedienlogik |
-| [assets/](assets/) | Logos, Blueprints, Konturvergleich und lokale Fonts |
-| [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt die Kreiskonstruktion des Logos (Ink, Spektrum, Blueprint) |
+| [index.html](index.html) | Atlas mit allen Kapiteln |
+| [tokens.css](tokens.css) | Eine Quelle für Farben, Schrift, Raum, Relief und Bewegung |
+| [base.css](base.css) | Gemeinsame Bausteine: Schriftstufen, Buttons, Status, Stationslinie, Seitenrahmen |
+| [style.css](style.css) | Layout des Atlas |
+| [app.js](app.js) | Bedienlogik des Atlas |
+| [components/](components/) | Bausteine als eigene Seiten: `resonanzrad`, `umfeld`, `beziehungsraum`, `weg` |
+| [assets/boot.js](assets/boot.js) | Versteck-Guard, Schriften unter `file://`, GSAP nach dem ersten Paint |
+| [assets/motion.js](assets/motion.js) | Alle Bewegung, deklarativ über `data-anim` |
+| [assets/vendor/gsap/](assets/vendor/gsap/) | GSAP 3.15 lokal, mit Lizenzhinweis |
+| [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` neu |
+| [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt die Kreiskonstruktion des ELANUM-Zeichens (Ink, Spektrum, Blueprint) |
+| [assets/glossar.js](assets/glossar.js) | Glossar: die eine Quelle aller Begriffe |
+| [GLOSSAR.md](GLOSSAR.md) | Glossar als Datei, erzeugt mit `node tools/glossar-md.js` |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
 
-Die Stylesheets werden in der Reihenfolge `style.css`, `tactile.css`, `relief.css` geladen. Die Relief-Regeln überschreiben gezielt die Basis.
+Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Stylesheets, `style.css`.
 
 ## Gestaltungsregeln
 
-### Logo aus Kreisen
-
-Dateien ohne Suffix sind die unveränderten Ausgangsdateien, `-Curves` ist die frühere Kurvenkorrektur. Die aktuellen Fassungen sind `-Circles` (nah am Original) und `-Harmonic` (Radien im Goldenen Schnitt). Jede Kontur ist dort ein Kreisbogen, Bögen gehen tangential ineinander über. `ELANUM-Konstruktion-<Variante>.svg` zeigt die Konstruktionskreise. Relief ist eine Materialanwendung, kein neues Logo. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.
-
-Logo-Dateien nicht von Hand bearbeiten. Kreisparameter in `tools/build_logo_circles.py` ändern und neu erzeugen:
-
-```bash
-python3 tools/build_logo_circles.py --masks
-```
-
-Das Skript prüft Knicke und Abweichung und schreibt Ink, Spektrum und Blueprint. Die mit `--masks` ausgegebenen Relief-Masken in `reliefMasks` in `app.js` übernehmen, damit die lokale Dateiansicht funktioniert. Das Logo selbst wird nicht animiert.
-
-### Tiefe und Bedienbarkeit verbinden
-
-Schatten vermitteln Material, aber nicht allein die Funktion. Text, Fokusmarkierungen und Auswahlzustände bleiben erkennbar. Licht fällt konsistent von links oben; Eingaben liegen vertieft, ausgewählte Flächen können sich anheben.
-
-### Bewegung kontrollierbar halten
-
-Die Kreise atmen in einem gemeinsamen Zyklus: 3,4 Sekunden Ausdehnung und 4,4 Sekunden Beruhigung, maximal 7,5 Prozent Radiusänderung. Füllung, Kontur und Verbindung bleiben synchron. Beschriftungen bleiben ruhig.
-
-Globale Pause und `prefers-reduced-motion` berücksichtigen. Unsichtbare Beziehungsdarstellungen und ausgeblendete Seiten lassen den Atemtakt ruhen. Keine Animation darf Inhalte dauerhaft verstecken.
-
-### Dokumentation mitpflegen
-
-Bei Farb- und Tokenänderungen die sichtbare Palette, den kopierbaren Tokenblock und die Designnotizen aktualisieren. Die Checkliste im Styleguide ist eine manuelle Arbeitshilfe, keine automatische Design- oder Accessibility-Freigabe.
+- **Zeichen aus Kreisen.** Dateien ohne Suffix sind die unveränderten Quellen, `-Curves` ist die frühere Kurvenkorrektur. Aktuell sind `-Circles` (nah am Original) und `-Harmonic` (Goldener Schnitt); `ELANUM-Konstruktion-<Variante>.svg` zeigt die Konstruktionskreise. Diese Dateien nie von Hand bearbeiten, sondern mit `python3 tools/build_logo_circles.py --masks` neu erzeugen und die ausgegebenen Masken in `MASKS` in `app.js` übernehmen. Für kleine Darstellungen die flachen Varianten verwenden.
+- **Fünf Schriftstufen.** Display, Titel, Überschrift, Text, Label. Neue Texte verwenden eine dieser Stufen.
+- **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Weisse Schrift nur auf Tief, Ink auf dem Hauch; auf den Elementen im Rad steht Text nur in Ink.
+- **Raum statt Rahmen.** Abstand gliedert, Linien trennen nur Kapitel.
+- **Bewegung erklärt und bleibt kontrollierbar.** Jede Animation zeigt eine Beziehung, Reihenfolge oder einen Zustand. Keine Animation versteckt Inhalte dauerhaft; Pause, Tastatur und `prefers-reduced-motion` beenden alle Auftritte.
+- **Begriffe aus dem Glossar.** Neue oder geänderte Begriffe nur in `assets/glossar.js`, danach `node tools/glossar-md.js`.
+- **Dokumentation mitpflegen.** Bei Änderungen an Tokens `tokens.css` anpassen; Palette und Tokenblock lesen die Werte daraus. Nach Änderungen an Schriften `python3 tools/embed-fonts.py` ausführen.
 
 ## Prüfen
 
-JavaScript-Syntax, Logo-Konstruktion und Diff prüfen:
-
 ```bash
-node --check app.js
+for f in app.js assets/*.js components/*/*.js; do node --check "$f"; done
 python3 tools/build_logo_circles.py
 git diff --check
 ```
 
-Der Generator muss für alle Ketten einen Knick von 0° melden. Danach darf `git status` keine geänderten Logo-Dateien zeigen.
+Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 
-Zusätzlich im Browser:
-
-- Desktop und Mobil: keine horizontalen Überläufe, lesbare Beschriftungen.
-- Logo: beide Konstruktionen, alle fünf Modi und Originalvergleich ohne Verzerrung.
-- Interaktion: Regler, Formulare, Farbkopieren und Produkt-Tabs.
-- Tastatur: sichtbarer Fokus und bedienbare Steuerelemente.
-- Bewegung: globale Pause und reduzierte Bewegung.
-- Assets: keine fehlenden Dateien oder Browser-Konsolenfehler.
-
-Vor der Repository-Umstellung wurden Desktop- und mobile Ansichten lokal kontrolliert. Die Relief-Logo-Card wurde bei 390 px ohne horizontalen Überlauf geprüft. Syntax, lokale Dateiverweise und identische Übernahme des freigegebenen Deliverables werden bei der Umstellung kontrolliert. Ein vollständiger Barrierefreiheits- oder geräteübergreifender Audit liegt nicht vor.
+- Desktop, Tablet und Telefon: kein horizontaler Überlauf, Texte nie unter 15 px.
+- Resonanzrad: Auswahl per Tipp, Liste und Tastatur; Ausfüllstatus über Farbe und Kontur.
+- Bewegung: Einstieg, festgehaltenes Resonanzrad-Kapitel, Pause, reduzierte Bewegung, Tab-Durchlauf.
+- Assets: keine fehlenden Dateien oder Konsolenfehler, auch unter `file://`.
 
 ## Stand und Historie
 
-Seit der Umstellung am 19. September 2026 ist der Styleguide der einzige aktuelle Designstand in `main`. Version 4.5 (Oktober 2026) ersetzt die Kurvenkorrektur des Logos durch die Kreiskonstruktion. Die frühere SoulResonance-Referenz, die separate persönliche Rad-Komponente und deren Projekt-Skill wurden aus dem aktuellen Dateibaum entfernt.
-
-Die Git-Historie bleibt erhalten. Der letzte `main`-Stand vor der Ablösung ist Commit `94071d8671c4da6dfab7b06ba855977cf5eea8a9`. Alte Arbeitsbranches können ebenfalls noch vorhanden sein; sie sind keine aktuelle Referenz.
-
-Ein Push auf GitHub ist kein Deployment. Ein öffentlicher Hosting-Status wird hier nicht vorausgesetzt. Für statisches Hosting das gesamte Repository mit `index.html` als Einstieg bereitstellen.
+4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
 
 ## Schriften und Nutzungsrechte
 
-Yrsa und Albert Sans sind lokal eingebunden. Ihre OFL-Lizenzen liegen unter [assets/fonts/](assets/fonts/). Diese Font-Lizenzen erteilen keine allgemeine Nutzungsfreigabe für ELANUM-Markenassets.
+Yrsa und Albert Sans sind lokal eingebunden. Ihre OFL-Lizenzen liegen unter [assets/fonts/](assets/fonts/). Diese Font-Lizenzen erteilen keine allgemeine Nutzungsfreigabe für ELANUM-Markenassets. GSAP steht unter der GreenSock Standard License, siehe [assets/vendor/gsap/](assets/vendor/gsap/).

@@ -1,0 +1,170 @@
+/* ============================================================
+   ELANUM Basis 4.5
+   Gemeinsame Bausteine für Atlas und Elemente: Schrift, Bedienung,
+   Status, Stationslinie und Seitenrahmen. Setzt tokens.css voraus.
+   ============================================================ */
+
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--canvas);-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--canvas);color:var(--ink);font:var(--type-body);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p,figure,blockquote,dl,dd,ol,ul{margin:0}
+ol,ul{padding:0;list-style:none}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit;text-underline-offset:5px;text-decoration-thickness:1px}
+img,svg{display:block;max-width:100%}
+button,a,input{-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+/* Versteck-Guard (assets/boot.js): nur solange Bewegung erlaubt und motion.js noch nicht bereit ist */
+html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:0}
+::selection{background:var(--grund-hauch)}
+:focus-visible{outline:3px solid var(--grund-tief);outline-offset:4px}
+
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:fixed;top:10px;left:10px;z-index:60;padding:12px 18px;border-radius:var(--radius-control);background:var(--ink);color:#fff;font:var(--type-label);transform:translateY(-200%)}
+.skip-link:focus{transform:none}
+
+/* Fünf Stufen. Mehr gibt es nicht. */
+.t-display{font:var(--type-display);letter-spacing:-.025em}
+.t-title{font:var(--type-title);letter-spacing:-.015em}
+.t-heading{font:var(--type-heading)}
+.t-body{font:var(--type-body)}
+.t-label{font:var(--type-label)}
+.secondary{color:var(--ink-2)}
+
+/* ---------- Bedienung ----------
+   Die Grundfarbe liegt unter dem Verlauf. Hover hellt über eine eigene
+   Ebene auf und tauscht nie den Hintergrund, so blitzt nichts auf. */
+.button{
+  position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:52px;padding:14px 24px;border:0;border-radius:var(--radius-button);
+  background:#16363B linear-gradient(135deg,#34565A,#16363B);color:#fff;
+  font:var(--type-label);font-weight:600;text-decoration:none;
+  box-shadow:5px 5px 11px #C4BDAF,-4px -4px 10px #FFFFFF99;
+  transition:transform 160ms var(--ease),box-shadow var(--motion-ui) ease;
+}
+.button::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:#fff;opacity:0;transition:opacity var(--motion-ui) ease}
+.button:active{transform:translateY(1px) scale(.98);box-shadow:inset 0 2px 5px #0003}
+.button--secondary{background:var(--canvas);color:var(--ink);box-shadow:var(--raised-sm)}
+.button--secondary::before{background:var(--ink)}
+.button--secondary:active{box-shadow:var(--pressed)}
+.button--icon{min-width:52px;padding:0}
+.button:disabled{opacity:.45;cursor:default}
+@media(hover:hover) and (pointer:fine){
+  .button:hover::before{opacity:.14}
+  .button--secondary:hover::before{opacity:.06}
+  body:not([data-motion=off]) .button:hover{transform:translateY(-2px);box-shadow:var(--glow)}
+  body:not([data-motion=off]) .button--secondary:hover{box-shadow:var(--raised-sm),var(--glow)}
+  .button:active{transform:translateY(1px) scale(.98)}
+  .segmented button:not([aria-pressed=true]):not([aria-selected=true]):hover{background:#FFFFFF8C;color:var(--ink);box-shadow:var(--raised-sm)}
+  .back-link:hover,.brand:hover{color:var(--grund-tief)}
+  .back-link:hover{background:var(--paper);text-decoration-thickness:2px}
+}
+
+.segmented{display:inline-flex;flex-wrap:wrap;gap:6px;padding:6px;border-radius:calc(var(--radius-control) + 6px);background:var(--canvas);box-shadow:var(--pressed)}
+.segmented button{min-height:44px;padding:10px 16px;border:0;border-radius:var(--radius-control);background:transparent;font:var(--type-label);color:var(--ink-2);transition:background var(--motion-ui) ease,box-shadow var(--motion-ui) ease,color var(--motion-ui) ease}
+.segmented button[aria-pressed=true],.segmented button[aria-selected=true]{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--raised-sm)}
+
+/* ---------- Status ----------
+   Kräftige Rollenfarbe, Balken, gefülltes Zeichen und Text. */
+.status{display:grid;grid-template-columns:28px 1fr;gap:14px;align-items:start;padding:18px 20px;border-left:4px solid var(--role);border-radius:4px var(--radius-control) var(--radius-control) 4px;background:var(--role-bg);color:var(--ink)}
+.status__sign{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--role);color:#fff;font:var(--type-label);font-weight:600;line-height:1}
+.status__title{display:block;font:var(--type-label);font-weight:600;color:var(--role)}
+.status__text{font:var(--type-body);margin-top:2px}
+.status,[data-role=info]{--role:var(--info);--role-bg:var(--info-bg)}
+[data-role=hint]{--role:var(--hint);--role-bg:var(--hint-bg)}
+[data-role=error]{--role:var(--error);--role-bg:var(--error-bg)}
+[data-role=success]{--role:var(--success);--role-bg:var(--success-bg)}
+
+/* ---------- Bereichs-Chip ---------- */
+.area{--tone:var(--grund-tief);--tint:var(--grund-hauch)}
+.area[data-area=ich]{--tone:var(--ich-tief);--tint:var(--ich-hauch)}
+.area[data-area=bezug]{--tone:var(--bezug-tief);--tint:var(--bezug-hauch)}
+.chip{display:inline-flex;align-items:center;gap:10px;font:var(--type-label);font-weight:600;color:var(--tone)}
+.chip::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--tone)}
+
+/* ---------- Icons: 24er-Raster, 1,6 px, runde Enden ---------- */
+.icon{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---------- Stationslinie: Weg und Tageslinie ----------
+   erledigt: gefüllter Punkt · jetzt: Ring · offen: Kontur mit Öffnung unten.
+   Bis "jetzt" führt eine durchgehende Spur, danach eine Unterbrechung. */
+.track{--marker:14px;position:relative;display:grid;gap:0}
+.track__station{position:relative;display:grid;grid-template-columns:var(--marker) 1fr;column-gap:24px;padding-bottom:40px}
+.track__station:last-child{padding-bottom:0}
+.track__marker{position:relative;z-index:1;width:var(--marker);height:var(--marker);margin-top:6px;border-radius:50%}
+.track__station[data-state=done] .track__marker{background:var(--ink);transform:scale(.72)}
+.track__station[data-state=now] .track__marker{background:var(--canvas);box-shadow:0 0 0 var(--trace) var(--grund-tief),0 0 0 6px var(--grund-hauch);animation:now-glow var(--motion-breath) ease-in-out infinite}
+@keyframes now-glow{0%,100%{box-shadow:0 0 0 1.6px var(--grund-tief),0 0 0 6px var(--grund-hauch),0 0 0 0 #6756D900}43%{box-shadow:0 0 0 1.6px #9466DF,0 0 0 6px var(--grund-hauch),0 0 22px 8px #D85BA955}}
+body[data-motion=off] .track__marker{animation-play-state:paused}
+.track__station[data-state=open] .track__marker{border:var(--trace) solid var(--ink-2);-webkit-mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0);mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0)}
+.track__seg{position:absolute;left:calc(var(--marker) / 2 - .8px);top:calc(6px + var(--marker) / 2);bottom:calc(-6px - var(--marker) / 2);width:var(--trace);background:var(--ink);transform-origin:top}
+.track__station:last-child .track__seg{display:none}
+.track__station[data-state=done]:has(+ [data-state=now]) .track__seg{width:var(--bridge);left:calc(var(--marker) / 2 - 1.4px);background:linear-gradient(180deg,#6756D9,#D85BA9)}
+.track__station[data-state=now] .track__seg,.track__station[data-state=open] .track__seg{top:calc(6px + var(--marker) + 10px);background:repeating-linear-gradient(180deg,var(--ink-2) 0 6px,transparent 6px 12px)}
+.track__when{display:block;font:var(--type-label);color:var(--ink-2)}
+.track__title{font:var(--type-heading)}
+.track__station[data-state=now] .track__title{color:var(--grund-tief)}
+.track__text{color:var(--ink-2);margin-top:4px}
+.track__station[data-state=open] .track__title{color:var(--ink-2)}
+
+@media(min-width:900px){
+  .track--horizontal{grid-auto-flow:column;grid-auto-columns:1fr}
+  .track--horizontal .track__station{grid-template-columns:1fr;grid-template-rows:var(--marker) auto;row-gap:22px;padding:0 24px 0 0}
+  .track--horizontal .track__marker{margin-top:0}
+  .track--horizontal .track__seg{left:calc(var(--marker) / 2);right:calc(-1 * var(--marker) / 2);top:calc(var(--marker) / 2 - .8px);bottom:auto;width:auto;height:var(--trace);transform-origin:left}
+  .track--horizontal .track__station[data-state=done]:has(+ [data-state=now]) .track__seg{left:calc(var(--marker) / 2);width:auto;height:var(--bridge);top:calc(var(--marker) / 2 - 1.4px);background:linear-gradient(90deg,#6756D9,#D85BA9)}
+  .track--horizontal .track__station[data-state=now] .track__seg,.track--horizontal .track__station[data-state=open] .track__seg{left:calc(var(--marker) + 10px);top:calc(var(--marker) / 2 - .8px);background:repeating-linear-gradient(90deg,var(--ink-2) 0 6px,transparent 6px 12px)}
+}
+
+/* ---------- Seitenrahmen der Elemente ---------- */
+.page-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px var(--gutter);max-width:calc(var(--content) + 2 * var(--gutter));margin:0 auto}
+.brand{display:inline-flex;align-items:center;gap:12px;min-height:44px;text-decoration:none;font:var(--type-label);font-weight:600;letter-spacing:.18em}
+.brand img{width:30px;height:30px}
+.back-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin-left:-14px;padding:0 14px;border-radius:var(--radius-control);font:var(--type-label);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;transition:background var(--motion-ui) ease}
+.page-top .back-link{margin:0 -14px 0 0}
+.page{max-width:calc(var(--content) + 2 * var(--gutter));margin:0 auto;padding:clamp(40px,8vw,96px) var(--gutter) var(--section)}
+.page-intro{max-width:var(--measure);margin-bottom:clamp(48px,7vw,96px)}
+.page-intro h1{font:var(--type-display);letter-spacing:-.025em}
+.page-intro p{margin-top:24px;color:var(--ink-2)}
+
+/* ---------- Glührand ----------
+   Ein Rand, dessen Farbe dem Markenspektrum entlang wandert, und ein
+   weiches Glühen. Sichtbar bei Hover, Fokus und Auswahl. Ohne Bewegung
+   steht der Verlauf still. */
+@property --edge-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes edge-turn{to{--edge-angle:360deg}}
+@keyframes glow-breathe{0%,100%{box-shadow:var(--glow)}43%{box-shadow:0 12px 36px -8px #4D7FE880,0 0 30px -4px #9466DF66}}
+.glow-edge,.button{position:relative;isolation:isolate}
+.glow-edge::after,.button::after{content:"";position:absolute;inset:0;z-index:2;padding:2px;border-radius:inherit;pointer-events:none;
+  background:conic-gradient(from var(--edge-angle),var(--edge-stops));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  opacity:0;transition:opacity 220ms ease;animation:edge-turn 6s linear infinite}
+.glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true])::after,:is(.glow-edge,.button):focus-visible::after,.glow-edge:has(:focus-visible)::after{opacity:1}
+.glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true]){animation:glow-breathe var(--motion-breath) ease-in-out infinite}
+@media(hover:hover) and (pointer:fine){:is(.glow-edge,.button):not(:disabled):hover::after{opacity:1}}
+body[data-motion=off] :is(.glow-edge,.button)::after,body[data-motion=off] .glow-edge{animation-play-state:paused}
+
+/* Eingabefelder: Die Hülle trägt Vertiefung und Glührand, das Feld ist nur Schrift. */
+.field{display:block;width:100%;border-radius:var(--radius-button);background:var(--canvas);box-shadow:var(--pressed);transition:box-shadow var(--motion-ui) ease}
+.field--area{border-radius:var(--radius-surface)}
+.field>input,.field>textarea{display:block;width:100%;min-height:56px;padding:16px 20px;border:0;border-radius:inherit;background:transparent;font:var(--type-body);color:var(--ink);outline:none}
+.field>input::placeholder,.field>textarea::placeholder{color:var(--ink-2)}
+.field:focus-within{box-shadow:var(--pressed),var(--glow)}
+.field:has([aria-invalid=true]){box-shadow:var(--pressed),inset 0 0 0 2px var(--error)}
+
+/* Schieberegler: Der Griff bekommt bei Hover und Fokus einen Ring im Markenspektrum
+   und ein weiches Glühen. Der Thumb ist ein Pseudo-Element ohne eigene Animation,
+   darum steht der Verlauf hier still (Violett aussen, Rosé als Glühen). */
+input[type=range]:focus-visible{outline:none}
+input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+@media(hover:hover) and (pointer:fine){
+  input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+  input[type=range]:hover::-moz-range-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
