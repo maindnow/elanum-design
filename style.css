@@ -69,7 +69,7 @@ h3.block-title[data-anim]{margin-bottom:36px}
 .signature__stage[data-mode=inverse]{background:linear-gradient(135deg,#28494E,#16363B)}
 .signature__stage[data-mode=inverse] img{filter:brightness(0) invert(1) drop-shadow(2px 3px 2px #0004)}
 .signature__relief{width:100%;aspect-ratio:1;filter:drop-shadow(4px 5px 3px #ABA394) drop-shadow(-4px -4px 2px #fff)}
-.signature__relief span{display:block;width:100%;height:100%;background:linear-gradient(135deg,#FAF6ED,#E3DDCF);-webkit-mask:url(assets/ELANUM-System-Ink-Geometrisch.svg) center/contain no-repeat;mask:url(assets/ELANUM-System-Ink-Geometrisch.svg) center/contain no-repeat}
+.signature__relief span{display:block;width:100%;height:100%;background:linear-gradient(135deg,#FAF6ED,#E3DDCF);-webkit-mask:url(assets/ELANUM-System-Ink-Harmonic.svg) center/contain no-repeat;mask:url(assets/ELANUM-System-Ink-Harmonic.svg) center/contain no-repeat}
 .signature__copy{display:grid;gap:28px;justify-items:start}
 .signature__stage[data-mode=blueprint]{background:var(--paper)}
 .signature__stage[data-mode=blueprint] img{filter:none;border-radius:18px}
@@ -84,8 +84,8 @@ h3.block-title[data-anim]{margin-bottom:36px}
 .logo-audit{margin-top:clamp(56px,7vw,96px)}
 .logo-audit summary{display:flex;align-items:center;min-height:52px;font:var(--type-label);font-weight:600;cursor:pointer}
 .logo-audit>p{margin-top:16px;max-width:var(--measure)}
-.logo-compare{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin:40px 0}
-.logo-compare img{width:min(100%,260px);margin:0 auto}
+.logo-compare{display:grid;grid-template-columns:repeat(2,minmax(0,360px));justify-content:start;gap:48px;margin:40px 0}
+.logo-compare img{width:min(100%,320px);margin:0 auto}
 .logo-compare figcaption{margin-top:16px;text-align:center;font:var(--type-label);color:var(--ink-2)}
 
 /* ---------- 03 Beziehung, dunkel ---------- */

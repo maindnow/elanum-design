@@ -67,44 +67,33 @@ Das Papier (gespeicherter Gedanke) hat dieselben 28 px Radius wie jede Fläche u
 
 Buttons blitzen nicht mehr: Die Grundfarbe liegt unter dem Verlauf, und Hover hellt über eine eigene Ebene auf, statt den Hintergrund zu tauschen. In 4.4 tauschte die Hover-Regel den Verlauf gegen eine Fläche, die von transparent einblendete; dazwischen schien die helle Fläche durch.
 
-## Das ELANUM-Zeichen: sechs Grundkreise
+## Das ELANUM-Zeichen: Kreiskonstruktion im Goldenen Schnitt
 
-Das ELANUM-Zeichen stammt aus dem ELANUM-Geometrie-Paket, Konstruktionsversion 4. Es ist auf das Nötigste reduziert: sechs Grundkreise und fünf benannte Brücken.
+Das ELANUM-Zeichen ist vollständig aus Kreisen gebaut, alle Radien stammen aus einer Reihe im Goldenen Schnitt. Die bisherigen Innenkonturen waren freie Bézier-Kurven: Innerhalb eines Bogens schwankte der Radius (z. B. 289 → 249 → 342), an den Übergängen sprang er (z. B. 245 → 289). Die Tangenten schlossen an, die Krümmung nicht. Dadurch wirkten die Rundungen unruhig. Die Kurvenkorrektur aus 4.4 hat nur Kontrollpunkte verschoben und konnte das nicht beheben.
 
-| Grundkreis | Aufgabe | Radius |
-| --- | --- | --- |
-| C1 Mantel | Runde Aussenform, Mittelpunkt und Radius wie bisher | 460,54 |
-| C2 Zentrum | Kreisöffnung; P1 und P2 liegen auf diesem Kreis | 122,05 |
-| C3 Oberbogen | Wölbung oberhalb des Zentrums | 248,38 |
-| C4 Unterbogen | Grosser Schwung unterhalb des Zentrums | 211,60 |
-| C5 Mündung oben | Oberkante der rechten Öffnung | 161,90 |
-| C6 Mündung unten | Unterkante der rechten Öffnung | 187,74 |
+Konstruktionsregeln:
 
-| Brücke | Verbindung | Regel |
-| --- | --- | --- |
-| B1 Rücklauf | P2 am Zentrum zu C3 | Krümmung nimmt linear vom Zentrums- zum Oberbogenradius ab |
-| B2 Anschluss oben | P1 am Zentrum zu C4 | Kurzer Übergang öffnet die untere Aussparung |
-| B3 Öffnung | C3 zu C5 und C6 | Linearer Krümmungswechsel mit genau einem Wendepunkt |
-| B4 Lippen | C5 und C6 zu C1 | Rundet die beiden Enden der rechten Öffnung |
-| B5 Auslauf | C4 zum linken Spaltende | Spaltbreite nimmt durchgehend bis null ab |
+- Jede Kontur ist eine Kette aus Kreisbögen. Zwei aufeinanderfolgende Bögen berühren sich tangential: Ihre Mittelpunkte liegen mit dem Übergangspunkt auf einer Geraden. Gemessener Knick an allen Übergängen: 0°.
+- Radien: Stufen der Reihe R · φ^(−k/4); vier Stufen ergeben genau den Goldenen Schnitt. Verwendet: k = 11, 10, 9, 8, 7, 6, 5, 4, 3, 0, −2.
+- Rahmen: Aussenkreis R 460,54 und Kreisöffnung r₀ = Stufe 11 = 122,62.
+- Die beiden feinen Linien sind wie Schriftzüge gebaut. Eine Mittellinie aus Kreisbögen trägt die Form, ihre Radien ändern sich stetig. Der Linienkörper ist konzentrisch zur Mittellinie und überall gleich stark (obere Linie 6, untere 5 Einheiten). An den Enden ersetzen je zwei sich berührende Spitzenkreise den Körper, die Stärke nimmt gleichmässig von 0 auf den vollen Wert zu und am Ende wieder ab.
+- Berührpunkte: E (obere Linie an der Öffnung), S (untere Linie an der Öffnung), T (obere Linie und Kerbe) und W (Spitze der unteren Linie). In T berühren sich vier Kreise in derselben Tangente. Die Kerbe ist eine Mondsichel zweier Kreise, die sich in T berühren.
+- Die Farbkanten des Spektrums laufen auf Konstruktionskreisen. Das Farbnetz (Verläufe, Masken, Farben) ist unverändert aus der Kurvenkorrektur übernommen, nur die Clip-Pfade sind ersetzt.
+- Abweichung zur Kurvenkorrektur: 22,2 Einheiten im 960er-Raster. Die obere Linie liegt weiter aussen, die Kerbe öffnet sich weiter. Das ist gewollt: Die alten Kurven hatten selbst Dellen, die Konstruktion übernimmt sie nicht.
 
-Kreisabschnitte sind echte SVG-Bögen. Die Brücken sind kubische B-Splines, exportiert als SVG-Bézierkurven, intern krümmungsstetig. An allen 209 Anschlüssen stimmen Lage, Tangente und Krümmung überein (G2). Die Spalte haben 4,5 Einheiten Breite. Der obere Spalt läuft ohne Einschnürung über B3 in die Öffnung. Beide Spalte beginnen am Zentrum mit Breite null und liegen ausserhalb der Kreisöffnung. Im Spektrum sind alle Farbverläufe aus dem Master erhalten; verdeckte Flächenschliessungen sind Bézierkurven, die Überblendung der linken Farbfläche ist an die neue Kontur angepasst.
+`tools/build_logo_circles.py` (nur Python-Standardbibliothek) erzeugt `ELANUM-System-Ink-Harmonic.svg`, `ELANUM-Master-Spektrum-Harmonic.svg` und das Blueprint `ELANUM-Konstruktion-Harmonic.svg`. Es prüft dabei die Knicke und die Abweichung. Mit `--masks` gibt es die Relief-Maske für `app.js` aus. Die Originale und die Kurvenkorrektur bleiben als Referenz im Repository, der Atlas verlinkt sie nicht mehr.
 
-`tools/build_logo_geometrie.py` erzeugt Ink, Spektrum, Blueprint, die Detailansicht von B3 und B5, den Formvergleich zur Kurvenkorrektur und `ELANUM-Konstruktion-Geometrisch.json` mit allen Parametern und Prüfwerten. Der Konstruktor ist aus dem Paket übernommen, nur die Pfade sind angepasst. Er benötigt numpy und scipy (`tools/requirements.txt`). Der Lauf reproduziert die SVGs des Pakets byte-genau.
+Die Zeichen-Karte im Atlas zeigt nur dieses Zeichen: Spektrum, Ink, Invers, Relief und Blueprint. „Relief“ nutzt die Ink-Silhouette als eingebettete Maske.
 
-Die Zeichen-Karte im Atlas zeigt Spektrum, Ink, Invers, Relief und Blueprint und blendet auf Wunsch das unveränderte Original ein. „Relief“ nutzt die Ink-Silhouette als eingebettete SVG-Maske.
+### Entscheid (12.10.2026)
 
-### Entstehung
-
-Die bisherigen Innenkonturen waren freie Bézier-Kurven. Innerhalb eines Bogens schwankte der Radius (z. B. 289 → 249 → 342), an den Übergängen sprang er (z. B. 245 → 289). Die Tangenten schlossen an, die Krümmung nicht, deshalb wirkten die Rundungen unruhig.
-
-Als Zwischenstufen entstanden Fassungen nur aus Kreisbögen, eine nah am Original und eine mit Radien im Goldenen Schnitt. Sie wurden verworfen. Reine Kreisbögen lassen an jedem Übergang einen kleinen Krümmungssprung, und sie brauchten deutlich mehr Kreise. Die Brücken mit stetiger Krümmung sind ruhiger und kommen mit sechs Grundkreisen aus.
+Zwei Fassungen standen zur Wahl: der Goldene Schnitt und eine Konstruktion aus sechs Grundkreisen mit fünf krümmungsstetigen Brücken (`-Geometrisch`, aus dem ELANUM-Geometrie-Paket, PR #9). Nach einem direkten Vergleich in Spektrum, Ink, Kleingrössen und Blueprint fiel der Entscheid auf den Goldenen Schnitt. Die Fassung „Sechs Grundkreise“ bleibt als geprüfte Alternative mit `tools/build_logo_geometrie.py` und `assets/*-Geometrisch.*` im Repository, sie wird nicht verwendet. Die frühere Variante „Nah am Original“ (`-Circles`) ist nicht mehr gültig.
 
 ## Frühere Stufe: Kurvenkorrektur (4.4)
 
 Die Dateien ohne Suffix sind die unveränderten Quellen. `-Curves.svg` bezeichnet eine separate Kurvenkorrektur. Aussensilhouette, Kreisöffnung, Kreisradien, Ankerpunkte, Pfadanzahl und Linienanordnung bleiben erhalten. Angepasst wurden nur Bézier-Kontrollpunkte an den vorhandenen Innenkurven, damit benachbarte Tangenten sauber anschliessen. Die bewusste Abzweigung an der Logo-Öffnung bleibt unverändert. Gemeinsame Grenzen der Farbebenen verwenden identische Kontrollpunkte.
 
-Die separate SVG-Konturüberlagerung stellt Original und Korrektur gegenüber. Seit 4.5 ersetzt die Konstruktion aus sechs Grundkreisen die Kurvenkorrektur im Atlas; die Dateien bleiben zum Download. Invers ist die identische Ink-Datei in Weiss, kein weiteres geometrisches Logo.
+Die separate SVG-Konturüberlagerung stellt Original und Korrektur gegenüber. Seit 4.5 ersetzt die Kreiskonstruktion im Goldenen Schnitt die Kurvenkorrektur im Atlas; die Dateien bleiben als Referenz im Repository. Invers ist die identische Ink-Datei in Weiss, kein weiteres geometrisches Logo.
 
 Geometrischer Vergleich: 5 Pfade beim Spektrum, 2 bei Ink — jeweils gleich viele wie im Original. Alle Anker und Bogenparameter sind identisch. Die grösste abgetastete Abweichung der Innenkurven beträgt 5,33 Einheiten im 960er-Koordinatenraum, entsprechend etwa 0,36 Pixel bei einer 64-Pixel-Darstellung. Es handelt sich bewusst um eine minimale Korrektur, nicht um eine neue Kreis- oder Spiralform.
 

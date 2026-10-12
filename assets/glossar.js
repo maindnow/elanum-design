@@ -11,9 +11,9 @@ window.ELANUM_GLOSSAR = {
   groups: [
     { title: 'Marke', terms: [
       { term: 'ELANUM', meaning: 'Die Marke. Immer in Versalien.' },
-      { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke, gebaut aus sechs Grundkreisen und fünf Brücken. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie.', code: 'assets/ELANUM-*-Geometrisch.svg' },
-      { term: 'Kreiskonstruktion', meaning: 'Bauweise des ELANUM-Zeichens: sechs Grundkreise (Mantel, Zentrum, Oberbogen, Unterbogen, zwei Mündungen), verbunden durch fünf Brücken mit stetiger Krümmung, ohne Knick.', code: 'tools/build_logo_geometrie.py' },
-      { term: 'Blueprint', meaning: 'Darstellung des ELANUM-Zeichens mit Grundkreisen, Brücken und Berührpunkten.', code: 'assets/ELANUM-Konstruktion-Geometrisch.svg' },
+      { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie.', code: 'assets/ELANUM-*-Harmonic.svg' },
+      { term: 'Kreiskonstruktion', meaning: 'Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick.', code: 'tools/build_logo_circles.py' },
+      { term: 'Blueprint', meaning: 'Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten.', code: 'assets/ELANUM-Konstruktion-Harmonic.svg' },
       { term: 'Resonanz', meaning: 'Das Leitthema: Etwas schwingt mit, zu dir selbst oder zu einem anderen Menschen.' }
     ] },
     { title: 'Phasen', intro: 'Der Weg mit ELANUM, in dieser Reihenfolge.', terms: [
@@ -60,6 +60,7 @@ window.ELANUM_GLOSSAR = {
     ['Klangrad, persönliches Rad', 'Resonanzrad'],
     ['Klangsignatur, Logo-Signatur', 'ELANUM-Zeichen'],
     ['Kurvenkorrektur (als aktuelles Zeichen)', 'Kreiskonstruktion'],
+    ['Sechs Grundkreise, Nah am Original (als aktuelles Zeichen)', 'ELANUM-Zeichen'],
     ['Eigenklang, Klang', 'Resonanz'],
     ['Felder, Stücke', 'Elemente'],
     ['Kategorie, Gruppe A–C', 'Bereich']

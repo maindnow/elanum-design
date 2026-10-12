@@ -8,7 +8,7 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Baus
 
 ## Was der Atlas zeigt
 
-- **Zeichen:** das ELANUM-Zeichen, vollständig aus Kreisbögen konstruiert, nah am Original oder mit Radien im Goldenen Schnitt. Spektrum, Ink, Invers, Papierrelief und Blueprint; das Original ist zum Vergleich einblendbar. Das Zeichen bewegt sich nie.
+- **Zeichen:** das ELANUM-Zeichen, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Spektrum, Ink, Invers, Papierrelief und Blueprint. Das Zeichen bewegt sich nie.
 - **Typografie:** fünf Stufen. Albert Sans trägt die Bedienung, Yrsa ist die Stimme und erscheint nur gross. Kein Kursiv, nichts unter 15 px.
 - **Farbe:** neutrale Flächen, drei ausgeglichene Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit Tief, drei Nuancen der Elemente und Hauch, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
 - **Material:** warme Reliefoberfläche, Licht von links oben, angehobene Bedienung, vertiefte Eingaben.
@@ -45,7 +45,7 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [assets/motion.js](assets/motion.js) | Alle Bewegung, deklarativ über `data-anim` |
 | [assets/vendor/gsap/](assets/vendor/gsap/) | GSAP 3.15 lokal, mit Lizenzhinweis |
 | [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` neu |
-| [tools/build_logo_geometrie.py](tools/build_logo_geometrie.py) | Erzeugt das ELANUM-Zeichen aus sechs Grundkreisen (Ink, Spektrum, Blueprint, Prüfwerte); braucht numpy und scipy (`tools/requirements.txt`) |
+| [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt das ELANUM-Zeichen im Goldenen Schnitt (Ink, Spektrum, Blueprint), prüft Knicke; mit `--masks` die Relief-Maske. Nur Python-Standardbibliothek |
 | [assets/glossar.js](assets/glossar.js) | Glossar: die eine Quelle aller Begriffe |
 | [GLOSSAR.md](GLOSSAR.md) | Glossar als Datei, erzeugt mit `node tools/glossar-md.js` |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
@@ -54,7 +54,7 @@ Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Style
 
 ## Gestaltungsregeln
 
-- **Zeichen aus Kreisen.** Dateien ohne Suffix sind die unveränderten Quellen, `-Curves` ist die frühere Kurvenkorrektur. Aktuell ist `-Geometrisch`: sechs Grundkreise (C1 bis C6) und fünf benannte Brücken (B1 bis B5) mit stetiger Krümmung; `ELANUM-Konstruktion-Geometrisch.svg` zeigt die Konstruktion. Diese Dateien nie von Hand bearbeiten, sondern mit `python3 tools/build_logo_geometrie.py` neu erzeugen. Die Relief-Maske in `app.js` (`MASKS`) ist die base64-kodierte Ink-Datei und wird danach neu eingebettet. Für kleine Darstellungen die flachen Varianten verwenden.
+- **Zeichen aus Kreisen.** Gültig ist `-Harmonic`: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R · φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. `ELANUM-Konstruktion-Harmonic.svg` zeigt die Konstruktion. Diese Dateien nie von Hand bearbeiten, sondern mit `python3 tools/build_logo_circles.py` neu erzeugen; die Relief-Maske in `app.js` (`RELIEF_MASK`) kommt aus `python3 tools/build_logo_circles.py --masks`. Dateien ohne Suffix sind die unveränderten Quellen, `-Curves` ist die frühere Kurvenkorrektur, `-Geometrisch` die verworfene Alternative aus sechs Grundkreisen. Für kleine Darstellungen die flachen Varianten verwenden.
 - **Fünf Schriftstufen.** Display, Titel, Überschrift, Text, Label. Neue Texte verwenden eine dieser Stufen.
 - **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Weisse Schrift nur auf Tief, Ink auf dem Hauch; auf den Elementen im Rad steht Text nur in Ink.
 - **Raum statt Rahmen.** Abstand gliedert, Linien trennen nur Kapitel.
@@ -66,7 +66,7 @@ Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Style
 
 ```bash
 for f in app.js assets/*.js components/*/*.js; do node --check "$f"; done
-python3 tools/build_logo_geometrie.py
+python3 tools/build_logo_circles.py
 git diff --check
 ```
 
