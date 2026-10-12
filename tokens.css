@@ -22,7 +22,7 @@
      eine Farbe für alle drei Elemente eines Bereichs, Ink darauf mind. 8,4:1
      (keine Nuancen: Helligkeit würde als Menge gelesen) · hauch: Ring, Flächen
      hinter Ink-Text. Offene Elemente tragen --offen. */
-  --grund-tief:#59479A; --grund-flaeche:#D1CDF4; --grund-hauch:#EFEEFE;   /* Grundtöne, Violett */
+  --sterne-tief:#59479A; --sterne-flaeche:#D1CDF4; --sterne-hauch:#EFEEFE;   /* Sterne & Ursprung, Violett */
   --ich-tief:#8E3931;   --ich-flaeche:#EFC8C1;   --ich-hauch:#FFEBE7;     /* Ich & Orientierung, Koralle */
   --bezug-tief:#006868; --bezug-flaeche:#B8DADA; --bezug-hauch:#E3F4F4;   /* Beziehung & Verbindung, Petrol */
 

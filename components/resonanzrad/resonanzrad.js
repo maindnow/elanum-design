@@ -10,7 +10,7 @@
    berechnet.
 
    BEDEUTUNG
-   - Ein Bereich, eine Farbe: Grundtöne Violett, Ich & Orientierung
+   - Ein Bereich, eine Farbe: Sterne & Ursprung Violett, Ich & Orientierung
      Koralle, Beziehung & Verbindung Petrol (tokens.css), ausgeglichen in
      Helligkeit und Sättigung.
    - Farbe heisst ausgefüllt: Alle ausgefüllten Stücke eines Bereichs
@@ -52,22 +52,22 @@
   };
 
   var GROUPS = [
-    { id: 'grund', label: 'Grundtöne' },
+    { id: 'sterne', label: 'Sterne & Ursprung' },
     { id: 'ich', label: 'Ich & Orientierung' },
     { id: 'bezug', label: 'Beziehung & Verbindung' }
   ];
 
   /* Inhalte der Demo. done/result zeigen den Ausfüllstatus. */
   var ITEMS = [
-    { id: 'astrology', group: 'grund', label: 'Astrologie', lines: ['Astro-', 'logie'], done: true, result: 'Jungfrau',
+    { id: 'astrology', group: 'sterne', label: 'Astrologie', lines: ['Astro-', 'logie'], done: true, result: 'Jungfrau',
       lead: 'Die Konstellation zum Zeitpunkt deiner Geburt.',
-      text: 'Sonne, Mond und Aszendent bilden einen Grundton, in dem sich viele Menschen wiedererkennen. Es ist eine Sprache für Muster, keine Vorhersage.',
+      text: 'Sonne, Mond und Aszendent ergeben ein Bild, in dem sich viele Menschen wiedererkennen. Es ist eine Sprache für Muster, keine Vorhersage.',
       rows: [['Sonne', 'Jungfrau'], ['Mond', 'Fische'], ['Aszendent', 'Waage']] },
-    { id: 'numerology', group: 'grund', label: 'Numerologie', lines: ['Numero-', 'logie'], done: true, result: '7',
+    { id: 'numerology', group: 'sterne', label: 'Numerologie', lines: ['Numero-', 'logie'], done: true, result: '7',
       lead: 'Zahlen als Muster deines Namens und Datums.',
       text: 'Aus Geburtsdatum und Namen entsteht ein wiederkehrendes Muster. Es zeigt Themen, die sich durch dein Leben ziehen.',
       rows: [['Lebenszahl', '7, der Suchende'], ['Namenszahl', '3, der Vermittler']] },
-    { id: 'human-design', group: 'grund', label: 'Human Design', lines: ['Human', 'Design'], done: true, result: 'Generator',
+    { id: 'human-design', group: 'sterne', label: 'Human Design', lines: ['Human', 'Design'], done: true, result: 'Generator',
       lead: 'Wie du Energie aufnimmst und entscheidest.',
       text: 'Typ, Autorität und offene Zentren beschreiben, woher deine Energie kommt und woran du merkst, dass eine Entscheidung stimmig ist.',
       rows: [['Typ', 'Generator'], ['Autorität', 'Sakral'], ['Profil', '3 / 5']] },
@@ -251,7 +251,7 @@
     var doneCount = ITEMS.filter(function (it) { return it.done; }).length, openCount = ITEMS.length - doneCount;
     root.querySelector('[data-progress]').innerHTML = '<span>' + doneCount + ' von ' + ITEMS.length + ' ausgefüllt' +
       (openCount ? ' · ' + openCount + (openCount === 1 ? ' wartet' : ' warten') + ' auf dich' : '') + '</span>' +
-      '<span class="rad__legend" aria-hidden="true"><span><i class="rad__swatch is-done" style="--swatch:var(--grund-flaeche)"></i>ausgefüllt</span>' +
+      '<span class="rad__legend" aria-hidden="true"><span><i class="rad__swatch is-done" style="--swatch:var(--sterne-flaeche)"></i>ausgefüllt</span>' +
       '<span><i class="rad__swatch"></i>offen</span></span>';
 
     /* Beschriftung im Stück, gemessen so gesetzt, dass nichts überlappt und

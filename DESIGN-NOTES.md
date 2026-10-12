@@ -1,4 +1,6 @@
-# ELANUM — Gestaltungsatlas 4.7
+# ELANUM — Gestaltungsatlas 4.8
+
+4.8 benennt den violetten Bereich des Resonanzrads neu: Sterne & Ursprung statt Grundtöne, im Code `sterne` statt `grund`. Resonanz heisst im Glossar nur noch: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. Der lokale Server `tools/serve.py` liefert jede Datei frisch aus.
 
 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.
 
@@ -38,7 +40,7 @@ Sekundärtext ist `#3D5055` (7,2:1 auf Canvas). Im Rad werden Ringschrift und Ic
 
 | Bereich | Tief · Schrift | Fläche · ausgefüllt | Hauch · Ring |
 |---|---|---|---|
-| Grundtöne · Violett | `#59479A` | `#D1CDF4` | `#EFEEFE` |
+| Sterne & Ursprung · Violett | `#59479A` | `#D1CDF4` | `#EFEEFE` |
 | Ich & Orientierung · Koralle | `#8E3931` | `#EFC8C1` | `#FFEBE7` |
 | Beziehung & Verbindung · Petrol | `#006868` | `#B8DADA` | `#E3F4F4` |
 
@@ -57,7 +59,7 @@ Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe au
 - Markenspektrum: `#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A`
 - Verbindung: `#6756D9, #D85BA9`
 - Glührand, geschlossener Kreis: `#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A, #6756D9`
-- Grundtöne, tief bis Hauch: `#59479A, #D1CDF4, #EFEEFE`
+- Sterne & Ursprung, tief bis Hauch: `#59479A, #D1CDF4, #EFEEFE`
 - Ich & Orientierung, tief bis Hauch: `#8E3931, #EFC8C1, #FFEBE7`
 - Beziehung & Verbindung, tief bis Hauch: `#006868, #B8DADA, #E3F4F4`
 

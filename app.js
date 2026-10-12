@@ -1,6 +1,6 @@
 'use strict';
 /* ============================================================
-   ELANUM Gestaltungsatlas 4.7 · Bedienlogik
+   ELANUM Gestaltungsatlas 4.8 · Bedienlogik
    Elemente (Beziehungsraum, Resonanzrad, Umfeld) liegen unter
    components/ und werden hier nur eingebunden. Bewegung steuert
    assets/motion.js; dieses Skript meldet Pause und Layoutwechsel.
@@ -300,7 +300,7 @@ filterGlossar();
 /* ---------- 15 Tokens: der Block liest die Werte aus tokens.css ---------- */
 const TOKEN_GROUPS = [
   ['Fläche und Schrift', ['--canvas', '--paper', '--ink', '--ink-2', '--line']],
-  ['Bereiche: tief · Fläche · Hauch, offen', ['--grund-tief', '--grund-flaeche', '--grund-hauch', '--ich-tief', '--ich-flaeche', '--ich-hauch', '--bezug-tief', '--bezug-flaeche', '--bezug-hauch', '--offen']],
+  ['Bereiche: tief · Fläche · Hauch, offen', ['--sterne-tief', '--sterne-flaeche', '--sterne-hauch', '--ich-tief', '--ich-flaeche', '--ich-hauch', '--bezug-tief', '--bezug-flaeche', '--bezug-hauch', '--offen']],
   ['Status', ['--info', '--info-bg', '--hint', '--hint-bg', '--error', '--error-bg', '--success', '--success-bg']],
   ['Typografie', ['--type-display', '--type-title', '--type-heading', '--type-body', '--type-label']],
   ['Raum und Form', ['--gutter', '--section', '--content', '--radius-control', '--radius-button', '--radius-surface', '--raised', '--pressed']],
