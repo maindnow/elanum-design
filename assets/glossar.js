@@ -5,7 +5,7 @@
    Begriffe nur mit Freigabe und neuer Atlas-Version ändern.
    ============================================================ */
 window.ELANUM_GLOSSAR = {
-  version: '4.7',
+  version: '4.8',
   rule: 'Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und Code, genau in dieser Schreibweise, inklusive Gross- und Kleinschreibung und „&“. Neue Begriffe oder Änderungen nur mit Freigabe und einer neuen Atlas-Version.',
   sentence: 'Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg.',
   groups: [
@@ -14,7 +14,7 @@ window.ELANUM_GLOSSAR = {
       { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie.', code: 'assets/ELANUM-*-Harmonic.svg' },
       { term: 'Kreiskonstruktion', meaning: 'Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick.', code: 'tools/build_logo_circles.py' },
       { term: 'Blueprint', meaning: 'Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten.', code: 'assets/ELANUM-Konstruktion-Harmonic.svg' },
-      { term: 'Resonanz', meaning: 'Das Leitthema: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.' }
+      { term: 'Resonanz', meaning: 'Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.' }
     ] },
     { title: 'Kosmen', intro: 'Die drei Räume von ELANUM. Der Resonanzkosmos ist der Einstieg, Datingkosmos und Erlebniskosmos stehen gleichwertig daneben.', terms: [
       { term: 'Kosmos', meaning: 'Einer der drei Räume von ELANUM, jeder mit einem eigenen Satz. Mehrzahl: Kosmen. Der Name immer in einem Wort, wie Resonanzrad.' },
@@ -26,8 +26,8 @@ window.ELANUM_GLOSSAR = {
       { term: 'Resonanzrad', meaning: 'Das Zentrum von ELANUM. Es beschreibt einen Menschen in neun Elementen. Immer ein Wort.', code: 'components/resonanzrad · ElanumResonanzrad' },
       { term: 'Ich', meaning: 'Die Mitte des Resonanzrads. Das Rad beschreibt nur dich, nie andere.' },
       { term: 'Element', meaning: 'Einer der neun Teile des Resonanzrads: eine Grundlage, aus der Resonanz entsteht. Mehrzahl: Elemente.', code: 'items[].id' },
-      { term: 'Bereich', meaning: 'Eine der drei Gruppen im Resonanzrad mit je drei Elementen und einer eigenen Farbe.', code: 'grund · ich · bezug' },
-      { term: 'Grundtöne', meaning: 'Bereich in Violett: Astrologie, Numerologie, Human Design.', code: 'grund' },
+      { term: 'Bereich', meaning: 'Eine der drei Gruppen im Resonanzrad mit je drei Elementen und einer eigenen Farbe.', code: 'sterne · ich · bezug' },
+      { term: 'Sterne & Ursprung', meaning: 'Bereich in Violett: Astrologie, Numerologie, Human Design. Alle drei gehen von deiner Geburt aus.', code: 'sterne' },
       { term: 'Ich & Orientierung', meaning: 'Bereich in Koralle: Lebensrichtung, Persönlichkeit, Werte.', code: 'ich' },
       { term: 'Beziehung & Verbindung', meaning: 'Bereich in Petrol: Bindungsstil, Nähe & Zuneigung, Konfliktstil.', code: 'bezug' },
       { term: 'Ergebnis', meaning: 'Was ein ausgefülltes Element über dich sagt, zum Beispiel „Jungfrau“ oder „Sicher“.' },
@@ -47,7 +47,7 @@ window.ELANUM_GLOSSAR = {
     ] },
     { title: 'Farbe und Material', terms: [
       { term: 'Canvas · Papier · Ink', meaning: 'Grundfläche, warme Fläche für Persönliches, Schriftfarbe.', code: '--canvas · --paper · --ink' },
-      { term: 'Bereichsfarbe', meaning: 'Die Farbe eines Bereichs in drei Stufen: Tief (Schrift), Fläche (ausgefüllte Elemente, eine Farbe für alle drei Elemente des Bereichs), Hauch (Ring, Flächen hinter Text).', code: '--grund-tief · --grund-flaeche · --grund-hauch' },
+      { term: 'Bereichsfarbe', meaning: 'Die Farbe eines Bereichs in drei Stufen: Tief (Schrift), Fläche (ausgefüllte Elemente, eine Farbe für alle drei Elemente des Bereichs), Hauch (Ring, Flächen hinter Text).', code: '--sterne-tief · --sterne-flaeche · --sterne-hauch' },
       { term: 'Markenspektrum', meaning: 'Violett bis Pink. Nur für das ELANUM-Zeichen, die Verbindung und den Glührand.', code: '--spectrum-stops' },
       { term: 'Glührand', meaning: 'Rand im Markenspektrum, der bei Hover, Fokus und Auswahl im Kreis wandert, dazu ein weiches Glühen.', code: '.glow-edge · --edge-stops' },
       { term: 'Status', meaning: 'Info, Hinweis, Fehler, Erfolg. Immer mit Zeichen, Balken und Text, nie nur Farbe.', code: 'data-role' },
@@ -66,6 +66,7 @@ window.ELANUM_GLOSSAR = {
     ['Kurvenkorrektur (als aktuelles Zeichen)', 'Kreiskonstruktion'],
     ['Sechs Grundkreise, Nah am Original (als aktuelles Zeichen)', 'ELANUM-Zeichen'],
     ['Eigenklang, Klang', 'Resonanz'],
+    ['Grundtöne', 'Sterne & Ursprung'],
     ['Felder, Stücke', 'Elemente'],
     ['Kategorie, Gruppe A–C', 'Bereich']
   ]

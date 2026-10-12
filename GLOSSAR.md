@@ -1,4 +1,4 @@
-# ELANUM Glossar 4.7
+# ELANUM Glossar 4.8
 
 <!-- Automatisch erzeugt aus assets/glossar.js mit `node tools/glossar-md.js`. Nicht von Hand bearbeiten. -->
 
@@ -14,7 +14,7 @@ Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und C
 | **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie. | `assets/ELANUM-*-Harmonic.svg` |
 | **Kreiskonstruktion** | Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. | `tools/build_logo_circles.py` |
 | **Blueprint** | Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten. | `assets/ELANUM-Konstruktion-Harmonic.svg` |
-| **Resonanz** | Das Leitthema: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. |  |
+| **Resonanz** | Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. |  |
 
 ## Kosmen
 
@@ -34,8 +34,8 @@ Die drei Räume von ELANUM. Der Resonanzkosmos ist der Einstieg, Datingkosmos un
 | **Resonanzrad** | Das Zentrum von ELANUM. Es beschreibt einen Menschen in neun Elementen. Immer ein Wort. | `components/resonanzrad · ElanumResonanzrad` |
 | **Ich** | Die Mitte des Resonanzrads. Das Rad beschreibt nur dich, nie andere. |  |
 | **Element** | Einer der neun Teile des Resonanzrads: eine Grundlage, aus der Resonanz entsteht. Mehrzahl: Elemente. | `items[].id` |
-| **Bereich** | Eine der drei Gruppen im Resonanzrad mit je drei Elementen und einer eigenen Farbe. | `grund · ich · bezug` |
-| **Grundtöne** | Bereich in Violett: Astrologie, Numerologie, Human Design. | `grund` |
+| **Bereich** | Eine der drei Gruppen im Resonanzrad mit je drei Elementen und einer eigenen Farbe. | `sterne · ich · bezug` |
+| **Sterne & Ursprung** | Bereich in Violett: Astrologie, Numerologie, Human Design. Alle drei gehen von deiner Geburt aus. | `sterne` |
 | **Ich & Orientierung** | Bereich in Koralle: Lebensrichtung, Persönlichkeit, Werte. | `ich` |
 | **Beziehung & Verbindung** | Bereich in Petrol: Bindungsstil, Nähe & Zuneigung, Konfliktstil. | `bezug` |
 | **Ergebnis** | Was ein ausgefülltes Element über dich sagt, zum Beispiel „Jungfrau“ oder „Sicher“. |  |
@@ -63,7 +63,7 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | Begriff | Bedeutung | Im Code |
 |---|---|---|
 | **Canvas · Papier · Ink** | Grundfläche, warme Fläche für Persönliches, Schriftfarbe. | `--canvas · --paper · --ink` |
-| **Bereichsfarbe** | Die Farbe eines Bereichs in drei Stufen: Tief (Schrift), Fläche (ausgefüllte Elemente, eine Farbe für alle drei Elemente des Bereichs), Hauch (Ring, Flächen hinter Text). | `--grund-tief · --grund-flaeche · --grund-hauch` |
+| **Bereichsfarbe** | Die Farbe eines Bereichs in drei Stufen: Tief (Schrift), Fläche (ausgefüllte Elemente, eine Farbe für alle drei Elemente des Bereichs), Hauch (Ring, Flächen hinter Text). | `--sterne-tief · --sterne-flaeche · --sterne-hauch` |
 | **Markenspektrum** | Violett bis Pink. Nur für das ELANUM-Zeichen, die Verbindung und den Glührand. | `--spectrum-stops` |
 | **Glührand** | Rand im Markenspektrum, der bei Hover, Fokus und Auswahl im Kreis wandert, dazu ein weiches Glühen. | `.glow-edge · --edge-stops` |
 | **Status** | Info, Hinweis, Fehler, Erfolg. Immer mit Zeichen, Balken und Text, nie nur Farbe. | `data-role` |
@@ -84,5 +84,6 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | ~~Kurvenkorrektur (als aktuelles Zeichen)~~ | **Kreiskonstruktion** |
 | ~~Sechs Grundkreise, Nah am Original (als aktuelles Zeichen)~~ | **ELANUM-Zeichen** |
 | ~~Eigenklang, Klang~~ | **Resonanz** |
+| ~~Grundtöne~~ | **Sterne & Ursprung** |
 | ~~Felder, Stücke~~ | **Elemente** |
 | ~~Kategorie, Gruppe A–C~~ | **Bereich** |

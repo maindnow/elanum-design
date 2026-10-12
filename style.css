@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM Gestaltungsatlas 4.7 · Layout
+   ELANUM Gestaltungsatlas 4.8 · Layout
    Setzt tokens.css und base.css voraus. Alle Schriften laufen über die
    fünf Stufen aus tokens.css. Linien trennen nur Kapitel.
    ============================================================ */
@@ -11,7 +11,7 @@
 .sidebar nav{display:grid}
 .sidebar nav a{display:flex;align-items:center;min-height:40px;margin:0 -12px;padding:0 12px;border-radius:10px;font:var(--type-label);color:var(--ink-2);text-decoration:none;transition:color var(--motion-ui) ease,background var(--motion-ui) ease}
 .sidebar nav a.active{color:var(--ink);font-weight:600}
-.sidebar nav a.active::before{content:"";width:8px;height:8px;margin-right:10px;border-radius:50%;background:var(--grund-tief)}
+.sidebar nav a.active::before{content:"";width:8px;height:8px;margin-right:10px;border-radius:50%;background:var(--sterne-tief)}
 .rail-bottom{margin-top:auto;display:grid;gap:12px;padding-top:20px;border-top:1px solid var(--line);font:var(--type-label);color:var(--ink-2)}
 .motion-toggle{display:flex;align-items:center;gap:12px;min-height:44px;margin-left:-12px;padding:0 12px;border:0;border-radius:var(--radius-control);background:transparent;font:var(--type-label);text-align:left;color:var(--ink)}
 .motion-toggle::before{content:"";flex:none;width:12px;height:12px;border:var(--trace) solid currentColor;border-radius:50%}
@@ -57,10 +57,10 @@ h3.block-title[data-anim]{margin-bottom:36px}
 .kosmen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;counter-reset:none}
 .kosmen li:first-child{grid-column:1/-1}
 .kosmen li{display:grid;gap:10px;align-content:start;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
-.kosmen__no{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--grund-hauch);color:var(--grund-tief);font:var(--type-label);font-weight:600}
+.kosmen__no{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--sterne-hauch);color:var(--sterne-tief);font:var(--type-label);font-weight:600}
 .kosmen h3{font:var(--type-title);letter-spacing:-.015em}
 .kosmen p{color:var(--ink-2)}
-.kosmen__parts{font:var(--type-label);color:var(--grund-tief)!important}
+.kosmen__parts{font:var(--type-label);color:var(--sterne-tief)!important}
 .element-card__kosmos{font:var(--type-label);color:var(--tone)}
 
 /* ---------- 02 Zeichen ---------- */
@@ -201,7 +201,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .station-demo{display:flex;align-items:center;gap:16px;height:28px}
 .station-demo i{width:14px;height:14px;border-radius:50%}
 .station-demo [data-state=done]{background:var(--ink);transform:scale(.72)}
-.station-demo [data-state=now]{box-shadow:0 0 0 var(--trace) var(--grund-tief),0 0 0 6px var(--grund-hauch)}
+.station-demo [data-state=now]{box-shadow:0 0 0 var(--trace) var(--sterne-tief),0 0 0 6px var(--sterne-hauch)}
 .station-demo [data-state=open]{border:var(--trace) solid var(--ink-2);-webkit-mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0);mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0)}
 .icon-set{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
 .icon-set li{display:grid;justify-items:center;gap:14px;padding:24px 12px;border-radius:var(--radius-surface);background:var(--tint);font:var(--type-label);text-align:center}
@@ -245,12 +245,12 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .glossary__row:nth-child(odd){background:#FFFFFF59}
 .glossary__row dt{font:var(--type-heading)}
 .glossary__row dd{margin:0;display:grid;gap:6px;color:var(--ink-2)}
-.glossary__row code{font:400 15px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--grund-tief)}
+.glossary__row code{font:400 15px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--sterne-tief)}
 .glossary__avoid{display:grid;gap:4px}
 .glossary__avoid div{display:grid;grid-template-columns:minmax(180px,260px) minmax(0,1fr);gap:32px;padding:14px 20px;border-radius:var(--radius-control);background:var(--paper)}
 .glossary__avoid dt{color:var(--ink-2)}
 .glossary__avoid dd{margin:0;font:var(--type-label);font-weight:600}
-@media(hover:hover) and (pointer:fine){.glossary__row:hover{background:var(--grund-hauch)}}
+@media(hover:hover) and (pointer:fine){.glossary__row:hover{background:var(--sterne-hauch)}}
 @media(max-width:640px){.glossary__row,.glossary__avoid div{grid-template-columns:1fr;gap:6px}}
 
 /* ---------- 15 Tokens ---------- */
@@ -272,14 +272,14 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 /* Hover: immer gut sichtbar. Farbe oder Fläche ändert sich, Karten heben
    sich und glühen, Auswahlflächen bekommen den Glührand (base.css). */
 @media(hover:hover) and (pointer:fine){
-  .sidebar nav a:hover{color:var(--ink);background:var(--grund-hauch)}
-  .text-link:hover{color:var(--grund-tief);background:var(--paper);text-decoration-thickness:2px}
+  .sidebar nav a:hover{color:var(--ink);background:var(--sterne-hauch)}
+  .text-link:hover{color:var(--sterne-tief);background:var(--paper);text-decoration-thickness:2px}
   .text-link .icon{transition:transform var(--motion-ui) var(--ease)}
   body[data-motion=on] .text-link:hover .icon{transform:translateY(3px)}
   .downloads a:hover{background:var(--paper);box-shadow:var(--raised-sm)}
   body[data-motion=on] .downloads a:hover::before{transform:translate(0,0) rotate(45deg)}
   .checklist label:hover{background:var(--paper)}
-  .check-label:hover,.logo-audit summary:hover,.motion-toggle:hover{color:var(--grund-tief)}
+  .check-label:hover,.logo-audit summary:hover,.motion-toggle:hover{color:var(--sterne-tief)}
   .menu-toggle:hover{background:var(--paper);border-radius:12px}
   .ramp button:hover{background:var(--paper);border-radius:var(--radius-control)}
   .spectrum__values button:hover,.gradient__copy:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
