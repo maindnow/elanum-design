@@ -30,17 +30,21 @@ Sekundärtext ist `#3D5055` (7,2:1 auf Canvas). Im Rad werden Ringschrift und Ic
 
 **Neutral:** Canvas `#F0ECE3`, Papier `#F6F1E7`, Ink `#16363B`, Sekundärtext `#3D5055`.
 
-**Bereiche des Resonanzrads:** Jeder Bereich hat einen Grundton. Die drei Bereiche sind ausgeglichen: gleiche Helligkeit auf jeder Stufe (OKLCH L 0,46 / 0,83 / 0,875 / 0,915 / 0,955) und angeglichene Sättigung (Petrol rund ×0,7, weil es sonst schwerer wirkt), damit kein Bereich dominiert. Die Elementstufen liegen bewusst eng und hell beieinander (benachbarte Stufen ΔE ≥ 4): Ein ausgefülltes Element wirkt nie schwerer als seine Nachbarn. Frühere Stände von 4.5 hatten Stufe 1 bei L 0,74; Astrologie und Bindungsstil wirkten dadurch zu stark.
+**Bereiche des Resonanzrads:** Jeder Bereich hat drei Farben: Tief für Schrift, eine Fläche für ausgefüllte Elemente und den Hauch für den Ring. Gleiche Helligkeit in allen drei Bereichen (OKLCH L 0,46 / 0,864 / 0,94), die Sättigung pro Farbton angeglichen (Koralle und Petrol etwas zurückgenommen, weil sie sonst schwerer wirken).
 
-| Bereich | Tief · Schrift | Element 1 | Element 2 | Element 3 | Hauch · Ring und offen |
-|---|---|---|---|---|---|
-| Grundtöne · Violett | `#59479A` | `#C6C1F0` | `#D5D1F7` | `#E2DFFB` | `#EFEEFE` |
-| Ich & Orientierung · Koralle | `#8E3931` | `#EEB8AF` | `#F5CAC3` | `#FADBD5` | `#FFEBE7` |
-| Beziehung & Verbindung · Petrol | `#006868` | `#A5D1D1` | `#BBDEDE` | `#CFE9E9` | `#E3F4F4` |
+| Bereich | Tief · Schrift | Fläche · ausgefüllt | Hauch · Ring |
+|---|---|---|---|
+| Grundtöne · Violett | `#59479A` | `#D1CDF4` | `#EFEEFE` |
+| Ich & Orientierung · Koralle | `#8E3931` | `#EFC8C1` | `#FFEBE7` |
+| Beziehung & Verbindung · Petrol | `#006868` | `#B8DADA` | `#E3F4F4` |
+
+Offene Elemente: Grau `#E5E0D6` (`--offen`).
+
+**Ein Zustand, ein Zeichen.** Im Resonanzrad heisst Farbe ausgefüllt: alle ausgefüllten Elemente eines Bereichs in derselben Fläche. Offen heisst grau, gestrichelt umrandet und mit einem Plus in Ink, das zum Ausfüllen einlädt. Früher trug jedes Element eine eigene Nuance (Stufe 1 bis 3) und zusätzlich eine geschlossene oder geöffnete Kontur. Helligkeit las sich dabei als Menge: Bindungsstil (Stufe 1) wirkte „voller“ als Werte (Stufe 3), obwohl beide gleich ausgefüllt waren. Deshalb gibt es keine Nuancen mehr, die Elemente eines Bereichs unterscheiden sich über Icon und Name.
 
 Violett, Koralle und Petrol wurden gegen andere Trios getestet, auch für Farbsehschwächen. Merkbar sind sie über ihre Bedeutung: Violett für Herkunft und Tiefe, Koralle für Wärme und das Selbst, Petrol für Verbindung und die Nähe zum Ink.
 
-Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe auf Canvas und Hauch (mindestens 5,4:1). Ink auf dem Hauch (mindestens 10:1). Auf den Stufen 1 bis 3 stehen Icon, Name und Ergebnis in Ink (mindestens 7,5:1). Diese Stufen sind bewusst hell, damit das Rad auch nach dem Aufbau ruhig bleibt. Der Ring zeigt alle drei Bereiche gleich stark im Hauch und hebt nichts hervor. Der Auswahlbogen über dem gewählten Element steht in Tief seines Bereichs und glüht in derselben Farbe, nie im Markenspektrum: Violett auf Petrol oder Koralle wirkt fremd. Die frühere Feldpalette aus 4.4 (Blue, Orchid, Pink, Amber, Moss, Teal in Gruppen A–C) ist ersetzt.
+Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe auf Canvas und Hauch (mindestens 5,4:1). Ink auf dem Hauch (mindestens 10:1). Auf der Fläche stehen Icon, Name und Ergebnis in Ink (mindestens 8,4:1), auf Grau stehen Icon und Name in Sekundärtext (6,4:1). Die Flächen sind bewusst hell, damit das Rad auch nach dem Aufbau ruhig bleibt. Der Ring zeigt alle drei Bereiche gleich stark im Hauch und hebt nichts hervor. Der Auswahlbogen über dem gewählten Element steht in Tief seines Bereichs und glüht in derselben Farbe, nie im Markenspektrum: Violett auf Petrol oder Koralle wirkt fremd. Die frühere Feldpalette aus 4.4 (Blue, Orchid, Pink, Amber, Moss, Teal in Gruppen A–C) ist ersetzt.
 
 **Markenspektrum** Violet → Blue → Orchid → Rose → Pink: für das Zeichen, die Verbindungslinie und den Glührand. Keine Fläche, keine Kategorie.
 
@@ -49,9 +53,9 @@ Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe au
 - Markenspektrum: `#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A`
 - Verbindung: `#6756D9, #D85BA9`
 - Glührand, geschlossener Kreis: `#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A, #6756D9`
-- Grundtöne, tief bis Hauch: `#59479A, #C6C1F0, #D5D1F7, #E2DFFB, #EFEEFE`
-- Ich & Orientierung, tief bis Hauch: `#8E3931, #EEB8AF, #F5CAC3, #FADBD5, #FFEBE7`
-- Beziehung & Verbindung, tief bis Hauch: `#006868, #A5D1D1, #BBDEDE, #CFE9E9, #E3F4F4`
+- Grundtöne, tief bis Hauch: `#59479A, #D1CDF4, #EFEEFE`
+- Ich & Orientierung, tief bis Hauch: `#8E3931, #EFC8C1, #FFEBE7`
+- Beziehung & Verbindung, tief bis Hauch: `#006868, #B8DADA, #E3F4F4`
 
 **Status:** Info `#2863AB`, Hinweis `#875500`, Fehler `#B02A2D`, Erfolg `#2B7440`, je mit eigener Hauchfläche. Text auf der Fläche hat mindestens 5:1. Jeder Status hat einen 4-px-Balken, ein gefülltes Zeichen im Kreis und ein Label. Weil Koralle-Tief nahe am Fehler-Rot liegt, unterscheidet die Form: Status hat immer Zeichen und Balken, Bereiche nie.
 
@@ -67,44 +71,33 @@ Das Papier (gespeicherter Gedanke) hat dieselben 28 px Radius wie jede Fläche u
 
 Buttons blitzen nicht mehr: Die Grundfarbe liegt unter dem Verlauf, und Hover hellt über eine eigene Ebene auf, statt den Hintergrund zu tauschen. In 4.4 tauschte die Hover-Regel den Verlauf gegen eine Fläche, die von transparent einblendete; dazwischen schien die helle Fläche durch.
 
-## Das ELANUM-Zeichen: sechs Grundkreise
+## Das ELANUM-Zeichen: Kreiskonstruktion im Goldenen Schnitt
 
-Das ELANUM-Zeichen stammt aus dem ELANUM-Geometrie-Paket, Konstruktionsversion 4. Es ist auf das Nötigste reduziert: sechs Grundkreise und fünf benannte Brücken.
+Das ELANUM-Zeichen ist vollständig aus Kreisen gebaut, alle Radien stammen aus einer Reihe im Goldenen Schnitt. Die bisherigen Innenkonturen waren freie Bézier-Kurven: Innerhalb eines Bogens schwankte der Radius (z. B. 289 → 249 → 342), an den Übergängen sprang er (z. B. 245 → 289). Die Tangenten schlossen an, die Krümmung nicht. Dadurch wirkten die Rundungen unruhig. Die Kurvenkorrektur aus 4.4 hat nur Kontrollpunkte verschoben und konnte das nicht beheben.
 
-| Grundkreis | Aufgabe | Radius |
-| --- | --- | --- |
-| C1 Mantel | Runde Aussenform, Mittelpunkt und Radius wie bisher | 460,54 |
-| C2 Zentrum | Kreisöffnung; P1 und P2 liegen auf diesem Kreis | 122,05 |
-| C3 Oberbogen | Wölbung oberhalb des Zentrums | 248,38 |
-| C4 Unterbogen | Grosser Schwung unterhalb des Zentrums | 211,60 |
-| C5 Mündung oben | Oberkante der rechten Öffnung | 161,90 |
-| C6 Mündung unten | Unterkante der rechten Öffnung | 187,74 |
+Konstruktionsregeln:
 
-| Brücke | Verbindung | Regel |
-| --- | --- | --- |
-| B1 Rücklauf | P2 am Zentrum zu C3 | Krümmung nimmt linear vom Zentrums- zum Oberbogenradius ab |
-| B2 Anschluss oben | P1 am Zentrum zu C4 | Kurzer Übergang öffnet die untere Aussparung |
-| B3 Öffnung | C3 zu C5 und C6 | Linearer Krümmungswechsel mit genau einem Wendepunkt |
-| B4 Lippen | C5 und C6 zu C1 | Rundet die beiden Enden der rechten Öffnung |
-| B5 Auslauf | C4 zum linken Spaltende | Spaltbreite nimmt durchgehend bis null ab |
+- Jede Kontur ist eine Kette aus Kreisbögen. Zwei aufeinanderfolgende Bögen berühren sich tangential: Ihre Mittelpunkte liegen mit dem Übergangspunkt auf einer Geraden. Gemessener Knick an allen Übergängen: 0°.
+- Radien: Stufen der Reihe R · φ^(−k/4); vier Stufen ergeben genau den Goldenen Schnitt. Verwendet: k = 11, 10, 9, 8, 7, 6, 5, 4, 3, 0, −2.
+- Rahmen: Aussenkreis R 460,54 und Kreisöffnung r₀ = Stufe 11 = 122,62.
+- Die beiden feinen Linien sind wie Schriftzüge gebaut. Eine Mittellinie aus Kreisbögen trägt die Form, ihre Radien ändern sich stetig. Der Linienkörper ist konzentrisch zur Mittellinie und überall gleich stark (obere Linie 6, untere 5 Einheiten). An den Enden ersetzen je zwei sich berührende Spitzenkreise den Körper, die Stärke nimmt gleichmässig von 0 auf den vollen Wert zu und am Ende wieder ab.
+- Berührpunkte: E (obere Linie an der Öffnung), S (untere Linie an der Öffnung), T (obere Linie und Kerbe) und W (Spitze der unteren Linie). In T berühren sich vier Kreise in derselben Tangente. Die Kerbe ist eine Mondsichel zweier Kreise, die sich in T berühren.
+- Die Farbkanten des Spektrums laufen auf Konstruktionskreisen. Das Farbnetz (Verläufe, Masken, Farben) ist unverändert aus der Kurvenkorrektur übernommen, nur die Clip-Pfade sind ersetzt.
+- Abweichung zur Kurvenkorrektur: 22,2 Einheiten im 960er-Raster. Die obere Linie liegt weiter aussen, die Kerbe öffnet sich weiter. Das ist gewollt: Die alten Kurven hatten selbst Dellen, die Konstruktion übernimmt sie nicht.
 
-Kreisabschnitte sind echte SVG-Bögen. Die Brücken sind kubische B-Splines, exportiert als SVG-Bézierkurven, intern krümmungsstetig. An allen 209 Anschlüssen stimmen Lage, Tangente und Krümmung überein (G2). Die Spalte haben 4,5 Einheiten Breite. Der obere Spalt läuft ohne Einschnürung über B3 in die Öffnung. Beide Spalte beginnen am Zentrum mit Breite null und liegen ausserhalb der Kreisöffnung. Im Spektrum sind alle Farbverläufe aus dem Master erhalten; verdeckte Flächenschliessungen sind Bézierkurven, die Überblendung der linken Farbfläche ist an die neue Kontur angepasst.
+`tools/build_logo_circles.py` (nur Python-Standardbibliothek) erzeugt `ELANUM-System-Ink-Harmonic.svg`, `ELANUM-Master-Spektrum-Harmonic.svg` und das Blueprint `ELANUM-Konstruktion-Harmonic.svg`. Es prüft dabei die Knicke und die Abweichung. Mit `--masks` gibt es die Relief-Maske für `app.js` aus. Die Originale und die Kurvenkorrektur bleiben als Referenz im Repository, der Atlas verlinkt sie nicht mehr.
 
-`tools/build_logo_geometrie.py` erzeugt Ink, Spektrum, Blueprint, die Detailansicht von B3 und B5, den Formvergleich zur Kurvenkorrektur und `ELANUM-Konstruktion-Geometrisch.json` mit allen Parametern und Prüfwerten. Der Konstruktor ist aus dem Paket übernommen, nur die Pfade sind angepasst. Er benötigt numpy und scipy (`tools/requirements.txt`). Der Lauf reproduziert die SVGs des Pakets byte-genau.
+Die Zeichen-Karte im Atlas zeigt nur dieses Zeichen: Spektrum, Ink, Invers, Relief und Blueprint. „Relief“ nutzt die Ink-Silhouette als eingebettete Maske.
 
-Die Zeichen-Karte im Atlas zeigt Spektrum, Ink, Invers, Relief und Blueprint und blendet auf Wunsch das unveränderte Original ein. „Relief“ nutzt die Ink-Silhouette als eingebettete SVG-Maske.
+### Entscheid (12.10.2026)
 
-### Entstehung
-
-Die bisherigen Innenkonturen waren freie Bézier-Kurven. Innerhalb eines Bogens schwankte der Radius (z. B. 289 → 249 → 342), an den Übergängen sprang er (z. B. 245 → 289). Die Tangenten schlossen an, die Krümmung nicht, deshalb wirkten die Rundungen unruhig.
-
-Als Zwischenstufen entstanden Fassungen nur aus Kreisbögen, eine nah am Original und eine mit Radien im Goldenen Schnitt. Sie wurden verworfen. Reine Kreisbögen lassen an jedem Übergang einen kleinen Krümmungssprung, und sie brauchten deutlich mehr Kreise. Die Brücken mit stetiger Krümmung sind ruhiger und kommen mit sechs Grundkreisen aus.
+Zwei Fassungen standen zur Wahl: der Goldene Schnitt und eine Konstruktion aus sechs Grundkreisen mit fünf krümmungsstetigen Brücken (`-Geometrisch`, aus dem ELANUM-Geometrie-Paket, PR #9). Nach einem direkten Vergleich in Spektrum, Ink, Kleingrössen und Blueprint fiel der Entscheid auf den Goldenen Schnitt. Die Fassung „Sechs Grundkreise“ bleibt als geprüfte Alternative mit `tools/build_logo_geometrie.py` und `assets/*-Geometrisch.*` im Repository, sie wird nicht verwendet. Die frühere Variante „Nah am Original“ (`-Circles`) ist nicht mehr gültig.
 
 ## Frühere Stufe: Kurvenkorrektur (4.4)
 
 Die Dateien ohne Suffix sind die unveränderten Quellen. `-Curves.svg` bezeichnet eine separate Kurvenkorrektur. Aussensilhouette, Kreisöffnung, Kreisradien, Ankerpunkte, Pfadanzahl und Linienanordnung bleiben erhalten. Angepasst wurden nur Bézier-Kontrollpunkte an den vorhandenen Innenkurven, damit benachbarte Tangenten sauber anschliessen. Die bewusste Abzweigung an der Logo-Öffnung bleibt unverändert. Gemeinsame Grenzen der Farbebenen verwenden identische Kontrollpunkte.
 
-Die separate SVG-Konturüberlagerung stellt Original und Korrektur gegenüber. Seit 4.5 ersetzt die Konstruktion aus sechs Grundkreisen die Kurvenkorrektur im Atlas; die Dateien bleiben zum Download. Invers ist die identische Ink-Datei in Weiss, kein weiteres geometrisches Logo.
+Die separate SVG-Konturüberlagerung stellt Original und Korrektur gegenüber. Seit 4.5 ersetzt die Kreiskonstruktion im Goldenen Schnitt die Kurvenkorrektur im Atlas; die Dateien bleiben als Referenz im Repository. Invers ist die identische Ink-Datei in Weiss, kein weiteres geometrisches Logo.
 
 Geometrischer Vergleich: 5 Pfade beim Spektrum, 2 bei Ink — jeweils gleich viele wie im Original. Alle Anker und Bogenparameter sind identisch. Die grösste abgetastete Abweichung der Innenkurven beträgt 5,33 Einheiten im 960er-Koordinatenraum, entsprechend etwa 0,36 Pixel bei einer 64-Pixel-Darstellung. Es handelt sich bewusst um eine minimale Korrektur, nicht um eine neue Kreis- oder Spiralform.
 
@@ -114,8 +107,8 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 
 **Resonanzrad** (`components/resonanzrad/`), wiederhergestellt aus dem persönlichen Rad (Repo-Stand `8995945`) und überarbeitet:
 - Geometrie unverändert verbindlich: exakter Kreis, neun Stücke à 40°, drei Bereiche à 120°, ein gemeinsamer Mittelpunkt.
-- Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt seine Nuance (tief, mittel, hell), ein offenes nur den Hauch seines Bereichs. Die Kontur bestätigt es: geschlossen oder mit Öffnung.
-- Im Rad stehen Icon, Name und Ergebnis jedes Elements in echten 15 px, weil man sich Icons allein nicht merkt. Ist das Rad schmaler als 420 px, steht im Stück nur der Name; Icon und Ergebnis zeigt dann die Zeile direkt unter dem Rad. Der Auswahlbogen steht in der Farbe seines Bereichs und glüht im Atemtakt. Namen, Ergebnisse und Status stehen in der Liste und im Lesebereich. Die Liste ist die Tastaturbedienung (Pfeile, Home, End).
+- Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt die Fläche seines Bereichs, alle drei Elemente eines Bereichs gleich. Ein offenes Stück ist grau, gestrichelt umrandet und trägt ein Plus in Ink. In der Liste steht „+ Ausfüllen“; ein Tipp darauf wählt das Element und setzt den Fokus auf „Jetzt ausfüllen“. Das Plus hat eine eigene Zeile mit Abstand und überlappt nie Icon oder Name.
+- Beschriftung im Rad, gemessen so gesetzt, dass nichts überlappt und nichts über sein Stück hinausragt (2 px Rand, für jede der neun Auswahlen geprüft): Ab 500 px Raddurchmesser stehen Name und darunter Ergebnis oder Plus, in echten 15 px. Darunter zeigt jedes Stück nur sein Icon, offene Stücke zusätzlich das Plus (ab 300 px). Name und Ergebnis stehen dann in der Zeile direkt unter dem Rad. Icon, Name und Ergebnis zusammen sind für ein 40°-Stück zu gross; frühere Stände überlappten deshalb an den Rändern. Der Auswahlbogen steht in der Farbe seines Bereichs und glüht im Atemtakt. Namen, Ergebnisse und Status stehen in der Liste und im Lesebereich. Die Liste ist die Tastaturbedienung (Pfeile, Home, End).
 - Der Ring zeigt die drei Bereiche gleich stark und hebt nichts hervor. Icons, Konturen und Auswahlbogen sind Ink.
 
 **Umfeld** (`components/umfeld/`): Ich in der Mitte, Menschen als eigene, offene Kreise. Abstand zeigt Nähe, die Stärke der Linie die Resonanz, ohne aktive Resonanz gibt es keine Linie. Eine Liste ist die Bedienung, der gewählte Mensch öffnet den Beziehungsraum mit seinen Werten. So trägt das Umfeld mehr als eine einzelne Beziehung. Unter 560 px Breite gilt ein Hochformat mit grösseren Kreisen, damit die Namen in echten 15 px hineinpassen.

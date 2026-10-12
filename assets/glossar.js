@@ -11,9 +11,9 @@ window.ELANUM_GLOSSAR = {
   groups: [
     { title: 'Marke', terms: [
       { term: 'ELANUM', meaning: 'Die Marke. Immer in Versalien.' },
-      { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke, gebaut aus sechs Grundkreisen und fünf Brücken. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie.', code: 'assets/ELANUM-*-Geometrisch.svg' },
-      { term: 'Kreiskonstruktion', meaning: 'Bauweise des ELANUM-Zeichens: sechs Grundkreise (Mantel, Zentrum, Oberbogen, Unterbogen, zwei Mündungen), verbunden durch fünf Brücken mit stetiger Krümmung, ohne Knick.', code: 'tools/build_logo_geometrie.py' },
-      { term: 'Blueprint', meaning: 'Darstellung des ELANUM-Zeichens mit Grundkreisen, Brücken und Berührpunkten.', code: 'assets/ELANUM-Konstruktion-Geometrisch.svg' },
+      { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie.', code: 'assets/ELANUM-*-Harmonic.svg' },
+      { term: 'Kreiskonstruktion', meaning: 'Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick.', code: 'tools/build_logo_circles.py' },
+      { term: 'Blueprint', meaning: 'Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten.', code: 'assets/ELANUM-Konstruktion-Harmonic.svg' },
       { term: 'Resonanz', meaning: 'Das Leitthema: Etwas schwingt mit, zu dir selbst oder zu einem anderen Menschen.' }
     ] },
     { title: 'Phasen', intro: 'Der Weg mit ELANUM, in dieser Reihenfolge.', terms: [
@@ -30,7 +30,7 @@ window.ELANUM_GLOSSAR = {
       { term: 'Ich & Orientierung', meaning: 'Bereich in Koralle: Lebensrichtung, Persönlichkeit, Werte.', code: 'ich' },
       { term: 'Beziehung & Verbindung', meaning: 'Bereich in Petrol: Bindungsstil, Nähe & Zuneigung, Konfliktstil.', code: 'bezug' },
       { term: 'Ergebnis', meaning: 'Was ein ausgefülltes Element über dich sagt, zum Beispiel „Jungfrau“ oder „Sicher“.' },
-      { term: 'ausgefüllt · offen', meaning: 'Zustand eines Elements. Ausgefüllt: in seiner Farbe, Kontur geschlossen. Offen: im Hauch, Kontur mit Öffnung.', code: 'done' }
+      { term: 'ausgefüllt · offen', meaning: 'Zustand eines Elements. Ausgefüllt: Fläche in der Farbe seines Bereichs. Offen: grau, gestrichelt umrandet, mit einem Plus zum Ausfüllen.', code: 'done · --offen' }
     ] },
     { title: 'Bausteine', intro: 'Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.', terms: [
       { term: 'Baustein', meaning: 'Eine gestaltete Darstellung wie Resonanzrad, Umfeld oder Weg.', code: 'components/' },
@@ -46,7 +46,7 @@ window.ELANUM_GLOSSAR = {
     ] },
     { title: 'Farbe und Material', terms: [
       { term: 'Canvas · Papier · Ink', meaning: 'Grundfläche, warme Fläche für Persönliches, Schriftfarbe.', code: '--canvas · --paper · --ink' },
-      { term: 'Bereichsfarbe', meaning: 'Die Farbe eines Bereichs in fünf Stufen: Tief (Schrift), Stufe 1 bis 3 (Elemente), Hauch (Ring, offen, Flächen).', code: '--grund-tief … --grund-hauch' },
+      { term: 'Bereichsfarbe', meaning: 'Die Farbe eines Bereichs in drei Stufen: Tief (Schrift), Fläche (ausgefüllte Elemente, eine Farbe für alle drei Elemente des Bereichs), Hauch (Ring, Flächen hinter Text).', code: '--grund-tief · --grund-flaeche · --grund-hauch' },
       { term: 'Markenspektrum', meaning: 'Violett bis Pink. Nur für das ELANUM-Zeichen, die Verbindung und den Glührand.', code: '--spectrum-stops' },
       { term: 'Glührand', meaning: 'Rand im Markenspektrum, der bei Hover, Fokus und Auswahl im Kreis wandert, dazu ein weiches Glühen.', code: '.glow-edge · --edge-stops' },
       { term: 'Status', meaning: 'Info, Hinweis, Fehler, Erfolg. Immer mit Zeichen, Balken und Text, nie nur Farbe.', code: 'data-role' },
@@ -60,6 +60,7 @@ window.ELANUM_GLOSSAR = {
     ['Klangrad, persönliches Rad', 'Resonanzrad'],
     ['Klangsignatur, Logo-Signatur', 'ELANUM-Zeichen'],
     ['Kurvenkorrektur (als aktuelles Zeichen)', 'Kreiskonstruktion'],
+    ['Sechs Grundkreise, Nah am Original (als aktuelles Zeichen)', 'ELANUM-Zeichen'],
     ['Eigenklang, Klang', 'Resonanz'],
     ['Felder, Stücke', 'Elemente'],
     ['Kategorie, Gruppe A–C', 'Bereich']

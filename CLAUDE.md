@@ -33,7 +33,7 @@ git checkout -B BRANCH origin/BRANCH
 
 ```bash
 for f in app.js assets/*.js components/*/*.js; do node --check "$f"; done
-python3 tools/build_logo_geometrie.py
+python3 tools/build_logo_circles.py
 node tools/glossar-md.js
 git diff --check
 ```

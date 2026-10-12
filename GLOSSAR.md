@@ -11,9 +11,9 @@ Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und C
 | Begriff | Bedeutung | Im Code |
 |---|---|---|
 | **ELANUM** | Die Marke. Immer in Versalien. |  |
-| **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, gebaut aus sechs Grundkreisen und fünf Brücken. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie. | `assets/ELANUM-*-Geometrisch.svg` |
-| **Kreiskonstruktion** | Bauweise des ELANUM-Zeichens: sechs Grundkreise (Mantel, Zentrum, Oberbogen, Unterbogen, zwei Mündungen), verbunden durch fünf Brücken mit stetiger Krümmung, ohne Knick. | `tools/build_logo_geometrie.py` |
-| **Blueprint** | Darstellung des ELANUM-Zeichens mit Grundkreisen, Brücken und Berührpunkten. | `assets/ELANUM-Konstruktion-Geometrisch.svg` |
+| **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie. | `assets/ELANUM-*-Harmonic.svg` |
+| **Kreiskonstruktion** | Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. | `tools/build_logo_circles.py` |
+| **Blueprint** | Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten. | `assets/ELANUM-Konstruktion-Harmonic.svg` |
 | **Resonanz** | Das Leitthema: Etwas schwingt mit, zu dir selbst oder zu einem anderen Menschen. |  |
 
 ## Phasen
@@ -38,7 +38,7 @@ Der Weg mit ELANUM, in dieser Reihenfolge.
 | **Ich & Orientierung** | Bereich in Koralle: Lebensrichtung, Persönlichkeit, Werte. | `ich` |
 | **Beziehung & Verbindung** | Bereich in Petrol: Bindungsstil, Nähe & Zuneigung, Konfliktstil. | `bezug` |
 | **Ergebnis** | Was ein ausgefülltes Element über dich sagt, zum Beispiel „Jungfrau“ oder „Sicher“. |  |
-| **ausgefüllt · offen** | Zustand eines Elements. Ausgefüllt: in seiner Farbe, Kontur geschlossen. Offen: im Hauch, Kontur mit Öffnung. | `done` |
+| **ausgefüllt · offen** | Zustand eines Elements. Ausgefüllt: Fläche in der Farbe seines Bereichs. Offen: grau, gestrichelt umrandet, mit einem Plus zum Ausfüllen. | `done · --offen` |
 
 ## Bausteine
 
@@ -62,7 +62,7 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | Begriff | Bedeutung | Im Code |
 |---|---|---|
 | **Canvas · Papier · Ink** | Grundfläche, warme Fläche für Persönliches, Schriftfarbe. | `--canvas · --paper · --ink` |
-| **Bereichsfarbe** | Die Farbe eines Bereichs in fünf Stufen: Tief (Schrift), Stufe 1 bis 3 (Elemente), Hauch (Ring, offen, Flächen). | `--grund-tief … --grund-hauch` |
+| **Bereichsfarbe** | Die Farbe eines Bereichs in drei Stufen: Tief (Schrift), Fläche (ausgefüllte Elemente, eine Farbe für alle drei Elemente des Bereichs), Hauch (Ring, Flächen hinter Text). | `--grund-tief · --grund-flaeche · --grund-hauch` |
 | **Markenspektrum** | Violett bis Pink. Nur für das ELANUM-Zeichen, die Verbindung und den Glührand. | `--spectrum-stops` |
 | **Glührand** | Rand im Markenspektrum, der bei Hover, Fokus und Auswahl im Kreis wandert, dazu ein weiches Glühen. | `.glow-edge · --edge-stops` |
 | **Status** | Info, Hinweis, Fehler, Erfolg. Immer mit Zeichen, Balken und Text, nie nur Farbe. | `data-role` |
@@ -78,6 +78,7 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | ~~Klangrad, persönliches Rad~~ | **Resonanzrad** |
 | ~~Klangsignatur, Logo-Signatur~~ | **ELANUM-Zeichen** |
 | ~~Kurvenkorrektur (als aktuelles Zeichen)~~ | **Kreiskonstruktion** |
+| ~~Sechs Grundkreise, Nah am Original (als aktuelles Zeichen)~~ | **ELANUM-Zeichen** |
 | ~~Eigenklang, Klang~~ | **Resonanz** |
 | ~~Felder, Stücke~~ | **Elemente** |
 | ~~Kategorie, Gruppe A–C~~ | **Bereich** |
