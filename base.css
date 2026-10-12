@@ -17,6 +17,7 @@ button,a,input{-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 /* Versteck-Guard (assets/boot.js): nur solange Bewegung erlaubt und motion.js noch nicht bereit ist */
 html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:0}
+.is-revealing{transition:none!important}
 ::selection{background:var(--grund-hauch)}
 :focus-visible{outline:3px solid var(--grund-tief);outline-offset:4px}
 

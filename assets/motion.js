@@ -29,6 +29,10 @@
   var gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
   if (!gsap || !ScrollTrigger || !matchMedia('(prefers-reduced-motion: no-preference)').matches) { ready(); return; }
   gsap.registerPlugin(ScrollTrigger, window.SplitText, window.DrawSVGPlugin);
+  /* Startwerte sofort schreiben, nicht erst am Ende des nächsten Ticks (lazy).
+     Sonst steht ein Element einen Frame lang voll da, nachdem der Guard
+     gelöst ist, und springt dann auf 0: das Flackern beim Einstieg. */
+  gsap.defaults({ lazy: false });
 
   /* Katalog-Konstanten. Nicht raten, nachschlagen. */
   var M = {
@@ -51,6 +55,15 @@
     io.observe(el); observers.push(io);
   }
   function hideUntilVisible(targets) { gsap.set(targets, { opacity: 0 }); }
+  /* CSS-Transitions auf transform oder opacity würden dem Tween hinterherlaufen
+     und ruckeln. Während des Auftritts sind sie aus. */
+  function quiet(targets) {
+    targets = [].concat(targets).filter(Boolean);
+    return {
+      onStart: function () { targets.forEach(function (t) { t.classList.add('is-revealing'); }); },
+      onComplete: function () { targets.forEach(function (t) { t.classList.remove('is-revealing'); }); }
+    };
+  }
 
   /* ---------- Einstieg (P03 + P05) ---------- */
   function hero() {
@@ -81,22 +94,22 @@
   function reveals() {
     all('[data-anim="reveal"]').forEach(function (el) {
       if (aboveFold(el)) return;
-      gsap.fromTo(el, { y: M.y, opacity: 0 }, { y: 0, opacity: 1, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR,
-        scrollTrigger: { trigger: el, start: M.start.normal, end: 'max', once: true } });
+      gsap.fromTo(el, { y: M.y, opacity: 0 }, Object.assign({ y: 0, opacity: 1, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR,
+        scrollTrigger: { trigger: el, start: M.start.normal, end: 'max', once: true } }, quiet(el)));
     });
     all('[data-anim="stagger"]').forEach(function (el) {
       if (aboveFold(el)) return;
       var kids = Array.prototype.slice.call(el.children);
-      gsap.fromTo(kids, { y: M.y, opacity: 0 }, { y: 0, opacity: 1, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR,
+      gsap.fromTo(kids, { y: M.y, opacity: 0 }, Object.assign({ y: 0, opacity: 1, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR,
         stagger: kids.length > 4 ? { amount: M.stagger.amount } : M.stagger.items,
-        scrollTrigger: { trigger: el, start: M.start.normal, end: 'max', once: true } });
+        scrollTrigger: { trigger: el, start: M.start.normal, end: 'max', once: true } }, quiet(kids.concat(all('.swatch, .status', el)))));
     });
     /* Farbrampen: jede Stufe wächst von links, tief zuerst. Die Abstufung wird sichtbar. */
     all('[data-anim="ramp"]').forEach(function (el) {
       if (aboveFold(el)) return;
       var card = el.closest('.area-card') || el;
       var tl = gsap.timeline({ scrollTrigger: { trigger: card, start: M.start.normal, end: 'max', once: true } });
-      tl.fromTo(card, { y: M.y, opacity: 0 }, { y: 0, opacity: 1, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR })
+      tl.fromTo(card, { y: M.y, opacity: 0 }, Object.assign({ y: 0, opacity: 1, duration: M.duration.reveal, ease: M.ease.reveal, clearProps: CLEAR }, quiet(card)))
         .from(all('.ramp__bar', el), { scaleX: 0, duration: M.duration.line, ease: M.ease.line, stagger: M.stagger.items }, 0.15)
         .from(all('.ramp button > span:not(.ramp__bar), .area-card__fields li', card), { opacity: 0, duration: 0.5, stagger: 0.05 }, 0.5);
     });
@@ -147,8 +160,10 @@
     finishers.push(restore);
     var tl = gsap.timeline({ defaults: { ease: M.ease.reveal } });
     tl.call(function () { rad.classList.add('is-entering'); }, null, 0);
-    tl.set(parts.faces, { fill: function (i) { return tint(items[i]); } }, 0);
-    tl.set([parts.lift, parts.active], { opacity: 0 }, 0);
+    /* immediateRender: Der Startzustand gilt sofort, nicht erst beim ersten Abspielen.
+       Sonst zeigt das Rad kurz die Endfarben und springt dann auf Hauch. */
+    tl.set(parts.faces, { fill: function (i) { return tint(items[i]); }, immediateRender: true }, 0);
+    tl.set([parts.lift, parts.active], { opacity: 0, immediateRender: true }, 0);
     var stepIn = function (i, at) {
       if (!steps) return;
       if (i > 0) tl.to(steps[i - 1], { opacity: 0, y: -16, duration: 0.4 }, at);
@@ -223,7 +238,13 @@
     all('[data-anim="umfeld"]').forEach(function (el) {
       var api = el._umfeld; if (!api) return;
       var stage = el.querySelector('.umfeld__stage');
+      /* Bis die Szene sichtbar wird, bleibt sie verborgen, statt kurz voll dazustehen
+         und dann für den Auftritt wieder zu verschwinden. */
+      var veiled = [stage].concat(all('.umfeld__list, .umfeld__detail', el));
+      hideUntilVisible(veiled);
+      finishers.push(function () { gsap.set(veiled, { clearProps: 'opacity' }); });
       whenVisible(stage, function () {
+        gsap.set(veiled, { clearProps: 'opacity' });
         /* Teile erst jetzt lesen: das Bild baut sich je nach Breite neu auf. */
         var people = api.parts.people;
         var scale = stage.getBoundingClientRect().width / api.parts.width;
@@ -301,6 +322,9 @@
   /* Start nach fonts.ready, damit Titel mit der echten Schrift gesplittet werden. */
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () {
     if (document.body.dataset.motion === 'off') { ready(); return; }
+    /* Kam motion.js zu spät (5-s-Timeout in boot.js), ist schon alles sichtbar.
+       Dann nichts mehr verstecken: kein Auftritt ist besser als ein Flackern. */
+    if (html.classList.contains('motion-timeout')) { stopped = true; ready(); return; }
     /* Erst den Guard lösen, dann im selben Task die Startwerte setzen: so liest
        GSAP die echten Endwerte (Deckkraft 1), und dazwischen wird nichts gezeichnet. */
     ready();
