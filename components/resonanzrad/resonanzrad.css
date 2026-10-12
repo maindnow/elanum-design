@@ -88,3 +88,8 @@ body[data-motion=off] .rad__active{animation-play-state:paused}
   .rad__overview{grid-column:1 / -1}
   .rad__list{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px}
 }
+/* Ab 1280 px bekommt das Rad seine volle Breite (520 px): erst dann haben
+   Name und Ergebnis im Stück Platz, ohne zu überlappen. */
+@media(min-width:1280px){
+  .rad{grid-template-columns:minmax(0,520px) minmax(0,1fr)}
+}
