@@ -1,4 +1,4 @@
-# ELANUM Glossar 4.5
+# ELANUM Glossar 4.6
 
 <!-- Automatisch erzeugt aus assets/glossar.js mit `node tools/glossar-md.js`. Nicht von Hand bearbeiten. -->
 
@@ -16,15 +16,16 @@ Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und C
 | **Blueprint** | Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten. | `assets/ELANUM-Konstruktion-Harmonic.svg` |
 | **Resonanz** | Das Leitthema: Etwas schwingt mit, zu dir selbst oder zu einem anderen Menschen. |  |
 
-## Phasen
+## Kosmen
 
-Der Weg mit ELANUM, in dieser Reihenfolge.
+Die drei Räume von ELANUM. Der Resonanzkosmos ist der Einstieg, Datingkosmos und Erlebniskosmos stehen gleichwertig daneben.
 
 | Begriff | Bedeutung | Im Code |
 |---|---|---|
-| **Zu dir** | Phase 1: der Weg zu dir selbst. Der erste und wichtigste Schritt. | `Resonanzrad · Weg · Heute` |
-| **Zueinander** | Phase 2: Menschen finden, mit denen Resonanz entsteht, für Liebe, Freundschaft oder Gleichgesinnte. | `Umfeld · Beziehungsraum` |
-| **Miteinander** | Phase 3: gemeinsam etwas erleben, bei Aktivitäten mit anderen. |  |
+| **Kosmos** | Einer der drei Räume von ELANUM, jeder mit einem eigenen Satz. Mehrzahl: Kosmen. Der Name immer in einem Wort, wie Resonanzrad. |  |
+| **Resonanzkosmos** | Resonanz in dir, in deiner Partnerschaft und in deinem Umfeld. Der Einstieg in ELANUM. | `Resonanzrad · Heute · Weg · Umfeld · Beziehungsraum` |
+| **Datingkosmos** | Finde die eine Resonanz. Hier geht es nur ums Dating. |  |
+| **Erlebniskosmos** | Resoniere mit anderen. Events, unabhängig vom Dating. |  |
 
 ## Resonanzrad
 
@@ -47,7 +48,7 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | Begriff | Bedeutung | Im Code |
 |---|---|---|
 | **Baustein** | Eine gestaltete Darstellung wie Resonanzrad, Umfeld oder Weg. | `components/` |
-| **Heute** | Dein Tag. Zeigt die Tageslinie. Gehört zu Zu dir. |  |
+| **Heute** | Dein Tag. Zeigt die Tageslinie. Gehört zum Resonanzkosmos. |  |
 | **Tageslinie** | Momente eines Tages als Stationen, ohne Feed. | `.track` |
 | **Weg** | Deine Entwicklung als Stationen bis jetzt, danach eine Unterbrechung. | `components/weg` |
 | **Station** | Ein Punkt auf Weg oder Tageslinie: erledigt (gefüllt), jetzt (Ring), offen (Kontur mit Öffnung). | `data-state="done · now · open"` |
@@ -73,8 +74,11 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | Alt | Stattdessen |
 |---|---|
 | ~~Soul Resonance~~ | **ELANUM** |
-| ~~Soul Kosmos~~ | **Zu dir** |
-| ~~Dating-Plattform~~ | **Zueinander** |
+| ~~Soul Kosmos~~ | **Resonanzkosmos** |
+| ~~Dating Kosmos, Dating-Plattform~~ | **Datingkosmos** |
+| ~~Event Kosmos~~ | **Erlebniskosmos** |
+| ~~Zu dir, Zueinander, Miteinander (als Name)~~ | **Resonanzkosmos, Datingkosmos, Erlebniskosmos** |
+| ~~Phase, Phasen (für die drei Räume)~~ | **Kosmos, Kosmen** |
 | ~~Klangrad, persönliches Rad~~ | **Resonanzrad** |
 | ~~Klangsignatur, Logo-Signatur~~ | **ELANUM-Zeichen** |
 | ~~Kurvenkorrektur (als aktuelles Zeichen)~~ | **Kreiskonstruktion** |
