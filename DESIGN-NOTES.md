@@ -1,4 +1,6 @@
-# ELANUM — Gestaltungsatlas 4.6
+# ELANUM — Gestaltungsatlas 4.7
+
+4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.
 
 4.6 benennt die drei Phasen neu. Sie heissen jetzt Kosmen: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Gestaltung und Werte bleiben wie in 4.5.
 

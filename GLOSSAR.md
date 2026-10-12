@@ -1,4 +1,4 @@
-# ELANUM Glossar 4.6
+# ELANUM Glossar 4.7
 
 <!-- Automatisch erzeugt aus assets/glossar.js mit `node tools/glossar-md.js`. Nicht von Hand bearbeiten. -->
 
@@ -14,7 +14,7 @@ Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und C
 | **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie. | `assets/ELANUM-*-Harmonic.svg` |
 | **Kreiskonstruktion** | Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. | `tools/build_logo_circles.py` |
 | **Blueprint** | Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten. | `assets/ELANUM-Konstruktion-Harmonic.svg` |
-| **Resonanz** | Das Leitthema: Etwas schwingt mit, zu dir selbst oder zu einem anderen Menschen. |  |
+| **Resonanz** | Das Leitthema: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. |  |
 
 ## Kosmen
 
