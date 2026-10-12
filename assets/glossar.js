@@ -5,7 +5,7 @@
    Begriffe nur mit Freigabe und neuer Atlas-Version ändern.
    ============================================================ */
 window.ELANUM_GLOSSAR = {
-  version: '4.6',
+  version: '4.7',
   rule: 'Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und Code, genau in dieser Schreibweise, inklusive Gross- und Kleinschreibung und „&“. Neue Begriffe oder Änderungen nur mit Freigabe und einer neuen Atlas-Version.',
   sentence: 'Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg.',
   groups: [
@@ -14,7 +14,7 @@ window.ELANUM_GLOSSAR = {
       { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie.', code: 'assets/ELANUM-*-Harmonic.svg' },
       { term: 'Kreiskonstruktion', meaning: 'Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick.', code: 'tools/build_logo_circles.py' },
       { term: 'Blueprint', meaning: 'Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten.', code: 'assets/ELANUM-Konstruktion-Harmonic.svg' },
-      { term: 'Resonanz', meaning: 'Das Leitthema: Etwas schwingt mit, zu dir selbst oder zu einem anderen Menschen.' }
+      { term: 'Resonanz', meaning: 'Das Leitthema: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.' }
     ] },
     { title: 'Kosmen', intro: 'Die drei Räume von ELANUM. Der Resonanzkosmos ist der Einstieg, Datingkosmos und Erlebniskosmos stehen gleichwertig daneben.', terms: [
       { term: 'Kosmos', meaning: 'Einer der drei Räume von ELANUM, jeder mit einem eigenen Satz. Mehrzahl: Kosmen. Der Name immer in einem Wort, wie Resonanzrad.' },
