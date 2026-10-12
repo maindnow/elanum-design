@@ -139,7 +139,7 @@ function swatch(name, token, dark) {
 }
 [['Canvas', '--canvas'], ['Papier', '--paper'], ['Ink', '--ink', true], ['Text sekundär', '--ink-2', true]].forEach(([name, token, dark]) => $('#neutralPalette').append(swatch(name, token, dark)));
 
-const STEPS = [['Tief · Schrift', 'tief'], ['Element 1', 1], ['Element 2', 2], ['Element 3', 3], ['Hauch · Ring und offen', 'hauch']];
+const STEPS = [['Tief · Schrift', 'tief'], ['Fläche · ausgefüllt', 'flaeche'], ['Hauch · Ring', 'hauch']];
 rad.groups.forEach(group => {
   const card = document.createElement('article');
   card.className = 'area-card area'; card.dataset.area = group.id;
@@ -300,7 +300,7 @@ filterGlossar();
 /* ---------- 15 Tokens: der Block liest die Werte aus tokens.css ---------- */
 const TOKEN_GROUPS = [
   ['Fläche und Schrift', ['--canvas', '--paper', '--ink', '--ink-2', '--line']],
-  ['Bereiche: tief · Element 1–3 · Hauch', ['--grund-tief', '--grund-1', '--grund-2', '--grund-3', '--grund-hauch', '--ich-tief', '--ich-1', '--ich-2', '--ich-3', '--ich-hauch', '--bezug-tief', '--bezug-1', '--bezug-2', '--bezug-3', '--bezug-hauch']],
+  ['Bereiche: tief · Fläche · Hauch, offen', ['--grund-tief', '--grund-flaeche', '--grund-hauch', '--ich-tief', '--ich-flaeche', '--ich-hauch', '--bezug-tief', '--bezug-flaeche', '--bezug-hauch', '--offen']],
   ['Status', ['--info', '--info-bg', '--hint', '--hint-bg', '--error', '--error-bg', '--success', '--success-bg']],
   ['Typografie', ['--type-display', '--type-title', '--type-heading', '--type-body', '--type-label']],
   ['Raum und Form', ['--gutter', '--section', '--content', '--radius-control', '--radius-button', '--radius-surface', '--raised', '--pressed']],

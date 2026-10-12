@@ -38,7 +38,7 @@ Der Weg mit ELANUM, in dieser Reihenfolge.
 | **Ich & Orientierung** | Bereich in Koralle: Lebensrichtung, Persönlichkeit, Werte. | `ich` |
 | **Beziehung & Verbindung** | Bereich in Petrol: Bindungsstil, Nähe & Zuneigung, Konfliktstil. | `bezug` |
 | **Ergebnis** | Was ein ausgefülltes Element über dich sagt, zum Beispiel „Jungfrau“ oder „Sicher“. |  |
-| **ausgefüllt · offen** | Zustand eines Elements. Ausgefüllt: in seiner Farbe, Kontur geschlossen. Offen: im Hauch, Kontur mit Öffnung. | `done` |
+| **ausgefüllt · offen** | Zustand eines Elements. Ausgefüllt: Fläche in der Farbe seines Bereichs. Offen: grau, gestrichelt umrandet, mit einem Plus zum Ausfüllen. | `done · --offen` |
 
 ## Bausteine
 
@@ -62,7 +62,7 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | Begriff | Bedeutung | Im Code |
 |---|---|---|
 | **Canvas · Papier · Ink** | Grundfläche, warme Fläche für Persönliches, Schriftfarbe. | `--canvas · --paper · --ink` |
-| **Bereichsfarbe** | Die Farbe eines Bereichs in fünf Stufen: Tief (Schrift), Stufe 1 bis 3 (Elemente), Hauch (Ring, offen, Flächen). | `--grund-tief … --grund-hauch` |
+| **Bereichsfarbe** | Die Farbe eines Bereichs in drei Stufen: Tief (Schrift), Fläche (ausgefüllte Elemente, eine Farbe für alle drei Elemente des Bereichs), Hauch (Ring, Flächen hinter Text). | `--grund-tief · --grund-flaeche · --grund-hauch` |
 | **Markenspektrum** | Violett bis Pink. Nur für das ELANUM-Zeichen, die Verbindung und den Glührand. | `--spectrum-stops` |
 | **Glührand** | Rand im Markenspektrum, der bei Hover, Fokus und Auswahl im Kreis wandert, dazu ein weiches Glühen. | `.glow-edge · --edge-stops` |
 | **Status** | Info, Hinweis, Fehler, Erfolg. Immer mit Zeichen, Balken und Text, nie nur Farbe. | `data-role` |

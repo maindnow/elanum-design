@@ -149,7 +149,7 @@
   function wheelTimeline(scene, parts, steps) {
     var rad = scene.querySelector('.rad'), items = parts.items;
     var tint = function (it) { return css('--' + it.group + '-hauch'); };
-    var final = function (it) { return css('--' + it.group + '-' + (it.done ? it.shade : 'hauch')); };
+    var final = function (it) { return it.done ? css('--' + it.group + '-flaeche') : css('--offen'); };
     var original = parts.faces.map(function (f) { return f.style.fill; });
     /* Endzustand sichern: Füllung zurück, Auswahlbogen und Anhebung sichtbar.
        Nötig nach Pause oder Tab, weil revert() die Deckkraft 0 vom Start zurücklässt. */
@@ -188,6 +188,8 @@
       .from(parts.icons, { opacity: 0, duration: 0.5, stagger: 0.07 }, 3.6);
     items.forEach(function (it, i) {
       if (it.done) tl.to(parts.faces[i], { fill: final(it), duration: 0.6, ease: 'power1.inOut' }, 4.3 + Math.floor(i / 3) * 0.3 + (i % 3) * 0.1);
+      /* Offene Stücke werden im Schritt 4 grau, zusammen mit Strich und Plus. */
+      else tl.to(parts.faces[i], { fill: final(it), duration: 0.6, ease: 'power1.inOut' }, 5.8);
     });
     /* 4 · Farbe heisst ausgefüllt: Konturen schliessen sich oder bleiben offen */
     stepIn(3, 5.6);

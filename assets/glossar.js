@@ -30,7 +30,7 @@ window.ELANUM_GLOSSAR = {
       { term: 'Ich & Orientierung', meaning: 'Bereich in Koralle: Lebensrichtung, Persönlichkeit, Werte.', code: 'ich' },
       { term: 'Beziehung & Verbindung', meaning: 'Bereich in Petrol: Bindungsstil, Nähe & Zuneigung, Konfliktstil.', code: 'bezug' },
       { term: 'Ergebnis', meaning: 'Was ein ausgefülltes Element über dich sagt, zum Beispiel „Jungfrau“ oder „Sicher“.' },
-      { term: 'ausgefüllt · offen', meaning: 'Zustand eines Elements. Ausgefüllt: in seiner Farbe, Kontur geschlossen. Offen: im Hauch, Kontur mit Öffnung.', code: 'done' }
+      { term: 'ausgefüllt · offen', meaning: 'Zustand eines Elements. Ausgefüllt: Fläche in der Farbe seines Bereichs. Offen: grau, gestrichelt umrandet, mit einem Plus zum Ausfüllen.', code: 'done · --offen' }
     ] },
     { title: 'Bausteine', intro: 'Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.', terms: [
       { term: 'Baustein', meaning: 'Eine gestaltete Darstellung wie Resonanzrad, Umfeld oder Weg.', code: 'components/' },
@@ -46,7 +46,7 @@ window.ELANUM_GLOSSAR = {
     ] },
     { title: 'Farbe und Material', terms: [
       { term: 'Canvas · Papier · Ink', meaning: 'Grundfläche, warme Fläche für Persönliches, Schriftfarbe.', code: '--canvas · --paper · --ink' },
-      { term: 'Bereichsfarbe', meaning: 'Die Farbe eines Bereichs in fünf Stufen: Tief (Schrift), Stufe 1 bis 3 (Elemente), Hauch (Ring, offen, Flächen).', code: '--grund-tief … --grund-hauch' },
+      { term: 'Bereichsfarbe', meaning: 'Die Farbe eines Bereichs in drei Stufen: Tief (Schrift), Fläche (ausgefüllte Elemente, eine Farbe für alle drei Elemente des Bereichs), Hauch (Ring, Flächen hinter Text).', code: '--grund-tief · --grund-flaeche · --grund-hauch' },
       { term: 'Markenspektrum', meaning: 'Violett bis Pink. Nur für das ELANUM-Zeichen, die Verbindung und den Glührand.', code: '--spectrum-stops' },
       { term: 'Glührand', meaning: 'Rand im Markenspektrum, der bei Hover, Fokus und Auswahl im Kreis wandert, dazu ein weiches Glühen.', code: '.glow-edge · --edge-stops' },
       { term: 'Status', meaning: 'Info, Hinweis, Fehler, Erfolg. Immer mit Zeichen, Balken und Text, nie nur Farbe.', code: 'data-role' },

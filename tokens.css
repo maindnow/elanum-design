@@ -14,15 +14,17 @@
   --ink:#16363B;
   --ink-2:#3D5055;          /* Sekundärtext, 7,2:1 auf Canvas */
   --line:#D3CDC0;
+  --offen:#E5E0D6;          /* Offene Elemente im Rad: grau, --ink-2 darauf 6,4:1 */
 
   /* Drei Bereiche des Resonanzrads, ausgeglichen: gleiche Helligkeit
-     (OKLCH L 0.46 / 0.74 / 0.81 / 0.875 / 0.94) und angeglichene Sättigung,
-     Koralle ×0.9 und Petrol ×0.72, damit kein Bereich dominiert.
-     tief: Schrift, Chips, weisser Text darauf · 1–3: Elemente im Rad, Ink-Text
-     darauf mind. 5,4:1 · hauch: Ring, offene Elemente, Flächen hinter Ink-Text. */
-  --grund-tief:#59479A; --grund-1:#C6C1F0; --grund-2:#D5D1F7; --grund-3:#E2DFFB; --grund-hauch:#EFEEFE;   /* Grundtöne, Violett */
-  --ich-tief:#8E3931;   --ich-1:#EEB8AF;   --ich-2:#F5CAC3;   --ich-3:#FADBD5;   --ich-hauch:#FFEBE7;     /* Ich & Orientierung, Koralle */
-  --bezug-tief:#006868; --bezug-1:#A5D1D1; --bezug-2:#BBDEDE; --bezug-3:#CFE9E9; --bezug-hauch:#E3F4F4;   /* Beziehung & Verbindung, Petrol */
+     (OKLCH L 0.46 / 0.864 / 0.94), Sättigung pro Farbton angeglichen.
+     tief: Schrift, Chips, weisser Text darauf · flaeche: ausgefüllte Elemente,
+     eine Farbe für alle drei Elemente eines Bereichs, Ink darauf mind. 8,4:1
+     (keine Nuancen: Helligkeit würde als Menge gelesen) · hauch: Ring, Flächen
+     hinter Ink-Text. Offene Elemente tragen --offen. */
+  --grund-tief:#59479A; --grund-flaeche:#D1CDF4; --grund-hauch:#EFEEFE;   /* Grundtöne, Violett */
+  --ich-tief:#8E3931;   --ich-flaeche:#EFC8C1;   --ich-hauch:#FFEBE7;     /* Ich & Orientierung, Koralle */
+  --bezug-tief:#006868; --bezug-flaeche:#B8DADA; --bezug-hauch:#E3F4F4;   /* Beziehung & Verbindung, Petrol */
 
   /* Verläufe. Die Farbstopps stehen als kommaseparierte Liste darunter,
      so lassen sie sich in jedes Werkzeug kopieren. */
