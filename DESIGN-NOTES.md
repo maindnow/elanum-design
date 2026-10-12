@@ -1,4 +1,6 @@
-# ELANUM — Gestaltungsatlas 4.5
+# ELANUM — Gestaltungsatlas 4.6
+
+4.6 benennt die drei Phasen neu. Sie heissen jetzt Kosmen: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Gestaltung und Werte bleiben wie in 4.5.
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
 
@@ -6,7 +8,7 @@
 
 Verbindlich ist das **Glossar**: eine Quelle in `assets/glossar.js`, sichtbar im Atlas (Kapitel Glossar, mit Suche) und als `GLOSSAR.md`, erzeugt mit `node tools/glossar-md.js`. Begriffe gelten in Produkt, Texten, Gestaltung und Code genau in dieser Schreibweise. Änderungen nur mit Freigabe und einer neuen Atlas-Version.
 
-Kurz: ELANUM begleitet in drei Phasen, **Zu dir**, **Zueinander**, **Miteinander**. Im Zentrum steht das **Resonanzrad** mit neun **Elementen** in drei **Bereichen**. Rad, Umfeld, Beziehungsraum und Weg sind **Bausteine**. Das Symbol heisst **ELANUM-Zeichen**. Ältere Arbeitsnamen (Soul Resonance, Soul Kosmos, Dating-Plattform, Klangrad, ELANUM-Zeichen, Felder) werden nicht mehr verwendet.
+Kurz: ELANUM hat drei **Kosmen**. Der **Resonanzkosmos** ist der Einstieg: Resonanz in dir, in deiner Partnerschaft und in deinem Umfeld. Daneben stehen gleichwertig der **Datingkosmos** mit „Finde die eine Resonanz“ und der **Erlebniskosmos** mit „Resoniere mit anderen“. Im Zentrum steht das **Resonanzrad** mit neun **Elementen** in drei **Bereichen**. Rad, Umfeld, Beziehungsraum und Weg sind **Bausteine**. Das Symbol heisst **ELANUM-Zeichen**. Ältere Arbeitsnamen (Soul Resonance, Soul Kosmos, Dating Kosmos, Event Kosmos, Dating-Plattform, Zu dir, Zueinander und Miteinander als Namen, Klangrad, Klangsignatur, Felder) werden nicht mehr verwendet.
 
 ## Richtung
 

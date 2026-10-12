@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM Gestaltungsatlas 4.5 · Layout
+   ELANUM Gestaltungsatlas 4.6 · Layout
    Setzt tokens.css und base.css voraus. Alle Schriften laufen über die
    fünf Stufen aus tokens.css. Linien trennen nur Kapitel.
    ============================================================ */
@@ -54,13 +54,14 @@ h3.block-title[data-anim]{margin-bottom:36px}
 .principles{display:grid;grid-template-columns:1fr 1fr;gap:48px 40px}
 .principles h3{font:var(--type-heading);margin-bottom:8px}
 .principles p{color:var(--ink-2)}
-.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:none}
-.phases li{display:grid;gap:10px;align-content:start;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
-.phases__no{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--grund-hauch);color:var(--grund-tief);font:var(--type-label);font-weight:600}
-.phases h3{font:var(--type-title);letter-spacing:-.015em}
-.phases p{color:var(--ink-2)}
-.phases__parts{font:var(--type-label);color:var(--grund-tief)!important}
-.element-card__phase{font:var(--type-label);color:var(--tone)}
+.kosmen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;counter-reset:none}
+.kosmen li:first-child{grid-column:1/-1}
+.kosmen li{display:grid;gap:10px;align-content:start;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
+.kosmen__no{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--grund-hauch);color:var(--grund-tief);font:var(--type-label);font-weight:600}
+.kosmen h3{font:var(--type-title);letter-spacing:-.015em}
+.kosmen p{color:var(--ink-2)}
+.kosmen__parts{font:var(--type-label);color:var(--grund-tief)!important}
+.element-card__kosmos{font:var(--type-label);color:var(--tone)}
 
 /* ---------- 02 Zeichen ---------- */
 .signature{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,7vw,112px);align-items:center}
@@ -318,7 +319,7 @@ body[data-motion=off] .paper,body[data-motion=off] .swatch,body[data-motion=off]
 @media(max-width:640px){
   .hero{grid-template-columns:1fr;min-height:0}
   .hero__visual{max-width:220px}
-  .principles,.components,.statuses,.line-system,.phases{grid-template-columns:1fr}
+  .principles,.components,.statuses,.line-system,.kosmen{grid-template-columns:1fr}
   .element-cards,.neutrals{grid-template-columns:1fr}
   .type-scale li{grid-template-columns:1fr;gap:8px}
   .logo-compare{grid-template-columns:1fr 1fr;gap:20px}
