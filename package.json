@@ -1,0 +1,35 @@
+{
+  "name": "@elanum/design",
+  "version": "4.8.0",
+  "private": true,
+  "description": "ELANUM Gestaltungsatlas: Tokens, Basis, Bausteine und Assets der App ELANUM",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maindnow/elanum-design.git"
+  },
+  "files": [
+    "tokens.css",
+    "base.css",
+    "components/beziehungsraum/beziehungsraum.css",
+    "components/beziehungsraum/beziehungsraum.js",
+    "components/resonanzrad/resonanzrad.css",
+    "components/resonanzrad/resonanzrad.js",
+    "components/umfeld/umfeld.css",
+    "components/umfeld/umfeld.js",
+    "assets/ELANUM-*-Harmonic.svg",
+    "assets/fonts/",
+    "assets/boot.js",
+    "assets/motion.js",
+    "assets/glossar.js",
+    "assets/vendor/gsap/",
+    "GLOSSAR.md"
+  ],
+  "exports": {
+    "./tokens.css": "./tokens.css",
+    "./base.css": "./base.css",
+    "./components/*": "./components/*",
+    "./assets/*": "./assets/*",
+    "./glossar": "./assets/glossar.js",
+    "./package.json": "./package.json"
+  }
+}

@@ -64,8 +64,170 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [assets/glossar.js](assets/glossar.js) | Glossar: die eine Quelle aller Begriffe |
 | [GLOSSAR.md](GLOSSAR.md) | Glossar als Datei, erzeugt mit `node tools/glossar-md.js` |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
+| [package.json](package.json) | Paket `@elanum/design` für die App: Version, ausgelieferte Dateien, Einstiege |
 
 Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Stylesheets, `style.css`.
+
+## In der App verwenden
+
+Dieses Repository ist die einzige Designquelle der App ELANUM. Die App installiert es als Paket `@elanum/design` direkt von GitHub, fixiert auf einen Tag. Die Paketversion ist die Atlas-Version: Atlas 4.8 ist `4.8.0`, der Tag dazu `v4.8.0`.
+
+### Installation
+
+In der `package.json` der App:
+
+```json
+"dependencies": {
+  "@elanum/design": "github:maindnow/elanum-design#v4.8.0"
+}
+```
+
+Danach `npm install`. Für eine neue Version nur den Tag anheben und `npm install` erneut ausführen. Das Paket hat keine Abhängigkeiten und keinen Build-Schritt.
+
+Ausgeliefert wird nur, was die App braucht (`files` in [package.json](package.json), prüfen mit `npm pack --dry-run`):
+
+| Im Paket | Inhalt |
+| --- | --- |
+| `tokens.css`, `base.css` | Alle Werte und die gemeinsamen Grundlagen, auch Weg und Tageslinie (`.track`) |
+| `components/<name>/<name>.css` und `.js` | Resonanzrad, Umfeld, Beziehungsraum |
+| `assets/ELANUM-*-Harmonic.svg` | ELANUM-Zeichen: Spektrum, Ink, Blueprint |
+| `assets/fonts/` | Albert Sans und Yrsa mit OFL-Lizenzen, dazu die eingebetteten Schriften für `file://` |
+| `assets/boot.js`, `assets/motion.js`, `assets/vendor/gsap/` | Bewegung, GSAP mit Lizenzhinweis |
+| `assets/glossar.js`, `GLOSSAR.md` | Glossar |
+
+Atlas (`index.html`, `style.css`, `app.js`), die Demoseiten der Bausteine (`index.html`, `page.css`, `page.js`, `weg.css`), frühere Fassungen des Zeichens, `docs/` und `tools/` bleiben im Repository, aber ausserhalb des Pakets.
+
+Einstiege (`exports`) für Bundler und `require.resolve`: `@elanum/design/tokens.css`, `/base.css`, `/components/*`, `/assets/*`, `/glossar` (`assets/glossar.js`) und `/package.json`.
+
+### Assets unter einem festen Pfad
+
+Die Dateien verweisen relativ aufeinander: `tokens.css` lädt die Schriften aus `assets/fonts/`, `boot.js` lädt GSAP und `motion.js` aus `assets/`. Die App liefert den Paketordner deshalb unverändert unter einem festen Pfad aus, hier `/elanum/`. Zum Beispiel bei jedem `npm install` in den statischen Ordner kopieren:
+
+```json
+"scripts": {
+  "postinstall": "node -e \"const fs=require('fs');fs.rmSync('public/elanum',{recursive:true,force:true});fs.cpSync('node_modules/@elanum/design','public/elanum',{recursive:true})\""
+}
+```
+
+`public/elanum/` gehört dann in die `.gitignore` der App. Ein eigener Server kann den Ordner auch direkt ausliefern, `require.resolve('@elanum/design/package.json')` findet ihn.
+
+`boot.js` erfährt den Pfad über `data-base`, mit Schrägstrich am Ende:
+
+```html
+<script src="/elanum/assets/boot.js" data-base="/elanum/"></script>
+```
+
+### Ladereihenfolge
+
+```html
+<head>
+  <script src="/elanum/assets/boot.js" data-base="/elanum/"></script>
+  <link rel="stylesheet" href="/elanum/tokens.css">
+  <link rel="stylesheet" href="/elanum/base.css">
+  <link rel="stylesheet" href="/elanum/components/beziehungsraum/beziehungsraum.css">
+  <link rel="stylesheet" href="/elanum/components/resonanzrad/resonanzrad.css">
+  <link rel="stylesheet" href="/elanum/components/umfeld/umfeld.css">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  …
+  <script src="/elanum/components/beziehungsraum/beziehungsraum.js"></script>
+  <script src="/elanum/components/resonanzrad/resonanzrad.js"></script>
+  <script src="/elanum/components/umfeld/umfeld.js"></script>
+  <script src="/elanum/assets/glossar.js"></script>
+  <script src="/app.js"></script>
+</body>
+```
+
+1. `boot.js` synchron im `<head>`, vor allen Stylesheets. Es setzt den Versteck-Guard und lädt GSAP und `motion.js` nach dem ersten Paint selbst.
+2. `tokens.css`: alle Werte und die Schriften.
+3. `base.css`: setzt `tokens.css` voraus.
+4. Stylesheets der Bausteine, nur die gebrauchten. `umfeld.css` braucht `beziehungsraum.css` (Relief der Kreise).
+5. Eigene Stylesheets der App zuletzt.
+
+Die Skripte der Bausteine stehen am Ende von `<body>`, die App montiert die Bausteine gleich beim Laden. `motion.js` liest das Markup einmal nach `document.fonts.ready`; was später erscheint, steht ohne Auftritt da, aber nie versteckt.
+
+### Globale API
+
+Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit einem Bundler genügt ein Import ohne Namen, etwa `import '@elanum/design/components/resonanzrad/resonanzrad.js'`.
+
+**Resonanzrad** · `components/resonanzrad/` · `window.ElanumResonanzrad`
+
+- `mount(root, { heading })` baut das Rad in `root` und gibt `{ select(i), parts }` zurück. `heading` ist `'h2'` (Standard) oder `'h3'`.
+- `groups`, `items`, `icons`, `iconSvg(id)`: Bereiche, Elemente und ihre Icons.
+
+```html
+<div data-anim="resonanzrad"><div data-resonanzrad></div></div>
+<script>
+  const rad = ElanumResonanzrad.mount(document.querySelector('[data-resonanzrad]'), { heading: 'h2' });
+  rad.select(4);
+</script>
+```
+
+**Umfeld** · `components/umfeld/`, dazu `beziehungsraum.css` · `window.ElanumUmfeld`
+
+- `mount(root, { link, heading })` zeichnet Ich und die Menschen darum und gibt `{ select(i), parts }` zurück. `link` führt zum Beziehungsraum, ergänzt um `?person=…&proximity=…&resonance=…`.
+- `people`: die Menschen der Vorschau.
+
+```html
+<div data-umfeld data-anim="umfeld"></div>
+<script>
+  ElanumUmfeld.mount(document.querySelector('[data-umfeld]'), { link: '/beziehungsraum/', heading: 'h3' });
+</script>
+```
+
+**Beziehungsraum** · `components/beziehungsraum/` · `window.ElanumBeziehung`
+
+- `mount(el)`, `mountAll(root)`: zeichnet jeden Rahmen mit `data-beziehung`. Startwerte aus `data-proximity`, `data-resonance`, `data-openness`, `data-dark` für dunklen Grund.
+- `set(el, { proximity, resonance, openness }, immediate)`: Nähe, Resonanz und Freiraum, je 0 bis 100.
+- `setMode(el, 'spectrum' | 'ink')`, `setPaused(bool)`, `isPaused()`, `onPhase(fn)` für die Atmung, `redraw()`.
+
+```html
+<div class="relationship-frame" data-beziehung data-anim="beziehung" role="img" aria-label="Zwei runde, offene Konturen, verbunden durch eine kurze gebogene Linie.">
+  <svg viewBox="0 0 720 400" aria-hidden="true"></svg>
+  <div class="relationship-label" data-person="a">Du<span>dein Raum</span></div>
+  <div class="relationship-label" data-person="b"><span data-name>Mara</span><span>ihr Raum</span></div>
+</div>
+<script>
+  ElanumBeziehung.set(document.querySelector('[data-beziehung]'), { proximity: 58, resonance: 72, openness: 34 });
+</script>
+```
+
+**Weg und Tageslinie** · in `base.css` · ohne Skript
+
+Reines Markup mit `.track`, waagrecht als Weg mit `.track--horizontal`. Jede Station trägt `data-state="done"`, `"now"` oder `"open"`. `data-anim="track"` zeichnet die Spur beim Erreichen, mit `data-scrub` an den Scroll gekoppelt.
+
+```html
+<ol class="track track--horizontal" data-anim="track" data-scrub>
+  <li class="track__station" data-state="done"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">März</span><h3 class="track__title">Erkennen</h3><p class="track__text">Was dich bewegt, bekommt einen Namen.</p></div></li>
+  <li class="track__station" data-state="now"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">Jetzt</span><h3 class="track__title">Hier bist du</h3><p class="track__text">Du übst, was dir wichtig ist.</p></div></li>
+  <li class="track__station" data-state="open"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">Später</span><h3 class="track__title">Noch offen</h3><p class="track__text">Der nächste Schritt entsteht unterwegs.</p></div></li>
+</ol>
+```
+
+**Glossar** · `assets/glossar.js`, Einstieg `@elanum/design/glossar` · `window.ELANUM_GLOSSAR`
+
+`{ version, rule, sentence, groups: [{ title, intro, terms: [{ term, meaning, code }] }], avoid: [[alt, neu]] }`
+
+```js
+const resonanz = ELANUM_GLOSSAR.groups.flatMap(g => g.terms).find(t => t.term === 'Resonanz');
+```
+
+**Bewegung** · `assets/boot.js`, `assets/motion.js` · Ereignisse auf `document`
+
+Das Markup sagt mit `data-anim`, was sich bewegt: `hero`, `title`, `reveal`, `stagger`, `ramp`, `beziehung`, `resonanzrad`, `umfeld`, `track`. Reduzierte Bewegung gilt von selbst. `motion.js` hört auf drei Ereignisse:
+
+- `elanum:motion` mit `{ off: true }` beendet alle Auftritte.
+- `elanum:layout` nach einem Layoutwechsel berechnet die Scrollstrecken neu.
+- `elanum:status` mit `{ element }` lässt einen Status kurz auftreten.
+
+Eine Pause für alles, wie im Atlas:
+
+```js
+document.body.dataset.motion = 'off';
+ElanumBeziehung.setPaused(true);
+document.dispatchEvent(new CustomEvent('elanum:motion', { detail: { off: true } }));
+```
 
 ## Gestaltungsregeln
 
