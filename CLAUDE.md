@@ -64,7 +64,7 @@ git fetch origin --tags --force
 git reset --hard
 git checkout -B main origin/main
 git log --oneline -1
-if git ls-remote --exit-code --tags origin refs/tags/vX.Y.Z >/dev/null; then echo "Tag vX.Y.Z ist schon auf GitHub."; elif grep -q '"version": "X.Y.Z"' package.json; then git tag -f -a vX.Y.Z -m "ELANUM Design X.Y.Z" && git push origin vX.Y.Z; else echo "STOPP: Auf main steht noch nicht Version X.Y.Z. Zuerst den PR mergen, dann diesen Block nochmals einfügen."; fi
+if git ls-remote --exit-code --tags origin refs/tags/vX.Y.Z >/dev/null; then echo "Tag vX.Y.Z ist schon auf GitHub."; elif grep -q '"version": "X.Y.Z"' package.json; then git tag -f vX.Y.Z && git push origin vX.Y.Z; else echo "STOPP: Auf main steht noch nicht Version X.Y.Z. Zuerst den PR mergen, dann diesen Block nochmals einfügen."; fi
 git ls-remote --tags origin vX.Y.Z
 (sleep 1 && open http://127.0.0.1:4173) & python3 tools/serve.py
 ```
