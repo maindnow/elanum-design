@@ -1,0 +1,35 @@
+/* ELANUM Fliesstext · Seite. „Dein erstes Muster“ als Beispiel, darunter der Aufbau. Nicht Teil des Pakets. */
+.muster__kopf{display:grid;gap:0;max-width:760px}
+.muster__zeichen{width:56px;margin-bottom:28px}
+.muster__kicker{font:var(--type-label);font-weight:600;color:var(--sterne-tief)}
+.muster__titel{margin-top:14px;font:var(--type-display);letter-spacing:-.025em}
+.muster__einleitung{max-width:var(--measure);margin-top:28px;color:var(--ink-2)}
+.muster__text{margin-top:clamp(64px,10vw,120px)}
+.muster__text:focus{outline:none}
+.muster__schluss{display:grid;gap:16px;justify-items:start;margin-top:clamp(64px,10vw,112px)}
+.muster__satz{font:var(--type-heading)}
+.muster__hinweis{font:var(--type-label);color:var(--ink-2)}
+
+/* ---------- Aufbau ---------- */
+.aufbau{display:grid;gap:clamp(40px,6vw,64px);margin-top:var(--section)}
+.aufbau__kopf{display:grid;gap:12px;max-width:var(--measure)}
+.aufbau__titel{font:var(--type-title);letter-spacing:-.015em}
+.aufbau__teile{display:grid;gap:20px}
+.aufbau__teil{display:grid;gap:10px;align-content:start;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
+.aufbau__teil dt{display:flex;align-items:center;gap:12px;font:var(--type-heading)}
+.aufbau__teil dd{margin:0;color:var(--ink-2)}
+.aufbau__nr{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--sterne-hauch);box-shadow:inset 0 0 0 1.6px var(--sterne-tief);font:var(--type-label);font-weight:600;color:var(--sterne-tief)}
+.aufbau__stufen{display:grid;gap:40px}
+.aufbau__stufe{display:grid;gap:10px;align-content:start}
+.aufbau__name{font:var(--type-heading)}
+.beispiel{display:grid;gap:12px;margin-top:10px;padding:28px;border-radius:var(--radius-surface);background:linear-gradient(150deg,var(--tint),var(--paper) 70%);box-shadow:var(--raised-sm)}
+.beispiel__kicker{font:var(--type-label);font-weight:600;color:var(--tone)}
+.beispiel__stimme{font:var(--type-title);letter-spacing:-.015em}
+.aufbau__regeln{display:grid;gap:14px;max-width:var(--measure)}
+.aufbau__regeln li{position:relative;padding-left:28px;color:var(--ink-2)}
+.aufbau__regeln li::before{content:"";position:absolute;left:2px;top:.62em;width:10px;height:10px;border-radius:50%;box-shadow:inset 0 0 0 1.6px var(--sterne-tief)}
+.aufbau__regeln strong{font-weight:600;color:var(--ink)}
+@media(min-width:900px){
+  .aufbau__teile{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .aufbau__stufen{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);column-gap:clamp(40px,6vw,96px)}
+}

@@ -1,7 +1,7 @@
 'use strict';
 /* ============================================================
-   ELANUM Gestaltungsatlas 4.10 · Bedienlogik
-   Elemente (Beziehungsraum, Resonanzrad, Umfeld, Zeichen, App-Rahmen) liegen
+   ELANUM Gestaltungsatlas 4.11 · Bedienlogik
+   Elemente (Beziehungsraum, Resonanzrad, Umfeld, Zeichen, App-Rahmen, Fliesstext) liegen
    unter components/ und werden hier nur eingebunden. Bewegung steuert
    assets/motion.js; dieses Skript meldet Pause und Layoutwechsel.
    ============================================================ */
@@ -261,6 +261,12 @@ rad.items.forEach(item => {
   li.innerHTML = rad.iconSvg(item.id) + item.label;
   $('#iconSet').append(li);
 });
+
+/* ---------- 13 Sprache: Fliesstext, jede Aussage mit ihrer Quelle ---------- */
+ElanumFliesstext.mount($('.atlas-fliesstext'), { quellen: {
+  'human-design': { text: 'Profil 4/6: deine bewusste und unbewusste Linie sowie die Art, wie du auf Situationen reagierst.', href: 'components/fliesstext/' },
+  'astrology': { text: 'Relevante Stellungen und Häuser aus Geburtsort, Geburtszeit und Planetenkonstellation.', href: 'components/fliesstext/' }
+} });
 
 /* ---------- 14 Prüfung ---------- */
 const RULES = [
