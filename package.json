@@ -1,6 +1,6 @@
 {
   "name": "@elanum/design",
-  "version": "4.8.0",
+  "version": "4.9.0",
   "private": true,
   "description": "ELANUM Gestaltungsatlas: Tokens, Basis, Bausteine und Assets der App ELANUM",
   "repository": {
@@ -16,6 +16,8 @@
     "components/resonanzrad/resonanzrad.js",
     "components/umfeld/umfeld.css",
     "components/umfeld/umfeld.js",
+    "components/app/app.css",
+    "components/app/app.js",
     "assets/ELANUM-*-Harmonic.svg",
     "assets/fonts/",
     "assets/boot.js",

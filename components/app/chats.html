@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Chats</title>
+<link rel="icon" href="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="screens.css">
+</head>
+<body class="app" data-screen="chats" data-view="list">
+<a class="skip-link" href="#main">Direkt zum Inhalt</a>
+<nav data-app-nav></nav>
+<header class="app-head">
+  <a class="app-head__brand" href="entdecken.html" aria-label="ELANUM, Entdecken"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></a>
+  <p class="app-head__title" aria-hidden="true"></p>
+  <div class="app-head__actions">
+    <button class="app-icon-button glow-edge" type="button" aria-label="Chats durchsuchen"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="suche"></svg></button>
+  </div>
+</header>
+
+<main class="app-main" id="main" tabindex="-1">
+  <header class="app-pagehead chats-head">
+    <p class="app-kicker">Datingkosmos</p>
+    <h1 class="app-title">Chats</h1>
+    <p class="app-lead">Eure laufenden Gespräche.</p>
+  </header>
+
+  <div class="app-split" data-view="list" data-chats>
+    <div class="app-split__list">
+      <ul class="app-list" aria-label="Gespräche" data-chat-list></ul>
+    </div>
+    <section class="app-split__detail thread" aria-labelledby="threadName" data-thread>
+      <header class="thread__head">
+        <button class="app-icon-button glow-edge" type="button" data-back aria-label="Zurück zu den Chats"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="zurueck"></svg></button>
+        <span class="person person--sm" aria-hidden="true" data-thread-initial></span>
+        <div class="thread__who"><h2 class="t-heading" id="threadName" data-thread-name></h2><a class="thread__space glow-edge" href="../beziehungsraum/" data-thread-space>Beziehungsraum öffnen</a></div>
+      </header>
+      <div class="app-thread" data-thread-body aria-live="polite"></div>
+      <div class="thread__ideas" data-thread-ideas>
+        <p class="app-kicker">Ein erster Satz genügt</p>
+        <div class="thread__chips" data-thread-chips></div>
+      </div>
+      <form class="app-composer" data-composer>
+        <label class="visually-hidden" for="message" data-composer-label>Nachricht</label>
+        <span class="field glow-edge"><textarea id="message" rows="1" placeholder="Schreibe eine Nachricht"></textarea></span>
+        <button class="button button--icon" type="submit" aria-label="Senden"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="senden"></svg></button>
+      </form>
+    </section>
+  </div>
+</main>
+
+<script src="../resonanzrad/resonanzrad.js"></script>
+<script src="app.js"></script>
+<script src="screens.js"></script>
+</body>
+</html>

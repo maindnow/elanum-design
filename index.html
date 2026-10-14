@@ -4,28 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F0ECE3">
-<meta name="description" content="ELANUM Gestaltungsatlas 4.8. Kreis, Freiraum und Verbindung, ein interaktives Markensystem.">
+<meta name="description" content="ELANUM Gestaltungsatlas 4.9. Kreis, Freiraum und Verbindung, ein interaktives Markensystem.">
 <title>ELANUM · Gestaltungsatlas</title>
-<link rel="icon" href="assets/ELANUM-System-Ink-Harmonic.svg" type="image/svg+xml">
+<link rel="icon" href="assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
 <script src="assets/boot.js" data-base=""></script>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="components/beziehungsraum/beziehungsraum.css">
 <link rel="stylesheet" href="components/resonanzrad/resonanzrad.css">
 <link rel="stylesheet" href="components/umfeld/umfeld.css">
+<link rel="stylesheet" href="components/app/vorschau.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <a class="skip-link" href="#content">Direkt zum Inhalt</a>
 
 <header class="mobile-bar">
-  <a class="brand" href="#intro"><img src="assets/ELANUM-System-Ink-Harmonic.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
+  <a class="brand" href="#intro"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
   <button class="menu-toggle glow-edge" id="menuToggle" aria-label="Navigation öffnen" aria-expanded="false" aria-controls="sidebar"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
 </header>
 <button class="menu-scrim" id="menuScrim" hidden aria-label="Navigation schliessen" tabindex="-1"></button>
 
 <aside class="sidebar" id="sidebar" data-open="false">
-  <a class="brand" href="#intro"><img src="assets/ELANUM-System-Ink-Harmonic.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
+  <a class="brand" href="#intro"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
   <nav aria-label="Kapitel">
     <a href="#intro" class="glow-edge active">Überblick</a>
     <a class="glow-edge" href="#haltung">Haltung</a>
@@ -37,6 +38,7 @@
     <a class="glow-edge" href="#material">Material</a>
     <a class="glow-edge" href="#bedienung">Bedienung</a>
     <a class="glow-edge" href="#produkt">Im Produkt</a>
+    <a class="glow-edge" href="#app">In der App</a>
     <a class="glow-edge" href="#bausteine">Bausteine</a>
     <a class="glow-edge" href="#bewegung">Bewegung</a>
     <a class="glow-edge" href="#sprache">Sprache</a>
@@ -46,7 +48,7 @@
   </nav>
   <div class="rail-bottom">
     <button class="motion-toggle glow-edge" data-motion-toggle aria-pressed="false">Bewegung pausieren</button>
-    <p>Gestaltungsatlas 4.8</p>
+    <p>Gestaltungsatlas 4.9</p>
   </div>
 </aside>
 
@@ -103,7 +105,7 @@
       </div>
       <p class="secondary" id="signatureLabel">Spektrum · Goldener Schnitt</p>
       <dl class="construction"><div><dt>Rahmen</dt><dd>Aussenkreis und Kreisöffnung</dd></div><div><dt>Konturen</dt><dd>Nur Kreisbögen, ohne Knick verbunden</dd></div><div><dt>Radien</dt><dd>Aus der Reihe R·φ^(−k/4), vier Stufen ergeben genau den Goldenen Schnitt</dd></div><div><dt>Linien</dt><dd>Gleich starker Körper, kurze Spitzen</dd></div></dl>
-      <p class="secondary">Blueprint zeigt alle Konstruktionskreise. Relief ist eine Materialanwendung, kein neues Zeichen. Für kleine Darstellungen bleiben die flachen Varianten vorgesehen.</p>
+      <p class="secondary">Blueprint zeigt alle Konstruktionskreise. Relief ist eine Materialanwendung, kein neues Zeichen. Als Marke in App und Atlas steht das Zeichen in Spektrum, auch klein. Ink nur, wo nur eine Farbe geht.</p>
       <a class="text-link glow-edge" href="assets/ELANUM-System-Ink-Harmonic.svg" download>Ink · Goldener Schnitt laden <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6.5 12.5l5.5 5.5 5.5-5.5"/></svg></a>
     </div>
   </div>
@@ -295,9 +297,88 @@
   </div>
 </section>
 
+<section class="chapter" id="app" aria-labelledby="appTitle">
+  <header class="chapter-head">
+    <p class="chapter-no">10 · In der App</p>
+    <h2 id="appTitle" data-anim="title">Zuerst das Telefon. Dann jede Breite.</h2>
+    <p class="chapter-intro">So sieht ELANUM als App aus: dieselben Tokens, Bausteine und Regeln, gebaut vom Telefon her. Jeder Screen ist eine echte Seite, die du hier bedienen kannst. Vergleiche Telefon und Desktop oder zieh die Breite frei von 320 bis 1440 px.</p>
+  </header>
+  <div class="app-preview" data-vorschau></div>
+
+  <div class="block-head" data-anim="reveal">
+    <h3 class="block-title">Eine Navigation, drei Formen</h3>
+    <p class="secondary">Dieselben Ziele in jeder Breite. Die Form richtet sich nach dem Platz, nicht nach dem Gerät. Wo du bist, trägt den Glührand im Atemtakt; beim Wechsel gleitet er zum neuen Ziel. Oben links steht immer das ELANUM-Zeichen in Spektrum.</p>
+  </div>
+  <ol class="nav-forms" data-anim="stagger">
+    <li>
+      <svg class="nav-forms__sketch" viewBox="0 0 140 220" aria-hidden="true"><rect x="22" y="6" width="96" height="208" rx="18"/><path class="nav-forms__muted" d="M34 30h28M34 46h56M34 74h72M34 86h60M34 98h66"/><rect class="nav-forms__card" x="34" y="114" width="72" height="44" rx="10"/><path d="M22 178h96"/><circle class="nav-forms__on" cx="38" cy="194" r="5"/><circle cx="54" cy="194" r="4"/><circle cx="70" cy="194" r="4"/><circle cx="86" cy="194" r="4"/><circle cx="102" cy="194" r="4"/></svg>
+      <h4>Leiste unten</h4><p class="t-label secondary">bis 599 px</p><p class="secondary">In der Daumenzone. Höchstens fünf Ziele, jedes mit Icon und Namen in 15 px. Das letzte ist immer das Menü.</p>
+    </li>
+    <li>
+      <svg class="nav-forms__sketch" viewBox="0 0 220 220" aria-hidden="true"><rect x="8" y="22" width="204" height="176" rx="16"/><path d="M44 22v176"/><circle class="nav-forms__on" cx="26" cy="54" r="5"/><circle cx="26" cy="78" r="4"/><circle cx="26" cy="102" r="4"/><circle cx="26" cy="126" r="4"/><circle cx="26" cy="150" r="4"/><path class="nav-forms__muted" d="M60 46h40M60 62h96"/><rect class="nav-forms__card" x="60" y="80" width="64" height="48" rx="10"/><rect class="nav-forms__card" x="134" y="80" width="64" height="48" rx="10"/><rect class="nav-forms__card" x="60" y="138" width="64" height="48" rx="10"/></svg>
+      <h4>Schiene</h4><p class="t-label secondary">600 bis 1023 px</p><p class="secondary">Links, Icon über dem Namen. Mehr Platz für Inhalt in zwei Spalten, die Hand bleibt am Rand.</p>
+    </li>
+    <li>
+      <svg class="nav-forms__sketch" viewBox="0 0 280 220" aria-hidden="true"><rect x="6" y="32" width="268" height="156" rx="12"/><path d="M78 32v156"/><path class="nav-forms__muted" d="M18 54h30"/><circle class="nav-forms__on" cx="24" cy="74" r="5"/><path class="nav-forms__on-line" d="M36 74h28"/><circle cx="24" cy="94" r="4"/><path d="M36 94h22"/><circle cx="24" cy="114" r="4"/><path d="M36 114h26"/><path class="nav-forms__muted" d="M18 140h34M18 152h46M18 170h40"/><path class="nav-forms__muted" d="M94 54h60"/><rect class="nav-forms__card" x="94" y="70" width="104" height="100" rx="10"/><rect class="nav-forms__card" x="208" y="70" width="54" height="46" rx="10"/><rect class="nav-forms__card" x="208" y="124" width="54" height="46" rx="10"/></svg>
+      <h4>Seitenleiste</h4><p class="t-label secondary">ab 1024 px</p><p class="secondary">Namen nach Kosmos gegliedert, der Wechsel in einen anderen Kosmos ist immer sichtbar. Inhalt in Haupt- und Begleitspalte.</p>
+    </li>
+  </ol>
+
+  <div class="block-head" data-anim="reveal">
+    <h3 class="block-title">Jeder Kosmos hat eigene Ziele</h3>
+    <p class="secondary">Wie in der heutigen App bleiben Resonanz, Dating und Erleben getrennt. Gewechselt wird bewusst: über das Menü oder die Seitenleiste.</p>
+  </div>
+  <div class="kosmos-nav" id="kosmosNav" data-anim="stagger"></div>
+
+  <div class="block-head" data-anim="reveal">
+    <h3 class="block-title">Mobile zuerst: acht Regeln</h3>
+    <p class="secondary">Für jeden neuen Screen. Geprüft wird auf 360, 390, 834, 1280 und 1440 px.</p>
+  </div>
+  <ol class="app-rules" data-anim="stagger">
+    <li><h4>Daumenzone</h4><p class="secondary">Navigation und Hauptaktion stehen unten, erreichbar mit einer Hand. Ab 600 px wandert die Navigation nach links.</p></li>
+    <li><h4>Ein Moment, eine Handlung</h4><p class="secondary">Pro Screen ein dunkler Hauptmoment, der zeigt, worum es geht, und eine primäre Handlung. Daneben höchstens eine sekundäre. Auf dem Telefon schweben beide über der Leiste.</p></li>
+    <li><h4>15 px bleibt 15 px</h4><p class="secondary">Auch in der Leiste. Was nicht passt, kommt ins Menü, nie kleiner. Keine Versalien als Ersatz für Grösse.</p></li>
+    <li><h4>48 px zum Tippen</h4><p class="secondary">Mindestens 44 px, in Leiste, Kopf und Sheet 48 px. Abstand zwischen Zielen statt Linien.</p></li>
+    <li><h4>Sheet statt neuer Seite</h4><p class="secondary">Kurzes öffnet sich von unten, auf dem Tablet in der Mitte, auf dem Desktop von rechts. Immer mit Schliessen und Esc.</p></li>
+    <li><h4>Ein Ende statt Endlosliste</h4><p class="secondary">Auswahl und Listen haben ein ruhiges Ende. Keine Zähler, keine Serien, kein Konfetti, kein „jemand ist in der Nähe“.</p></li>
+    <li><h4>Jede Geste hat einen Knopf</h4><p class="secondary">Wischen, Ziehen und Drehen sind eine zweite Eingabe, nie die einzige. Rückgängig geht immer.</p></li>
+    <li><h4>Platz statt Gerät</h4><p class="secondary">Karten und Spalten richten sich nach dem Platz im Inhalt (Container Queries). Safe Areas und dynamische Höhe für Telefone mit Kerbe.</p></li>
+  </ol>
+
+  <div class="block-head" data-anim="reveal">
+    <h3 class="block-title">Gelernt von, bewusst anders</h3>
+    <p class="secondary">Vergleichbare Plattformen und neue Konzepte, geprüft an der Haltung von ELANUM. Übernommen wird, was beim Wählen hilft. Was zum Weitermachen belohnt, bleibt draussen.</p>
+  </div>
+  <ul class="learned" data-anim="stagger">
+    <li><p class="learned__from">Hinge</p><h4>Resonanz gilt einer Antwort.</h4><p class="secondary">Wer Resonanz zeigt, wählt eine Frage oder ein Element, nicht einen ganzen Menschen. Das gibt dem ersten Satz einen Anlass.</p></li>
+    <li><p class="learned__from">Once, The League</p><h4>Wenige Menschen am Tag.</h4><p class="secondary">„Drei Menschen für heute“ statt eines Stapels. Danach ein ruhiges Ende, morgen kommen neue.</p></li>
+    <li><p class="learned__from">Co-Star, The Pattern</p><h4>Eine Perspektive, kein Urteil.</h4><p class="secondary">Text zuerst, ruhige Typografie. „Wo es schwingt“ und „Hier seid ihr unterschiedlich“ statt Prozenten. Icons tragen immer einen Namen.</p></li>
+    <li><p class="learned__from">Headspace, Stoic</p><h4>Ein Tag hat einen Rhythmus.</h4><p class="secondary">Ein Satz pro Tag, eine Tageslinie vom Ankommen bis zur Ruhe, eine Notiz auf Papier. Langsame Übergänge, nichts drängt.</p></li>
+    <li><p class="learned__from">Timeleft, Luma, Partiful</p><h4>Wer dabei ist, zählt.</h4><p class="secondary">Menschen sichtbar vor der Zusage, Antwort in natürlicher Reihenfolge: Dabei, Vielleicht, Nicht dabei. Der Ort kommt am Vortag.</p></li>
+    <li><p class="learned__from">Material 3, Apple</p><h4>Navigation passt sich an.</h4><p class="secondary">Leiste, Schiene und Seitenleiste mit denselben Zielen. Sheets mit Griff, Schliessen-Knopf und Esc, Kopf mit grossem Titel, der beim Scrollen klein wird. Weiche Übergänge zwischen Screens (View Transitions).</p></li>
+  </ul>
+
+  <div class="block-head" data-anim="reveal">
+    <h3 class="block-title">Von der heutigen App zu ELANUM</h3>
+    <p class="secondary">Was bleibt, was sich ändert. Grundlage ist die App unter soulresonance.ch, Stand Oktober 2026.</p>
+  </div>
+  <dl class="migration" data-anim="stagger">
+    <div><dt>Namen der Bereiche</dt><dd><s>Soul Kosmos, Resonanzen, Gemeinsam erleben</s><span>Resonanzkosmos, Datingkosmos, Erlebniskosmos</span></dd></div>
+    <div><dt>Ziele im Resonanzkosmos</dt><dd><s>Jetzt, Ich, Umfeld, Mein Weg</s><span>Heute, Ich, Umfeld, Weg</span></dd></div>
+    <div><dt>Fläche</dt><dd><s>Dunkler Grund, Glas</s><span>Warme Reliefoberfläche, Licht von links oben</span></dd></div>
+    <div><dt>Farbe der Elemente</dt><dd><s>Cyan, Magenta, Purple je Säule</s><span>Violett, Koralle, Petrol je Bereich, Elemente über Icon und Name</span></dd></div>
+    <div><dt>Passung im Dating</dt><dd><s>Score in Prozent</s><span>Beobachtungen in Worten, an Elementen festgemacht</span></dd></div>
+    <div><dt>Schrift</dt><dd><s>Labels in Versalien unter 15 px</s><span>Yrsa und Albert Sans, nichts unter 15 px</span></dd></div>
+    <div><dt>Tablet</dt><dd><s>Leiste unten bis 1023 px</s><span>Schiene ab 600 px</span></dd></div>
+    <div><dt>Bleibt</dt><dd><span>Seitenleiste ab 1024 px, getrennte Kosmen mit Menü, jede Geste mit Knopf, kein Online-Status, keine Zähler</span></dd></div>
+  </dl>
+  <div class="status app-glossar" data-role="hint"><span class="status__sign" aria-hidden="true">!</span><div><strong class="status__title">Freigabe offen</strong><p class="status__text">Die Namen der Ziele Entdecken, Likes, Chats, Profil, Aktivitäten, Events, Meine und Menü stammen aus der heutigen App und stehen noch nicht im Glossar. Ebenso App-Rahmen, Leiste, Schiene, Seitenleiste, Sheet, Hauptfläche, Tagesbogen und „Resonanz zeigen“.</p></div></div>
+  <p class="chapter-foot"><a class="text-link glow-edge" href="components/app/">App-Rahmen und alle Screens einzeln öffnen</a></p>
+</section>
+
 <section class="chapter" id="bausteine" aria-labelledby="bausteineTitle">
   <header class="chapter-head">
-    <p class="chapter-no">10 · Bausteine</p>
+    <p class="chapter-no">11 · Bausteine</p>
     <h2 id="bausteineTitle" data-anim="title">Jeder Baustein einzeln.</h2>
     <p class="chapter-intro">Alle Darstellungen gibt es als eigene Seite, zum Prüfen, Zeigen und Weiterbauen. Sie nutzen dieselben Tokens und denselben Code wie dieser Atlas.</p>
   </header>
@@ -306,6 +387,7 @@
     <li><a class="element-card area glow-edge" data-area="bezug" href="components/umfeld/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="32" cy="32" r="9"/><circle cx="14" cy="16" r="6"/><circle cx="52" cy="22" r="6"/><circle cx="46" cy="52" r="6"/><path d="M25 26l-6-5M41 29l6-3M38 39l4 7"/></svg></span><span class="element-card__kosmos">Resonanzkosmos</span><span class="element-card__name">Umfeld</span><span class="secondary">Ich in der Mitte, Menschen nach Nähe und Resonanz.</span></a></li>
     <li><a class="element-card area glow-edge" data-area="ich" href="components/beziehungsraum/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M10 40a13 13 0 1 1 15 0M39 40a13 13 0 1 1 15 0"/><path d="M30 32c2 3 2 3 4 0"/></svg></span><span class="element-card__kosmos">Resonanzkosmos</span><span class="element-card__name">Beziehungsraum</span><span class="secondary">Zwei eigene Räume und ihre Verbindung.</span></a></li>
     <li><a class="element-card area glow-edge" data-area="sterne" href="components/weg/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 32h30"/><path d="M46 32h10" stroke-dasharray="3 4"/><circle cx="8" cy="32" r="3" fill="currentColor"/><circle cx="23" cy="32" r="3" fill="currentColor"/><circle cx="38" cy="32" r="5"/></svg></span><span class="element-card__kosmos">Resonanzkosmos</span><span class="element-card__name">Weg &amp; Tageslinie</span><span class="secondary">Stationen: erledigt, jetzt, offen.</span></a></li>
+    <li><a class="element-card area glow-edge" data-area="bezug" href="components/app/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="17" y="6" width="30" height="52" rx="7"/><path d="M17 46h30"/><circle cx="25" cy="52" r="1.6" fill="currentColor"/><circle cx="32" cy="52" r="1.6"/><circle cx="39" cy="52" r="1.6"/></svg></span><span class="element-card__kosmos">Alle Kosmen</span><span class="element-card__name">App-Rahmen</span><span class="secondary">Navigation, Kopf, Sheet, Karten. Mobile zuerst.</span></a></li>
   </ul>
   <div class="block-head" data-anim="reveal">
     <h3 class="block-title">Ein Linien-System</h3>
@@ -326,7 +408,7 @@
 
 <section class="chapter" id="bewegung" aria-labelledby="bewegungTitle">
   <header class="chapter-head">
-    <p class="chapter-no">11 · Bewegung</p>
+    <p class="chapter-no">12 · Bewegung</p>
     <h2 id="bewegungTitle" data-anim="title">Bewegung erklärt.</h2>
     <p class="chapter-intro">Bewegung zeigt, wie etwas funktioniert: Kreise rücken zusammen, das Rad baut sich Bereich für Bereich auf, eine Spur zeichnet sich bis zu dir. Langsam im Ausdruck, direkt in der Bedienung. Das Zeichen bewegt sich nie.</p>
   </header>
@@ -349,7 +431,7 @@
 
 <section class="chapter" id="sprache" aria-labelledby="spracheTitle">
   <header class="chapter-head">
-    <p class="chapter-no">12 · Sprache</p>
+    <p class="chapter-no">13 · Sprache</p>
     <h2 id="spracheTitle" data-anim="title">Einfach sagen, was ist.</h2>
   </header>
   <div class="voice" data-anim="stagger">
@@ -361,18 +443,18 @@
 
 <section class="chapter" id="pruefung" aria-labelledby="pruefungTitle">
   <header class="chapter-head">
-    <p class="chapter-no">13 · Prüfung</p>
+    <p class="chapter-no">14 · Prüfung</p>
     <h2 id="pruefungTitle" data-anim="title">Vor der Freigabe.</h2>
   </header>
   <div class="review">
-    <div data-anim="reveal"><p class="review__count"><span id="scoreNumber">0</span> / 9</p><p class="secondary" id="scoreMessage" role="status">Bestätigte Gestaltungsregeln. Eine Checkliste ersetzt kein visuelles Review.</p></div>
+    <div data-anim="reveal"><p class="review__count"><span id="scoreNumber">0</span> / 10</p><p class="secondary" id="scoreMessage" role="status">Bestätigte Gestaltungsregeln. Eine Checkliste ersetzt kein visuelles Review.</p></div>
     <div class="checklist" id="checklist"></div>
   </div>
 </section>
 
 <section class="chapter" id="glossar" aria-labelledby="glossarTitle">
   <header class="chapter-head">
-    <p class="chapter-no">14 · Glossar</p>
+    <p class="chapter-no">15 · Glossar</p>
     <h2 id="glossarTitle" data-anim="title">So heissen die Dinge.</h2>
     <p class="chapter-intro" id="glossarRule"></p>
   </header>
@@ -393,7 +475,7 @@
 
 <section class="chapter" id="tokens" aria-labelledby="tokensTitle">
   <header class="chapter-head">
-    <p class="chapter-no">15 · Assets &amp; Tokens</p>
+    <p class="chapter-no">16 · Assets &amp; Tokens</p>
     <h2 id="tokensTitle" data-anim="title">Zum Weiterarbeiten.</h2>
   </header>
   <div class="tokens">
@@ -414,7 +496,7 @@
 
 <footer class="footer">
   <p class="footer__line" data-anim="title">Das Eigene hinterlässt eine Spur. Resonanz verändert sie.</p>
-  <p class="secondary">ELANUM · Gestaltungsatlas 4.8 · Oktober 2026</p>
+  <p class="secondary">ELANUM · Gestaltungsatlas 4.9 · Oktober 2026</p>
 </footer>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -422,6 +504,8 @@
 <script src="components/beziehungsraum/beziehungsraum.js"></script>
 <script src="components/resonanzrad/resonanzrad.js"></script>
 <script src="components/umfeld/umfeld.js"></script>
+<script src="components/app/app.js"></script>
+<script src="components/app/vorschau.js"></script>
 <script src="assets/glossar.js"></script>
 <script src="app.js"></script>
 </body>

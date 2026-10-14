@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · App-Rahmen und Screens</title>
+<link rel="icon" href="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="vorschau.css">
+<style>
+  .screen-index{display:grid;gap:clamp(48px,6vw,72px);margin-top:clamp(64px,9vw,120px)}
+  .screen-index section{display:grid;gap:16px}
+  .screen-index h2{font:var(--type-heading)}
+  .screen-index ul{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .screen-index a{display:grid;gap:4px;min-height:72px;padding:16px 20px;border-radius:var(--radius-button);background:var(--paper);box-shadow:var(--raised-sm);font:var(--type-label);color:var(--ink-2);text-decoration:none}
+  .screen-index strong{font:var(--type-heading);color:var(--ink)}
+  @media(hover:hover) and (pointer:fine){.screen-index a:hover{box-shadow:var(--raised-sm),var(--glow)}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#element">Zum Element springen</a>
+<header class="page-top">
+  <a class="brand" href="../../index.html"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
+  <a class="back-link glow-edge" href="../../index.html#app">Gestaltungsatlas 4.9</a>
+</header>
+<main class="page">
+  <div class="page-intro">
+    <h1 data-anim="hero">App-Rahmen</h1>
+    <p data-anim="hero">So sieht ELANUM als App aus: zuerst das Telefon, dann jede Breite. Jeder Screen ist eine echte Seite mit demselben Rahmen. Bis 599 px führt die Leiste unten, bis 1023 px die Schiene links, darüber die Seitenleiste.</p>
+  </div>
+  <div id="element" data-vorschau></div>
+
+  <div class="screen-index">
+    <section aria-labelledby="ixRes"><h2 id="ixRes">Resonanzkosmos</h2><ul>
+      <li><a class="glow-edge" href="heute.html"><strong>Heute</strong>Dein Tag, Tageslinie, Notiz</a></li>
+      <li><a class="glow-edge" href="ich.html"><strong>Ich</strong>Resonanzrad und Weg bis jetzt</a></li>
+      <li><a class="glow-edge" href="umfeld.html"><strong>Umfeld</strong>Menschen nach Nähe und Resonanz</a></li>
+      <li><a class="glow-edge" href="weg.html"><strong>Weg</strong>Stationen, Zeitstufe, Kapitel</a></li>
+    </ul></section>
+    <section aria-labelledby="ixDat"><h2 id="ixDat">Datingkosmos</h2><ul>
+      <li><a class="glow-edge" href="entdecken.html"><strong>Entdecken</strong>Drei Menschen, erklärt statt bewertet</a></li>
+      <li><a class="glow-edge" href="chats.html"><strong>Chats</strong>Liste und Verlauf, ab 1024 px nebeneinander</a></li>
+    </ul></section>
+    <section aria-labelledby="ixErl"><h2 id="ixErl">Erlebniskosmos</h2><ul>
+      <li><a class="glow-edge" href="aktivitaeten.html"><strong>Aktivitäten</strong>Karten und Sheet, wer dabei ist</a></li>
+    </ul></section>
+    <section aria-labelledby="ixFlow"><h2 id="ixFlow">Erster Start</h2><ul>
+      <li><a class="glow-edge" href="ankommen.html"><strong>Ankommen</strong>Ein Ablauf ohne Navigation, Schritt 2 von 3</a></li>
+    </ul></section>
+  </div>
+</main>
+<script src="vorschau.js"></script>
+<script>ElanumVorschau.mount(document.querySelector('[data-vorschau]'), { base: '' });</script>
+</body>
+</html>

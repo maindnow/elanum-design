@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Weg</title>
+<link rel="icon" href="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="screens.css">
+</head>
+<body class="app" data-screen="weg">
+<a class="skip-link" href="#main">Direkt zum Inhalt</a>
+<nav data-app-nav></nav>
+<header class="app-head">
+  <a class="app-head__brand" href="heute.html" aria-label="ELANUM, Heute"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></a>
+  <p class="app-head__title" aria-hidden="true"></p>
+  <div class="app-head__actions">
+    <button class="app-icon-button glow-edge" type="button" aria-label="Zeitpunkt wählen"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="kalender"></svg></button>
+  </div>
+</header>
+
+<main class="app-main" id="main" tabindex="-1">
+  <header class="app-pagehead">
+    <p class="app-kicker">Resonanzkosmos</p>
+    <h1 class="app-title">Dein Weg</h1>
+    <p class="app-lead">Die Spur verbindet, was war, bis zu dir. Danach folgt eine Unterbrechung: Was kommt, ist noch nicht gezeichnet.</p>
+  </header>
+
+  <div class="app-stack">
+    <article class="app-hero weg-chapter" aria-labelledby="chapterTitle">
+      <p class="app-card__kicker" id="chapterTitle">Dein Kapitel in der Zeit · seit Juni</p>
+      <p class="app-hero__voice">Du probierst aus, was bleiben darf.</p>
+      <p class="app-card__text">Dein persönliches Jahr 5 steht für Bewegung. Es lädt ein, Gewohntes zu prüfen, bevor du es behältst. Bis Dezember bleibt dieses Kapitel offen.</p>
+      <div class="element-chips"><span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="numerology"></svg>Persönliches Jahr 5</span></div>
+    </article>
+    <div class="segmented weg-scale" role="group" aria-label="Zeitstufe">
+      <button class="glow-edge" type="button" data-scale="monat" aria-pressed="false">Monat</button><button class="glow-edge" type="button" data-scale="jahr" aria-pressed="true">Jahr</button><button class="glow-edge" type="button" data-scale="leben" aria-pressed="false">Leben</button>
+    </div>
+
+    <div class="app-layout">
+      <ol class="track" data-anim="track" data-weg-track>
+        <li class="track__station" data-state="done"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">Januar</span><h2 class="track__title">Loslassen</h2><p class="track__text">Ein Umzug, ein Abschied, mehr Raum.</p></div></li>
+        <li class="track__station" data-state="done"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">März</span><h2 class="track__title">Erkennen</h2><p class="track__text">Was dich bewegt, bekommt einen Namen.</p></div></li>
+        <li class="track__station" data-state="done"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">Juni</span><h2 class="track__title">Ausprobieren</h2><p class="track__text">Kleine Schritte im Alltag.</p></div></li>
+        <li class="track__station" data-state="now"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">Jetzt · Oktober</span><h2 class="track__title">Hier bist du</h2><p class="track__text">Du übst, was dir wichtig ist: früh und freundlich Nein sagen.</p></div></li>
+        <li class="track__station" data-state="open"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">Dezember</span><h2 class="track__title">Noch offen</h2><p class="track__text">Der nächste Schritt entsteht unterwegs.</p></div></li>
+      </ol>
+      <aside class="app-layout__aside app-stack" style="--gap:20px" aria-label="Zum Kapitel">
+        <article class="paper-card">
+          <p class="app-card__kicker">Ein gespeicherter Gedanke · Juni</p>
+          <blockquote>Du musst nicht jede Spannung sofort auflösen.</blockquote>
+        </article>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<script src="../resonanzrad/resonanzrad.js"></script>
+<script src="app.js"></script>
+<script src="screens.js"></script>
+</body>
+</html>

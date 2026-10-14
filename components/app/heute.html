@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Heute</title>
+<link rel="icon" href="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="../beziehungsraum/beziehungsraum.css">
+<link rel="stylesheet" href="../resonanzrad/resonanzrad.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="screens.css">
+</head>
+<body class="app" data-screen="heute">
+<a class="skip-link" href="#main">Direkt zum Inhalt</a>
+<nav data-app-nav></nav>
+<header class="app-head">
+  <a class="app-head__brand" href="heute.html" aria-label="ELANUM, Heute"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></a>
+  <p class="app-head__title" aria-hidden="true"></p>
+  <div class="app-head__actions">
+    <button class="app-icon-button glow-edge" type="button" aria-label="Anderen Tag wählen"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="kalender"></svg></button>
+  </div>
+</header>
+
+<main class="app-main" id="main" tabindex="-1">
+  <header class="app-pagehead">
+    <p class="app-kicker">Dienstag, 14. Oktober · 19:10</p>
+    <h1 class="app-title">Guten Abend, Lina.</h1>
+  </header>
+
+  <div class="app-layout">
+    <div class="app-stack heute-main">
+      <article class="app-hero day" aria-labelledby="dayTitle">
+        <div class="day__top">
+          <div class="day__intro"><p class="app-card__kicker" id="dayTitle">Dein Tag</p><p class="day__phase">Abend, die Zeit zum Nachspüren</p></div>
+          <div class="day__arc" data-day-arc></div>
+        </div>
+        <p class="app-hero__voice">Heute darf etwas offen bleiben.</p>
+        <p class="app-card__text">Der Mond steht in den Fischen. Gefühle liegen näher an der Oberfläche als sonst. Gib ihnen Raum, bevor du entscheidest. Was sich heute nicht klärt, darf bis morgen warten.</p>
+        <div class="element-chips" aria-label="Woher dieser Text kommt">
+          <span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="astrology"></svg>Mond in den Fischen</span>
+          <span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="numerology"></svg>Persönlicher Tag 7</span>
+        </div>
+        <div class="app-card__foot"><a class="app-more glow-edge" href="#">Weiter vertiefen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="pfeil"></svg></a></div>
+      </article>
+
+      <article class="app-card next" aria-labelledby="nextTitle">
+        <div class="next__wheel" data-mini-rad></div>
+        <div class="next__copy">
+          <p class="app-card__kicker">Dein nächster Schritt · <span data-mini-rad-count>5 von 9 ausgefüllt</span></p>
+          <h2 class="app-card__title" id="nextTitle">Persönlichkeit ausfüllen</h2>
+          <p class="app-card__text">Wie du wahrnimmst, entscheidest und handelst. Zwölf Fragen, etwa sechs Minuten.</p>
+        </div>
+        <div class="next__actions"><a class="button" href="ich.html">Jetzt beginnen</a><a class="app-more glow-edge" href="ich.html">Alle Elemente</a></div>
+      </article>
+
+      <section class="app-section" aria-labelledby="lineTitle">
+        <div class="app-section__head"><h2 class="app-section__title" id="lineTitle">Tageslinie</h2><span class="app-kicker">3 Momente, 1 offen</span></div>
+        <ol class="track" data-anim="track">
+          <li class="track__station" data-state="done"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">07:40</span><h3 class="track__title">Ankommen</h3><p class="track__text">Ein Satz für dich: Heute darf etwas offen bleiben.</p></div></li>
+          <li class="track__station" data-state="done"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">12:30</span><h3 class="track__title">Innehalten</h3><p class="track__text">Drei Atemzüge vor dem Mittag.</p></div></li>
+          <li class="track__station" data-state="now"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">Jetzt</span><h3 class="track__title">Nachspüren</h3><p class="track__text">Was hat dich heute berührt?</p></div></li>
+          <li class="track__station" data-state="open"><span class="track__marker"></span><span class="track__seg"></span><div><span class="track__when">Später</span><h3 class="track__title">Zur Ruhe kommen</h3><p class="track__text">Noch offen.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="app-section" aria-labelledby="noteTitle">
+        <h2 class="app-section__title" id="noteTitle">Deine Notiz</h2>
+        <form class="note-paper" data-note>
+          <label for="noteField" class="app-card__kicker">Was hat dich heute berührt?</label>
+          <span class="field field--area glow-edge"><textarea id="noteField" rows="3" placeholder="Ein Satz genügt"></textarea></span>
+          <div class="app-card__foot"><button class="button button--secondary glow-edge" type="submit">Notiz behalten</button><p class="secondary" data-note-state role="status">Nur du siehst deine Notizen.</p></div>
+        </form>
+      </section>
+    </div>
+
+    <aside class="app-layout__aside app-stack" style="--gap:20px" aria-label="Mehr für heute">
+      <article class="app-card">
+        <p class="app-card__kicker">Diese Woche</p>
+        <h2 class="app-card__title">Ein Nein, das dir guttut.</h2>
+        <p class="app-card__text">Saturn steht deinem Mond gegenüber. Grenzen setzen fällt leichter, wenn du sie früh und freundlich aussprichst.</p>
+      </article>
+      <a class="app-card glow-edge" href="umfeld.html">
+        <span class="app-card__kicker">Umfeld</span>
+        <span class="mara">
+          <span class="persons" aria-hidden="true"><span class="person person--sm">M</span><span class="person person--sm">J</span><span class="person person--sm">L</span></span>
+          <span class="app-card__title">Mara, Jonas und Lea</span>
+        </span>
+        <span class="app-card__text">Mit Mara schwingt es heute leicht. Ein guter Abend für ein offenes Gespräch.</span>
+      </a>
+    </aside>
+  </div>
+</main>
+
+<script src="../beziehungsraum/beziehungsraum.js"></script>
+<script src="../resonanzrad/resonanzrad.js"></script>
+<script src="app.js"></script>
+<script src="screens.js"></script>
+</body>
+</html>

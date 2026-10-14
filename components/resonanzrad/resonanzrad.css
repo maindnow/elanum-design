@@ -93,3 +93,6 @@ body[data-motion=off] .rad__active{animation-play-state:paused}
 @media(min-width:1280px){
   .rad{grid-template-columns:minmax(0,520px) minmax(0,1fr)}
 }
+
+/* Kleines Rad für Karten (ElanumResonanzrad.mini): ohne Schrift, ohne Bedienung */
+.rad-mini{display:block;width:100%;height:auto;aspect-ratio:1;filter:drop-shadow(3px 4px 5px #C4BDAF80) drop-shadow(-2px -2px 4px #FFFFFFB3)}

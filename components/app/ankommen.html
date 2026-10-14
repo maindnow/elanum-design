@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Ankommen</title>
+<link rel="icon" href="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="../resonanzrad/resonanzrad.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="screens.css">
+</head>
+<body class="app app--flow" data-screen="ankommen">
+<a class="skip-link" href="#main">Direkt zum Inhalt</a>
+<header class="app-head">
+  <a class="app-head__brand" href="heute.html" aria-label="ELANUM"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></a>
+  <p class="app-head__title" aria-hidden="true"></p>
+  <div class="app-head__actions"><a class="app-more glow-edge" href="heute.html">Später</a></div>
+</header>
+
+<main class="app-main flow" id="main" tabindex="-1">
+  <div class="flow__intro" aria-hidden="true">
+    <img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="960" height="960">
+    <p class="flow__voice">Das Eigene.<br>Das Dazwischen.</p>
+    <p class="secondary">Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg.</p>
+  </div>
+
+  <form class="flow__form app-form" data-flow novalidate>
+    <ol class="app-steps" aria-label="Fortschritt">
+      <li data-state="done">Du</li>
+      <li data-state="now" aria-current="step">Geburt</li>
+      <li data-state="open">Konto</li>
+    </ol>
+    <header class="app-hero flow__head">
+      <p class="app-kicker">Schritt 2 von 3</p>
+      <h1 class="app-hero__voice">Wann bist du geboren?</h1>
+      <p class="app-card__text">Aus Datum, Zeit und Ort entstehen die drei Elemente von Sterne &amp; Ursprung.</p>
+      <div class="element-chips">
+        <span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="astrology"></svg>Astrologie</span>
+        <span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="numerology"></svg>Numerologie</span>
+        <span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="human-design"></svg>Human Design</span>
+      </div>
+    </header>
+
+    <div class="app-fields app-fields--2">
+      <div class="app-field"><label for="birthDate">Geburtsdatum</label><span class="field glow-edge"><input id="birthDate" type="date" value="1989-09-02" required></span></div>
+      <div class="app-field"><label for="birthTime">Uhrzeit</label><span class="field glow-edge"><input id="birthTime" type="time" value="06:40" aria-describedby="timeHint"></span></div>
+    </div>
+    <label class="app-check"><input type="checkbox" data-time-unknown> Uhrzeit unbekannt</label>
+    <div class="status" data-role="hint" data-time-hint hidden><span class="status__sign" aria-hidden="true">!</span><div><strong class="status__title">Ohne Uhrzeit</strong><p class="status__text" id="timeHint">Bleibt der Aszendent offen. Du kannst die Zeit später ergänzen, alles andere stimmt schon.</p></div></div>
+    <div class="app-field">
+      <label for="birthPlace">Geburtsort</label>
+      <span class="field glow-edge"><input id="birthPlace" value="St. Gallen" autocomplete="off" aria-describedby="placeHint" required></span>
+      <p class="app-field__hint" id="placeHint">St. Gallen, Schweiz · 47,42° N, 9,37° O</p>
+    </div>
+    <p class="secondary flow__privacy">Deine Geburtsdaten sieht niemand sonst. Sie dienen nur der Berechnung.</p>
+
+    <div class="app-actions">
+      <a class="button button--secondary glow-edge" href="#">Zurück</a>
+      <button class="button" type="submit">Weiter</button>
+    </div>
+    <p class="secondary" data-flow-note role="status"></p>
+  </form>
+</main>
+
+<script src="../resonanzrad/resonanzrad.js"></script>
+<script src="app.js"></script>
+<script src="screens.js"></script>
+</body>
+</html>

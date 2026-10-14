@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Umfeld</title>
+<link rel="icon" href="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="../beziehungsraum/beziehungsraum.css">
+<link rel="stylesheet" href="../umfeld/umfeld.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="screens.css">
+</head>
+<body class="app" data-screen="umfeld">
+<a class="skip-link" href="#main">Direkt zum Inhalt</a>
+<nav data-app-nav></nav>
+<header class="app-head">
+  <a class="app-head__brand" href="heute.html" aria-label="ELANUM, Heute"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></a>
+  <p class="app-head__title" aria-hidden="true"></p>
+  <div class="app-head__actions">
+    <button class="app-icon-button glow-edge" type="button" aria-label="Einen Menschen eintragen"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="plus"></svg></button>
+  </div>
+</header>
+
+<main class="app-main" id="main" tabindex="-1">
+  <header class="app-pagehead">
+    <p class="app-kicker">Vier Menschen</p>
+    <h1 class="app-title">Dein Umfeld</h1>
+    <p class="app-lead">Du stehst in der Mitte. Der Abstand zeigt die Nähe, die Linie die Resonanz. Ohne aktive Resonanz bleibt nur der Abstand.</p>
+  </header>
+  <div data-umfeld data-anim="umfeld"></div>
+</main>
+
+<script src="../beziehungsraum/beziehungsraum.js"></script>
+<script src="../umfeld/umfeld.js"></script>
+<script src="app.js"></script>
+<script src="screens.js"></script>
+</body>
+</html>
