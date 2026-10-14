@@ -42,7 +42,7 @@ Die heutige App (Repository `maindnow/soulresonance.ch`, Stand 14.10.2026) hat d
 Rückmeldung nach dem ersten Stand (14.10.2026): Das Zeichen darf nicht Ink sein, alles wirkte fade, es braucht mehr Führung und mehr Feinfühligkeit. Daraus:
 
 - **Zeichen in Spektrum** in Navigation, Kopf, Favicon und im Atlas. Ink bleibt für Einfarbiges.
-- **Ein Moment pro Screen:** die dunkle Hauptfläche `.app-hero`, gebaut wie der Beziehungsraum im Atlas. Heute: der Satz des Tages mit Tagesbogen. Weg: das aktuelle Kapitel. Entdecken: „Wo es schwingt“ mit dem dunklen Beziehungsraum. Aktivitäten: das eine Erlebnis der Woche. Ankommen: die Frage des Schritts. Text darauf nur hell, Sekundärtext `#CBD9D6`.
+- **Ein Moment pro Screen:** die Hauptfläche `.app-hero`. Heute: der Satz des Tages mit Tagesbogen. Weg: das aktuelle Kapitel. Entdecken: „Wo es schwingt“ mit dem Beziehungsraum. Aktivitäten: das eine Erlebnis der Woche. Ankommen: die Frage des Schritts.
 - **Ein nächster Schritt:** Heute führt direkt unter dem Tag zum nächsten offenen Element, mit kleinem Resonanzrad und einer primären Handlung.
 - **Tagesbogen:** Der Tag als offener Kreis, die Öffnung unten ist die Nacht. Bis „jetzt“ führt die Verbindung im Markenspektrum (wie die Spur der Tageslinie bis „jetzt“), danach bleibt der Bogen gestrichelt offen. Stationen sind Knoten, „jetzt“ ist ein Ring, der im Atemtakt glüht. Der Kreis atmet höchstens 3 %.
 - **Wo du bist, glüht:** Der aktive Ort in der Navigation trägt den Glührand im Atemtakt. Beim Wechsel gleitet er zum neuen Ziel (View Transitions zwischen Seiten), Navigation und Kopf bleiben stehen, der Inhalt steigt weich auf.
@@ -51,6 +51,17 @@ Rückmeldung nach dem ersten Stand (14.10.2026): Das Zeichen darf nicht Ink sein
 - **Resonanz ist Verbindung:** Die Nachricht „zeigt Resonanz auf“ im Chat trägt den Rand im Markenspektrum, neue Nachrichten einen Punkt im Spektrum.
 
 Das Markenspektrum bleibt bei Zeichen, Verbindung und Glührand. Es wird nie Fläche.
+
+### Weiches Licht
+
+Zweite Rückmeldung (14.10.2026): Die Auswahl über der Vorschau entsprach nicht dem Atlas, und gesamthaft soll es weich sein, aber zum Nutzen animieren, Freude und Neugier wecken. Einschätzung: Die Marke lebt im Zeichen (Spektrum, Tiefe, Bewegung), in der App kam davon zu wenig an. Viel Beige, gleich schwere Flächen, und die dunklen Flächen gaben Führung, aber Schwere statt Weichheit. Vor allem antwortete fast nichts auf Berührung. Daraus:
+
+- **Licht statt Schwere:** Die Hauptfläche ist hell und trägt den Schleier der Fläche ihres Bereichs (`data-area`), darunter ein Glühen in Tief. Ohne Bereich ein warmer, neutraler Schleier. Dunkel ist nur noch das Dazwischen, `.app-hero--dark` für den Beziehungsraum, wie im Atlas.
+- **Farbe mit Bedeutung:** Karten tragen die Farbe des Bereichs, aus dem ihr Inhalt kommt (`.app-card--tint`): „Diese Woche“ Violett (Sterne), „Umfeld“ Petrol (Beziehung), der nächste Schritt Koralle (Persönlichkeit). Im kleinen Rad hebt sich das Stück ab, das wartet, und glüht (`mini({ focus })`).
+- **Bewegung, die antwortet:** Beim Öffnen steigt der Inhalt auf, der Tagesbogen zeichnet sich bis jetzt, jetzt blüht auf, das kleine Rad baut sich Stück für Stück auf. Rein in CSS, nur mit erlaubter Bewegung (`.app-in`), die Endwerte stehen in den Elementen.
+- **Neugier:** „Eine Frage für heute“ zum Umdrehen (`.app-flip`), vorne die Frage aus einem Element, hinten ein Anstoss.
+- **Resonanz als Moment:** Nach „Resonanz zeigen“ rücken im Sheet zwei eigene Kreise zusammen und die Verbindung entsteht. Weiter geht es erst mit „Weiter zu …“, ohne Konfetti.
+- **Vorschau:** Die Screens stehen in einer Segmentleiste wie überall im Atlas, die Kosmen trennt nur Abstand. Darunter steht, wo man ist, rechts die Ansicht. Die Rahmen stehen unten bündig. Wer im Telefon tippt, nimmt den Desktop mit.
 
 ### Screens
 
@@ -79,7 +90,7 @@ Alle Ziele ohne eigene Vorschau (Likes, Profil, Events, Meine, Wissen, Konto, Hi
 
 ### Offene Freigaben
 
-Diese Namen stehen in der App, aber noch nicht im Glossar: die Ziele Entdecken, Likes, Chats, Profil, Aktivitäten, Events, Meine und Menü (aus der heutigen App übernommen), dazu App-Rahmen, Leiste, Schiene, Seitenleiste, Sheet, Hauptfläche, Tagesbogen und „Resonanz zeigen“. Das Glossar ist unverändert, bis sie freigegeben sind.
+Diese Namen stehen in der App, aber noch nicht im Glossar: die Ziele Entdecken, Likes, Chats, Profil, Aktivitäten, Events, Meine und Menü (aus der heutigen App übernommen), dazu App-Rahmen, Leiste, Schiene, Seitenleiste, Sheet, Hauptfläche, Tagesbogen, „Eine Frage für heute“ und „Resonanz zeigen“. Das Glossar ist unverändert, bis sie freigegeben sind.
 
 ## Benennung
 

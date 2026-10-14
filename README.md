@@ -15,7 +15,7 @@
 
 <table>
   <tr>
-    <td width="66%"><img src="docs/screenshots/app-desktop.png" alt="App am Desktop: Seitenleiste nach Kosmen, Heute mit dunkler Hauptfläche und Tagesbogen"></td>
+    <td width="66%"><img src="docs/screenshots/app-desktop.png" alt="App am Desktop: Seitenleiste nach Kosmen, Heute in weichem Licht mit Tagesbogen"></td>
     <td width="17%"><img src="docs/screenshots/app-telefon.png" alt="App auf dem Telefon: Heute mit Tagesbogen und Leiste unten"></td>
     <td width="17%"><img src="docs/screenshots/app-entdecken-telefon.png" alt="App auf dem Telefon: Entdecken im Datingkosmos, drei Menschen für heute"></td>
   </tr>
@@ -171,7 +171,7 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 **Resonanzrad** · `components/resonanzrad/` · `window.ElanumResonanzrad`
 
 - `mount(root, { heading })` baut das Rad in `root` und gibt `{ select(i), parts }` zurück. `heading` ist `'h2'` (Standard) oder `'h3'`.
-- `mini(root, { done, label })` zeichnet ein kleines Rad für Karten (ohne Schrift, ohne Bedienung) und gibt `{ done, total }` zurück. `done` ist die Liste der ausgefüllten Element-ids.
+- `mini(root, { done, focus, label })` zeichnet ein kleines Rad für Karten (ohne Schrift, ohne Bedienung) und gibt `{ done, total }` zurück. `done` ist die Liste der ausgefüllten Element-ids, `focus` das Element, das als Nächstes wartet: sein Stück hebt sich ab und glüht.
 - `groups`, `items`, `icons`, `iconSvg(id)`: Bereiche, Elemente und ihre Icons.
 
 ```html
@@ -238,7 +238,8 @@ Karten und Spalten richten sich nach dem Platz im Inhalt (Container Queries auf 
 - `mount({ kosmos, current, href, base, me })` baut die Navigation in `[data-app-nav]` und das Menü, verbindet Kopf und Sheets und hört auf die Pause aus dem Atlas. `kosmos` ist `'resonanz'`, `'dating'` oder `'erleben'`, `current` die id des Ziels, `href(id)` liefert die Adresse.
 - `nav(el, opts)`: nur die Navigation.
 - `sheet(dialog)` gibt `{ open(trigger), close() }`: von unten auf dem Telefon, in der Mitte auf dem Tablet, von rechts auf dem Desktop. Schliessen mit Knopf `[data-close]`, Tipp daneben oder Esc, der Fokus kehrt zum Auslöser zurück. `data-sheet-open="id"` an einem Knopf öffnet ein `<dialog data-sheet>`.
-- `dayArc(el, { now, stations, from, to })` zeichnet den Tagesbogen für die dunkle Hauptfläche.
+- `dayArc(el, { now, stations, from, to })` zeichnet den Tagesbogen für die Hauptfläche.
+- Mit erlaubter Bewegung setzt `mount` die Klasse `app-in` auf `<html>`: Inhalt steigt auf, der Tagesbogen zeichnet sich, das kleine Rad baut sich auf. Pause und reduzierte Bewegung zeigen sofort den Endzustand.
 - `kosmen`, `more`, `icons`, `iconSvg(id)`, `fillIcons(root)`: Ziele je Kosmos, Einträge im Menü und die Icons der Navigation.
 
 ```html
@@ -259,7 +260,7 @@ Karten und Spalten richten sich nach dem Platz im Inhalt (Container Queries auf 
 </body>
 ```
 
-Muster in `app.css`: `.app-card`, `.app-hero` (dunkle Hauptfläche, ein Moment pro Screen), `.app-layout` und `.app-grid` (Spalten nach Platz), `.app-split` (Liste und Detail), `.app-list` mit `.app-row`, `.person` (eigener, offener Kreis), `.element-chip`, `.profile`, `.photo`, `.note`, `.prompt`, `.event`, `.bubble`, `.app-composer`, `.app-steps`, `.app-field`, `.app-check`, `.app-actions`, `.app-end`. Die Beispielseiten unter `components/app/` zeigen jedes Muster im Einsatz.
+Muster in `app.css`: `.app-card`, `.app-card--tint` (Karte in der Farbe ihres Bereichs), `.app-hero` (Hauptfläche in weichem Licht, ein Moment pro Screen, `data-area` für die Farbe, `.app-hero--dark` nur für den Beziehungsraum), `.app-flip` (Frage zum Umdrehen, `data-flip`), `.app-layout` und `.app-grid` (Spalten nach Platz), `.app-split` (Liste und Detail), `.app-list` mit `.app-row`, `.person` (eigener, offener Kreis), `.element-chip`, `.profile`, `.photo`, `.note`, `.prompt`, `.event`, `.bubble`, `.app-composer`, `.app-steps`, `.app-field`, `.app-check`, `.app-actions`, `.app-end`. Die Beispielseiten unter `components/app/` zeigen jedes Muster im Einsatz.
 
 **Glossar** · `assets/glossar.js`, Einstieg `@elanum/design/glossar` · `window.ELANUM_GLOSSAR`
 
@@ -288,7 +289,7 @@ document.dispatchEvent(new CustomEvent('elanum:motion', { detail: { off: true } 
 ## Gestaltungsregeln
 
 - **Zeichen in Spektrum.** Als Marke steht in App, Atlas und Favicon immer `ELANUM-Master-Spektrum-Harmonic.svg`, auch klein. Ink nur, wo nur eine Farbe geht: Druck, Prägung, Stempel.
-- **Mobile zuerst.** Jeder Screen wird zuerst für 360 bis 390 px gebaut und auf 320, 390, 834, 1280 und 1440 px geprüft. Navigation und Hauptaktion in der Daumenzone, ein dunkler Hauptmoment pro Screen, jede Geste mit Knopf, ein ruhiges Ende statt Endlosliste.
+- **Mobile zuerst.** Jeder Screen wird zuerst für 360 bis 390 px gebaut und auf 320, 390, 834, 1280 und 1440 px geprüft. Navigation und Hauptaktion in der Daumenzone, ein Hauptmoment in weichem Licht pro Screen, jede Geste mit Knopf, ein ruhiges Ende statt Endlosliste.
 - **Zeichen aus Kreisen.** Gültig ist `-Harmonic`: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R · φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. `ELANUM-Konstruktion-Harmonic.svg` zeigt die Konstruktion. Diese Dateien nie von Hand bearbeiten, sondern mit `python3 tools/build_logo_circles.py` neu erzeugen; die Relief-Maske in `app.js` (`RELIEF_MASK`) kommt aus `python3 tools/build_logo_circles.py --masks`. Dateien ohne Suffix sind die unveränderten Quellen, `-Curves` ist die frühere Kurvenkorrektur, `-Geometrisch` die verworfene Alternative aus sechs Grundkreisen.
 - **Fünf Schriftstufen.** Display, Titel, Überschrift, Text, Label. Neue Texte verwenden eine dieser Stufen.
 - **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Weisse Schrift nur auf Tief, Ink auf dem Hauch; auf den Elementen im Rad steht Text nur in Ink.
@@ -315,7 +316,7 @@ Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 
 ## Stand und Historie
 
-4.9 zeigt ELANUM als App: neuer Baustein App-Rahmen (Navigation in drei Formen, Kopf, Sheet, Hauptfläche, Tagesbogen, Muster der Kosmen), acht Screens als echte, responsive Seiten auf Grundlage der heutigen App, im Atlas das Kapitel „In der App“ mit Gerätevorschau. Das Zeichen steht als Marke überall in Spektrum. Dazu `ElanumResonanzrad.mini()` und eine Korrektur der Verläufe der Bereiche, die leere Farbstopps zeigten. 4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
+4.9 zeigt ELANUM als App: neuer Baustein App-Rahmen (Navigation in drei Formen, Kopf, Sheet, Hauptfläche in weichem Licht, Tagesbogen, Frage zum Umdrehen, Muster der Kosmen), acht Screens als echte, responsive Seiten auf Grundlage der heutigen App, im Atlas das Kapitel „In der App“ mit Gerätevorschau. Das Zeichen steht als Marke überall in Spektrum. Dazu `ElanumResonanzrad.mini()` und eine Korrektur der Verläufe der Bereiche, die leere Farbstopps zeigten. 4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
 
 ## Schriften und Nutzungsrechte
 

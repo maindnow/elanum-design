@@ -96,3 +96,8 @@ body[data-motion=off] .rad__active{animation-play-state:paused}
 
 /* Kleines Rad für Karten (ElanumResonanzrad.mini): ohne Schrift, ohne Bedienung */
 .rad-mini{display:block;width:100%;height:auto;aspect-ratio:1;filter:drop-shadow(3px 4px 5px #C4BDAF80) drop-shadow(-2px -2px 4px #FFFFFFB3)}
+/* Das Stück, das als Nächstes wartet (opts.focus), hebt sich ab und glüht im Atemtakt */
+.rad-mini__face{transform-box:view-box;transform-origin:160px 160px}
+.rad-mini__face.is-focus{animation:face-glow var(--motion-breath) ease-in-out infinite}
+@keyframes face-glow{0%,100%{filter:drop-shadow(0 0 0 transparent)}43%{filter:drop-shadow(0 0 7px #D85BA9AA)}}
+body[data-motion=off] .rad-mini__face{animation-play-state:paused}

@@ -3,18 +3,20 @@
    Rahmen für die App-Screens im Atlas und in der Übersicht.
    Nicht Teil des Pakets.
    ============================================================ */
-.vorschau{display:grid;gap:28px;min-width:0}
-.vorschau__bar{display:grid;gap:16px;min-width:0}
-.vorschau__screens{display:flex;gap:8px;margin:0 calc(-1 * var(--gutter,20px));padding:8px var(--gutter,20px) 12px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:thin}
-.vorschau__screens button{flex:none;display:grid;gap:0;min-height:56px;padding:8px 18px;border:0;border-radius:var(--radius-button);background:var(--canvas);box-shadow:var(--raised-sm);color:var(--ink);font:var(--type-label);font-weight:600;text-align:left;scroll-snap-align:start;transition:background var(--motion-ui) ease,box-shadow var(--motion-ui) ease}
-.vorschau__screens small{font:var(--type-label);color:var(--ink-2)}
-.vorschau__screens button[aria-pressed=true]{background:var(--paper);box-shadow:var(--pressed)}
-@media(hover:hover) and (pointer:fine){.vorschau__screens button:not([aria-pressed=true]):hover{background:var(--paper)}}
-.vorschau__mode{justify-self:start}
-@media(min-width:900px){
-  .vorschau__bar{grid-template-columns:minmax(0,1fr) auto;align-items:end}
-  .vorschau__screens{flex-wrap:wrap;margin:0;padding:0;overflow:visible}
-}
+.vorschau{container-type:inline-size;display:grid;gap:20px;min-width:0}
+/* Eine Zeile wie im Atlas: Screens als Segmentleiste, rechts die Ansicht.
+   Zwischen den Kosmen nur etwas mehr Abstand, keine Linie. */
+.vorschau__bar{display:grid;gap:12px;justify-items:start;min-width:0}
+.vorschau__screens{justify-self:start;flex-wrap:nowrap;max-width:100%;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.vorschau__screens::-webkit-scrollbar{display:none}
+.vorschau__screens button{flex:none;white-space:nowrap}
+.vorschau__gap{flex:none;width:10px}
+.vorschau__mode{flex-wrap:nowrap}
+.vorschau__mode button{white-space:nowrap}
+@container (min-width:760px){.vorschau__bar{grid-template-columns:minmax(0,1fr) auto;align-items:center}}
+.vorschau__hint{display:grid;gap:2px;min-height:44px;align-content:center;font:var(--type-label);color:var(--ink-2)}
+.vorschau__hint span:first-child{color:var(--ink)}
+.vorschau__hint strong{color:var(--ink);font-weight:600}
 
 .vorschau__width{display:grid;gap:12px;max-width:640px}
 .vorschau__width-head{display:flex;justify-content:space-between;gap:12px;font:var(--type-label);font-weight:600}
@@ -29,7 +31,7 @@
 @media(hover:hover) and (pointer:fine){.vorschau__presets button:hover{background:var(--paper);color:var(--ink)}}
 
 .vorschau__stage{display:grid;gap:40px;justify-items:center;align-items:start;min-width:0}
-.vorschau__stage.is-side{grid-template-columns:auto auto;justify-content:center;align-items:center}
+.vorschau__stage.is-side{grid-template-columns:auto auto;justify-content:center;align-items:end;column-gap:48px}
 .device{display:grid;gap:14px;justify-items:center;margin:0;min-width:0}
 .device__frame{position:relative;overflow:hidden;background:var(--canvas)}
 .device__frame iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:var(--canvas)}

@@ -49,7 +49,8 @@
     wissen: '<path d="M4 5.6c3-1.3 5.6-1 8 .8 2.4-1.8 5-2.1 8-.8v13c-3-1.3-5.6-1-8 .8-2.4-1.8-5-2.1-8-.8z"/><path d="M12 6.4v13"/>',
     konto: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="10.2" r="2.9"/><path d="M6.6 18.3a6.2 6.2 0 0 1 10.8 0"/>',
     hilfe: '<circle cx="12" cy="12" r="8.5"/><path d="M9.7 9.6a2.4 2.4 0 1 1 3.3 2.2c-.6.3-1 .8-1 1.5v.6"/><path d="M12 16.7v.1"/>',
-    abmelden: '<path d="M14 4.5h3.5a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H14"/><path d="M4.5 12H14M8.5 8l-4 4 4 4"/>'
+    abmelden: '<path d="M14 4.5h3.5a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H14"/><path d="M4.5 12H14M8.5 8l-4 4 4 4"/>',
+    umdrehen: '<path d="M19 12a7 7 0 0 1-12.4 4.5"/><path d="M5 12a7 7 0 0 1 12.4-4.5"/><path d="M17.6 3.6v3.9h-3.9M6.4 20.4v-3.9h3.9"/>'
   };
   function iconSvg(id, cls) { return '<svg class="' + (cls || 'icon') + '" viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[id] || '') + '</svg>'; }
 
@@ -195,8 +196,8 @@
      Der Tag als offener Kreis, die Öffnung unten ist die Nacht. Bis jetzt
      führt die Verbindung im Markenspektrum, danach bleibt der Bogen offen.
      Stationen sind Knoten, jetzt ist ein Ring, der im Atemtakt glüht.
-     Für dunkle Flächen (.app-hero). Rein darstellend: die Zeiten stehen
-     daneben als Text und in der Tageslinie. */
+     Auf der Hauptfläche (.app-hero), hell oder dunkel. Rein darstellend:
+     die Zeiten stehen daneben als Text und in der Tageslinie. */
   var arcCount = 0;
   function dayArc(el, opts) {
     opts = opts || {};
@@ -210,9 +211,10 @@
     el.classList.add('day-arc');
     el.innerHTML = '<svg viewBox="0 0 240 240" aria-hidden="true" focusable="false"><defs><linearGradient id="' + id + '" gradientUnits="userSpaceOnUse" x1="' + p0[0] + '" y1="' + p0[1] + '" x2="' + pNow[0] + '" y2="' + pNow[1] + '">' +
         '<stop stop-color="#6756D9"/><stop offset=".55" stop-color="#9466DF"/><stop offset="1" stop-color="#D85BA9"/></linearGradient></defs>' +
+      '<circle class="day-arc__disc" cx="' + C + '" cy="' + C + '" r="70"/>' +
       '<g class="day-arc__ring">' +
         '<path class="day-arc__open" d="' + arc(aNow, START + SPAN) + '"/>' +
-        '<path class="day-arc__done" stroke="url(#' + id + ')" d="' + arc(START, aNow) + '"/>' +
+        '<path class="day-arc__done" pathLength="1" stroke="url(#' + id + ')" d="' + arc(START, aNow) + '"/>' +
         (opts.stations || []).map(function (t) { var q = pt(ang(t)); return '<circle class="day-arc__station" cx="' + q[0] + '" cy="' + q[1] + '" r="3.3"/>'; }).join('') +
         '<circle class="day-arc__now" cx="' + pNow[0] + '" cy="' + pNow[1] + '" r="7"/>' +
       '</g></svg>' +
@@ -224,9 +226,22 @@
     (root || document).querySelectorAll('svg[data-icon]').forEach(function (s) { s.innerHTML = ICONS[s.getAttribute('data-icon')] || ''; });
   }
 
+  /* Eine Frage zum Umdrehen: <button class="app-flip" data-flip aria-pressed="false"> */
+  function flips(root) {
+    (root || document).addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-flip]'); if (!b) return;
+      var on = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', String(on));
+      var front = b.querySelector('.app-flip__face--front'), back = b.querySelector('.app-flip__face--back');
+      if (front) front.setAttribute('aria-hidden', String(on));
+      if (back) back.setAttribute('aria-hidden', String(!on));
+    });
+  }
+
   function mount(opts) {
     opts = opts || {};
     fillIcons();
+    flips();
     var navEl = document.querySelector('[data-app-nav]');
     if (navEl) {
       nav(navEl, opts);
@@ -243,6 +258,8 @@
       if (d) { e.preventDefault(); sheet(d).open(); }
     });
     motion();
+    /* Auftritt nur, wenn Bewegung erlaubt ist (app.css, Abschnitt Auftritt). */
+    if (document.body.dataset.motion !== 'off') document.documentElement.classList.add('app-in');
   }
 
   window.ElanumApp = { mount: mount, nav: nav, sheet: sheet, dayArc: dayArc, fillIcons: fillIcons, kosmen: KOSMEN, more: MORE, icons: ICONS, iconSvg: iconSvg };

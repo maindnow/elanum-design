@@ -33,7 +33,7 @@
 
   <div class="app-layout">
     <div class="app-stack heute-main">
-      <article class="app-hero day" aria-labelledby="dayTitle">
+      <article class="app-hero day" data-area="sterne" aria-labelledby="dayTitle">
         <div class="day__top">
           <div class="day__intro"><p class="app-card__kicker" id="dayTitle">Dein Tag</p><p class="day__phase">Abend, die Zeit zum Nachspüren</p></div>
           <div class="day__arc" data-day-arc></div>
@@ -47,7 +47,7 @@
         <div class="app-card__foot"><a class="app-more glow-edge" href="#">Weiter vertiefen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="pfeil"></svg></a></div>
       </article>
 
-      <article class="app-card next" aria-labelledby="nextTitle">
+      <article class="app-card app-card--tint next area" data-area="ich" aria-labelledby="nextTitle">
         <div class="next__wheel" data-mini-rad></div>
         <div class="next__copy">
           <p class="app-card__kicker">Dein nächster Schritt · <span data-mini-rad-count>5 von 9 ausgefüllt</span></p>
@@ -56,6 +56,22 @@
         </div>
         <div class="next__actions"><a class="button" href="ich.html">Jetzt beginnen</a><a class="app-more glow-edge" href="ich.html">Alle Elemente</a></div>
       </article>
+
+      <button class="app-flip area" data-area="ich" type="button" data-flip aria-pressed="false">
+        <span class="app-flip__inner">
+          <span class="app-flip__face app-flip__face--front">
+            <span class="app-flip__kicker"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="values"></svg>Eine Frage für heute · Werte</span>
+            <span class="app-flip__question">Wofür würdest du heute etwas Unbequemes in Kauf nehmen?</span>
+            <span class="app-flip__hint">Umdrehen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="umdrehen"></svg></span>
+          </span>
+          <span class="app-flip__face app-flip__face--back" aria-hidden="true">
+            <span class="app-flip__kicker"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="values"></svg>Zum Nachspüren</span>
+            <span class="app-flip__question">Denk an eine Entscheidung dieser Woche.</span>
+            <span class="app-card__text">Was hat sie dich gekostet, und war es das wert? Ein Satz genügt, unten in deiner Notiz.</span>
+            <span class="app-flip__hint">Zur Frage <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="umdrehen"></svg></span>
+          </span>
+        </span>
+      </button>
 
       <section class="app-section" aria-labelledby="lineTitle">
         <div class="app-section__head"><h2 class="app-section__title" id="lineTitle">Tageslinie</h2><span class="app-kicker">3 Momente, 1 offen</span></div>
@@ -78,12 +94,12 @@
     </div>
 
     <aside class="app-layout__aside app-stack" style="--gap:20px" aria-label="Mehr für heute">
-      <article class="app-card">
+      <article class="app-card app-card--tint area" data-area="sterne">
         <p class="app-card__kicker">Diese Woche</p>
         <h2 class="app-card__title">Ein Nein, das dir guttut.</h2>
         <p class="app-card__text">Saturn steht deinem Mond gegenüber. Grenzen setzen fällt leichter, wenn du sie früh und freundlich aussprichst.</p>
       </article>
-      <a class="app-card glow-edge" href="umfeld.html">
+      <a class="app-card app-card--tint area glow-edge" data-area="bezug" href="umfeld.html">
         <span class="app-card__kicker">Umfeld</span>
         <span class="mara">
           <span class="persons" aria-hidden="true"><span class="person person--sm">M</span><span class="person person--sm">J</span><span class="person person--sm">L</span></span>

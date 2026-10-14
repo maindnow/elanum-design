@@ -8,7 +8,7 @@
 .day{gap:16px}
 .day__top{display:grid;grid-template-columns:minmax(0,1fr) clamp(116px,34%,156px);gap:16px;align-items:start}
 .day__intro{display:grid;gap:4px;padding-top:4px}
-.day__phase{font:var(--type-label);color:#E3E9E6}
+.day__phase{font:var(--type-label);color:var(--ink-2)}
 .day__arc{margin:-6px -6px 0 0}
 /* Die Hauptspalte ist ein eigener Container: zwei Spalten im Tag erst,
    wenn der Tag selbst breit genug ist, nicht schon das Fenster. */
@@ -46,6 +46,7 @@
 .discover__steps{max-width:440px}
 .profile .app-section{container-type:inline-size}
 .space-hero{gap:8px;padding-bottom:20px}
+.app-hero.space-hero{--tone:#CBD9D6}
 .space-hero__head{display:grid;gap:4px}
 .space-hero__words{font:var(--type-heading);color:#FFF}
 .space-hero__note{font:var(--type-label);color:#CBD9D6}
@@ -58,6 +59,10 @@
 .profile__facts dd{margin:0;font:var(--type-heading)}
 .resonate-on{display:grid;gap:8px}
 .resonate-quote{font:var(--type-title);letter-spacing:-.015em}
+.resonate-moment{gap:12px}
+.resonate-moment .relationship-frame{margin:-8px -8px 0;width:calc(100% + 16px)}
+.resonate-moment .relationship-label{font-size:clamp(24px,6vw,32px);color:#F6F1E7}
+.resonate-moment h2:focus{outline:none}
 
 /* ---------- Chats ---------- */
 .thread{display:flex;flex-direction:column;gap:20px;min-height:60vh}
@@ -103,17 +108,15 @@
 .app-grid>li{display:grid}
 .app-grid>.event-feature{grid-column:1 / -1}
 .event-feature .event{grid-template-columns:auto minmax(0,1fr);text-align:left;cursor:pointer;border:0;font:inherit}
-.event-feature .event__flag{grid-column:1 / -1;justify-self:start;padding:6px 14px;border-radius:16px;background:#FFFFFF14;box-shadow:inset 0 0 0 1px #FFFFFF26;font:var(--type-label);font-weight:600;color:#F6F1E7}
-.event-feature .event__date{background:#FFFFFF12;box-shadow:inset 0 0 0 1px #FFFFFF24;color:#CBD9D6}
-.event-feature .event__day{color:#FFF}
-.event-feature .event__kind,.event-feature .event__meta,.event-feature .event__seats{color:#CBD9D6}
-.event-feature .event__title{font:var(--type-title);letter-spacing:-.015em;color:#FFF}
-.event-feature .persons .person{box-shadow:0 0 0 3px #22424780}
-.event-feature .event.is-joined .event__seats{color:#9FE0B0}
+.event-feature .event__flag{grid-column:1 / -1;justify-self:start;padding:6px 14px;border-radius:16px;background:#FFFFFFB8;box-shadow:inset 0 0 0 1px #FFFFFF;font:var(--type-label);font-weight:600;color:var(--ink)}
+.event-feature .event__date{width:80px;height:80px;background:#FFFDF8;box-shadow:var(--raised-sm)}
+.event-feature .event__title{font:var(--type-title);letter-spacing:-.015em;color:var(--ink)}
+.event-feature .persons .person{box-shadow:0 0 0 3px #FFFDF8}
+@media(hover:hover) and (pointer:fine){.event-feature .event:hover{box-shadow:inset 0 1px 0 #FFFFFFE6,12px 16px 30px -18px #A39B8A,-10px -10px 26px #FFFFFFC0,var(--glow)}}
 .event__text{display:none}
 @container app-main (min-width:760px){
   .event-feature .event{grid-template-columns:auto minmax(0,1fr) minmax(0,.9fr);column-gap:24px}
-  .event-feature .event__text{display:block;grid-column:3;grid-row:2 / span 2;align-self:center;font:var(--type-body);color:#E3E9E6}
+  .event-feature .event__text{display:block;grid-column:3;grid-row:2 / span 2;align-self:center;font:var(--type-body);color:var(--ink-2)}
   .event-feature .event__meta,.event-feature .event__foot{grid-column:1 / 3}
 }
 @media(hover:hover) and (pointer:fine){.event-feature .event:hover{box-shadow:14px 18px 36px -16px #7F776A,var(--glow)}}

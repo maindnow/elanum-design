@@ -2,6 +2,7 @@
    ELANUM Gerätevorschau
    Zeigt die App-Screens als echte Seiten in Rahmen: Telefon und
    Desktop nebeneinander oder in freier Breite von 320 bis 1440 px.
+   Wer im Telefon navigiert, nimmt den Desktop mit, und umgekehrt.
    Für den Atlas und die Übersicht unter components/app/. Nicht Teil
    des Pakets.
 
@@ -25,18 +26,27 @@
   function heightFor(w) { return w < 600 ? 844 : w < 1024 ? 1112 : 800; }
   function formFor(w) { return w < 600 ? 'Leiste unten' : w < 1024 ? 'Schiene' : 'Seitenleiste'; }
   function send(frame) { try { frame.contentWindow.postMessage({ elanum: 'motion', off: motionOff }, '*'); } catch (e) { /* Rahmen noch leer */ } }
+  function screenOf(id) { return SCREENS.filter(function (x) { return x.id === id; })[0]; }
 
   var count = 0;
   function mount(root, opts) {
     opts = opts || {};
     var base = opts.base || '', uid = 'vs' + (++count);
-    var state = { screen: 'heute', mode: 'pair', width: 390 };
+    var state = { page: 'heute.html', mode: 'pair', width: 390 };
+    var idOf = function (page) { return page.split(/[?#]/)[0].replace(/\.html$/, ''); };
+
+    /* Eine Segmentleiste wie überall im Atlas. Die Kosmen trennt nur Abstand. */
+    var buttons = '', last = '';
+    SCREENS.forEach(function (s) {
+      if (last && s.kosmos !== last) buttons += '<span class="vorschau__gap" aria-hidden="true"></span>';
+      buttons += '<button type="button" class="glow-edge" data-screen="' + s.id + '" aria-pressed="false" aria-describedby="' + uid + '-hint">' + s.label + '</button>';
+      last = s.kosmos;
+    });
     root.classList.add('vorschau');
     root.innerHTML =
+      '<div class="segmented vorschau__screens" role="group" aria-label="Screen wählen">' + buttons + '</div>' +
       '<div class="vorschau__bar">' +
-        '<div class="vorschau__screens" role="group" aria-label="Screen wählen">' + SCREENS.map(function (s) {
-          return '<button type="button" class="glow-edge" data-screen="' + s.id + '" aria-pressed="' + (s.id === state.screen) + '"><span>' + s.label + '</span><small>' + s.kosmos + '</small></button>';
-        }).join('') + '</div>' +
+        '<p class="vorschau__hint" id="' + uid + '-hint" aria-live="polite"></p>' +
         '<div class="segmented vorschau__mode" role="group" aria-label="Ansicht">' +
           '<button type="button" class="glow-edge" data-mode="pair" aria-pressed="true">Telefon und Desktop</button>' +
           '<button type="button" class="glow-edge" data-mode="free" aria-pressed="false">Freie Breite</button></div>' +
@@ -48,18 +58,44 @@
       '</div>' +
       '<div class="vorschau__stage"></div>';
     var stage = root.querySelector('.vorschau__stage'), range = root.querySelector('input[type=range]'), out = root.querySelector('output');
+    var hint = root.querySelector('.vorschau__hint');
 
+    function describe() {
+      var s = screenOf(idOf(state.page));
+      root.querySelectorAll('[data-screen]').forEach(function (b) { b.setAttribute('aria-pressed', String(!!s && b.dataset.screen === s.id)); });
+      var where = s ? '<strong>' + s.label + '</strong> im ' + s.kosmos : '<strong>Noch nicht gestaltet</strong>';
+      if (s && s.id === 'ankommen') where = '<strong>Ankommen</strong> beim ersten Start';
+      hint.innerHTML = '<span>' + where + '</span><span>' + (state.mode === 'pair' ? 'Tippe im Telefon, der Desktop geht mit.' : 'Zieh die Breite und sieh, wie die Navigation ihre Form wechselt.') + '</span>';
+      stage.querySelectorAll('.device').forEach(function (fig) {
+        fig.querySelector('.vorschau__open').href = base + state.page;
+        fig.querySelector('iframe').title = 'ELANUM App, ' + (s ? s.label : 'Vorschau') + ', ' + fig.dataset.kind;
+      });
+    }
     function device(kind, w) {
-      var s = SCREENS.filter(function (x) { return x.id === state.screen; })[0];
       var fig = document.createElement('figure');
       fig.className = 'device device--' + kind;
-      fig.innerHTML = '<div class="device__frame"><iframe loading="lazy" title="ELANUM App, ' + s.label + ', ' + (kind === 'desktop' ? 'Desktop' : kind === 'phone' ? 'Telefon' : 'freie Breite') + '"></iframe></div>' +
-        '<figcaption><span data-caption></span><a class="vorschau__open" href="' + base + s.id + '.html" target="_blank" rel="noopener">Einzeln öffnen</a></figcaption>';
+      fig.dataset.kind = kind === 'desktop' ? 'Desktop' : kind === 'phone' ? 'Telefon' : 'freie Breite';
+      fig.innerHTML = '<div class="device__frame"><iframe loading="lazy"></iframe></div>' +
+        '<figcaption><span data-caption></span><a class="vorschau__open" target="_blank" rel="noopener">Einzeln öffnen</a></figcaption>';
       var frame = fig.querySelector('iframe');
-      frame.src = base + s.id + '.html';
-      frame.addEventListener('load', function () { send(frame); });
+      frame.src = base + state.page;
+      frame.addEventListener('load', function () { send(frame); follow(frame); });
       fig._w = w;
       return fig;
+    }
+    /* Navigiert ein Rahmen, folgen die anderen. Unter file:// bleibt der
+       Ort eines Rahmens verborgen; dann folgt nichts, alles andere geht. */
+    function follow(frame) {
+      var page;
+      try { var l = frame.contentWindow.location; page = l.pathname.split('/').pop() + l.search; } catch (e) { return; }
+      if (!page || page === state.page || !/\.html/.test(page)) return;
+      state.page = page;
+      frames.forEach(function (f) {
+        if (f === frame || !f.isConnected) return;
+        try { if (f.contentWindow.location.pathname.split('/').pop() + f.contentWindow.location.search === page) return; } catch (e) { /* lädt noch */ }
+        f.src = base + page;
+      });
+      describe();
     }
     function build() {
       stage.innerHTML = ''; frames = frames.filter(function (f) { return f.isConnected; });
@@ -67,6 +103,7 @@
       if (state.mode === 'pair') { stage.appendChild(device('phone', 390)); stage.appendChild(device('desktop', 1280)); }
       else stage.appendChild(device('free', state.width));
       stage.querySelectorAll('iframe').forEach(function (f) { frames.push(f); });
+      describe();
       layout();
     }
     /* Jeder Rahmen hat seine echte Breite; skaliert wird nur die Darstellung. */
@@ -81,8 +118,8 @@
     function layout() {
       var W = stage.clientWidth || 360, figs = stage.querySelectorAll('.device');
       if (state.mode === 'pair') {
-        var side = W >= 900, gap = 40;
-        var sp = side ? Math.min(0.8, (W * 0.34) / 390) : Math.min(1, W / 390);
+        var side = W >= 900, gap = 48;
+        var sp = side ? Math.min(0.8, (W * 0.32) / 390) : Math.min(1, W / 390);
         var sd = side ? Math.min(1, (W - 390 * sp - gap) / 1280) : W / 1280;
         stage.classList.toggle('is-side', side);
         place(figs[0], 390, sp); place(figs[1], 1280, sd);
@@ -95,9 +132,9 @@
     }
     root.querySelector('.vorschau__screens').addEventListener('click', function (e) {
       var b = e.target.closest('[data-screen]'); if (!b) return;
-      state.screen = b.dataset.screen;
-      root.querySelectorAll('[data-screen]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-      build();
+      state.page = b.dataset.screen + '.html';
+      frames.forEach(function (f) { if (f.isConnected) f.src = base + state.page; });
+      describe();
     });
     root.querySelector('.vorschau__mode').addEventListener('click', function (e) {
       var b = e.target.closest('[data-mode]'); if (!b) return;
@@ -107,7 +144,7 @@
       build();
     });
     /* Ziehen ändert nur die Breite des Rahmens; neu geladen wird nichts. */
-    range.addEventListener('input', function () { state.width = +range.value; var f = stage.querySelector('.device'); if (f) { f._w = state.width; layout(); } });
+    range.addEventListener('input', function () { state.width = +range.value; layout(); });
     root.querySelector('.vorschau__presets').addEventListener('click', function (e) {
       var b = e.target.closest('[data-preset]'); if (!b) return;
       state.width = +b.dataset.preset; range.value = state.width; layout();

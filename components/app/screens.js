@@ -34,7 +34,7 @@
   /* ---------- Heute ---------- */
   if (screen === 'heute') {
     var mini = $('[data-mini-rad]');
-    if (mini && R) { var st = R.mini(mini); $('[data-mini-rad-count]').textContent = st.done + ' von ' + st.total + ' ausgefüllt'; }
+    if (mini && R) { var st = R.mini(mini, { focus: 'personality' }); $('[data-mini-rad-count]').textContent = st.done + ' von ' + st.total + ' ausgefüllt'; }
     A.dayArc($('[data-day-arc]'), { now: '19:10', stations: ['07:40', '12:30'] });
     $('[data-note]').addEventListener('submit', function (e) {
       e.preventDefault();
@@ -131,7 +131,7 @@
           '<div class="profile__body">' +
             '<p class="profile__line">«' + esc(p.line) + '»</p>' +
             '<section class="app-section" aria-labelledby="whereTitle">' +
-              '<div class="app-hero space-hero"><div class="space-hero__head"><h3 class="app-card__kicker" id="whereTitle">Wo es schwingt</h3><p class="space-hero__words">Du und ' + esc(p.name) + ': ' + esc(p.words) + '</p></div><div data-space></div>' +
+              '<div class="app-hero app-hero--dark space-hero"><div class="space-hero__head"><h3 class="app-card__kicker" id="whereTitle">Wo es schwingt</h3><p class="space-hero__words">Du und ' + esc(p.name) + ': ' + esc(p.words) + '</p></div><div data-space></div>' +
               '<p class="space-hero__note">Ein Bild, keine Messung. Es zeigt Nähe, Resonanz und Freiraum zwischen euch.</p></div>' +
               '<ul class="notes">' + notes + '</ul></section>' +
             '<section class="app-section" aria-labelledby="askTitle"><h3 class="app-section__title" id="askTitle">Fragen an ' + esc(p.name) + '</h3>' + prompts + '</section>' +
@@ -178,12 +178,36 @@
     $('[data-discover-steps]').addEventListener('click', function (e) { var b = e.target.closest('[data-pick]'); if (b) go(+b.dataset.pick, true); });
     $('[data-skip]').addEventListener('click', function () { go(at + 1, true); });
     $('[data-resonate]').addEventListener('click', function () { openResonate(null); });
-    $('[data-resonate-form]').addEventListener('submit', function (e) {
+    /* Resonanz zeigen ist ein Moment: zwei eigene Kreise rücken zusammen, die
+       Verbindung entsteht. Weiter geht es erst, wenn du es willst. */
+    var form = $('[data-resonate-form]'), moment = $('[data-resonate-moment]'), momentFrame = null, pending = false;
+    var finish = function () { if (!pending) return; pending = false; form.hidden = false; moment.hidden = true; go(at + 1, true); };
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      resonated[PEOPLE[at].id] = resonateOn == null ? -1 : resonateOn;
-      sheetApi.close(); $('#resonateText').value = '';
-      go(at + 1, true);
+      var p = PEOPLE[at], next = PEOPLE[at + 1];
+      resonated[p.id] = resonateOn == null ? -1 : resonateOn;
+      $('#resonateText').value = '';
+      var on = resonateOn == null ? 'dein Profil' : '«' + p.prompts[resonateOn][0] + '»';
+      moment.innerHTML =
+        '<div class="app-hero app-hero--dark resonate-moment">' +
+          '<div class="relationship-frame" data-beziehung data-dark role="img" aria-label="Du und ' + esc(p.name) + ', zwei eigene Kreise, die Verbindung entsteht."><svg viewBox="0 0 720 400" aria-hidden="true"></svg>' +
+          '<div class="relationship-label" data-person="a">Du</div><div class="relationship-label" data-person="b">' + esc(p.name) + '</div></div>' +
+          '<h2 class="app-hero__voice" id="momentTitle" tabindex="-1">Deine Resonanz ist bei ' + esc(p.name) + '.</h2>' +
+          '<p class="app-card__text">' + esc(p.name) + ' sieht, worauf du reagiert hast: ' + esc(on) + '. Wenn es auch bei ' + esc(p.name) + ' schwingt, öffnet sich ein Chat.</p>' +
+        '</div>' +
+        '<button class="button" type="button" data-moment-next>' + (next ? 'Weiter zu ' + esc(next.name) : 'Zum Abschluss für heute') + '</button>';
+      form.hidden = true; moment.hidden = false; pending = true;
+      momentFrame = $('[data-beziehung]', moment);
+      if (window.ElanumBeziehung) {
+        window.ElanumBeziehung.mount(momentFrame);
+        window.ElanumBeziehung.set(momentFrame, { proximity: 4, resonance: 0, openness: 70 }, true);
+        setTimeout(function () { window.ElanumBeziehung.set(momentFrame, { proximity: 86, resonance: 92, openness: 30 }, calm()); }, 120);
+      }
+      $('#momentTitle').focus();
+      $('[data-moment-next]', moment).addEventListener('click', function () { sheetApi.close(); });
     });
+    /* Wie auch immer das Sheet schliesst, nach dem Senden geht es zum nächsten Menschen. */
+    $('#resonateSheet').addEventListener('close', finish);
     go(0, false);
   }
 

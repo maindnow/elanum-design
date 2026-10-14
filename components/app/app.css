@@ -391,10 +391,10 @@ body[data-motion=off] .app-nav__item,body[data-motion=off] .app-nav__item *,body
   .app-nav__item[aria-current=page] .app-nav__icon{view-transition-name:none}
 }
 ::view-transition-old(root){animation:app-vt-out 180ms ease both}
-::view-transition-new(root){animation:app-vt-in 420ms var(--ease) both}
+::view-transition-new(root){animation:app-vt-in 320ms ease both}
 ::view-transition-group(app-nav-current){animation-duration:420ms;animation-timing-function:var(--ease)}
 @keyframes app-vt-out{to{opacity:0}}
-@keyframes app-vt-in{from{opacity:0;transform:translateY(14px)}}
+@keyframes app-vt-in{from{opacity:0}}
 @media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 
 /* Drücken gibt nach, spürbar und kurz */
@@ -405,38 +405,119 @@ a.app-card:active,button.app-card:active,.app-row:active,.app-kosmos:active,.ide
 .track__when,.app-row__meta,.bubble__time,.event__date,.app-thread__day{font-variant-numeric:tabular-nums}
 
 /* ---------- Hauptfläche ----------
-   Ein dunkler Moment pro Screen, wie der Beziehungsraum im Atlas: der Tag,
-   die Resonanz zwischen zwei Menschen, das eine Erlebnis. Text darauf nur
-   hell, Sekundärtext #CBD9D6 (mindestens 7:1). */
-.app-hero{--ink-2:#CBD9D6;--line:#56706F;position:relative;isolation:isolate;overflow:hidden;display:grid;gap:18px;align-content:start;min-width:0;padding:26px 24px 24px;border-radius:32px;
-  background:radial-gradient(120% 100% at 0% 0%,#3A5C61 0,transparent 58%),linear-gradient(145deg,#2B494E,#16363B 72%);color:#F6F1E7;
-  box-shadow:14px 18px 36px -16px #7F776A,-10px -10px 26px #FFFFFFC0}
-.app-hero :focus-visible{outline-color:#C4B7FF}
-.app-hero .app-card__kicker,.app-hero .app-kicker{color:#CBD9D6}
-.app-hero__voice{font:var(--type-title);letter-spacing:-.015em;color:#FFF;text-wrap:balance}
-.app-hero p:not([class]),.app-hero .app-card__text{color:#E3E9E6}
-.app-hero .element-chip{background:#FFFFFF14;color:#F6F1E7;box-shadow:inset 0 0 0 1px #FFFFFF1F}
-.app-hero .element-chip>.icon{background:#FFFFFF14;color:var(--chip-light,#D1CDF4)}
-.app-hero .element-chip[data-area=ich]>.icon{color:#EFC8C1}
-.app-hero .element-chip[data-area=bezug]>.icon{color:#B8DADA}
-.app-hero .app-more{color:#FFF}
-.app-hero .button{background:#F6F1E7 linear-gradient(135deg,#FFFFFF,#E9E2D4);color:var(--ink);box-shadow:0 10px 24px -10px #000A}
-.app-hero .button::before{background:#fff}
-@media(hover:hover) and (pointer:fine){.app-hero .app-more:hover{color:#FFF;background:#FFFFFF14}}
+   Ein Moment pro Screen, in weichem Licht: hell, mit dem Schleier der
+   Farbe seines Bereichs (data-area) und einem Glühen in derselben Farbe.
+   Ohne Bereich ein warmer, neutraler Schleier.
+   Ink auf Fläche und Hauch mindestens 8,4:1, Tief als Kicker mindestens
+   4,9:1. Dunkel ist nur das Dazwischen (.app-hero--dark), der Beziehungsraum,
+   wie im Atlas. */
+.app-hero{--tone:var(--ink-2);--wash:#F0D9BF;--mist:#FBF3E7;
+  position:relative;isolation:isolate;overflow:hidden;display:grid;gap:18px;align-content:start;min-width:0;padding:26px 24px 24px;border-radius:32px;color:var(--ink);
+  background:
+    radial-gradient(120% 95% at 100% 0%,var(--wash) 0,color-mix(in srgb,var(--wash) 40%,transparent) 38%,transparent 66%),
+    radial-gradient(110% 85% at 0% 100%,color-mix(in srgb,var(--wash) 55%,var(--mist)) 0,transparent 70%),
+    linear-gradient(160deg,#FFFDF8,#F8F2E8);
+  box-shadow:inset 0 1px 0 #FFFFFFE6,inset 0 0 0 1px #FFFFFF8C,
+    12px 16px 30px -18px #A39B8A,-10px -10px 26px #FFFFFFC0,
+    0 36px 72px -34px color-mix(in srgb,var(--tone) 85%,transparent)}
+.app-hero[data-area=sterne]{--tone:var(--sterne-tief);--wash:var(--sterne-flaeche);--mist:var(--sterne-hauch)}
+.app-hero[data-area=ich]{--tone:var(--ich-tief);--wash:var(--ich-flaeche);--mist:var(--ich-hauch)}
+.app-hero[data-area=bezug]{--tone:var(--bezug-tief);--wash:var(--bezug-flaeche);--mist:var(--bezug-hauch)}
+.app-hero .app-card__kicker,.app-hero .app-kicker{color:var(--tone);font-weight:600}
+.app-hero__voice{font:var(--type-title);letter-spacing:-.015em;text-wrap:balance}
+.app-hero .app-card__text{color:var(--ink-2)}
+.app-hero .element-chip{background:#FFFFFFB8;box-shadow:inset 0 0 0 1px #FFFFFF}
 @media(min-width:600px){.app-hero{padding:32px}}
 
+.app-hero--dark{--ink-2:#CBD9D6;--line:#56706F;color:#F6F1E7;
+  background:radial-gradient(120% 100% at 0% 0%,#3A5C61 0,transparent 58%),linear-gradient(145deg,#2B494E,#16363B 72%);
+  box-shadow:14px 18px 36px -16px #7F776A,-10px -10px 26px #FFFFFFC0}
+.app-hero--dark :focus-visible{outline-color:#C4B7FF}
+.app-hero--dark .app-card__kicker,.app-hero--dark .app-kicker{color:#CBD9D6;font-weight:500}
+.app-hero--dark .app-hero__voice{color:#FFF}
+.app-hero--dark .app-card__text,.app-hero--dark p:not([class]){color:#E3E9E6}
+.app-hero--dark .element-chip{background:#FFFFFF14;color:#F6F1E7;box-shadow:inset 0 0 0 1px #FFFFFF1F}
+.app-hero--dark .element-chip>.icon{background:#FFFFFF14;color:#D1CDF4}
+.app-hero--dark .element-chip[data-area=ich]>.icon{color:#EFC8C1}
+.app-hero--dark .element-chip[data-area=bezug]>.icon{color:#B8DADA}
+.app-hero--dark .app-more{color:#FFF}
+.app-hero--dark .button{background:#F6F1E7 linear-gradient(135deg,#FFFFFF,#E9E2D4);color:var(--ink);box-shadow:0 10px 24px -10px #000A}
+.app-hero--dark .button::before{background:#fff}
+@media(hover:hover) and (pointer:fine){.app-hero--dark .app-more:hover{color:#FFF;background:#FFFFFF14}}
+
 /* ---------- Tagesbogen (ElanumApp.dayArc) ----------
-   Für die dunkle Hauptfläche. Kreis bleibt Kreis, er atmet höchstens 3 %. */
+   Eine Scheibe im Relief, darum der Tag als offener Kreis. Kreis bleibt
+   Kreis, er atmet höchstens 3 %. Hell auf der Hauptfläche, dunkel auf
+   .app-hero--dark. */
 .day-arc{position:relative;display:block;width:100%;aspect-ratio:1}
 .day-arc svg{display:block;width:100%;height:100%;overflow:visible}
 .day-arc__ring{transform-box:view-box;transform-origin:120px 120px;animation:day-breathe var(--motion-breath) ease-in-out infinite}
 @keyframes day-breathe{0%,100%{transform:scale(1)}43%{transform:scale(1.03)}}
-.day-arc__open{fill:none;stroke:#FFFFFF5C;stroke-width:1.6;stroke-dasharray:2 6;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.day-arc__done{fill:none;stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 4px #9466DFAA)}
-.day-arc__station{fill:#F6F1E7}
-.day-arc__now{fill:#1D3D42;stroke:#F2C9E4;stroke-width:2;vector-effect:non-scaling-stroke;animation:day-now var(--motion-breath) ease-in-out infinite}
+.day-arc__disc{fill:#FFFDF8;filter:drop-shadow(4px 5px 6px #B9B0A0A6) drop-shadow(-4px -4px 5px #FFFFFF)}
+.day-arc__open{fill:none;stroke:#3D505599;stroke-width:1.6;stroke-dasharray:2 6;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.day-arc__done{fill:none;stroke-width:4;stroke-linecap:round;stroke-dasharray:1;filter:drop-shadow(0 0 5px #9466DF88)}
+.day-arc__station{fill:var(--ink)}
+.day-arc__now{fill:#FFFDF8;stroke:#B84C93;stroke-width:2;vector-effect:non-scaling-stroke;transform-box:fill-box;transform-origin:center;animation:day-now var(--motion-breath) ease-in-out infinite}
 @keyframes day-now{0%,100%{filter:drop-shadow(0 0 2px #D85BA966)}43%{filter:drop-shadow(0 0 10px #D85BA9DD)}}
 .day-arc__time{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;text-align:center;pointer-events:none}
-.day-arc__time strong{font:var(--type-heading);font-variant-numeric:tabular-nums;color:#FFF}
-.day-arc__time span{font:var(--type-label);color:#CBD9D6}
+.day-arc__time strong{font:var(--type-heading);font-variant-numeric:tabular-nums;color:var(--ink)}
+.day-arc__time span{font:var(--type-label);color:var(--ink-2)}
+.app-hero--dark .day-arc__disc{fill:#FFFFFF0D;filter:none}
+.app-hero--dark .day-arc__open{stroke:#FFFFFF5C}
+.app-hero--dark .day-arc__station{fill:#F6F1E7}
+.app-hero--dark .day-arc__now{fill:#1D3D42;stroke:#F2C9E4}
+.app-hero--dark .day-arc__time strong{color:#FFF}
+.app-hero--dark .day-arc__time span{color:#CBD9D6}
 body[data-motion=off] .day-arc *{animation-play-state:paused}
+
+/* ---------- Auftritt ----------
+   Beim Öffnen eines Screens erklärt die Bewegung, was da ist: der Inhalt
+   steigt auf, der Tag zeichnet sich bis jetzt, jetzt blüht auf, das Rad
+   baut sich Stück für Stück auf. Nur mit erlaubter Bewegung (.app-in auf
+   <html>, gesetzt von app.js). Die Endwerte stehen in den Elementen selbst:
+   ohne Bewegung ist alles sofort da. */
+@keyframes app-rise{from{opacity:0;transform:translateY(18px)}}
+@keyframes arc-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes now-bloom{from{transform:scale(0);opacity:0}60%{transform:scale(1.35)}}
+@keyframes face-in{from{transform:scale(.55);opacity:0}}
+.app-in .app-pagehead,.app-in .app-main .app-stack>*,.app-in .app-layout__aside>*,.app-in .discover>*{animation:app-rise 700ms var(--ease) both}
+.app-in .app-main .app-stack>:nth-child(2),.app-in .app-layout__aside>:nth-child(1){animation-delay:90ms}
+.app-in .app-main .app-stack>:nth-child(3),.app-in .app-layout__aside>:nth-child(2){animation-delay:180ms}
+.app-in .app-main .app-stack>:nth-child(n+4),.app-in .app-layout__aside>:nth-child(n+3){animation-delay:270ms}
+.app-in .day-arc__done{animation:arc-draw 1500ms var(--ease) 350ms both}
+.app-in .day-arc__now{animation:now-bloom 700ms var(--ease) 1500ms both,day-now var(--motion-breath) ease-in-out 2200ms infinite}
+.app-in .rad-mini__face{animation:face-in 520ms var(--ease) both;animation-delay:calc(300ms + var(--i,0) * 70ms)}
+body[data-motion=off] :is(.app-pagehead,.app-stack>*,.app-layout__aside>*,.discover>*,.day-arc__done,.rad-mini__face){animation:none}
+
+/* ---------- Eine Frage zum Umdrehen ----------
+   Neugier statt Feed: vorne eine Frage, hinten ein Anstoss. Ein Tipp dreht
+   die Karte, noch ein Tipp dreht sie zurück. Ohne Bewegung wechselt sie
+   still. data-area färbt sie nach dem Element, aus dem die Frage kommt. */
+.app-flip{--tone:var(--sterne-tief);--tint:var(--sterne-hauch);--wash:var(--sterne-flaeche);display:block;width:100%;padding:0;border:0;background:none;text-align:left;font:inherit;color:var(--ink);cursor:pointer;perspective:1400px;border-radius:var(--radius-surface)}
+.app-flip[data-area=ich]{--tone:var(--ich-tief);--tint:var(--ich-hauch);--wash:var(--ich-flaeche)}
+.app-flip[data-area=bezug]{--tone:var(--bezug-tief);--tint:var(--bezug-hauch);--wash:var(--bezug-flaeche)}
+.app-flip__inner{display:grid;transform-style:preserve-3d;transition:transform 760ms var(--ease)}
+.app-flip[aria-pressed=true] .app-flip__inner{transform:rotateY(180deg)}
+.app-flip__face{grid-area:1/1;display:flex;flex-direction:column;gap:14px;min-height:200px;padding:24px;border-radius:var(--radius-surface);-webkit-backface-visibility:hidden;backface-visibility:hidden;
+  background:radial-gradient(100% 90% at 100% 0%,color-mix(in srgb,var(--wash) 70%,transparent),transparent 65%),linear-gradient(160deg,#FFFDF8,var(--tint));
+  box-shadow:var(--raised-sm),0 22px 44px -28px color-mix(in srgb,var(--tone) 70%,transparent)}
+.app-flip__face--back{transform:rotateY(180deg);background:radial-gradient(100% 90% at 0% 100%,color-mix(in srgb,var(--wash) 80%,transparent),transparent 70%),linear-gradient(160deg,var(--tint),#FFFDF8)}
+.app-flip__kicker{display:flex;align-items:center;gap:10px;font:var(--type-label);font-weight:600;color:var(--tone)}
+.app-flip__kicker .icon{width:28px;height:28px;padding:3px;border-radius:50%;background:#FFFFFFCC;color:var(--tone)}
+.app-flip__question{font:var(--type-title);letter-spacing:-.015em;text-wrap:balance}
+.app-flip__hint{display:inline-flex;align-items:center;gap:8px;margin-top:auto;font:var(--type-label);font-weight:600;color:var(--ink)}
+.app-flip__hint .icon{transition:transform var(--motion-ui) var(--ease)}
+@media(hover:hover) and (pointer:fine){
+  .app-flip:hover .app-flip__face{box-shadow:var(--raised-sm),var(--glow)}
+  body:not([data-motion=off]) .app-flip:hover .app-flip__hint .icon{transform:rotate(-30deg)}
+}
+.app-flip:focus-visible{outline:none}
+.app-flip:focus-visible .app-flip__face{outline:3px solid var(--sterne-tief);outline-offset:4px}
+body[data-motion=off] .app-flip__inner{transition:none}
+
+/* Kleines Rad im Auftritt: das wartende Stück glüht danach weiter. */
+.app-in .rad-mini__face.is-focus{animation:face-in 520ms var(--ease) both,face-glow var(--motion-breath) ease-in-out 1200ms infinite;animation-delay:calc(300ms + var(--i,0) * 70ms),1200ms}
+
+/* Karte in der Farbe eines Bereichs (.area[data-area]): weicher Schleier, Glühen in Tief */
+.app-card--tint{background:radial-gradient(110% 90% at 100% 0%,color-mix(in srgb,var(--tint) 60%,var(--tone) 6%),transparent 62%),linear-gradient(160deg,#FFFDF8,var(--tint));box-shadow:var(--raised-sm),0 22px 44px -28px color-mix(in srgb,var(--tone) 70%,transparent)}
+.app-card--tint .app-card__kicker{color:var(--tone);font-weight:600}

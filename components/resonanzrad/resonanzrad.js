@@ -27,7 +27,7 @@
 
    API:  ElanumResonanzrad.mount(root, { heading: 'h2'|'h3' })
          gibt { select(i), parts } zurück; parts dient motion.js.
-         ElanumResonanzrad.mini(root, { done: [ids], label })
+         ElanumResonanzrad.mini(root, { done: [ids], focus: id, label })
          zeichnet ein kleines Rad für Karten, gibt { done, total } zurück.
    Klassisches Skript, damit es auch unter file:// lädt.
    ============================================================ */
@@ -421,7 +421,8 @@
      Dieselbe Geometrie, nur Ring, Flächen, Fugen und offene Konturen.
      Keine Schrift im Rad: Name und Stand stehen daneben. Ohne Drehung,
      ohne Auswahl. opts.done: Liste der ausgefüllten Element-ids, sonst
-     gilt der Stand der Demo. */
+     gilt der Stand der Demo. opts.focus: id des Elements, das als Nächstes
+     wartet; sein Stück hebt sich ab und glüht im Atemtakt (app.css). */
   function mini(root, opts) {
     opts = opts || {};
     var half = CFG.segmentDeg / 2, count = 0;
@@ -433,8 +434,10 @@
     var faces = ITEMS.map(function (item, i) {
       var a = segAngle(i), done = isDone(item);
       if (done) count++;
-      return '<path d="' + sectorPath(a - half, a + half, CFG.segmentRadius) + '" fill="' + (done ? tone(item, 'flaeche') : 'var(--offen)') + '" stroke="var(--canvas)" stroke-width="5" stroke-linejoin="round"/>' +
-        (done ? '' : '<path d="' + arcPath(CFG.contourRadius - 8, a - half + 7, a + half - 7) + '" fill="none" stroke="var(--ink-2)" stroke-width="1.6" stroke-dasharray="3 4" stroke-linecap="round" vector-effect="non-scaling-stroke"/>');
+      var focus = opts.focus === item.id;
+      return '<g class="rad-mini__face' + (focus ? ' is-focus' : '') + '" style="--i:' + i + '">' +
+        '<path d="' + sectorPath(a - half, a + half, CFG.segmentRadius + (focus ? 6 : 0)) + '" fill="' + (done ? tone(item, 'flaeche') : focus ? tone(item, 'hauch') : 'var(--offen)') + '" stroke="' + (focus ? tone(item, 'tief') : 'var(--canvas)') + '" stroke-width="' + (focus ? 2.4 : 5) + '" stroke-linejoin="round"' + (focus ? ' vector-effect="non-scaling-stroke"' : '') + '/>' +
+        (done ? '' : '<path d="' + arcPath(CFG.contourRadius - 8, a - half + 7, a + half - 7) + '" fill="none" stroke="' + (focus ? tone(item, 'tief') : 'var(--ink-2)') + '" stroke-width="1.6" stroke-dasharray="3 4" stroke-linecap="round" vector-effect="non-scaling-stroke"/>') + '</g>';
     }).join('');
     var label = opts.label || 'Resonanzrad: ' + count + ' von ' + ITEMS.length + ' Elementen ausgefüllt';
     root.innerHTML = '<svg class="rad-mini" viewBox="0 0 320 320" role="img" aria-label="' + label + '">' + ring + faces +
