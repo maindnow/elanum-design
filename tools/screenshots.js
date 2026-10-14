@@ -3,7 +3,8 @@
    Dann:  node tools/screenshots.js
    Braucht Playwright (npm i -D playwright oder PLAYWRIGHT=/pfad/zu/playwright).
    Einstieg nach Auftritt und Zeichenaufbau, das Resonanzrad ohne Bewegung (fertig aufgebaut),
-   dazu die App: Heute auf dem Telefon und am Desktop, Entdecken auf dem Telefon. */
+   dazu die App: Heute auf dem Telefon und am Desktop, Entdecken auf dem Telefon,
+   und der Fliesstext mit offener Quellenkarte. */
 const path = require('path');
 const { chromium } = require(process.env.PLAYWRIGHT || 'playwright');
 
@@ -40,6 +41,17 @@ const OUT = path.join(__dirname, '..', 'docs', 'screenshots');
   await app('heute.html', 'app-telefon.png', 390, 844, 2);
   await app('entdecken.html', 'app-entdecken-telefon.png', 390, 844, 2);
   await app('heute.html', 'app-desktop.png', 1440, 900, 1);
+
+  /* Fliesstext: dein erstes Muster, mit offener Quellenkarte. */
+  const text = async (out, width, height, scale, nth) => {
+    const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: scale, reducedMotion: 'reduce', locale: 'de-CH' });
+    await page.goto(BASE + 'components/fliesstext/', { waitUntil: 'networkidle' });
+    await page.locator('.muster__text .fliesstext__quelle').nth(nth).click();
+    await page.waitForTimeout(600);
+    await page.screenshot({ path: path.join(OUT, out) });
+  };
+  await text('fliesstext-telefon.png', 390, 844, 2, 2);
+  await text('fliesstext-desktop.png', 1440, 900, 1, 2);
 
   await browser.close();
   console.log('geschrieben: ' + OUT);

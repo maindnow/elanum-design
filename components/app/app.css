@@ -164,10 +164,7 @@ a.app-card,button.app-card{border:0;text-align:left;font:inherit;cursor:pointer;
   body:not([data-motion=off]) a.app-card:hover,body:not([data-motion=off]) button.app-card:hover{transform:translateY(-3px)}
 }
 
-/* Element-Chip: Icon in der Farbe des Bereichs, Name in Ink */
-.element-chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:4px 14px 4px 5px;border-radius:18px;background:var(--tint);font:var(--type-label);font-weight:600;color:var(--ink)}
-.element-chip>.icon{width:28px;height:28px;padding:3px;border-radius:50%;background:var(--paper);color:var(--tone)}
-.element-chips{display:flex;flex-wrap:wrap;gap:8px}
+/* Element-Chip (.element-chip, .element-chips) liegt in base.css. */
 
 /* ---------- Personen: eigene, offene Kreise ----------
    Wie im Umfeld: ein Kreis mit Öffnung unten. Mit Foto liegt das Bild
