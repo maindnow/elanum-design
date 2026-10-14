@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM App-Rahmen 4.9
+   ELANUM App-Rahmen 4.10
    Navigation, Kopf und Sheet für jede Seite der App. Mobile zuerst.
 
    NAVIGATION
@@ -15,6 +15,8 @@
          ElanumApp.sheet(dialog)       gibt { open(trigger), close() }
          ElanumApp.dayArc(el, { now, stations, from, to })  Tagesbogen
          ElanumApp.kosmen, icons, iconSvg(id)
+   Das ELANUM-Zeichen in Navigation und Kopf kommt aus dem Baustein
+   components/zeichen (zeichen.css, zeichen.js, vor app.js laden).
    Klassisches Skript, damit es auch unter file:// lädt.
    ============================================================ */
 (function () {
@@ -100,7 +102,7 @@
     el.classList.add('app-nav');
     if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', 'Hauptnavigation');
     el.innerHTML =
-      '<a class="app-nav__brand glow-edge" href="' + esc(href(k.items[0].id)) + '" aria-label="ELANUM, ' + esc(k.name) + '"><img src="' + base + 'assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="36" height="36"><span>ELANUM</span></a>' +
+      '<a class="app-nav__brand glow-edge" href="' + esc(href(k.items[0].id)) + '" aria-label="ELANUM, ' + esc(k.name) + '"><span class="zeichen" data-zeichen="lichtlauf"><img src="' + base + 'assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="36" height="36"></span><span>ELANUM</span></a>' +
       '<ul class="app-nav__list">' +
         '<li class="app-nav__kosmos">' + esc(k.name) + '</li>' +
         k.items.map(item).join('') +
@@ -248,6 +250,9 @@
       var m = menu(opts);
       navEl.querySelector('[data-app-menu]').addEventListener('click', function () { sheet(m).open(); });
     }
+    /* Das Zeichen bewegt sich, seine Form nie: Lichtlauf in Navigation und Kopf,
+       Zeichenaufbau beim ersten Start (Baustein components/zeichen). */
+    if (window.ElanumZeichen) window.ElanumZeichen.mountAll();
     var headEl = document.querySelector('.app-head');
     if (headEl) head(headEl);
     document.querySelectorAll('dialog[data-sheet]').forEach(sheet);

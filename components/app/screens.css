@@ -147,7 +147,7 @@
 @media(min-width:1024px){
   .flow{grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:clamp(48px,7vw,112px);align-items:center;min-height:calc(100dvh - var(--app-head) - 48px)}
   .flow__intro{display:grid;gap:28px;align-content:center;max-width:440px}
-  .flow__intro img{width:min(260px,60%);height:auto;filter:drop-shadow(6px 9px 6px #79726830) drop-shadow(-3px -3px 3px #fff8)}
+  .flow__zeichen{width:min(260px,60%);filter:drop-shadow(6px 9px 6px #79726830) drop-shadow(-3px -3px 3px #fff8)}
   .flow__voice{font:var(--type-title);letter-spacing:-.015em}
   .flow__form{margin:0}
 }

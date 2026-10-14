@@ -1,6 +1,8 @@
-# ELANUM — Gestaltungsatlas 4.9
+# ELANUM — Gestaltungsatlas 4.10
 
-4.9 zeigt ELANUM als App. Neuer Baustein App-Rahmen unter `components/app/`, acht Screens als echte, responsive Seiten und im Atlas das Kapitel „In der App“ mit einer Gerätevorschau: Telefon und Desktop nebeneinander oder in freier Breite von 320 bis 1440 px. Grundlage ist die heutige App unter soulresonance.ch. Das Zeichen steht als Marke überall in Spektrum.
+4.10 zeigt ELANUM als App. Neuer Baustein App-Rahmen unter `components/app/`, acht Screens als echte, responsive Seiten und im Atlas das Kapitel „In der App“ mit einer Gerätevorschau: Telefon und Desktop nebeneinander oder in freier Breite von 320 bis 1440 px. Grundlage ist die heutige App unter soulresonance.ch. Das Zeichen steht als Marke überall in Spektrum, in Navigation und Kopf der App mit Lichtlauf, beim ersten Start im Zeichenaufbau.
+
+4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin: einmal im Zeichenaufbau oder sanft und dauernd im Lichtlauf, gross wie klein. Der Einstieg baut das Zeichen auf. Neuer Baustein `components/zeichen/`, zwei neue Begriffe im Glossar.
 
 4.8 benennt den violetten Bereich des Resonanzrads neu: Sterne & Ursprung statt Grundtöne, im Code `sterne` statt `grund`. Resonanz heisst im Glossar nur noch: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. Der lokale Server `tools/serve.py` liefert jede Datei frisch aus.
 
@@ -10,7 +12,7 @@
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
 
-## In der App (4.9)
+## In der App (4.10)
 
 ### Grundlage
 
@@ -41,7 +43,7 @@ Die heutige App (Repository `maindnow/soulresonance.ch`, Stand 14.10.2026) hat d
 
 Rückmeldung nach dem ersten Stand (14.10.2026): Das Zeichen darf nicht Ink sein, alles wirkte fade, es braucht mehr Führung und mehr Feinfühligkeit. Daraus:
 
-- **Zeichen in Spektrum** in Navigation, Kopf, Favicon und im Atlas. Ink bleibt für Einfarbiges.
+- **Zeichen in Spektrum** in Navigation, Kopf, Favicon und im Atlas. Ink bleibt für Einfarbiges. Seit dem Zusammenführen mit 4.9 bewegt es sich mit dem Baustein Zeichen: in Navigation und Kopf der App sanft und dauernd im Lichtlauf, beim ersten Start (Ankommen) einmal im Zeichenaufbau. Die Form steht.
 - **Ein Moment pro Screen:** die Hauptfläche `.app-hero`. Heute: der Satz des Tages mit Tagesbogen. Weg: das aktuelle Kapitel. Entdecken: „Wo es schwingt“ mit dem Beziehungsraum. Aktivitäten: das eine Erlebnis der Woche. Ankommen: die Frage des Schritts.
 - **Ein nächster Schritt:** Heute führt direkt unter dem Tag zum nächsten offenen Element, mit kleinem Resonanzrad und einer primären Handlung.
 - **Tagesbogen:** Der Tag als offener Kreis, die Öffnung unten ist die Nacht. Bis „jetzt“ führt die Verbindung im Markenspektrum (wie die Spur der Tageslinie bis „jetzt“), danach bleibt der Bogen gestrichelt offen. Stationen sind Knoten, „jetzt“ ist ein Ring, der im Atemtakt glüht. Der Kreis atmet höchstens 3 %.
@@ -100,7 +102,7 @@ Kurz: ELANUM hat drei **Kosmen**. Der **Resonanzkosmos** ist der Einstieg: Reson
 
 ## Richtung
 
-Offene Flächen, klare Kreise, bewusst gesetzte Öffnungen und kurze Verbindungen. Abstand gliedert, Linien trennen nur Kapitel. Der dunkle Beziehungsraum ist das einzige dunkle Kapitel. Das Zeichen bleibt unverändert und unbewegt.
+Offene Flächen, klare Kreise, bewusst gesetzte Öffnungen und kurze Verbindungen. Abstand gliedert, Linien trennen nur Kapitel. Der dunkle Beziehungsraum ist das einzige dunkle Kapitel. Die Form des Zeichens bleibt unverändert und unbewegt; Licht und Farbe dürfen sich darin bewegen.
 
 ## Typografie: fünf Stufen
 
@@ -179,6 +181,25 @@ Konstruktionsregeln:
 
 Die Zeichen-Karte im Atlas zeigt nur dieses Zeichen: Spektrum, Ink, Invers, Relief und Blueprint. „Relief“ nutzt die Ink-Silhouette als eingebettete Maske.
 
+### Bewegung des Zeichens (4.9)
+
+Die Form bewegt sich nie: kein Skalieren, Drehen oder Verformen. Unter jeder Bewegung liegt die unveränderte Datei `ELANUM-Master-Spektrum-Harmonic.svg`, am Ende steht immer genau sie. Das Farbnetz hat 697 Verläufe. Es wird nur einmal gezeichnet und nie animiert. Bewegt werden Deckkraft und Drehung eigener, leichter Ebenen (`components/zeichen/`); das rechnet die Grafikkarte.
+
+- **Zeichenaufbau**, einmal, knapp 3 s: Aussenkreis mit Kerbe und Öffnung zeichnen sich als feine Linie (1,4 px) im Markenspektrum, weich beschleunigt und gebremst. Ab 1,1 s blendet die Farbe in 1,4 s sanft ein, danach verschwindet die Linie. Keine Hilfskreise, keine Mittellinien. Die Kontur schreibt `tools/build_logo_circles.py` in die Zeile `var K` von `zeichen.js`.
+- **Lichtlauf**, dauernd: ein weicher, weisser Glanz, auf die Silhouette zugeschnitten, kreist um die Mitte des Aussenkreises, 24 s pro Umlauf, Überblendung „screen“ mit 60 % Deckkraft. Wie der Glührand, nur langsamer. Die Maske steht still, nur der Glanz dreht sich als eigene HTML-Ebene.
+
+Ohne Skript, bei reduzierter Bewegung und in der Pause steht das ruhende Zeichen. Tab beendet einen laufenden Zeichenaufbau.
+
+Im Atlas: Der Einstieg baut das Zeichen auf. Das Kapitel Zeichen zeigt beide Bewegungen gross, in 64 und 40 px und in der Marke mit 30 px. Im Kapitel Farbe steht das Zeichen im Lichtlauf neben dem Markenspektrum.
+
+Entscheid (14.10.2026): Chris gibt die Bewegung frei. „Es darf sich auch in Klein bewegen, aber sanft dauernd oder einmal intensiv im Aufbau.“ Der Satz „Das Zeichen bewegt sich nie“ heisst jetzt „Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin“.
+
+Nach der ersten Durchsicht (14.10.2026):
+
+- Der Farbatem ist verworfen. Er legte eine farbverschobene Kopie des Spektrums im Atemtakt darüber; das Ergebnis war unbrauchbar.
+- Der Zeichenaufbau zeigte zuerst die ganze Konstruktion: alle Kreise wie im Blueprint, Mittellinien und Farbkanten in Ink, dann ein harter Kreis, der das Spektrum aus der Öffnung freilegte. Das war zu technisch. Jetzt bleiben nur Aussenkontur und Öffnung, und die Farbe blendet weich ein.
+- Der Lichtlauf stockte. Gemessen in Chrome auf der ganzen Atlas-Seite mit Retina-Auflösung: Der erste Zeichenaufbau zeichnete das Farbnetz bei jedem Bild neu, 2,3 s Rechenarbeit in 3,2 s, und bremste damit alles andere. Jetzt sind es 0,09 s, weil Linie und Farbe auf eigenen Ebenen liegen und nur die Deckkraft wechselt; das Bild hat dafür dauerhaft eine eigene Ebene. Die Drehung des Glanzes lief schon vorher ohne Neuzeichnen. Sie läuft jetzt aber als eigene HTML-Ebene statt innerhalb einer SVG, denn Safari beschleunigt Drehungen in SVG-Elementen nicht. Die frühere Angabe „60 Bilder pro Sekunde“ beruhte auf einer Messung, die das Neuzeichnen nicht erfasst. Sie war deshalb falsch.
+
 ### Entscheid (12.10.2026)
 
 Zwei Fassungen standen zur Wahl: der Goldene Schnitt und eine Konstruktion aus sechs Grundkreisen mit fünf krümmungsstetigen Brücken (`-Geometrisch`, aus dem ELANUM-Geometrie-Paket, PR #9). Nach einem direkten Vergleich in Spektrum, Ink, Kleingrössen und Blueprint fiel der Entscheid auf den Goldenen Schnitt. Die Fassung „Sechs Grundkreise“ bleibt als geprüfte Alternative mit `tools/build_logo_geometrie.py` und `assets/*-Geometrisch.*` im Repository, sie wird nicht verwendet. Die frühere Variante „Nah am Original“ (`-Circles`) ist nicht mehr gültig.
@@ -211,6 +232,8 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 
 **Weg und Tageslinie** (`components/weg/`, Baustein `.track` in `base.css`): Stationen erledigt (gefüllter Punkt), jetzt (Ring) und offen (Kontur mit Öffnung unten). Bis „jetzt“ führt die Spur, danach eine Unterbrechung. Labels stehen in einer eigenen Spalte und kreuzen die Linie nie. Waagrecht ab 900 px, darunter senkrecht.
 
+**Zeichen in Bewegung** (`components/zeichen/`): Zeichenaufbau und Lichtlauf, siehe oben beim ELANUM-Zeichen. Markup `<div class="zeichen" data-zeichen="aufbau | lichtlauf">` mit dem Spektrum als `<img>`; ohne Skript steht das Bild.
+
 **Linien-System:** Kontur 1,6 px, Verbindung 2,8 px, Knoten 3,3 px Radius. **Icons:** 24er-Raster, 1,6 px, runde Enden, keine Füllung, Sprache aus Kreisen, Öffnungen und Verbindungen.
 
 ## Bewegung
@@ -219,7 +242,7 @@ Bewegung erklärt: Kreise rücken zusammen, das Rad baut sich Bereich für Berei
 
 | Moment | Was sich bewegt |
 |---|---|
-| Einstieg | Titelzeilen steigen maskiert auf (140 ms Versatz), Text und Link folgen, unter 1,5 s. Das Zeichen steht. |
+| Einstieg | Titelzeilen steigen maskiert auf (140 ms Versatz), Text und Link folgen, unter 1,5 s. Daneben baut sich das Zeichen auf, knapp 3 s. |
 | Kapiteltitel | Zeilen steigen einmal auf, ab 85 % Fensterhöhe. |
 | Blöcke und Gruppen | Einmal, 900 ms, 24 px, ab 88 %; Gruppen 120 ms Versatz, höchstens 0,48 s. |
 | Beziehung | Kreise starten weit, Konturen zeichnen sich, dann rücken sie auf „nah“, die Verbindung entsteht. Die Regler laufen mit und zeigen, was sie bedeuten. Wer einen Regler anfasst, übernimmt sofort. |
@@ -230,7 +253,8 @@ Bewegung erklärt: Kreise rücken zusammen, das Rad baut sich Bereich für Berei
 | Status | Das Zeichen federt beim Wechsel kurz ein. |
 | Glühen | Die Station „jetzt“, der Auswahlbogen im Rad und ausgewählte Flächen glühen im Atemtakt; Verbindungslinien leuchten weich. |
 | Bedienung | 160–220 ms, ohne Blitz. |
-| Immer | Nur die Atmung: 3,4 s Raum geben, 4,4 s zur Ruhe, höchstens 7,5 % Radius. |
+| Zeichen | Zeichenaufbau einmal, sobald das Zeichen zu sehen ist. Lichtlauf dauernd, wo er gesetzt ist. Die Form steht. |
+| Immer | Nur die Atmung: 3,4 s Raum geben, 4,4 s zur Ruhe, höchstens 7,5 % Radius. Im Zeichen dazu der Lichtlauf, wo gesetzt. |
 
 Alle Auftritte setzen ihre Endwerte ausdrücklich, und der Versteck-Guard wird vor dem Anlegen gelöst; vorher sprangen manche Blöcke am Ende schlagartig auf. Das festgehaltene Kapitel wird zuerst angelegt, damit alle Auftritte dahinter zur richtigen Stelle auslösen, und jeder einmalige Auftritt gilt bis zum Seitenende, damit auch schnelles Scrollen oder ein Sprung über die Navigation ihn auslöst. Ohne Festhalten (Telefon) baut sich nur das Rad auf, Lesebereich und Liste sind sofort da.
 

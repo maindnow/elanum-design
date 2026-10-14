@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM Gestaltungsatlas 4.9 · Layout
+   ELANUM Gestaltungsatlas 4.10 · Layout
    Setzt tokens.css und base.css voraus. Alle Schriften laufen über die
    fünf Stufen aus tokens.css. Linien trennen nur Kapitel.
    ============================================================ */
@@ -78,6 +78,19 @@ h3.block-title[data-anim]{margin-bottom:36px}
 .construction div{display:grid;grid-template-columns:110px 1fr;gap:16px}
 .construction dt{font:var(--type-label);font-weight:600}
 .construction dd{margin:0;color:var(--ink-2)}
+/* Das Zeichen in Bewegung: Zeichenaufbau und Lichtlauf, gross und klein (Baustein components/zeichen) */
+.bewegungen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.bewegung{display:grid;gap:14px;align-content:start;justify-items:start;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
+.bewegung__buehne{justify-self:stretch;display:grid;place-items:center;aspect-ratio:1;padding:12%;margin-bottom:8px;border-radius:20px;background:linear-gradient(135deg,#F7F3EB,#E9E3D7);box-shadow:var(--pressed)}
+.bewegung__buehne .zeichen{width:100%}
+.bewegung__klein{display:flex;flex-wrap:wrap;align-items:center;gap:24px;min-height:64px;margin-bottom:8px}
+.bewegung__klein>.zeichen:nth-child(1){width:64px}
+.bewegung__klein>.zeichen:nth-child(2){width:40px}
+.bewegung__marke{display:inline-flex;align-items:center;gap:12px;font:var(--type-label);font-weight:600;letter-spacing:.18em}
+.bewegung__marke .zeichen{width:30px}
+.bewegung__name{font:var(--type-heading)}
+.bewegung__takt{font:var(--type-label);color:var(--sterne-tief)}
+.bewegung .button{margin-top:8px}
 .geometry-stats{display:flex;flex-wrap:wrap;gap:32px 56px;margin:8px 0 32px}
 .geometry-stats dt{font:var(--type-heading)}
 .geometry-stats dd{margin:0;color:var(--ink-2);font:var(--type-label)}
@@ -141,6 +154,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .gradient__stops{display:block;font:400 15px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink-2);word-break:break-word}
 .gradient__copy{min-height:44px;padding:0 12px;border:0;border-radius:var(--radius-control);background:transparent;font:var(--type-label);font-weight:600;color:var(--ink-2)}
 @media(max-width:640px){.gradient{grid-template-columns:1fr;gap:10px}}
+.spectrum__row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:20px;align-items:center}
 .spectrum__bar{height:56px;border-radius:var(--radius-control);background:var(--spectrum);box-shadow:var(--raised-sm)}
 .spectrum__values{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 .spectrum__values button{min-height:44px;padding:0 10px;border:0;border-radius:var(--radius-control);background:transparent;font:var(--type-label);color:var(--ink-2)}
@@ -222,7 +236,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .app-glossar{margin-top:40px;max-width:var(--measure)}
 
 /* ---------- 11 Bausteine ---------- */
-.element-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.element-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .element-card{display:grid;gap:12px;align-content:start;height:100%;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm);text-decoration:none;transition:transform var(--motion-ui) var(--ease),box-shadow var(--motion-ui) ease}
 .element-card__mark{display:grid;place-items:center;width:72px;height:72px;margin-bottom:12px;border-radius:50%;background:var(--tint);color:var(--tone)}
 .element-card__mark svg{width:44px;height:44px}
@@ -347,7 +361,8 @@ body[data-motion=off] .paper,body[data-motion=off] .swatch,body[data-motion=off]
   main{padding-top:68px}
   .chapter{scroll-margin-top:68px}
   .toast{left:50%}
-  .haltung,.signature,.material,.review,.tokens,.motion,.product-panel{grid-template-columns:1fr}
+  .haltung,.signature,.material,.review,.tokens,.motion,.product-panel,.bewegungen{grid-template-columns:1fr}
+  .bewegung__buehne{justify-self:start;width:min(100%,360px)}
   .areas{grid-template-columns:1fr}
   .lab__controls{grid-template-columns:1fr}
   .nav-forms,.app-rules{grid-template-columns:1fr}

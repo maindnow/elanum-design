@@ -5,15 +5,17 @@
    Begriffe nur mit Freigabe und neuer Atlas-Version ändern.
    ============================================================ */
 window.ELANUM_GLOSSAR = {
-  version: '4.8',
+  version: '4.9',
   rule: 'Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und Code, genau in dieser Schreibweise, inklusive Gross- und Kleinschreibung und „&“. Neue Begriffe oder Änderungen nur mit Freigabe und einer neuen Atlas-Version.',
   sentence: 'Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg.',
   groups: [
     { title: 'Marke', terms: [
       { term: 'ELANUM', meaning: 'Die Marke. Immer in Versalien.' },
-      { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie.', code: 'assets/ELANUM-*-Harmonic.svg' },
+      { term: 'ELANUM-Zeichen', meaning: 'Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin: im Zeichenaufbau und im Lichtlauf.', code: 'assets/ELANUM-*-Harmonic.svg · components/zeichen' },
       { term: 'Kreiskonstruktion', meaning: 'Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick.', code: 'tools/build_logo_circles.py' },
       { term: 'Blueprint', meaning: 'Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten.', code: 'assets/ELANUM-Konstruktion-Harmonic.svg' },
+      { term: 'Zeichenaufbau', meaning: 'Bewegung des ELANUM-Zeichens, einmal: Aussenkreis und Öffnung zeichnen sich als feine Linie im Markenspektrum, dann füllt sich das Zeichen sanft mit Farbe. Knapp 3 s, danach steht das Zeichen.', code: 'data-zeichen="aufbau"' },
+      { term: 'Lichtlauf', meaning: 'Bewegung des ELANUM-Zeichens, sanft und dauernd: Ein weicher Glanz wandert im Kreis durch das Zeichen, 24 s pro Umlauf.', code: 'data-zeichen="lichtlauf"' },
       { term: 'Resonanz', meaning: 'Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.' }
     ] },
     { title: 'Kosmen', intro: 'Die drei Räume von ELANUM. Der Resonanzkosmos ist der Einstieg, Datingkosmos und Erlebniskosmos stehen gleichwertig daneben.', terms: [

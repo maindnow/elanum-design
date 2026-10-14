@@ -10,20 +10,21 @@
 <link rel="stylesheet" href="../../tokens.css">
 <link rel="stylesheet" href="../../base.css">
 <link rel="stylesheet" href="../resonanzrad/resonanzrad.css">
+<link rel="stylesheet" href="../zeichen/zeichen.css">
 <link rel="stylesheet" href="app.css">
 <link rel="stylesheet" href="screens.css">
 </head>
 <body class="app app--flow" data-screen="ankommen">
 <a class="skip-link" href="#main">Direkt zum Inhalt</a>
 <header class="app-head">
-  <a class="app-head__brand" href="heute.html" aria-label="ELANUM"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></a>
+  <a class="app-head__brand" href="heute.html" aria-label="ELANUM"><span class="zeichen" data-zeichen="aufbau"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></span></a>
   <p class="app-head__title" aria-hidden="true"></p>
   <div class="app-head__actions"><a class="app-more glow-edge" href="heute.html">Später</a></div>
 </header>
 
 <main class="app-main flow" id="main" tabindex="-1">
   <div class="flow__intro" aria-hidden="true">
-    <img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="960" height="960">
+    <div class="zeichen flow__zeichen" data-zeichen="aufbau"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="960" height="960"></div>
     <p class="flow__voice">Das Eigene.<br>Das Dazwischen.</p>
     <p class="secondary">Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg.</p>
   </div>
@@ -67,6 +68,7 @@
 </main>
 
 <script src="../resonanzrad/resonanzrad.js"></script>
+<script src="../zeichen/zeichen.js"></script>
 <script src="app.js"></script>
 <script src="screens.js"></script>
 </body>

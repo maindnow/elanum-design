@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM App-Rahmen 4.9
+   ELANUM App-Rahmen 4.10
    Der Rahmen für jede Seite der App: Navigation, Kopf, Inhalt,
    Karten, Listen, Personen, Gespräch und Sheet. Mobile zuerst,
    jede Breite dazwischen gilt. Setzt tokens.css und base.css voraus.
@@ -50,7 +50,7 @@
   .app-nav{top:0;right:auto;width:var(--app-rail);display:flex;flex-direction:column;align-items:center;gap:28px;overflow:auto;
     padding:20px 10px calc(20px + var(--safe-bottom)) max(10px,env(safe-area-inset-left));background:var(--canvas);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:1px 0 0 var(--line)}
   .app-nav__brand{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;text-decoration:none}
-  .app-nav__brand img{width:36px;height:36px}
+  .app-nav__brand img,.app-nav__brand .zeichen{width:36px;height:36px}
   .app-nav__brand span{display:none}
   .app-nav__list{grid-auto-flow:row;grid-auto-columns:auto;gap:10px;width:100%;margin:0}
   .app-nav__item{min-height:68px}
@@ -59,7 +59,7 @@
 @media(min-width:1024px){
   .app-nav{width:var(--app-side);align-items:stretch;gap:32px;padding:28px 20px calc(24px + var(--safe-bottom))}
   .app-nav__brand{display:flex;align-items:center;gap:12px;width:auto;height:48px;padding:0 8px;border-radius:var(--radius-control);font:var(--type-label);font-weight:600;letter-spacing:.18em}
-  .app-nav__brand img{width:32px;height:32px}
+  .app-nav__brand img,.app-nav__brand .zeichen{width:32px;height:32px;flex:none}
   .app-nav__brand span{display:inline}
   .app-nav__list{gap:2px}
   .app-nav__kosmos{display:block;margin:20px 12px 6px;font:var(--type-label);color:var(--ink-2)}
@@ -103,7 +103,7 @@
   background:color-mix(in srgb,var(--canvas) 86%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.15);backdrop-filter:blur(18px) saturate(1.15);transition:box-shadow var(--motion-ui) ease}
 .app-head.is-scrolled{box-shadow:0 1px 0 var(--line)}
 .app-head__brand{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:50%}
-.app-head__brand img{width:32px;height:32px}
+.app-head__brand img,.app-head__brand .zeichen{width:32px;height:32px}
 .app-head__title{flex:1;min-width:0;font:var(--type-heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateY(6px);transition:opacity var(--motion-ui) ease,transform var(--motion-ui) var(--ease)}
 .app-head.is-titled .app-head__title{opacity:1;transform:none}
 .app-head__actions{display:flex;align-items:center;gap:2px;margin-left:auto}
