@@ -1,4 +1,4 @@
-# ELANUM Gestaltungsatlas 4.8
+# ELANUM Gestaltungsatlas 4.9
 
 ![Gestaltungsatlas: Einstieg mit dem ELANUM-Zeichen im Goldenen Schnitt](docs/screenshots/atlas-desktop.png)
 
@@ -13,7 +13,7 @@
   </tr>
 </table>
 
-Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Bausteinen Resonanzrad, Umfeld, Beziehungsraum sowie Weg und Tageslinie. Im Zentrum steht das Resonanzrad mit seinen neun Elementen.
+Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Bausteinen Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie sowie dem Zeichen in Bewegung. Im Zentrum steht das Resonanzrad mit seinen neun Elementen.
 
 [Atlas öffnen](index.html) · [Gestaltungsnotizen](DESIGN-NOTES.md) · [Bausteine](components/)
 
@@ -21,12 +21,12 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Baus
 
 ## Was der Atlas zeigt
 
-- **Zeichen:** das ELANUM-Zeichen, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Spektrum, Ink, Invers, Papierrelief und Blueprint. Das Zeichen bewegt sich nie.
+- **Zeichen:** das ELANUM-Zeichen, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Spektrum, Ink, Invers, Papierrelief und Blueprint. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin: einmal im Zeichenaufbau oder dauernd im Lichtlauf, gross wie klein.
 - **Typografie:** fünf Stufen. Albert Sans trägt die Bedienung, Yrsa ist die Stimme und erscheint nur gross. Kein Kursiv, nichts unter 15 px.
 - **Farbe:** neutrale Flächen, drei ausgeglichene Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit Tief, Fläche für ausgefüllte Elemente und Hauch; offene Elemente grau mit Plus, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
 - **Material:** warme Reliefoberfläche, Licht von links oben, angehobene Bedienung, vertiefte Eingaben.
-- **Bausteine:** Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, je als eigene Seite unter `components/` und im Atlas eingebunden.
-- **Bewegung:** erklärend statt nur einblendend. Das Resonanzrad baut sich beim Scrollen auf, Kreise rücken zusammen, Spuren zeichnen sich. Pause und reduzierte Bewegung wirken überall.
+- **Bausteine:** Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, Zeichen in Bewegung, je als eigene Seite unter `components/` und im Atlas eingebunden.
+- **Bewegung:** erklärend statt nur einblendend. Das Zeichen baut sich im Einstieg aus seiner Konstruktion auf, das Resonanzrad beim Scrollen, Kreise rücken zusammen, Spuren zeichnen sich. Pause und reduzierte Bewegung wirken überall.
 
 ## Lokal öffnen
 
@@ -53,12 +53,12 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [base.css](base.css) | Gemeinsame Bausteine: Schriftstufen, Buttons, Status, Stationslinie, Seitenrahmen |
 | [style.css](style.css) | Layout des Atlas |
 | [app.js](app.js) | Bedienlogik des Atlas |
-| [components/](components/) | Bausteine als eigene Seiten: `resonanzrad`, `umfeld`, `beziehungsraum`, `weg` |
+| [components/](components/) | Bausteine als eigene Seiten: `resonanzrad`, `umfeld`, `beziehungsraum`, `weg`, `zeichen` |
 | [assets/boot.js](assets/boot.js) | Versteck-Guard, Schriften unter `file://`, GSAP nach dem ersten Paint |
 | [assets/motion.js](assets/motion.js) | Alle Bewegung, deklarativ über `data-anim` |
 | [assets/vendor/gsap/](assets/vendor/gsap/) | GSAP 3.15 lokal, mit Lizenzhinweis |
 | [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` neu |
-| [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt das ELANUM-Zeichen im Goldenen Schnitt (Ink, Spektrum, Blueprint), prüft Knicke; mit `--masks` die Relief-Maske. Nur Python-Standardbibliothek |
+| [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt das ELANUM-Zeichen im Goldenen Schnitt (Ink, Spektrum, Blueprint) und die Konstruktion für den Zeichenaufbau in `components/zeichen/zeichen.js`, prüft Knicke; mit `--masks` die Relief-Maske. Nur Python-Standardbibliothek |
 | [tools/serve.py](tools/serve.py) | Lokaler Server auf Port 4173 ohne Browser-Cache. Nur Python-Standardbibliothek |
 | [tools/screenshots.js](tools/screenshots.js) | Erzeugt die Screenshots in `docs/screenshots/` neu (Server auf Port 4173, braucht Playwright) |
 | [assets/glossar.js](assets/glossar.js) | Glossar: die eine Quelle aller Begriffe |
@@ -70,7 +70,7 @@ Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Style
 
 ## In der App verwenden
 
-Dieses Repository ist die einzige Designquelle der App ELANUM. Die App installiert es als Paket `@elanum/design` direkt von GitHub, fixiert auf einen Tag. Die Paketversion ist die Atlas-Version: Atlas 4.8 ist `4.8.0`, der Tag dazu `v4.8.0`.
+Dieses Repository ist die einzige Designquelle der App ELANUM. Die App installiert es als Paket `@elanum/design` direkt von GitHub, fixiert auf einen Tag. Die Paketversion ist die Atlas-Version: Atlas 4.9 ist `4.9.0`, der Tag dazu `v4.9.0`.
 
 ### Installation
 
@@ -78,7 +78,7 @@ In der `package.json` der App:
 
 ```json
 "dependencies": {
-  "@elanum/design": "github:maindnow/elanum-design#v4.8.0"
+  "@elanum/design": "github:maindnow/elanum-design#v4.9.0"
 }
 ```
 
@@ -89,7 +89,7 @@ Ausgeliefert wird nur, was die App braucht (`files` in [package.json](package.js
 | Im Paket | Inhalt |
 | --- | --- |
 | `tokens.css`, `base.css` | Alle Werte und die gemeinsamen Grundlagen, auch Weg und Tageslinie (`.track`) |
-| `components/<name>/<name>.css` und `.js` | Resonanzrad, Umfeld, Beziehungsraum |
+| `components/<name>/<name>.css` und `.js` | Resonanzrad, Umfeld, Beziehungsraum, Zeichen |
 | `assets/ELANUM-*-Harmonic.svg` | ELANUM-Zeichen: Spektrum, Ink, Blueprint |
 | `assets/fonts/` | Albert Sans und Yrsa mit OFL-Lizenzen, dazu die eingebetteten Schriften für `file://` |
 | `assets/boot.js`, `assets/motion.js`, `assets/vendor/gsap/` | Bewegung, GSAP mit Lizenzhinweis |
@@ -127,6 +127,7 @@ Die Dateien verweisen relativ aufeinander: `tokens.css` lädt die Schriften aus 
   <link rel="stylesheet" href="/elanum/components/beziehungsraum/beziehungsraum.css">
   <link rel="stylesheet" href="/elanum/components/resonanzrad/resonanzrad.css">
   <link rel="stylesheet" href="/elanum/components/umfeld/umfeld.css">
+  <link rel="stylesheet" href="/elanum/components/zeichen/zeichen.css">
   <link rel="stylesheet" href="/app.css">
 </head>
 <body>
@@ -134,6 +135,7 @@ Die Dateien verweisen relativ aufeinander: `tokens.css` lädt die Schriften aus 
   <script src="/elanum/components/beziehungsraum/beziehungsraum.js"></script>
   <script src="/elanum/components/resonanzrad/resonanzrad.js"></script>
   <script src="/elanum/components/umfeld/umfeld.js"></script>
+  <script src="/elanum/components/zeichen/zeichen.js"></script>
   <script src="/elanum/assets/glossar.js"></script>
   <script src="/app.js"></script>
 </body>
@@ -193,6 +195,25 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 </script>
 ```
 
+**Zeichen in Bewegung** · `components/zeichen/` · `window.ElanumZeichen`
+
+Die Form des Zeichens bewegt sich nie. Unter der Bewegung liegt immer die unveränderte Datei `ELANUM-Master-Spektrum-Harmonic.svg`, sie wird nur einmal gezeichnet. Bewegt werden Deckkraft und Drehung leichter Ebenen darüber. `data-zeichen` wählt die Bewegung:
+
+- `aufbau`: Zeichenaufbau, einmal, knapp 3 s. Aussenkreis und Öffnung zeichnen sich als feine Linie im Markenspektrum, dann füllt sich das Zeichen sanft mit Farbe. Startet, sobald das Zeichen zu sehen ist.
+- `lichtlauf`: Lichtlauf, dauernd, 24 s pro Umlauf.
+
+- `mount(root, { bewegung })` gibt `{ play(), stop(), parts }` zurück. `play()` baut das Zeichen neu auf, `stop()` zeigt sofort das ruhende Zeichen.
+- `mountAll(scope)`: montiert jedes `[data-zeichen]`.
+
+Ohne Skript steht das Bild. Bei reduzierter Bewegung, in der Pause (`body[data-motion=off]` und `elanum:motion`) und nach Tab steht das ruhende Zeichen.
+
+```html
+<div class="zeichen" data-zeichen="lichtlauf"><img src="/elanum/assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="ELANUM" width="960" height="960"></div>
+<script>
+  ElanumZeichen.mountAll();
+</script>
+```
+
 **Weg und Tageslinie** · in `base.css` · ohne Skript
 
 Reines Markup mit `.track`, waagrecht als Weg mit `.track--horizontal`. Jede Station trägt `data-state="done"`, `"now"` oder `"open"`. `data-anim="track"` zeichnet die Spur beim Erreichen, mit `data-scrub` an den Scroll gekoppelt.
@@ -231,7 +252,7 @@ document.dispatchEvent(new CustomEvent('elanum:motion', { detail: { off: true } 
 
 ## Gestaltungsregeln
 
-- **Zeichen aus Kreisen.** Gültig ist `-Harmonic`: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R · φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. `ELANUM-Konstruktion-Harmonic.svg` zeigt die Konstruktion. Diese Dateien nie von Hand bearbeiten, sondern mit `python3 tools/build_logo_circles.py` neu erzeugen; die Relief-Maske in `app.js` (`RELIEF_MASK`) kommt aus `python3 tools/build_logo_circles.py --masks`. Dateien ohne Suffix sind die unveränderten Quellen, `-Curves` ist die frühere Kurvenkorrektur, `-Geometrisch` die verworfene Alternative aus sechs Grundkreisen. Für kleine Darstellungen die flachen Varianten verwenden.
+- **Zeichen aus Kreisen.** Gültig ist `-Harmonic`: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R · φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. `ELANUM-Konstruktion-Harmonic.svg` zeigt die Konstruktion. Diese Dateien und die Zeile `var K` in `components/zeichen/zeichen.js` nie von Hand bearbeiten, sondern mit `python3 tools/build_logo_circles.py` neu erzeugen; die Relief-Maske in `app.js` (`RELIEF_MASK`) kommt aus `python3 tools/build_logo_circles.py --masks`. Dateien ohne Suffix sind die unveränderten Quellen, `-Curves` ist die frühere Kurvenkorrektur, `-Geometrisch` die verworfene Alternative aus sechs Grundkreisen. Für kleine Darstellungen die flachen Varianten verwenden.
 - **Fünf Schriftstufen.** Display, Titel, Überschrift, Text, Label. Neue Texte verwenden eine dieser Stufen.
 - **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Weisse Schrift nur auf Tief, Ink auf dem Hauch; auf den Elementen im Rad steht Text nur in Ink.
 - **Raum statt Rahmen.** Abstand gliedert, Linien trennen nur Kapitel.
@@ -251,12 +272,12 @@ Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 
 - Desktop, Tablet und Telefon: kein horizontaler Überlauf, Texte nie unter 15 px.
 - Resonanzrad: Auswahl per Tipp, Liste und Tastatur; Ausfüllstatus über Farbe und Kontur.
-- Bewegung: Einstieg, festgehaltenes Resonanzrad-Kapitel, Pause, reduzierte Bewegung, Tab-Durchlauf.
+- Bewegung: Einstieg mit Zeichenaufbau, festgehaltenes Resonanzrad-Kapitel, Pause, reduzierte Bewegung, Tab-Durchlauf. In der Pause steht das ruhende Zeichen.
 - Assets: keine fehlenden Dateien oder Konsolenfehler, auch unter `file://`.
 
 ## Stand und Historie
 
-4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
+4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form steht, nur Licht und Farbe bewegen sich: Zeichenaufbau (einmal) und Lichtlauf (dauernd), gross wie klein. Neuer Baustein `components/zeichen/`, zwei neue Begriffe im Glossar. 4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
 
 ## Schriften und Nutzungsrechte
 

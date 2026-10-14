@@ -1,0 +1,18 @@
+/* ELANUM Zeichen · Seite. Beide Bewegungen nebeneinander, gross und klein. */
+.bewegungen{display:grid;gap:24px}
+.bewegung{display:grid;gap:14px;align-content:start;justify-items:start;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
+.bewegung__buehne{justify-self:stretch;display:grid;place-items:center;aspect-ratio:1;padding:12%;margin-bottom:8px;border-radius:20px;background:linear-gradient(135deg,#F7F3EB,#E9E3D7);box-shadow:var(--pressed)}
+.bewegung__buehne .zeichen{width:100%}
+.bewegung__klein{display:flex;flex-wrap:wrap;align-items:center;gap:24px;min-height:64px;margin-bottom:8px}
+.bewegung__klein>.zeichen:nth-child(1){width:64px}
+.bewegung__klein>.zeichen:nth-child(2){width:40px}
+.bewegung__marke{display:inline-flex;align-items:center;gap:12px;font:var(--type-label);font-weight:600;letter-spacing:.18em}
+.bewegung__marke .zeichen{width:30px}
+.bewegung__name{font:var(--type-heading)}
+.bewegung__takt{font:var(--type-label);color:var(--sterne-tief)}
+.bewegung .button{margin-top:8px}
+.zeichen-foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;margin-top:48px}
+.motion-toggle{display:flex;align-items:center;gap:12px;min-height:44px;margin-left:-12px;padding:0 12px;border:0;border-radius:var(--radius-control);background:transparent;font:var(--type-label)}
+.motion-toggle::before{content:"";width:12px;height:12px;border:var(--trace) solid currentColor;border-radius:50%}
+.motion-toggle[aria-pressed=true]::before{background:currentColor}
+@media(min-width:760px){.bewegungen{grid-template-columns:repeat(2,minmax(0,1fr))}}

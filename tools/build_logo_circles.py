@@ -6,6 +6,7 @@ Erzeugt aus wenigen Konstruktionskreisen die Logo-Dateien:
   assets/ELANUM-System-Ink-<V>.svg
   assets/ELANUM-Master-Spektrum-<V>.svg   (Farbnetz aus -Curves, neue Konturen)
   assets/ELANUM-Konstruktion-<V>.svg      (Blueprint mit allen Kreisen)
+  components/zeichen/zeichen.js           (Form und Kontur für die Bewegung, Zeile "var K")
 
 <V> = Harmonic: alle Radien aus der Reihe R * phi^(-k/4) (Goldener Schnitt).
 Das ist das gültige ELANUM-Zeichen. CIRCLES (nah am Original) bleibt nur als
@@ -24,6 +25,7 @@ Nur Python-Standardbibliothek. Aufruf aus dem Repository-Wurzelverzeichnis:
 """
 
 import base64
+import json
 import math
 import os
 import re
@@ -442,8 +444,10 @@ def regions(g):
     # Schwanz: Schwanzkante bis zum Aussenkreis, Aussenkreis hinauf bis B, Kerbe zurück
     tail = (path(g['TB']) + ' A %s %s 0 0 0 %s %s ' % (f(R), f(R), f(B[0]), f(B[1]))
             + path([nl.reversed()], move=False) + ' Z')
+    # Aussenkontur in Zeichenrichtung: Aussenkreis von A bis B, dann die Kerbe zurück zu A
+    outline = outer + ' ' + path([nl.reversed(), nu], move=False)
     return {'silhouette': silhouette, 'ink': ink, 'front': front, 'band': band, 'tail': tail,
-            'A': A, 'B': B}
+            'A': A, 'B': B, 'outline': outline, 'hole': hole}
 
 
 # ---------------------------------------------------------------- Ausgabe
@@ -552,6 +556,30 @@ def blueprint_svg(v, g, rg):
             'aufeinanderfolgende Bögen berühren sich tangential.</desc>%s</svg>\n' % (name, ''.join(parts)))
 
 
+ZEICHEN_JS = os.path.join(ROOT, 'components', 'zeichen', 'zeichen.js')
+
+
+def zeichen_data(g, rg):
+    """Form und Kontur für den Baustein Zeichen, im Raster des Zeichens (VIEWBOX)."""
+    return {
+        'viewBox': VIEWBOX,
+        'mitte': [float(f(g['O'][0])), float(f(g['O'][1]))],
+        'radius': float(f(g['R'])),
+        'form': rg['silhouette'],
+        'kontur': [rg['outline'], rg['hole']],
+    }
+
+
+def write_zeichen_js(data):
+    src = open(ZEICHEN_JS, encoding='utf-8').read()
+    line = '  var K = %s;' % json.dumps(data, ensure_ascii=False, separators=(',', ':'))
+    src, n = re.subn(r'^  var K = .*;$', lambda m: line, src, count=1, flags=re.M)
+    if n != 1:
+        raise RuntimeError('Zeile "var K" in components/zeichen/zeichen.js nicht gefunden')
+    with open(ZEICHEN_JS, 'w', encoding='utf-8') as fh:
+        fh.write(src)
+
+
 def label_for(v, r):
     if v['name'] != 'Harmonic':
         return '%g' % round(r, 2)
@@ -633,6 +661,7 @@ def main():
         for fn, content in out.items():
             with open(os.path.join(ASSETS, fn), 'w', encoding='utf-8') as fh:
                 fh.write(content)
+        write_zeichen_js(zeichen_data(g, rg))
         if write_masks:
             print('  Relief-Maske %s: %s' % (v['name'], mask_uri(ink)))
 

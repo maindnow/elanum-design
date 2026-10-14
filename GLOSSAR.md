@@ -1,4 +1,4 @@
-# ELANUM Glossar 4.8
+# ELANUM Glossar 4.9
 
 <!-- Automatisch erzeugt aus assets/glossar.js mit `node tools/glossar-md.js`. Nicht von Hand bearbeiten. -->
 
@@ -11,9 +11,11 @@ Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und C
 | Begriff | Bedeutung | Im Code |
 |---|---|---|
 | **ELANUM** | Die Marke. Immer in Versalien. |  |
-| **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie. | `assets/ELANUM-*-Harmonic.svg` |
+| **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin: im Zeichenaufbau und im Lichtlauf. | `assets/ELANUM-*-Harmonic.svg · components/zeichen` |
 | **Kreiskonstruktion** | Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. | `tools/build_logo_circles.py` |
 | **Blueprint** | Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten. | `assets/ELANUM-Konstruktion-Harmonic.svg` |
+| **Zeichenaufbau** | Bewegung des ELANUM-Zeichens, einmal: Aussenkreis und Öffnung zeichnen sich als feine Linie im Markenspektrum, dann füllt sich das Zeichen sanft mit Farbe. Knapp 3 s, danach steht das Zeichen. | `data-zeichen="aufbau"` |
+| **Lichtlauf** | Bewegung des ELANUM-Zeichens, sanft und dauernd: Ein weicher Glanz wandert im Kreis durch das Zeichen, 24 s pro Umlauf. | `data-zeichen="lichtlauf"` |
 | **Resonanz** | Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. |  |
 
 ## Kosmen

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F0ECE3">
-<meta name="description" content="ELANUM Gestaltungsatlas 4.8. Kreis, Freiraum und Verbindung, ein interaktives Markensystem.">
+<meta name="description" content="ELANUM Gestaltungsatlas 4.9. Kreis, Freiraum und Verbindung, ein interaktives Markensystem.">
 <title>ELANUM · Gestaltungsatlas</title>
 <link rel="icon" href="assets/ELANUM-System-Ink-Harmonic.svg" type="image/svg+xml">
 <script src="assets/boot.js" data-base=""></script>
@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="components/beziehungsraum/beziehungsraum.css">
 <link rel="stylesheet" href="components/resonanzrad/resonanzrad.css">
 <link rel="stylesheet" href="components/umfeld/umfeld.css">
+<link rel="stylesheet" href="components/zeichen/zeichen.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -46,7 +47,7 @@
   </nav>
   <div class="rail-bottom">
     <button class="motion-toggle glow-edge" data-motion-toggle aria-pressed="false">Bewegung pausieren</button>
-    <p>Gestaltungsatlas 4.8</p>
+    <p>Gestaltungsatlas 4.9</p>
   </div>
 </aside>
 
@@ -58,7 +59,7 @@
     <p class="hero__text" data-anim="hero">Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg. Klar in der Form, offen für das, was Menschen verbindet.</p>
     <a href="#beziehung" class="text-link glow-edge" data-anim="hero">Beziehungen erleben <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6.5 12.5l5.5 5.5 5.5-5.5"/></svg></a>
   </div>
-  <figure class="hero__visual"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="ELANUM-Zeichen, aus Kreisbögen im Goldenen Schnitt konstruiert" width="960" height="960"></figure>
+  <figure class="hero__visual"><div class="zeichen" data-zeichen="aufbau"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="ELANUM-Zeichen, aus Kreisbögen im Goldenen Schnitt konstruiert" width="960" height="960"></div></figure>
 </section>
 
 <section class="chapter" id="haltung" aria-labelledby="haltungTitle">
@@ -97,7 +98,7 @@
       <div class="signature__relief" id="signatureRelief" role="img" aria-label="ELANUM-Kontur als helle Papierprägung" hidden><span></span></div>
     </figure>
     <div class="signature__copy" data-anim="reveal">
-      <p>Das ELANUM-Zeichen bleibt, seine Konturen sind neu konstruiert. Jede Rundung ist ein Kreisbogen, alle Radien stammen aus einer Reihe im Goldenen Schnitt, und jeder Bogen geht ohne Knick in den nächsten über. Die feinen Linien sind überall gleich stark und laufen in kurzen Spitzen aus. Das Zeichen bewegt sich nie.</p>
+      <p>Das ELANUM-Zeichen bleibt, seine Konturen sind neu konstruiert. Jede Rundung ist ein Kreisbogen, alle Radien stammen aus einer Reihe im Goldenen Schnitt, und jeder Bogen geht ohne Knick in den nächsten über. Die feinen Linien sind überall gleich stark und laufen in kurzen Spitzen aus. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin.</p>
       <div class="segmented" role="group" aria-label="Darstellung des Zeichens">
         <button class="glow-edge" data-signature-mode="master" aria-pressed="true">Spektrum</button><button class="glow-edge" data-signature-mode="ink" aria-pressed="false">Ink</button><button class="glow-edge" data-signature-mode="inverse" aria-pressed="false">Invers</button><button class="glow-edge" data-signature-mode="relief" aria-pressed="false">Relief</button><button class="glow-edge" data-signature-mode="blueprint" aria-pressed="false">Blueprint</button>
       </div>
@@ -107,6 +108,28 @@
       <a class="text-link glow-edge" href="assets/ELANUM-System-Ink-Harmonic.svg" download>Ink · Goldener Schnitt laden <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6.5 12.5l5.5 5.5 5.5-5.5"/></svg></a>
     </div>
   </div>
+  <div class="block-head" data-anim="reveal">
+    <h3 class="block-title">Das Zeichen in Bewegung</h3>
+    <p class="secondary">Die Form steht immer still. Licht und Farbe bewegen sich darin: einmal im Zeichenaufbau oder sanft und dauernd im Lichtlauf, gross wie klein. Pause und reduzierte Bewegung zeigen das ruhende Zeichen.</p>
+  </div>
+  <ul class="bewegungen" data-anim="stagger">
+    <li class="bewegung">
+      <div class="bewegung__buehne"><div class="zeichen" data-zeichen="aufbau"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="ELANUM-Zeichen im Zeichenaufbau" width="960" height="960"></div></div>
+      <div class="bewegung__klein" aria-hidden="true"><div class="zeichen" data-zeichen="aufbau"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="64" height="64"></div><div class="zeichen" data-zeichen="aufbau"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="40" height="40"></div><span class="bewegung__marke"><span class="zeichen" data-zeichen="aufbau"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="30" height="30"></span>ELANUM</span></div>
+      <h4 class="bewegung__name">Zeichenaufbau</h4>
+      <p class="bewegung__takt">Einmal · knapp 3 s</p>
+      <p class="secondary">Aussenkreis und Öffnung zeichnen sich als feine Linie im Markenspektrum, dann füllt sich das Zeichen sanft mit Farbe.</p>
+      <button type="button" class="button button--secondary" data-zeichen-nochmals>Nochmals aufbauen</button>
+    </li>
+    <li class="bewegung">
+      <div class="bewegung__buehne"><div class="zeichen" data-zeichen="lichtlauf"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="ELANUM-Zeichen im Lichtlauf" width="960" height="960"></div></div>
+      <div class="bewegung__klein" aria-hidden="true"><div class="zeichen" data-zeichen="lichtlauf"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="64" height="64"></div><div class="zeichen" data-zeichen="lichtlauf"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="40" height="40"></div><span class="bewegung__marke"><span class="zeichen" data-zeichen="lichtlauf"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="30" height="30"></span>ELANUM</span></div>
+      <h4 class="bewegung__name">Lichtlauf</h4>
+      <p class="bewegung__takt">Dauernd · 24 s pro Umlauf</p>
+      <p class="secondary">Ein weicher Glanz wandert im Kreis durch das Zeichen, wie der Glührand, nur langsamer. Die Farben bleiben.</p>
+    </li>
+  </ul>
+  <p class="chapter-foot"><a class="text-link glow-edge" href="components/zeichen/">Zeichen in Bewegung als eigene Seite</a></p>
   <details class="logo-audit">
     <summary>Konstruktion im Detail</summary>
     <p class="secondary">Die freien Bézier-Kurven des Originals hatten innerhalb einzelner Bögen schwankende Radien und Krümmungssprünge an den Übergängen. Die Kreiskonstruktion ersetzt sie durch Bögen mit festem Radius. Alle Radien stammen aus der Reihe R·φ^(−k/4): Vier Stufen ergeben genau den Goldenen Schnitt. Aufeinanderfolgende Bögen berühren sich tangential, ihre Mittelpunkte liegen mit dem Übergangspunkt auf einer Geraden.</p>
@@ -177,7 +200,7 @@
   <div class="areas" id="areaPalette"></div>
   <div class="block-head" data-anim="reveal">
     <h3 class="block-title">Markenspektrum</h3>
-    <p class="secondary">Nur für das Zeichen und die Verbindungslinie zwischen zwei Menschen. Keine Fläche, keine Kategorie.</p>
+    <p class="secondary">Nur für das Zeichen und die Verbindungslinie zwischen zwei Menschen. Keine Fläche, keine Kategorie. Links das Zeichen im Lichtlauf.</p>
   </div>
   <div class="spectrum" id="spectrumPalette" data-anim="reveal"></div>
   <div class="block-head" data-anim="reveal">
@@ -306,6 +329,7 @@
     <li><a class="element-card area glow-edge" data-area="bezug" href="components/umfeld/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="32" cy="32" r="9"/><circle cx="14" cy="16" r="6"/><circle cx="52" cy="22" r="6"/><circle cx="46" cy="52" r="6"/><path d="M25 26l-6-5M41 29l6-3M38 39l4 7"/></svg></span><span class="element-card__kosmos">Resonanzkosmos</span><span class="element-card__name">Umfeld</span><span class="secondary">Ich in der Mitte, Menschen nach Nähe und Resonanz.</span></a></li>
     <li><a class="element-card area glow-edge" data-area="ich" href="components/beziehungsraum/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M10 40a13 13 0 1 1 15 0M39 40a13 13 0 1 1 15 0"/><path d="M30 32c2 3 2 3 4 0"/></svg></span><span class="element-card__kosmos">Resonanzkosmos</span><span class="element-card__name">Beziehungsraum</span><span class="secondary">Zwei eigene Räume und ihre Verbindung.</span></a></li>
     <li><a class="element-card area glow-edge" data-area="sterne" href="components/weg/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 32h30"/><path d="M46 32h10" stroke-dasharray="3 4"/><circle cx="8" cy="32" r="3" fill="currentColor"/><circle cx="23" cy="32" r="3" fill="currentColor"/><circle cx="38" cy="32" r="5"/></svg></span><span class="element-card__kosmos">Resonanzkosmos</span><span class="element-card__name">Weg &amp; Tageslinie</span><span class="secondary">Stationen: erledigt, jetzt, offen.</span></a></li>
+    <li><a class="element-card area glow-edge" data-area="sterne" href="components/zeichen/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M56.6 28.6A25 25 0 1 0 57 34a11 11 0 0 1-14-6 9 9 0 0 0 13.6.6"/><circle cx="26" cy="34" r="7"/><path d="M33 34c0 8-7 12-13 10M19 27c4-7 15-8 21-1"/></svg></span><span class="element-card__kosmos">Marke</span><span class="element-card__name">Zeichen in Bewegung</span><span class="secondary">Zeichenaufbau und Lichtlauf.</span></a></li>
   </ul>
   <div class="block-head" data-anim="reveal">
     <h3 class="block-title">Ein Linien-System</h3>
@@ -328,7 +352,7 @@
   <header class="chapter-head">
     <p class="chapter-no">11 · Bewegung</p>
     <h2 id="bewegungTitle" data-anim="title">Bewegung erklärt.</h2>
-    <p class="chapter-intro">Bewegung zeigt, wie etwas funktioniert: Kreise rücken zusammen, das Rad baut sich Bereich für Bereich auf, eine Spur zeichnet sich bis zu dir. Langsam im Ausdruck, direkt in der Bedienung. Das Zeichen bewegt sich nie.</p>
+    <p class="chapter-intro">Bewegung zeigt, wie etwas funktioniert: Kreise rücken zusammen, das Rad baut sich Bereich für Bereich auf, eine Spur zeichnet sich bis zu dir. Langsam im Ausdruck, direkt in der Bedienung. Die Form des Zeichens bewegt sich nie, nur Licht und Farbe bewegen sich darin.</p>
   </header>
   <div class="motion">
     <div class="motion__visual">
@@ -342,6 +366,7 @@
       <div><dt>Titelzeilen</dt><dd>maskiert · 140 ms Versatz</dd></div>
       <div><dt>Linien</dt><dd>zeichnen sich · 1–1,8 s</dd></div>
       <div><dt>Resonanzrad</dt><dd>baut sich beim Scrollen in vier Schritten auf</dd></div>
+      <div><dt>Zeichen</dt><dd>Zeichenaufbau einmal, knapp 3 s · Lichtlauf 24 s pro Umlauf</dd></div>
     </dl>
   </div>
   <div class="motion__actions"><button class="motion-toggle glow-edge" data-motion-toggle aria-pressed="false">Bewegung pausieren</button><p class="secondary" id="motionPreference">Die Systemeinstellung für reduzierte Bewegung wird respektiert.</p></div>
@@ -414,7 +439,7 @@
 
 <footer class="footer">
   <p class="footer__line" data-anim="title">Das Eigene hinterlässt eine Spur. Resonanz verändert sie.</p>
-  <p class="secondary">ELANUM · Gestaltungsatlas 4.8 · Oktober 2026</p>
+  <p class="secondary">ELANUM · Gestaltungsatlas 4.9 · Oktober 2026</p>
 </footer>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -422,6 +447,7 @@
 <script src="components/beziehungsraum/beziehungsraum.js"></script>
 <script src="components/resonanzrad/resonanzrad.js"></script>
 <script src="components/umfeld/umfeld.js"></script>
+<script src="components/zeichen/zeichen.js"></script>
 <script src="assets/glossar.js"></script>
 <script src="app.js"></script>
 </body>
