@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Zeichen in Bewegung</title>
+<link rel="icon" href="../../assets/ELANUM-System-Ink-Harmonic.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="zeichen.css">
+<link rel="stylesheet" href="page.css">
+</head>
+<body>
+<a class="skip-link" href="#element">Zum Element springen</a>
+<header class="page-top">
+  <a class="brand" href="../../index.html"><img src="../../assets/ELANUM-System-Ink-Harmonic.svg" alt="" width="30" height="30"><span>ELANUM</span></a>
+  <a class="back-link glow-edge" href="../../index.html#bausteine">Gestaltungsatlas 4.9</a>
+</header>
+<main class="page">
+  <div class="page-intro">
+    <h1 data-anim="hero">Zeichen in Bewegung</h1>
+    <p data-anim="hero">Die Form des ELANUM-Zeichens bewegt sich nie. Licht und Farbe bewegen sich darin: einmal kräftig im Zeichenaufbau oder sanft und dauernd im Lichtlauf und im Farbatem. Gross wie klein.</p>
+  </div>
+  <ul class="bewegungen" id="element">
+    <li class="bewegung">
+      <div class="bewegung__buehne"><div class="zeichen" data-zeichen="aufbau"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="ELANUM-Zeichen im Zeichenaufbau" width="960" height="960"></div></div>
+      <div class="bewegung__klein" aria-hidden="true">
+        <div class="zeichen" data-zeichen="aufbau"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="64" height="64"></div>
+        <div class="zeichen" data-zeichen="aufbau"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="40" height="40"></div>
+        <span class="bewegung__marke"><span class="zeichen" data-zeichen="aufbau"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="30" height="30"></span>ELANUM</span>
+      </div>
+      <h2 class="bewegung__name">Zeichenaufbau</h2>
+      <p class="bewegung__takt">Einmal · gut 3 s</p>
+      <p class="secondary">Die Konstruktionskreise und Konturen zeichnen sich, dann füllt sich das Spektrum aus der Öffnung. Klein ohne Hilfskreise und schneller.</p>
+      <button type="button" class="button button--secondary" data-zeichen-nochmals>Nochmals aufbauen</button>
+    </li>
+    <li class="bewegung">
+      <div class="bewegung__buehne"><div class="zeichen" data-zeichen="lichtlauf"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="ELANUM-Zeichen im Lichtlauf" width="960" height="960"></div></div>
+      <div class="bewegung__klein" aria-hidden="true">
+        <div class="zeichen" data-zeichen="lichtlauf"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="64" height="64"></div>
+        <div class="zeichen" data-zeichen="lichtlauf"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="40" height="40"></div>
+        <span class="bewegung__marke"><span class="zeichen" data-zeichen="lichtlauf"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="30" height="30"></span>ELANUM</span>
+      </div>
+      <h2 class="bewegung__name">Lichtlauf</h2>
+      <p class="bewegung__takt">Dauernd · 24 s pro Umlauf</p>
+      <p class="secondary">Ein weicher Glanz wandert im Kreis durch das Zeichen, wie der Glührand, nur langsamer. Die Farben bleiben.</p>
+    </li>
+    <li class="bewegung">
+      <div class="bewegung__buehne"><div class="zeichen" data-zeichen="farbatem"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="ELANUM-Zeichen im Farbatem" width="960" height="960"></div></div>
+      <div class="bewegung__klein" aria-hidden="true">
+        <div class="zeichen" data-zeichen="farbatem"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="64" height="64"></div>
+        <div class="zeichen" data-zeichen="farbatem"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="40" height="40"></div>
+        <span class="bewegung__marke"><span class="zeichen" data-zeichen="farbatem"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="30" height="30"></span>ELANUM</span>
+      </div>
+      <h2 class="bewegung__name">Farbatem</h2>
+      <p class="bewegung__takt">Dauernd · im Takt der Atmung</p>
+      <p class="secondary">Die Farben verschieben sich sanft im Spektrum und kehren zurück: 3,4 s Raum geben, 4,4 s zur Ruhe.</p>
+    </li>
+  </ul>
+  <div class="zeichen-foot"><button class="motion-toggle glow-edge" data-motion-toggle aria-pressed="false">Bewegung pausieren</button><p class="secondary">Pause und reduzierte Bewegung zeigen das ruhende Zeichen.</p></div>
+</main>
+<script src="zeichen.js"></script>
+<script src="page.js"></script>
+</body>
+</html>

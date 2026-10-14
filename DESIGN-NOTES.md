@@ -1,4 +1,6 @@
-# ELANUM — Gestaltungsatlas 4.8
+# ELANUM — Gestaltungsatlas 4.9
+
+4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin: einmal kräftig im Zeichenaufbau oder sanft und dauernd im Lichtlauf und im Farbatem, gross wie klein. Der Einstieg baut das Zeichen auf. Neuer Baustein `components/zeichen/`, drei neue Begriffe im Glossar.
 
 4.8 benennt den violetten Bereich des Resonanzrads neu: Sterne & Ursprung statt Grundtöne, im Code `sterne` statt `grund`. Resonanz heisst im Glossar nur noch: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. Der lokale Server `tools/serve.py` liefert jede Datei frisch aus.
 
@@ -16,7 +18,7 @@ Kurz: ELANUM hat drei **Kosmen**. Der **Resonanzkosmos** ist der Einstieg: Reson
 
 ## Richtung
 
-Offene Flächen, klare Kreise, bewusst gesetzte Öffnungen und kurze Verbindungen. Abstand gliedert, Linien trennen nur Kapitel. Der dunkle Beziehungsraum ist das einzige dunkle Kapitel. Das Zeichen bleibt unverändert und unbewegt.
+Offene Flächen, klare Kreise, bewusst gesetzte Öffnungen und kurze Verbindungen. Abstand gliedert, Linien trennen nur Kapitel. Der dunkle Beziehungsraum ist das einzige dunkle Kapitel. Die Form des Zeichens bleibt unverändert und unbewegt; Licht und Farbe dürfen sich darin bewegen.
 
 ## Typografie: fünf Stufen
 
@@ -95,6 +97,20 @@ Konstruktionsregeln:
 
 Die Zeichen-Karte im Atlas zeigt nur dieses Zeichen: Spektrum, Ink, Invers, Relief und Blueprint. „Relief“ nutzt die Ink-Silhouette als eingebettete Maske.
 
+### Bewegung des Zeichens (4.9)
+
+Die Form bewegt sich nie: kein Skalieren, Drehen oder Verformen. Unter jeder Bewegung liegt die unveränderte Datei `ELANUM-Master-Spektrum-Harmonic.svg`, am Ende steht immer genau sie. Das Farbnetz selbst wird nicht animiert, es hat 697 Verläufe und müsste bei jedem Bild neu gezeichnet werden. Bewegt werden nur leichte Ebenen darüber (`components/zeichen/`):
+
+- **Zeichenaufbau**, einmal, gut 3 s: Aussenkreis und Kerbe, Öffnung, Konstruktionskreise (Violett, Petrol, Hilfskreise in Magenta wie im Blueprint), dann die Mittellinien und die Farbkanten. Danach füllt sich das Spektrum als wachsender Kreis aus der Öffnung, und die Konstruktion blendet aus. Linien in echten Pixeln, egal wie gross. Hilfskreise blenden ausserhalb des Aussenkreises weich aus. Unter 120 px ohne Hilfskreise und um 30 % schneller. Die Konstruktion schreibt `tools/build_logo_circles.py` in die Zeile `var K` von `zeichen.js`.
+- **Lichtlauf**, dauernd: ein weicher, weisser Glanz, auf die Silhouette zugeschnitten, kreist um die Mitte des Aussenkreises, 24 s pro Umlauf, Überblendung „screen“ mit 60 % Deckkraft. Wie der Glührand, nur langsamer.
+- **Farbatem**, dauernd: dasselbe Bild in einer zweiten Farbstellung (Farbton +14°, Sättigung 118 %, Helligkeit 103 %) blendet im Takt der Atmung darüber und zurück, 3,4 s Raum geben, 4,4 s zur Ruhe. +18° kippte das Orange ins Gelb, −12° das Blau ins Cyan.
+
+Ohne Skript, bei reduzierter Bewegung und in der Pause steht das ruhende Zeichen. Tab beendet einen laufenden Zeichenaufbau. Gemessen bleiben auch mit allen drei Bewegungen gleichzeitig 60 Bilder pro Sekunde.
+
+Im Atlas: Der Einstieg baut das Zeichen auf. Das Kapitel Zeichen zeigt alle drei Bewegungen gross, in 64 und 40 px und in der Marke mit 30 px. Im Kapitel Farbe steht das Zeichen im Farbatem neben dem Markenspektrum.
+
+Entscheid (14.10.2026): Chris gibt die Bewegung frei. „Es darf sich auch in Klein bewegen, aber sanft dauernd oder einmal intensiv im Aufbau.“ Der Satz „Das Zeichen bewegt sich nie“ heisst jetzt „Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin“.
+
 ### Entscheid (12.10.2026)
 
 Zwei Fassungen standen zur Wahl: der Goldene Schnitt und eine Konstruktion aus sechs Grundkreisen mit fünf krümmungsstetigen Brücken (`-Geometrisch`, aus dem ELANUM-Geometrie-Paket, PR #9). Nach einem direkten Vergleich in Spektrum, Ink, Kleingrössen und Blueprint fiel der Entscheid auf den Goldenen Schnitt. Die Fassung „Sechs Grundkreise“ bleibt als geprüfte Alternative mit `tools/build_logo_geometrie.py` und `assets/*-Geometrisch.*` im Repository, sie wird nicht verwendet. Die frühere Variante „Nah am Original“ (`-Circles`) ist nicht mehr gültig.
@@ -127,6 +143,8 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 
 **Weg und Tageslinie** (`components/weg/`, Baustein `.track` in `base.css`): Stationen erledigt (gefüllter Punkt), jetzt (Ring) und offen (Kontur mit Öffnung unten). Bis „jetzt“ führt die Spur, danach eine Unterbrechung. Labels stehen in einer eigenen Spalte und kreuzen die Linie nie. Waagrecht ab 900 px, darunter senkrecht.
 
+**Zeichen in Bewegung** (`components/zeichen/`): Zeichenaufbau, Lichtlauf und Farbatem, siehe oben beim ELANUM-Zeichen. Markup `<div class="zeichen" data-zeichen="aufbau | lichtlauf | farbatem">` mit dem Spektrum als `<img>`; ohne Skript steht das Bild.
+
 **Linien-System:** Kontur 1,6 px, Verbindung 2,8 px, Knoten 3,3 px Radius. **Icons:** 24er-Raster, 1,6 px, runde Enden, keine Füllung, Sprache aus Kreisen, Öffnungen und Verbindungen.
 
 ## Bewegung
@@ -135,7 +153,7 @@ Bewegung erklärt: Kreise rücken zusammen, das Rad baut sich Bereich für Berei
 
 | Moment | Was sich bewegt |
 |---|---|
-| Einstieg | Titelzeilen steigen maskiert auf (140 ms Versatz), Text und Link folgen, unter 1,5 s. Das Zeichen steht. |
+| Einstieg | Titelzeilen steigen maskiert auf (140 ms Versatz), Text und Link folgen, unter 1,5 s. Daneben baut sich das Zeichen auf, gut 3 s. |
 | Kapiteltitel | Zeilen steigen einmal auf, ab 85 % Fensterhöhe. |
 | Blöcke und Gruppen | Einmal, 900 ms, 24 px, ab 88 %; Gruppen 120 ms Versatz, höchstens 0,48 s. |
 | Beziehung | Kreise starten weit, Konturen zeichnen sich, dann rücken sie auf „nah“, die Verbindung entsteht. Die Regler laufen mit und zeigen, was sie bedeuten. Wer einen Regler anfasst, übernimmt sofort. |
@@ -146,7 +164,8 @@ Bewegung erklärt: Kreise rücken zusammen, das Rad baut sich Bereich für Berei
 | Status | Das Zeichen federt beim Wechsel kurz ein. |
 | Glühen | Die Station „jetzt“, der Auswahlbogen im Rad und ausgewählte Flächen glühen im Atemtakt; Verbindungslinien leuchten weich. |
 | Bedienung | 160–220 ms, ohne Blitz. |
-| Immer | Nur die Atmung: 3,4 s Raum geben, 4,4 s zur Ruhe, höchstens 7,5 % Radius. |
+| Zeichen | Zeichenaufbau einmal, sobald das Zeichen zu sehen ist. Lichtlauf und Farbatem dauernd, wo sie gesetzt sind. Die Form steht. |
+| Immer | Nur die Atmung: 3,4 s Raum geben, 4,4 s zur Ruhe, höchstens 7,5 % Radius. Im Zeichen dazu Lichtlauf oder Farbatem, wo gesetzt. |
 
 Alle Auftritte setzen ihre Endwerte ausdrücklich, und der Versteck-Guard wird vor dem Anlegen gelöst; vorher sprangen manche Blöcke am Ende schlagartig auf. Das festgehaltene Kapitel wird zuerst angelegt, damit alle Auftritte dahinter zur richtigen Stelle auslösen, und jeder einmalige Auftritt gilt bis zum Seitenende, damit auch schnelles Scrollen oder ein Sprung über die Navigation ihn auslöst. Ohne Festhalten (Telefon) baut sich nur das Rad auf, Lesebereich und Liste sind sofort da.
 

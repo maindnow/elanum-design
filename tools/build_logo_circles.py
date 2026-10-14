@@ -6,6 +6,7 @@ Erzeugt aus wenigen Konstruktionskreisen die Logo-Dateien:
   assets/ELANUM-System-Ink-<V>.svg
   assets/ELANUM-Master-Spektrum-<V>.svg   (Farbnetz aus -Curves, neue Konturen)
   assets/ELANUM-Konstruktion-<V>.svg      (Blueprint mit allen Kreisen)
+  components/zeichen/zeichen.js           (Konstruktion für den Zeichenaufbau, Zeile "var K")
 
 <V> = Harmonic: alle Radien aus der Reihe R * phi^(-k/4) (Goldener Schnitt).
 Das ist das gültige ELANUM-Zeichen. CIRCLES (nah am Original) bleibt nur als
@@ -24,6 +25,7 @@ Nur Python-Standardbibliothek. Aufruf aus dem Repository-Wurzelverzeichnis:
 """
 
 import base64
+import json
 import math
 import os
 import re
@@ -442,8 +444,10 @@ def regions(g):
     # Schwanz: Schwanzkante bis zum Aussenkreis, Aussenkreis hinauf bis B, Kerbe zurück
     tail = (path(g['TB']) + ' A %s %s 0 0 0 %s %s ' % (f(R), f(R), f(B[0]), f(B[1]))
             + path([nl.reversed()], move=False) + ' Z')
+    # Aussenkontur in Zeichenrichtung: Aussenkreis von A bis B, dann die Kerbe zurück zu A
+    outline = outer + ' ' + path([nl.reversed(), nu], move=False)
     return {'silhouette': silhouette, 'ink': ink, 'front': front, 'band': band, 'tail': tail,
-            'A': A, 'B': B}
+            'A': A, 'B': B, 'outline': outline, 'hole': hole}
 
 
 # ---------------------------------------------------------------- Ausgabe
@@ -467,8 +471,8 @@ def spectrum_svg(rg):
     return src
 
 
-def blueprint_svg(v, g, rg):
-    name = v['name']
+def construction_circles(v, g):
+    """Konstruktionskreise (Mittelpunkt, Radius, Stufe, Rolle) und die gezeigten Bögen."""
     circles = []          # (center, radius, label, role)
     seen = set()
 
@@ -496,7 +500,12 @@ def blueprint_svg(v, g, rg):
                 add_circle(a.c, a.r, label_for(v, a.r), role)
             if key not in ('L1c', 'L2c'):
                 used.append((a, key))
+    return circles, used
 
+
+def blueprint_svg(v, g, rg):
+    name = v['name']
+    circles, used = construction_circles(v, g)
     parts = []
     parts.append('<rect x="-400" y="-400" width="2200" height="2200" fill="#F6F1E7"/>')
     grid = []
@@ -550,6 +559,36 @@ def blueprint_svg(v, g, rg):
             '<title>ELANUM — Kreiskonstruktion %s</title>'
             '<desc>Blueprint des ELANUM-Logos. Alle Konturen sind Bögen der gezeigten Kreise; '
             'aufeinanderfolgende Bögen berühren sich tangential.</desc>%s</svg>\n' % (name, ''.join(parts)))
+
+
+ZEICHEN_JS = os.path.join(ROOT, 'components', 'zeichen', 'zeichen.js')
+
+
+def zeichen_data(v, g, rg):
+    """Konstruktion für den Zeichenaufbau im Baustein Zeichen, im Raster des Zeichens (VIEWBOX)."""
+    num = lambda x: float(f(x))
+    role = {'main': 'rahmen', 'line': 'linie', 'notch': 'kerbe', 'aux': 'kante'}
+    circles, _ = construction_circles(v, g)
+    return {
+        'viewBox': VIEWBOX,
+        'mitte': [num(g['O'][0]), num(g['O'][1])],
+        'oeffnung': [num(g['H'][0]), num(g['H'][1]), num(g['r0'])],
+        'form': rg['silhouette'],
+        'kreise': [[num(c[0]), num(c[1]), num(r), role[ro]] for c, r, _, ro in circles],
+        'konturen': [['rahmen', rg['outline']], ['rahmen', rg['hole']],
+                     ['linie', path(g['L1c'])], ['linie', path(g['L2c'])],
+                     ['kante', path(g['TB'])], ['kante', path(g['FC'])], ['kante', path(g['LA'] + g['LB'])]],
+    }
+
+
+def write_zeichen_js(data):
+    src = open(ZEICHEN_JS, encoding='utf-8').read()
+    line = '  var K = %s;' % json.dumps(data, ensure_ascii=False, separators=(',', ':'))
+    src, n = re.subn(r'^  var K = .*;$', lambda m: line, src, count=1, flags=re.M)
+    if n != 1:
+        raise RuntimeError('Zeile "var K" in components/zeichen/zeichen.js nicht gefunden')
+    with open(ZEICHEN_JS, 'w', encoding='utf-8') as fh:
+        fh.write(src)
 
 
 def label_for(v, r):
@@ -633,6 +672,7 @@ def main():
         for fn, content in out.items():
             with open(os.path.join(ASSETS, fn), 'w', encoding='utf-8') as fh:
                 fh.write(content)
+        write_zeichen_js(zeichen_data(v, g, rg))
         if write_masks:
             print('  Relief-Maske %s: %s' % (v['name'], mask_uri(ink)))
 

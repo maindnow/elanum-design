@@ -2,7 +2,7 @@
    Vorher im Repository einen Server starten:  python3 -m http.server 4173
    Dann:  node tools/screenshots.js
    Braucht Playwright (npm i -D playwright oder PLAYWRIGHT=/pfad/zu/playwright).
-   Einstieg nach dem Auftritt, das Resonanzrad ohne Bewegung (fertig aufgebaut). */
+   Einstieg nach Auftritt und Zeichenaufbau, das Resonanzrad ohne Bewegung (fertig aufgebaut). */
 const path = require('path');
 const { chromium } = require(process.env.PLAYWRIGHT || 'playwright');
 
@@ -14,7 +14,7 @@ const OUT = path.join(__dirname, '..', 'docs', 'screenshots');
   /* Einstieg mit Bewegung, nach dem Auftritt aufgenommen. */
   const hero = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await hero.goto(BASE, { waitUntil: 'networkidle' });
-  await hero.waitForTimeout(3000);
+  await hero.waitForTimeout(4500);
   await hero.screenshot({ path: path.join(OUT, 'atlas-desktop.png') });
 
   const desktop = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
@@ -26,7 +26,7 @@ const OUT = path.join(__dirname, '..', 'docs', 'screenshots');
 
   const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
   await mobile.goto(BASE, { waitUntil: 'networkidle' });
-  await mobile.waitForTimeout(3000);
+  await mobile.waitForTimeout(4500);
   await mobile.screenshot({ path: path.join(OUT, 'atlas-mobil.png') });
 
   await browser.close();

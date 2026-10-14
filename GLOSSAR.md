@@ -1,4 +1,4 @@
-# ELANUM Glossar 4.8
+# ELANUM Glossar 4.9
 
 <!-- Automatisch erzeugt aus assets/glossar.js mit `node tools/glossar-md.js`. Nicht von Hand bearbeiten. -->
 
@@ -11,9 +11,12 @@ Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und C
 | Begriff | Bedeutung | Im Code |
 |---|---|---|
 | **ELANUM** | Die Marke. Immer in Versalien. |  |
-| **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Es bewegt sich nie. | `assets/ELANUM-*-Harmonic.svg` |
+| **ELANUM-Zeichen** | Das runde, farbige Symbol der Marke, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Darstellungen: Spektrum, Ink, Invers, Relief, Blueprint. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin: im Zeichenaufbau, im Lichtlauf und im Farbatem. | `assets/ELANUM-*-Harmonic.svg · components/zeichen` |
 | **Kreiskonstruktion** | Bauweise des ELANUM-Zeichens: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R·φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. | `tools/build_logo_circles.py` |
 | **Blueprint** | Darstellung des ELANUM-Zeichens mit allen Konstruktionskreisen, Mittelpunkten und Berührpunkten. | `assets/ELANUM-Konstruktion-Harmonic.svg` |
+| **Zeichenaufbau** | Bewegung des ELANUM-Zeichens, einmal und kräftig: Konstruktionskreise und Konturen zeichnen sich, dann füllt sich das Spektrum aus der Öffnung. Gut 3 s, danach steht das Zeichen. | `data-zeichen="aufbau"` |
+| **Lichtlauf** | Bewegung des ELANUM-Zeichens, sanft und dauernd: Ein weicher Glanz wandert im Kreis durch das Zeichen, 24 s pro Umlauf. | `data-zeichen="lichtlauf"` |
+| **Farbatem** | Bewegung des ELANUM-Zeichens, sanft und dauernd: Die Farben verschieben sich im Takt der Atmung im Spektrum und kehren zurück. | `data-zeichen="farbatem"` |
 | **Resonanz** | Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. |  |
 
 ## Kosmen
@@ -56,7 +59,7 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | **Beziehungsraum** | Zwei eigene Räume und die Verbindung dazwischen. | `components/beziehungsraum` |
 | **Verbindung** | Die Linie zwischen zwei Kreisen. Sie trifft beide Konturen exakt. |  |
 | **Nähe · Resonanz · Freiraum** | Die drei Werte einer Beziehung: Abstand der Kreise, Stärke der Verbindung, Grösse der Öffnung. Gestaltungswerte, keine Messung. | `proximity · resonance · openness` |
-| **Atmung** | Der gemeinsame Bewegungstakt der Kreise: 3,4 s Raum geben, 4,4 s zur Ruhe kommen. |  |
+| **Atmung** | Der gemeinsame Bewegungstakt der Kreise und des Farbatems: 3,4 s Raum geben, 4,4 s zur Ruhe kommen. |  |
 
 ## Farbe und Material
 
