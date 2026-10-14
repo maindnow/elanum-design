@@ -1,0 +1,523 @@
+/* ============================================================
+   ELANUM App-Rahmen 4.10
+   Der Rahmen für jede Seite der App: Navigation, Kopf, Inhalt,
+   Karten, Listen, Personen, Gespräch und Sheet. Mobile zuerst,
+   jede Breite dazwischen gilt. Setzt tokens.css und base.css voraus.
+
+   Eine Navigation, drei Formen, immer dieselben Ziele:
+   - bis 599 px    Leiste unten in der Daumenzone, Kopf oben
+   - 600–1023 px   Schiene links, Icon über dem Namen
+   - ab 1024 px    Seitenleiste mit Namen, nach Kosmen gegliedert
+   Karten und Spalten richten sich nach dem Platz im Inhalt
+   (Container Queries), nicht nach dem Fenster.
+   ============================================================ */
+
+.app{
+  --app-bar:72px;             /* Leiste unten, ohne Safe Area */
+  --app-rail:104px;           /* Schiene */
+  --app-side:272px;           /* Seitenleiste */
+  --app-head:64px;            /* Kopf, ohne Safe Area */
+  --app-pad:20px;             /* Seitenrand des Inhalts */
+  --app-max:1180px;           /* breitester Inhalt */
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --app-bottom:calc(var(--app-bar) + var(--safe-bottom));   /* was unten frei bleiben muss */
+  min-height:100dvh;
+}
+@media(min-width:600px){.app{--app-pad:32px;--app-bottom:0px;padding-left:var(--app-rail)}}
+@media(min-width:1024px){.app{--app-pad:48px;padding-left:var(--app-side)}}
+
+/* ---------- Navigation ---------- */
+.app-nav{position:fixed;z-index:40;left:0;right:0;bottom:0;padding:6px max(6px,env(safe-area-inset-right)) calc(6px + var(--safe-bottom)) max(6px,env(safe-area-inset-left));
+  background:color-mix(in srgb,var(--canvas) 86%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.15);backdrop-filter:blur(18px) saturate(1.15);
+  box-shadow:0 -1px 0 #D3CDC0B3,0 -14px 30px -20px #A39B8A}
+.app-nav__brand,.app-nav__foot,.app-nav__kosmos{display:none}
+.app-nav__list{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(max-content,1fr);gap:2px;max-width:560px;margin:0 auto}
+.app-nav__item{display:grid;justify-items:center;align-content:center;gap:3px;width:100%;min-height:60px;padding:4px 2px;border:0;border-radius:18px;background:transparent;color:var(--ink-2);font:var(--type-label);text-decoration:none;transition:color var(--motion-ui) ease,background var(--motion-ui) ease,box-shadow var(--motion-ui) ease}
+.app-nav__icon{position:relative;display:grid;place-items:center;width:56px;height:32px;border-radius:16px;transition:background var(--motion-ui) ease,box-shadow var(--motion-ui) ease}
+.app-nav__label{white-space:nowrap}
+.app-nav__item[aria-current=page]{color:var(--ink);font-weight:600}
+.app-nav__item[aria-current=page] .app-nav__icon{background:var(--paper);box-shadow:var(--raised-sm)}
+.app-nav__item[aria-current=page] .icon{stroke-width:1.9}
+/* Neu: ein Punkt, nie eine Zahl. Text dazu steht im Namen (visually-hidden). */
+.app-dot{position:absolute;top:3px;right:12px;width:10px;height:10px;border-radius:50%;background:var(--sterne-tief);box-shadow:0 0 0 2.5px var(--canvas)}
+@media(hover:hover) and (pointer:fine){
+  .app-nav__item:hover{color:var(--ink)}
+  .app-nav__item:not([aria-current=page]):hover .app-nav__icon{background:var(--sterne-hauch)}
+}
+
+@media(min-width:600px){
+  .app-nav{top:0;right:auto;width:var(--app-rail);display:flex;flex-direction:column;align-items:center;gap:28px;overflow:auto;
+    padding:20px 10px calc(20px + var(--safe-bottom)) max(10px,env(safe-area-inset-left));background:var(--canvas);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:1px 0 0 var(--line)}
+  .app-nav__brand{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;text-decoration:none}
+  .app-nav__brand img,.app-nav__brand .zeichen{width:36px;height:36px}
+  .app-nav__brand span{display:none}
+  .app-nav__list{grid-auto-flow:row;grid-auto-columns:auto;gap:10px;width:100%;margin:0}
+  .app-nav__item{min-height:68px}
+  .app-nav__foot{display:grid;justify-items:center;margin-top:auto}
+}
+@media(min-width:1024px){
+  .app-nav{width:var(--app-side);align-items:stretch;gap:32px;padding:28px 20px calc(24px + var(--safe-bottom))}
+  .app-nav__brand{display:flex;align-items:center;gap:12px;width:auto;height:48px;padding:0 8px;border-radius:var(--radius-control);font:var(--type-label);font-weight:600;letter-spacing:.18em}
+  .app-nav__brand img,.app-nav__brand .zeichen{width:32px;height:32px;flex:none}
+  .app-nav__brand span{display:inline}
+  .app-nav__list{gap:2px}
+  .app-nav__kosmos{display:block;margin:20px 12px 6px;font:var(--type-label);color:var(--ink-2)}
+  .app-nav__kosmos:first-child{margin-top:0}
+  .app-nav__item{grid-template-columns:auto minmax(0,1fr);justify-items:start;align-items:center;gap:12px;min-height:52px;padding:4px 14px 4px 4px;border-radius:var(--radius-button)}
+  .app-nav__icon{width:48px;height:40px;border-radius:14px}
+  .app-nav__item[aria-current=page]{background:var(--paper);box-shadow:var(--raised-sm)}
+  .app-nav__item[aria-current=page] .app-nav__icon{background:transparent;box-shadow:none}
+  .app-nav__foot{justify-items:stretch}
+}
+
+/* Kosmos wechseln: auf dem Desktop immer sichtbar, sonst im Menü */
+.app-nav__switch{display:none}
+@media(min-width:1024px){
+  .app-nav__menu{display:none}
+  .app-nav__switch{display:grid;gap:4px}
+  .app-nav__switch .app-nav__kosmos{margin:0 12px 6px}
+}
+.app-switch{display:grid;gap:2px;padding:12px 14px;border-radius:var(--radius-button);font:var(--type-label);color:var(--ink);text-decoration:none;transition:background var(--motion-ui) ease}
+.app-switch strong{font-weight:600}
+.app-switch span{color:var(--ink-2)}
+@media(hover:hover) and (pointer:fine){.app-switch:hover{background:var(--paper)}}
+
+/* Person in der Navigation: zu Konto und Einstellungen */
+.app-me{display:flex;align-items:center;justify-content:center;gap:12px;min-height:60px;padding:8px;border-radius:var(--radius-button);text-decoration:none;font:var(--type-label);font-weight:600;color:var(--ink);transition:background var(--motion-ui) ease}
+.app-me__name{display:none}
+@media(min-width:1024px){
+  .app-me{justify-content:flex-start;padding:8px 14px 8px 10px}
+  .app-me__name{display:grid}
+  .app-me small{font:var(--type-label);font-weight:500;color:var(--ink-2)}
+}
+@media(hover:hover) and (pointer:fine){.app-me:hover{background:var(--paper)}}
+/* Sehr schmal (unter 360 px): Leiste rückt zusammen, Namen bleiben 15 px */
+@media(max-width:359.98px){.app-nav__list{gap:0}.app-nav__icon{width:44px}}
+
+/* ---------- Kopf ----------
+   Telefon: Zeichen links, Aktionen rechts. Der kleine Titel erscheint erst,
+   wenn der grosse Titel aus dem Bild ist (app.js, .is-titled). */
+.app-head{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:8px;min-height:calc(var(--app-head) + var(--safe-top));
+  padding:var(--safe-top) max(calc(var(--app-pad) - 8px),env(safe-area-inset-right)) 0 max(calc(var(--app-pad) - 8px),env(safe-area-inset-left));
+  background:color-mix(in srgb,var(--canvas) 86%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.15);backdrop-filter:blur(18px) saturate(1.15);transition:box-shadow var(--motion-ui) ease}
+.app-head.is-scrolled{box-shadow:0 1px 0 var(--line)}
+.app-head__brand{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:50%}
+.app-head__brand img,.app-head__brand .zeichen{width:32px;height:32px}
+.app-head__title{flex:1;min-width:0;font:var(--type-heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateY(6px);transition:opacity var(--motion-ui) ease,transform var(--motion-ui) var(--ease)}
+.app-head.is-titled .app-head__title{opacity:1;transform:none}
+.app-head__actions{display:flex;align-items:center;gap:2px;margin-left:auto}
+@media(min-width:600px){.app-head__brand{display:none}.app-head{max-width:calc(var(--app-max) + 2 * var(--app-pad));margin:0 auto}}
+
+.app-icon-button{position:relative;display:grid;place-items:center;flex:none;width:48px;height:48px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ink);text-decoration:none;transition:background var(--motion-ui) ease}
+.app-icon-button .app-dot{top:9px;right:9px}
+@media(hover:hover) and (pointer:fine){.app-icon-button:hover{background:var(--paper)}}
+
+/* ---------- Inhalt ---------- */
+.app-main{container:app-main/inline-size;width:100%;max-width:calc(var(--app-max) + 2 * var(--app-pad));margin:0 auto;padding:0 var(--app-pad) calc(var(--app-bottom) + 48px)}
+.app-main:focus{outline:none}
+.app-pagehead{display:grid;gap:10px;padding:12px 0 32px}
+.app-kicker{font:var(--type-label);color:var(--ink-2)}
+.app-title{font:var(--type-title);letter-spacing:-.015em;text-wrap:balance}
+.app-lead{max-width:var(--measure);color:var(--ink-2)}
+@media(min-width:600px){.app-pagehead{padding:24px 0 40px}}
+
+.app-stack{display:grid;gap:var(--gap,40px);align-content:start}
+.app-section{display:grid;gap:18px;align-content:start}
+.app-section__head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+.app-section__title{font:var(--type-heading)}
+.app-more{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-right:-10px;padding:0 10px;border-radius:var(--radius-control);font:var(--type-label);font-weight:600;color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+@media(hover:hover) and (pointer:fine){.app-more:hover{color:var(--sterne-tief);background:var(--paper);text-decoration-thickness:2px}}
+
+/* Spalten nach Platz: Hauptspalte und Begleitspalte, Raster für Karten */
+.app-layout{display:grid;gap:40px;align-items:start}
+.app-grid{display:grid;gap:20px}
+@container app-main (min-width:640px){.app-grid--2,.app-grid--3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container app-main (min-width:880px){
+  .app-layout{grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);column-gap:48px}
+  .app-layout__aside{position:sticky;top:calc(var(--app-head) + var(--safe-top) + 16px)}
+}
+@container app-main (min-width:980px){.app-grid--3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Liste und Detail: ab 1024 px nebeneinander, darunter nacheinander */
+.app-split{display:grid;gap:32px;align-items:start}
+.app-split__detail{min-width:0}
+@media(max-width:1023.98px){.app-split[data-view=list] .app-split__detail,.app-split[data-view=detail] .app-split__list{display:none}}
+@media(min-width:1024px){
+  .app-split{grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:40px}
+  .app-split__list{position:sticky;top:calc(var(--app-head) + 16px)}
+  .app-split [data-back]{display:none}
+}
+
+/* ---------- Karten ---------- */
+.app-card{position:relative;display:grid;gap:16px;align-content:start;min-width:0;padding:24px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm);color:var(--ink);text-decoration:none}
+.app-card--quiet{background:var(--canvas);box-shadow:var(--pressed)}
+.app-card--area{background:var(--tint)}
+.app-card__kicker{font:var(--type-label);color:var(--ink-2)}
+.app-card__title{font:var(--type-heading)}
+.app-card__title--voice{font:var(--type-title);letter-spacing:-.015em}
+.app-card__text{color:var(--ink-2)}
+.app-card__foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+a.app-card,button.app-card{border:0;text-align:left;font:inherit;cursor:pointer;transition:transform var(--motion-ui) var(--ease),box-shadow var(--motion-ui) ease}
+@media(hover:hover) and (pointer:fine){
+  a.app-card:hover,button.app-card:hover{box-shadow:var(--raised-sm),var(--glow)}
+  body:not([data-motion=off]) a.app-card:hover,body:not([data-motion=off]) button.app-card:hover{transform:translateY(-3px)}
+}
+
+/* Element-Chip: Icon in der Farbe des Bereichs, Name in Ink */
+.element-chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:4px 14px 4px 5px;border-radius:18px;background:var(--tint);font:var(--type-label);font-weight:600;color:var(--ink)}
+.element-chip>.icon{width:28px;height:28px;padding:3px;border-radius:50%;background:var(--paper);color:var(--tone)}
+.element-chips{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ---------- Personen: eigene, offene Kreise ----------
+   Wie im Umfeld: ein Kreis mit Öffnung unten. Mit Foto liegt das Bild
+   im Kreis, die Kontur bleibt. Initiale nie unter 15 px. */
+.person{--size:48px;position:relative;display:grid;place-items:center;flex:none;width:var(--size);height:var(--size);border-radius:50%;
+  background:linear-gradient(135deg,#FCF9F0,#E2DBCD);box-shadow:3px 3px 7px #C4BDAF99,-3px -3px 7px #FFFFFFD9;
+  font:600 max(15px,calc(var(--size) * .38))/1 var(--ui-font);color:var(--ink)}
+.person::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:var(--trace) solid var(--ink);
+  -webkit-mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0);mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0);pointer-events:none}
+.person img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.person--lg{--size:88px}
+.person--xl{--size:132px;font-family:var(--display-font);font-weight:400}
+.person--sm{--size:40px}
+.persons{display:flex;align-items:center;padding-left:10px}
+.persons .person{margin-left:-10px;box-shadow:0 0 0 3px var(--paper)}
+.persons .person::after{display:none}
+.persons__more{margin-left:14px;font:var(--type-label);color:var(--ink-2)}
+
+/* ---------- Listen ---------- */
+.app-list{display:grid;gap:4px}
+.app-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;width:100%;min-height:76px;padding:10px 14px 10px 12px;border:0;border-radius:var(--radius-button);background:transparent;color:var(--ink);font:var(--type-label);text-align:left;text-decoration:none;transition:background var(--motion-ui) ease,box-shadow var(--motion-ui) ease}
+.app-row__body{display:grid;gap:2px;min-width:0}
+.app-row__title{font-weight:600}
+.app-row__text{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-row__meta{align-self:start;padding-top:6px;color:var(--ink-2);white-space:nowrap}
+.app-row.is-new .app-row__text{color:var(--ink);font-weight:600}
+.app-row.is-new .app-row__meta{color:var(--sterne-tief);font-weight:600}
+.app-row.is-new .app-row__meta::after{content:"";display:block;width:10px;height:10px;margin:8px 0 0 auto;border-radius:50%;background:linear-gradient(135deg,#6756D9,#D85BA9);box-shadow:0 0 10px #9466DFAA}
+.app-row[aria-current=true]{background:var(--paper);box-shadow:var(--raised-sm)}
+@media(hover:hover) and (pointer:fine){.app-row:hover{background:var(--paper)}}
+
+/* Menü: Kosmen als Karten, darunter kurze Zeilen */
+.app-kosmen{display:grid;gap:10px}
+.app-kosmos{display:grid;gap:4px;padding:18px 20px;border-radius:var(--radius-button);background:var(--paper);box-shadow:var(--raised-sm);color:var(--ink);text-decoration:none;font:var(--type-label)}
+.app-kosmos strong{font:var(--type-heading)}
+.app-kosmos span{color:var(--ink-2)}
+.app-kosmos[aria-current=true]{background:var(--canvas);box-shadow:var(--pressed)}
+.app-kosmos .app-kosmos__here{margin-top:4px;color:var(--sterne-tief);font-weight:600}
+.app-row--compact{min-height:60px}
+.app-row--compact>.icon:last-child{color:var(--ink-2)}
+
+/* ---------- Handlungen in der Daumenzone ----------
+   Telefon: über der Leiste schwebend, immer erreichbar. Breiter: im Fluss. */
+.app-actions{position:sticky;z-index:20;bottom:calc(var(--app-bottom) + 12px);display:flex;gap:12px;padding:10px;border-radius:26px;
+  background:color-mix(in srgb,var(--canvas) 88%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:var(--raised)}
+.app-actions>.button{flex:1;padding-left:16px;padding-right:16px}
+@media(min-width:600px){.app-actions{bottom:24px}}
+
+/* ---------- Gespräch ---------- */
+.app-thread{display:grid;gap:10px;align-content:start}
+.app-thread__day{justify-self:center;margin:12px 0 4px;font:var(--type-label);color:var(--ink-2)}
+.bubble{justify-self:start;max-width:min(80%,520px);padding:12px 16px;border-radius:22px 22px 22px 8px;background:var(--paper);box-shadow:var(--raised-sm);font:var(--type-body)}
+.bubble--me{justify-self:end;border-radius:22px 22px 8px 22px;background:var(--ink);color:#fff;box-shadow:4px 4px 10px #C4BDAF99}
+.bubble__time{display:block;margin-top:4px;font:var(--type-label);color:var(--ink-2)}
+.bubble--me .bubble__time{color:#CBD9D6}
+.bubble--element{display:grid;gap:10px;background:var(--tint)}
+.app-composer{position:sticky;z-index:20;bottom:calc(var(--app-bottom) + 12px);display:flex;align-items:end;gap:10px;padding:8px;border-radius:26px;
+  background:color-mix(in srgb,var(--canvas) 90%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:var(--raised)}
+.app-composer .field{flex:1}
+.app-composer textarea{min-height:52px;max-height:160px;resize:none;field-sizing:content}
+@media(min-width:600px){.app-composer{bottom:24px}}
+
+/* ---------- Sheet ----------
+   Telefon: von unten, mit Griff. Tablet: Dialog in der Mitte.
+   Desktop: Panel von rechts. Immer mit Schliessen-Knopf und Esc. */
+.app-sheet{position:fixed;inset:auto 0 0 0;width:100%;max-width:none;max-height:calc(100dvh - var(--safe-top) - 24px);margin:0;padding:0 0 var(--safe-bottom);border:0;
+  border-radius:var(--radius-surface) var(--radius-surface) 0 0;background:var(--canvas);color:var(--ink);box-shadow:0 -18px 44px -18px #16363B59;overflow:auto;overscroll-behavior:contain}
+.app-sheet::backdrop{background:#16363B52}
+.app-sheet[open]{animation:sheet-up 360ms var(--ease)}
+.app-sheet[open]::backdrop{animation:sheet-fade 360ms ease}
+@keyframes sheet-up{from{transform:translateY(40px);opacity:0}}
+@keyframes sheet-fade{from{opacity:0}}
+.app-sheet__grip{display:block;width:44px;height:5px;margin:10px auto 0;border-radius:3px;background:var(--line)}
+.app-sheet__head{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px 8px 24px;background:var(--canvas)}
+.app-sheet__head .app-kicker{flex:1}
+.app-sheet__body{display:grid;gap:24px;padding:4px 24px 32px}
+@media(min-width:600px){
+  .app-sheet{inset:0;width:min(600px,100% - 64px);max-height:min(88dvh,860px);margin:auto;padding:0;border-radius:var(--radius-surface)}
+  .app-sheet__grip{display:none}
+  .app-sheet__head{padding-top:16px}
+  .app-sheet[open]{animation:sheet-pop 280ms var(--ease)}
+  @keyframes sheet-pop{from{transform:scale(.96);opacity:0}}
+}
+@media(min-width:1024px){
+  .app-sheet{inset:0 0 0 auto;width:min(520px,100%);height:100dvh;max-height:none;margin:0;border-radius:var(--radius-surface) 0 0 var(--radius-surface)}
+  .app-sheet[open]{animation:sheet-side 360ms var(--ease)}
+  @keyframes sheet-side{from{transform:translateX(48px);opacity:0}}
+}
+
+/* ---------- Ruhiges Ende statt Endlosliste ---------- */
+.app-end{display:grid;justify-items:center;gap:14px;padding:40px 24px;text-align:center}
+.app-end .track{--marker:14px}
+
+/* Bewegung: Pause und reduzierte Bewegung wirken auch hier */
+body[data-motion=off] .app-sheet[open],body[data-motion=off] .app-sheet[open]::backdrop{animation:none}
+
+/* ============================================================
+   Muster aus den Kosmen
+   ============================================================ */
+
+/* ---------- Foto ----------
+   Hochformat 4:5, Radius einer Fläche. Ohne Bild: warme Reliefschale mit
+   Initiale in Yrsa, nie ein Platzhalter-Gesicht. */
+.photo{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:4/5;overflow:hidden;border-radius:var(--radius-surface);
+  background:radial-gradient(80% 60% at 26% 16%,#FFF6E6 0 14%,transparent 58%),radial-gradient(90% 75% at 92% 96%,#D99C88 0,transparent 64%),radial-gradient(75% 65% at 4% 100%,#9FC4C0 0,transparent 60%),radial-gradient(60% 50% at 70% 40%,#EBC9A880,transparent 70%),linear-gradient(165deg,#EADCC6,#CDB79C);
+  box-shadow:inset 0 1px 0 #FFFFFF99,10px 14px 30px -14px #8F8779;font:400 clamp(72px,24cqi,150px)/1 var(--display-font);color:#FFFFFFE6;text-shadow:0 6px 24px #8F877966;container-type:inline-size}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo::after{content:"";position:absolute;inset:auto 0 0;height:40%;background:linear-gradient(transparent,#16363B14);pointer-events:none}
+
+/* ---------- Profil im Datingkosmos ----------
+   Erklärt statt bewertet: keine Prozente, kein Score. Beobachtungen
+   in Worten, je an einem Element festgemacht. */
+.profile{display:grid;gap:24px;grid-template-areas:"head" "media" "body"}
+.profile__head{grid-area:head;display:grid;gap:8px}
+.profile__media{grid-area:media;display:grid;gap:12px;align-content:start}
+.profile__body{grid-area:body;display:grid;gap:40px;align-content:start;min-width:0}
+.profile__meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;font:var(--type-label);color:var(--ink-2)}
+.profile__meta span{display:inline-flex;align-items:center;gap:6px}
+.profile__line{font:var(--type-title);letter-spacing:-.015em;text-wrap:pretty}
+.profile__name{font:var(--type-title);letter-spacing:-.015em}
+@container app-main (min-width:760px){
+  .profile{grid-template-columns:minmax(260px,.8fr) minmax(0,1.2fr);grid-template-areas:"media head" "media body";grid-template-rows:auto 1fr;column-gap:48px;row-gap:36px;align-items:start}
+  .profile__media{position:sticky;top:calc(var(--app-head) + 16px)}
+}
+
+/* Beobachtungen: Element-Chip, darunter ein Satz. Unterschied ist kein Fehler. */
+.notes{display:grid;gap:12px}
+.note{display:grid;gap:10px;justify-items:start;padding:18px 20px;border-radius:var(--radius-button);background:var(--paper);box-shadow:var(--raised-sm)}
+.note p{font:var(--type-body)}
+.note--diff{background:var(--canvas);box-shadow:var(--pressed)}
+.note__kind{font:var(--type-label);color:var(--ink-2)}
+
+/* Frage und Antwort. Resonanz gilt einer Antwort, nicht einem ganzen Menschen. */
+.prompt{position:relative;display:grid;gap:10px;padding:22px 72px 22px 22px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
+.prompt figcaption{font:var(--type-label);color:var(--ink-2)}
+.prompt blockquote{font:var(--type-title);font-size:clamp(26px,2.4vw,32px);line-height:1.15;letter-spacing:-.01em}
+.prompt__resonate{position:absolute;right:12px;bottom:12px;display:grid;place-items:center;width:48px;height:48px;border:0;border-radius:50%;background:var(--canvas);color:var(--ink);box-shadow:var(--raised-sm);transition:transform var(--motion-ui) var(--ease)}
+.prompt__resonate[aria-pressed=true]{background:var(--ink);color:#fff;box-shadow:none}
+.prompt__resonate:active{transform:scale(.94)}
+
+/* ---------- Aktivität im Erlebniskosmos ----------
+   Datum als Kreis, wer dabei ist als offene Kreise. Plätze sachlich. */
+.event{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 18px;align-items:start;width:100%;height:100%}
+.event__date{display:grid;place-items:center;align-content:center;width:72px;height:72px;border-radius:50%;background:var(--canvas);box-shadow:var(--raised-sm);font:var(--type-label);color:var(--ink-2);text-align:center;line-height:1.1}
+.event__day{display:block;font:400 32px/1 var(--display-font);color:var(--ink)}
+.event__head{display:grid;gap:4px;min-width:0}
+.event__kind{font:var(--type-label);color:var(--ink-2)}
+.event__title{font:var(--type-heading);color:var(--ink)}
+.event__meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 16px;font:var(--type-label);color:var(--ink-2)}
+.event__meta span{display:inline-flex;align-items:center;gap:6px}
+.event__foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:4px}
+.event__seats{font:var(--type-label);color:var(--ink-2)}
+.event.is-joined .event__seats{color:var(--success);font-weight:600}
+
+/* ---------- Schritte eines Ablaufs ----------
+   Dieselben Stationen wie Weg und Tageslinie, waagrecht und kompakt. */
+.app-steps{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);counter-reset:none}
+.app-steps li{position:relative;display:grid;justify-items:center;gap:8px;font:var(--type-label);color:var(--ink-2);text-align:center}
+.app-steps li::before{content:"";position:relative;z-index:1;width:14px;height:14px;border-radius:50%}
+.app-steps li:not(:last-child)::after{content:"";position:absolute;top:6.2px;left:calc(50% + 14px);right:calc(-50% + 14px);height:var(--trace);background:repeating-linear-gradient(90deg,var(--ink-2) 0 6px,transparent 6px 12px)}
+.app-steps [data-state=done]::before{background:var(--ink);transform:scale(.72)}
+.app-steps [data-state=done]:not(:last-child)::after{background:var(--ink)}
+.app-steps [data-state=done]:has(+ [data-state=now])::after{height:var(--bridge);top:5.6px;background:linear-gradient(90deg,#6756D9,#D85BA9)}
+.app-steps [data-state=now]{color:var(--ink);font-weight:600}
+.app-steps [data-state=now]::before{background:var(--canvas);box-shadow:0 0 0 var(--trace) var(--sterne-tief),0 0 0 6px var(--sterne-hauch)}
+.app-steps [data-state=open]::before{border:var(--trace) solid var(--ink-2);-webkit-mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0);mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0)}
+
+/* ---------- Formular ---------- */
+.app-form{display:grid;gap:24px}
+.app-field{display:grid;gap:10px}
+.app-field>label,.app-field>.app-field__label{font:var(--type-label);font-weight:600}
+.app-field__hint{font:var(--type-label);color:var(--ink-2)}
+.app-fields{display:grid;gap:24px}
+@container app-main (min-width:560px){.app-fields--2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.app-check{display:flex;align-items:center;gap:14px;min-height:48px;width:fit-content;padding:8px 16px 8px 12px;margin-left:-12px;border-radius:var(--radius-control);font:var(--type-label);cursor:pointer;transition:background var(--motion-ui) ease}
+.app-check input{width:22px;height:22px;margin:0;accent-color:var(--ink);flex:none}
+.app-check:has(input:checked){background:var(--paper)}
+@media(hover:hover) and (pointer:fine){.app-check:hover{background:#FFFFFF8C}}
+.field>input[type=date],.field>input[type=time]{min-height:56px;-webkit-appearance:none;appearance:none}
+
+/* Stationen als Auswahl: jede Station ein Knopf */
+.app-steps button{min-height:44px;padding:0 8px;border:0;border-radius:var(--radius-control);background:transparent;font:inherit;color:inherit;cursor:pointer}
+@media(hover:hover) and (pointer:fine){.app-steps button:hover{background:var(--paper);color:var(--ink)}}
+.app-steps li:has(>button)::before{margin-bottom:-4px}
+
+/* ============================================================
+   Führung und Feinheit
+   ============================================================ */
+
+/* Licht von links oben, auch auf der Grundfläche: eine warme Aufhellung,
+   unten rechts ein Hauch Schatten. Kein Muster, keine Farbe. */
+body.app{background:
+  radial-gradient(1100px 760px at -8% -12%,#FFFFFFB3,transparent 62%),
+  radial-gradient(900px 700px at 110% 115%,#E4DDCF99,transparent 60%),
+  var(--canvas);background-attachment:fixed}
+
+/* Wo du bist, glüht: Glührand im Markenspektrum um den aktiven Ort,
+   im Atemtakt. Auf dem Desktop um die ganze Zeile. */
+.app-nav__item[aria-current=page] .app-nav__icon{animation:glow-breathe var(--motion-breath) ease-in-out infinite}
+.app-nav__item[aria-current=page] .app-nav__icon::after,.app-nav__item[aria-current=page]::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.6px;pointer-events:none;
+  background:conic-gradient(from var(--edge-angle),var(--edge-stops));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  opacity:1;animation:edge-turn 6s linear infinite}
+.app-nav__item[aria-current=page]::after{display:none}
+@media(min-width:1024px){
+  .app-nav__item[aria-current=page]{animation:glow-breathe var(--motion-breath) ease-in-out infinite}
+  .app-nav__item[aria-current=page] .app-nav__icon{animation:none}
+  .app-nav__item[aria-current=page] .app-nav__icon::after{display:none}
+  .app-nav__item[aria-current=page]::after{display:block}
+}
+body[data-motion=off] .app-nav__item,body[data-motion=off] .app-nav__item *,body[data-motion=off] .app-nav__item::after,body[data-motion=off] .app-nav__icon::after{animation-play-state:paused}
+
+/* Wechsel zwischen Screens: Navigation und Kopf bleiben stehen, der Inhalt
+   steigt weich auf, der aktive Ort gleitet zum neuen Ziel. */
+@view-transition{navigation:auto}
+.app-nav{view-transition-name:app-nav}
+.app-head{view-transition-name:app-head}
+.app-nav__item[aria-current=page] .app-nav__icon{view-transition-name:app-nav-current}
+@media(min-width:1024px){
+  .app-nav__item[aria-current=page]{view-transition-name:app-nav-current}
+  .app-nav__item[aria-current=page] .app-nav__icon{view-transition-name:none}
+}
+::view-transition-old(root){animation:app-vt-out 180ms ease both}
+::view-transition-new(root){animation:app-vt-in 320ms ease both}
+::view-transition-group(app-nav-current){animation-duration:420ms;animation-timing-function:var(--ease)}
+@keyframes app-vt-out{to{opacity:0}}
+@keyframes app-vt-in{from{opacity:0}}
+@media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+
+/* Drücken gibt nach, spürbar und kurz */
+a.app-card:active,button.app-card:active,.app-row:active,.app-kosmos:active,.idea:active{transform:scale(.985);transition-duration:90ms}
+.app-nav__item:active .app-nav__icon{transform:scale(.92);transition:transform 90ms ease}
+
+/* Zahlen und Zeiten stehen ruhig untereinander */
+.track__when,.app-row__meta,.bubble__time,.event__date,.app-thread__day{font-variant-numeric:tabular-nums}
+
+/* ---------- Hauptfläche ----------
+   Ein Moment pro Screen, in weichem Licht: hell, mit dem Schleier der
+   Farbe seines Bereichs (data-area) und einem Glühen in derselben Farbe.
+   Ohne Bereich ein warmer, neutraler Schleier.
+   Ink auf Fläche und Hauch mindestens 8,4:1, Tief als Kicker mindestens
+   4,9:1. Dunkel ist nur das Dazwischen (.app-hero--dark), der Beziehungsraum,
+   wie im Atlas. */
+.app-hero{--tone:var(--ink-2);--wash:#F0D9BF;--mist:#FBF3E7;
+  position:relative;isolation:isolate;overflow:hidden;display:grid;gap:18px;align-content:start;min-width:0;padding:26px 24px 24px;border-radius:32px;color:var(--ink);
+  background:
+    radial-gradient(120% 95% at 100% 0%,var(--wash) 0,color-mix(in srgb,var(--wash) 40%,transparent) 38%,transparent 66%),
+    radial-gradient(110% 85% at 0% 100%,color-mix(in srgb,var(--wash) 55%,var(--mist)) 0,transparent 70%),
+    linear-gradient(160deg,#FFFDF8,#F8F2E8);
+  box-shadow:inset 0 1px 0 #FFFFFFE6,inset 0 0 0 1px #FFFFFF8C,
+    12px 16px 30px -18px #A39B8A,-10px -10px 26px #FFFFFFC0,
+    0 36px 72px -34px color-mix(in srgb,var(--tone) 85%,transparent)}
+.app-hero[data-area=sterne]{--tone:var(--sterne-tief);--wash:var(--sterne-flaeche);--mist:var(--sterne-hauch)}
+.app-hero[data-area=ich]{--tone:var(--ich-tief);--wash:var(--ich-flaeche);--mist:var(--ich-hauch)}
+.app-hero[data-area=bezug]{--tone:var(--bezug-tief);--wash:var(--bezug-flaeche);--mist:var(--bezug-hauch)}
+.app-hero .app-card__kicker,.app-hero .app-kicker{color:var(--tone);font-weight:600}
+.app-hero__voice{font:var(--type-title);letter-spacing:-.015em;text-wrap:balance}
+.app-hero .app-card__text{color:var(--ink-2)}
+.app-hero .element-chip{background:#FFFFFFB8;box-shadow:inset 0 0 0 1px #FFFFFF}
+@media(min-width:600px){.app-hero{padding:32px}}
+
+.app-hero--dark{--ink-2:#CBD9D6;--line:#56706F;color:#F6F1E7;
+  background:radial-gradient(120% 100% at 0% 0%,#3A5C61 0,transparent 58%),linear-gradient(145deg,#2B494E,#16363B 72%);
+  box-shadow:14px 18px 36px -16px #7F776A,-10px -10px 26px #FFFFFFC0}
+.app-hero--dark :focus-visible{outline-color:#C4B7FF}
+.app-hero--dark .app-card__kicker,.app-hero--dark .app-kicker{color:#CBD9D6;font-weight:500}
+.app-hero--dark .app-hero__voice{color:#FFF}
+.app-hero--dark .app-card__text,.app-hero--dark p:not([class]){color:#E3E9E6}
+.app-hero--dark .element-chip{background:#FFFFFF14;color:#F6F1E7;box-shadow:inset 0 0 0 1px #FFFFFF1F}
+.app-hero--dark .element-chip>.icon{background:#FFFFFF14;color:#D1CDF4}
+.app-hero--dark .element-chip[data-area=ich]>.icon{color:#EFC8C1}
+.app-hero--dark .element-chip[data-area=bezug]>.icon{color:#B8DADA}
+.app-hero--dark .app-more{color:#FFF}
+.app-hero--dark .button{background:#F6F1E7 linear-gradient(135deg,#FFFFFF,#E9E2D4);color:var(--ink);box-shadow:0 10px 24px -10px #000A}
+.app-hero--dark .button::before{background:#fff}
+@media(hover:hover) and (pointer:fine){.app-hero--dark .app-more:hover{color:#FFF;background:#FFFFFF14}}
+
+/* ---------- Tagesbogen (ElanumApp.dayArc) ----------
+   Eine Scheibe im Relief, darum der Tag als offener Kreis. Kreis bleibt
+   Kreis, er atmet höchstens 3 %. Hell auf der Hauptfläche, dunkel auf
+   .app-hero--dark. */
+.day-arc{position:relative;display:block;width:100%;aspect-ratio:1}
+.day-arc svg{display:block;width:100%;height:100%;overflow:visible}
+.day-arc__ring{transform-box:view-box;transform-origin:120px 120px;animation:day-breathe var(--motion-breath) ease-in-out infinite}
+@keyframes day-breathe{0%,100%{transform:scale(1)}43%{transform:scale(1.03)}}
+.day-arc__disc{fill:#FFFDF8;filter:drop-shadow(4px 5px 6px #B9B0A0A6) drop-shadow(-4px -4px 5px #FFFFFF)}
+.day-arc__open{fill:none;stroke:#3D505599;stroke-width:1.6;stroke-dasharray:2 6;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.day-arc__done{fill:none;stroke-width:4;stroke-linecap:round;stroke-dasharray:1;filter:drop-shadow(0 0 5px #9466DF88)}
+.day-arc__station{fill:var(--ink)}
+.day-arc__now{fill:#FFFDF8;stroke:#B84C93;stroke-width:2;vector-effect:non-scaling-stroke;transform-box:fill-box;transform-origin:center;animation:day-now var(--motion-breath) ease-in-out infinite}
+@keyframes day-now{0%,100%{filter:drop-shadow(0 0 2px #D85BA966)}43%{filter:drop-shadow(0 0 10px #D85BA9DD)}}
+.day-arc__time{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;text-align:center;pointer-events:none}
+.day-arc__time strong{font:var(--type-heading);font-variant-numeric:tabular-nums;color:var(--ink)}
+.day-arc__time span{font:var(--type-label);color:var(--ink-2)}
+.app-hero--dark .day-arc__disc{fill:#FFFFFF0D;filter:none}
+.app-hero--dark .day-arc__open{stroke:#FFFFFF5C}
+.app-hero--dark .day-arc__station{fill:#F6F1E7}
+.app-hero--dark .day-arc__now{fill:#1D3D42;stroke:#F2C9E4}
+.app-hero--dark .day-arc__time strong{color:#FFF}
+.app-hero--dark .day-arc__time span{color:#CBD9D6}
+body[data-motion=off] .day-arc *{animation-play-state:paused}
+
+/* ---------- Auftritt ----------
+   Beim Öffnen eines Screens erklärt die Bewegung, was da ist: der Inhalt
+   steigt auf, der Tag zeichnet sich bis jetzt, jetzt blüht auf, das Rad
+   baut sich Stück für Stück auf. Nur mit erlaubter Bewegung (.app-in auf
+   <html>, gesetzt von app.js). Die Endwerte stehen in den Elementen selbst:
+   ohne Bewegung ist alles sofort da. */
+@keyframes app-rise{from{opacity:0;transform:translateY(18px)}}
+@keyframes arc-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes now-bloom{from{transform:scale(0);opacity:0}60%{transform:scale(1.35)}}
+@keyframes face-in{from{transform:scale(.55);opacity:0}}
+.app-in .app-pagehead,.app-in .app-main .app-stack>*,.app-in .app-layout__aside>*,.app-in .discover>*{animation:app-rise 700ms var(--ease) both}
+.app-in .app-main .app-stack>:nth-child(2),.app-in .app-layout__aside>:nth-child(1){animation-delay:90ms}
+.app-in .app-main .app-stack>:nth-child(3),.app-in .app-layout__aside>:nth-child(2){animation-delay:180ms}
+.app-in .app-main .app-stack>:nth-child(n+4),.app-in .app-layout__aside>:nth-child(n+3){animation-delay:270ms}
+.app-in .day-arc__done{animation:arc-draw 1500ms var(--ease) 350ms both}
+.app-in .day-arc__now{animation:now-bloom 700ms var(--ease) 1500ms both,day-now var(--motion-breath) ease-in-out 2200ms infinite}
+.app-in .rad-mini__face{animation:face-in 520ms var(--ease) both;animation-delay:calc(300ms + var(--i,0) * 70ms)}
+body[data-motion=off] :is(.app-pagehead,.app-stack>*,.app-layout__aside>*,.discover>*,.day-arc__done,.rad-mini__face){animation:none}
+
+/* ---------- Eine Frage zum Umdrehen ----------
+   Neugier statt Feed: vorne eine Frage, hinten ein Anstoss. Ein Tipp dreht
+   die Karte, noch ein Tipp dreht sie zurück. Ohne Bewegung wechselt sie
+   still. data-area färbt sie nach dem Element, aus dem die Frage kommt. */
+.app-flip{--tone:var(--sterne-tief);--tint:var(--sterne-hauch);--wash:var(--sterne-flaeche);display:block;width:100%;padding:0;border:0;background:none;text-align:left;font:inherit;color:var(--ink);cursor:pointer;perspective:1400px;border-radius:var(--radius-surface)}
+.app-flip[data-area=ich]{--tone:var(--ich-tief);--tint:var(--ich-hauch);--wash:var(--ich-flaeche)}
+.app-flip[data-area=bezug]{--tone:var(--bezug-tief);--tint:var(--bezug-hauch);--wash:var(--bezug-flaeche)}
+.app-flip__inner{display:grid;transform-style:preserve-3d;transition:transform 760ms var(--ease)}
+.app-flip[aria-pressed=true] .app-flip__inner{transform:rotateY(180deg)}
+.app-flip__face{grid-area:1/1;display:flex;flex-direction:column;gap:14px;min-height:200px;padding:24px;border-radius:var(--radius-surface);-webkit-backface-visibility:hidden;backface-visibility:hidden;
+  background:radial-gradient(100% 90% at 100% 0%,color-mix(in srgb,var(--wash) 70%,transparent),transparent 65%),linear-gradient(160deg,#FFFDF8,var(--tint));
+  box-shadow:var(--raised-sm),0 22px 44px -28px color-mix(in srgb,var(--tone) 70%,transparent)}
+.app-flip__face--back{transform:rotateY(180deg);background:radial-gradient(100% 90% at 0% 100%,color-mix(in srgb,var(--wash) 80%,transparent),transparent 70%),linear-gradient(160deg,var(--tint),#FFFDF8)}
+.app-flip__kicker{display:flex;align-items:center;gap:10px;font:var(--type-label);font-weight:600;color:var(--tone)}
+.app-flip__kicker .icon{width:28px;height:28px;padding:3px;border-radius:50%;background:#FFFFFFCC;color:var(--tone)}
+.app-flip__question{font:var(--type-title);letter-spacing:-.015em;text-wrap:balance}
+.app-flip__hint{display:inline-flex;align-items:center;gap:8px;margin-top:auto;font:var(--type-label);font-weight:600;color:var(--ink)}
+.app-flip__hint .icon{transition:transform var(--motion-ui) var(--ease)}
+@media(hover:hover) and (pointer:fine){
+  .app-flip:hover .app-flip__face{box-shadow:var(--raised-sm),var(--glow)}
+  body:not([data-motion=off]) .app-flip:hover .app-flip__hint .icon{transform:rotate(-30deg)}
+}
+.app-flip:focus-visible{outline:none}
+.app-flip:focus-visible .app-flip__face{outline:3px solid var(--sterne-tief);outline-offset:4px}
+body[data-motion=off] .app-flip__inner{transition:none}
+
+/* Kleines Rad im Auftritt: das wartende Stück glüht danach weiter. */
+.app-in .rad-mini__face.is-focus{animation:face-in 520ms var(--ease) both,face-glow var(--motion-breath) ease-in-out 1200ms infinite;animation-delay:calc(300ms + var(--i,0) * 70ms),1200ms}
+
+/* Karte in der Farbe eines Bereichs (.area[data-area]): weicher Schleier, Glühen in Tief */
+.app-card--tint{background:radial-gradient(110% 90% at 100% 0%,color-mix(in srgb,var(--tint) 60%,var(--tone) 6%),transparent 62%),linear-gradient(160deg,#FFFDF8,var(--tint));box-shadow:var(--raised-sm),0 22px 44px -28px color-mix(in srgb,var(--tone) 70%,transparent)}
+.app-card--tint .app-card__kicker{color:var(--tone);font-weight:600}

@@ -1,4 +1,6 @@
-# ELANUM — Gestaltungsatlas 4.9
+# ELANUM — Gestaltungsatlas 4.10
+
+4.10 zeigt ELANUM als App. Neuer Baustein App-Rahmen unter `components/app/`, acht Screens als echte, responsive Seiten und im Atlas das Kapitel „In der App“ mit einer Gerätevorschau: Telefon und Desktop nebeneinander oder in freier Breite von 320 bis 1440 px. Grundlage ist die heutige App unter soulresonance.ch. Das Zeichen steht als Marke überall in Spektrum, in Navigation und Kopf der App mit Lichtlauf, beim ersten Start im Zeichenaufbau.
 
 4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin: einmal im Zeichenaufbau oder sanft und dauernd im Lichtlauf, gross wie klein. Der Einstieg baut das Zeichen auf. Neuer Baustein `components/zeichen/`, zwei neue Begriffe im Glossar.
 
@@ -9,6 +11,88 @@
 4.6 benennt die drei Phasen neu. Sie heissen jetzt Kosmen: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Gestaltung und Werte bleiben wie in 4.5.
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
+
+## In der App (4.10)
+
+### Grundlage
+
+Die heutige App (Repository `maindnow/soulresonance.ch`, Stand 14.10.2026) hat drei streng getrennte Bereiche mit eigener Leiste: Soul Kosmos (Jetzt, Ich, Umfeld, Mein Weg), Resonanzen (Entdecken, Likes, Chats, Mein Profil) und Gemeinsam erleben (Aktivitäten, Meine Aktivitäten, Events), jeweils mit „Menü“ am Ende. Gewechselt wird bewusst über „Bereich wechseln“. Ab 1024 px ersetzt eine Seitenleiste von 240 px Kopf und Leiste. Die Fläche ist dunkel mit Glas, die Säulen tragen Cyan, Magenta und Purple, Passung im Dating steht als Prozent-Score, Labels stehen in Versalien unter 15 px.
+
+4.9 übernimmt die Struktur und übersetzt sie in ELANUM: dieselben Kosmen mit eigenen Zielen, dieselbe Grenze von 1024 px, dieselbe Regel für Gesten. Fläche, Farbe, Schrift und Sprache kommen aus dem Atlas.
+
+| Thema | Heute in der App | In ELANUM |
+|---|---|---|
+| Namen der Bereiche | Soul Kosmos, Resonanzen, Gemeinsam erleben | Resonanzkosmos, Datingkosmos, Erlebniskosmos |
+| Ziele im Resonanzkosmos | Jetzt, Ich, Umfeld, Mein Weg | Heute, Ich, Umfeld, Weg |
+| Fläche | dunkel, Glas | warmes Relief, Licht von links oben, ein dunkler Hauptmoment pro Screen |
+| Farbe der Elemente | Cyan, Magenta, Purple je Säule | Violett, Koralle, Petrol je Bereich |
+| Passung im Dating | Score in Prozent | Beobachtungen in Worten, an Elementen festgemacht, dazu der Beziehungsraum |
+| Schrift | Versalien unter 15 px | Yrsa und Albert Sans, nichts unter 15 px |
+| Tablet | Leiste unten bis 1023 px | Schiene ab 600 px |
+| Bleibt | | Seitenleiste ab 1024 px, getrennte Kosmen mit Menü, jede Geste mit Knopf, kein Online-Status, keine Zähler |
+
+### Navigation: drei Formen, dieselben Ziele
+
+- **Bis 599 px Leiste unten** in der Daumenzone, höchstens fünf Ziele, das letzte ist „Menü“ (Kosmos wechseln, Wissen, Konto, Hilfe, Abmelden). Namen in echten 15 px, gemessen: „Entdecken“ 73 px, „Aktivitäten“ 75 px. Die Spalten sind mindestens so breit wie ihr Inhalt, darum passen fünf Ziele ab 340 px; unter 360 px rückt die Leiste zusammen, die Schrift bleibt 15 px.
+- **600 bis 1023 px Schiene** links, Icon über dem Namen.
+- **Ab 1024 px Seitenleiste** mit Namen, gegliedert nach Kosmos, darunter „Kosmos wechseln“ mit dem Satz jedes Kosmos aus dem Glossar.
+- Ziele: Resonanzkosmos Heute, Ich, Umfeld, Weg · Datingkosmos Entdecken, Likes, Chats, Profil · Erlebniskosmos Aktivitäten, Events, Meine.
+- Neues steht als Punkt, nie als Zahl.
+
+### Führung und Feinheit
+
+Rückmeldung nach dem ersten Stand (14.10.2026): Das Zeichen darf nicht Ink sein, alles wirkte fade, es braucht mehr Führung und mehr Feinfühligkeit. Daraus:
+
+- **Zeichen in Spektrum** in Navigation, Kopf, Favicon und im Atlas. Ink bleibt für Einfarbiges. Seit dem Zusammenführen mit 4.9 bewegt es sich mit dem Baustein Zeichen: in Navigation und Kopf der App sanft und dauernd im Lichtlauf, beim ersten Start (Ankommen) einmal im Zeichenaufbau. Die Form steht.
+- **Ein Moment pro Screen:** die Hauptfläche `.app-hero`. Heute: der Satz des Tages mit Tagesbogen. Weg: das aktuelle Kapitel. Entdecken: „Wo es schwingt“ mit dem Beziehungsraum. Aktivitäten: das eine Erlebnis der Woche. Ankommen: die Frage des Schritts.
+- **Ein nächster Schritt:** Heute führt direkt unter dem Tag zum nächsten offenen Element, mit kleinem Resonanzrad und einer primären Handlung.
+- **Tagesbogen:** Der Tag als offener Kreis, die Öffnung unten ist die Nacht. Bis „jetzt“ führt die Verbindung im Markenspektrum (wie die Spur der Tageslinie bis „jetzt“), danach bleibt der Bogen gestrichelt offen. Stationen sind Knoten, „jetzt“ ist ein Ring, der im Atemtakt glüht. Der Kreis atmet höchstens 3 %.
+- **Wo du bist, glüht:** Der aktive Ort in der Navigation trägt den Glührand im Atemtakt. Beim Wechsel gleitet er zum neuen Ziel (View Transitions zwischen Seiten), Navigation und Kopf bleiben stehen, der Inhalt steigt weich auf.
+- **Licht von links oben** auch auf der Grundfläche: eine warme Aufhellung oben links, ein Hauch Schatten unten rechts.
+- **Drücken gibt nach:** Karten, Zeilen und Ziele der Leiste geben beim Tippen kurz nach (90 ms).
+- **Resonanz ist Verbindung:** Die Nachricht „zeigt Resonanz auf“ im Chat trägt den Rand im Markenspektrum, neue Nachrichten einen Punkt im Spektrum.
+
+Das Markenspektrum bleibt bei Zeichen, Verbindung und Glührand. Es wird nie Fläche.
+
+### Weiches Licht
+
+Zweite Rückmeldung (14.10.2026): Die Auswahl über der Vorschau entsprach nicht dem Atlas, und gesamthaft soll es weich sein, aber zum Nutzen animieren, Freude und Neugier wecken. Einschätzung: Die Marke lebt im Zeichen (Spektrum, Tiefe, Bewegung), in der App kam davon zu wenig an. Viel Beige, gleich schwere Flächen, und die dunklen Flächen gaben Führung, aber Schwere statt Weichheit. Vor allem antwortete fast nichts auf Berührung. Daraus:
+
+- **Licht statt Schwere:** Die Hauptfläche ist hell und trägt den Schleier der Fläche ihres Bereichs (`data-area`), darunter ein Glühen in Tief. Ohne Bereich ein warmer, neutraler Schleier. Dunkel ist nur noch das Dazwischen, `.app-hero--dark` für den Beziehungsraum, wie im Atlas.
+- **Farbe mit Bedeutung:** Karten tragen die Farbe des Bereichs, aus dem ihr Inhalt kommt (`.app-card--tint`): „Diese Woche“ Violett (Sterne), „Umfeld“ Petrol (Beziehung), der nächste Schritt Koralle (Persönlichkeit). Im kleinen Rad hebt sich das Stück ab, das wartet, und glüht (`mini({ focus })`).
+- **Bewegung, die antwortet:** Beim Öffnen steigt der Inhalt auf, der Tagesbogen zeichnet sich bis jetzt, jetzt blüht auf, das kleine Rad baut sich Stück für Stück auf. Rein in CSS, nur mit erlaubter Bewegung (`.app-in`), die Endwerte stehen in den Elementen.
+- **Neugier:** „Eine Frage für heute“ zum Umdrehen (`.app-flip`), vorne die Frage aus einem Element, hinten ein Anstoss.
+- **Resonanz als Moment:** Nach „Resonanz zeigen“ rücken im Sheet zwei eigene Kreise zusammen und die Verbindung entsteht. Weiter geht es erst mit „Weiter zu …“, ohne Konfetti.
+- **Vorschau:** Die Screens stehen in einer Segmentleiste wie überall im Atlas, die Kosmen trennt nur Abstand. Darunter steht, wo man ist, rechts die Ansicht. Die Rahmen stehen unten bündig. Wer im Telefon tippt, nimmt den Desktop mit.
+
+### Screens
+
+- **Heute:** Begrüssung, dunkler Tag mit Satz, Herkunft (Element-Chips) und Tagesbogen, nächster Schritt, Tageslinie, Notiz auf Papier. Begleitspalte: Diese Woche, Umfeld.
+- **Ich:** das Resonanzrad als Baustein, darunter der Weg bis jetzt.
+- **Umfeld:** der Baustein Umfeld, verlinkt zum Beziehungsraum.
+- **Weg:** das aktuelle Kapitel zuerst, dann Zeitstufe (Monat, Jahr, Leben) und die Spur, daneben ein gespeicherter Gedanke auf Papier.
+- **Entdecken:** drei Menschen für heute, als Stationen oben (gesehen, jetzt, offen), jede Station ein Knopf. Kopf mit Name, Alter, Ort, dann Foto, Kopfsatz, „Wo es schwingt“ mit Beziehungsraum und drei Beobachtungen, eine davon „Hier seid ihr unterschiedlich“. Fragen mit Antwort, Resonanz gilt einer Antwort. Das kleine Resonanzrad der Person. Handlungen „Überspringen“ und „Resonanz zeigen“ in der Daumenzone. Nach dem dritten Menschen ein ruhiges Ende.
+- **Chats:** Liste und Verlauf, ab 1024 px nebeneinander. Auf dem Telefon ersetzt der Kopf des Verlaufs (Zurück, Person, Beziehungsraum) Kopf und Leiste. Gesprächsideen, solange es still ist, in einer Zeile zum Wischen.
+- **Aktivitäten:** ein hervorgehobenes Erlebnis, darunter Karten mit Datum als Kreis, wer dabei ist als Kreise und Plätze sachlich. Das Sheet zeigt Zeit, Ort (genaue Adresse am Vortag), Text, wer dabei ist und die Antwort Dabei, Vielleicht, Nicht dabei.
+- **Ankommen:** Ablauf ohne Navigation. Schritte als Stationen, die Frage auf der dunklen Fläche, Geburtsdatum, Uhrzeit (mit „Uhrzeit unbekannt“ und Hinweis), Geburtsort. Ab 1024 px links das Zeichen und die Aussage.
+
+Alle Ziele ohne eigene Vorschau (Likes, Profil, Events, Meine, Wissen, Konto, Hilfe) zeigen einen ruhigen Platzhalter mit derselben Navigation.
+
+### Recherche
+
+Übernommen wird, was beim Wählen hilft; was zum Weitermachen belohnt, bleibt draussen.
+
+- **Hinge:** endliche Auswahl am Tag, Like auf eine bestimmte Antwort statt auf den ganzen Menschen → „Resonanz zeigen“ auf eine Frage.
+- **Once, The League:** wenige, kuratierte Menschen pro Tag → „Drei Menschen für heute“ mit Ende.
+- **Co-Star, The Pattern:** Text zuerst, ruhige Typografie, Beziehung als Perspektive, nicht als Urteil. Kritik an Co-Star: abstrakte Icons ohne Namen verwirren → Icons tragen immer Namen.
+- **Headspace, Stoic:** ein Satz pro Tag, Morgen und Abend als Rhythmus, langsame Übergänge → Heute mit Tagesbogen und Tageslinie.
+- **Timeleft, Luma, Partiful:** wer dabei ist, sichtbar vor der Zusage, Antwort in natürlicher Reihenfolge, Ort am Vortag.
+- **Material 3 (adaptive Navigation), Apple (Tab-Leiste zu Seitenleiste, Liquid Glass):** Leiste, Schiene und Seitenleiste mit denselben Zielen. Sheets mit Griff, Schliessen-Knopf, Esc und Fokus zurück (WCAG 2.2: jede Geste mit Alternative, Ziele ab 44 px).
+- **Mobile zuerst 2026:** Container Queries statt nur Fensterbreiten, Safe Areas und dynamische Höhe (`dvh`), View Transitions zwischen Seiten.
+
+### Offene Freigaben
+
+Diese Namen stehen in der App, aber noch nicht im Glossar: die Ziele Entdecken, Likes, Chats, Profil, Aktivitäten, Events, Meine und Menü (aus der heutigen App übernommen), dazu App-Rahmen, Leiste, Schiene, Seitenleiste, Sheet, Hauptfläche, Tagesbogen, „Eine Frage für heute“ und „Resonanz zeigen“. Das Glossar ist unverändert, bis sie freigegeben sind.
 
 ## Benennung
 

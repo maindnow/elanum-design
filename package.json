@@ -1,6 +1,6 @@
 {
   "name": "@elanum/design",
-  "version": "4.9.0",
+  "version": "4.10.0",
   "private": true,
   "description": "ELANUM Gestaltungsatlas: Tokens, Basis, Bausteine und Assets der App ELANUM",
   "repository": {
@@ -18,6 +18,8 @@
     "components/umfeld/umfeld.js",
     "components/zeichen/zeichen.css",
     "components/zeichen/zeichen.js",
+    "components/app/app.css",
+    "components/app/app.js",
     "assets/ELANUM-*-Harmonic.svg",
     "assets/fonts/",
     "assets/boot.js",

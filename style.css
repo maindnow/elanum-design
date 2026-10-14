@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM Gestaltungsatlas 4.9 · Layout
+   ELANUM Gestaltungsatlas 4.10 · Layout
    Setzt tokens.css und base.css voraus. Alle Schriften laufen über die
    fünf Stufen aus tokens.css. Linien trennen nur Kapitel.
    ============================================================ */
@@ -200,7 +200,42 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .product-copy{display:grid;gap:20px;max-width:var(--measure)}
 #panel-weg .product-copy{margin-bottom:24px}
 
-/* ---------- 10 Elemente ---------- */
+/* ---------- 10 In der App ---------- */
+.nav-forms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
+.nav-forms li{display:grid;gap:8px;align-content:start}
+.nav-forms h4{font:var(--type-heading);margin-top:16px}
+.nav-forms__sketch{height:180px;width:auto;max-width:100%;justify-self:start;fill:var(--paper);stroke:var(--ink-2);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(5px 6px 8px #C4BDAF80) drop-shadow(-4px -4px 6px #FFFFFFB3)}
+.nav-forms__sketch path,.nav-forms__sketch circle{fill:none}
+.nav-forms__sketch .nav-forms__muted{stroke:var(--line);stroke-width:4}
+.nav-forms__sketch .nav-forms__card{fill:var(--canvas);stroke:var(--line)}
+.nav-forms__sketch .nav-forms__on{fill:var(--sterne-tief);stroke:var(--sterne-tief)}
+.nav-forms__sketch .nav-forms__on-line{stroke:var(--sterne-tief);stroke-width:3}
+.kosmos-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.kosmos-nav__card{display:grid;gap:10px;align-content:start;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
+.kosmos-nav__card h4{font:var(--type-heading)}
+.kosmos-nav__card ul{display:grid;gap:4px;margin-top:12px}
+.kosmos-nav__card li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;min-height:44px;font:var(--type-label);font-weight:600}
+.kosmos-nav__card li .secondary{font-weight:500}
+.kosmos-nav__card .icon{color:var(--ink)}
+.kosmos-nav__menu{margin-top:8px}
+.app-rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 56px;counter-reset:rule}
+.app-rules li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 16px;counter-increment:rule}
+.app-rules li::before{content:counter(rule);grid-row:span 2;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--canvas);box-shadow:var(--raised-sm);font:var(--type-label);font-weight:600}
+.app-rules h4{font:var(--type-heading)}
+.learned{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.learned li{display:grid;gap:10px;align-content:start;padding:28px;border-radius:var(--radius-surface);background:var(--canvas);box-shadow:var(--pressed)}
+.learned__from{font:var(--type-label);color:var(--ink-2)}
+.learned h4{font:var(--type-heading)}
+.migration{display:grid;gap:4px}
+.migration div{display:grid;grid-template-columns:minmax(180px,240px) minmax(0,1fr);gap:8px 32px;padding:16px 20px;border-radius:var(--radius-control)}
+.migration div:nth-child(odd){background:#FFFFFF59}
+.migration dt{font:var(--type-label);font-weight:600}
+.migration dd{margin:0;display:grid;gap:4px}
+.migration s{color:var(--ink-2)}
+.migration dd span{font:var(--type-label);font-weight:600}
+.app-glossar{margin-top:40px;max-width:var(--measure)}
+
+/* ---------- 11 Bausteine ---------- */
 .element-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .element-card{display:grid;gap:12px;align-content:start;height:100%;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm);text-decoration:none;transition:transform var(--motion-ui) var(--ease),box-shadow var(--motion-ui) ease}
 .element-card__mark{display:grid;place-items:center;width:72px;height:72px;margin-bottom:12px;border-radius:50%;background:var(--tint);color:var(--tone)}
@@ -309,8 +344,8 @@ body[data-motion=off] .paper,body[data-motion=off] .swatch,body[data-motion=off]
 /* ---------- Breiten ---------- */
 @media(max-width:1180px){
   :root{--rail:200px}
-  .element-cards{grid-template-columns:repeat(2,1fr)}
   .neutrals{grid-template-columns:repeat(2,1fr)}
+  .learned,.kosmos-nav{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:1000px){
   :root{--rail:0px}
@@ -330,12 +365,19 @@ body[data-motion=off] .paper,body[data-motion=off] .swatch,body[data-motion=off]
   .bewegung__buehne{justify-self:start;width:min(100%,360px)}
   .areas{grid-template-columns:1fr}
   .lab__controls{grid-template-columns:1fr}
+  .nav-forms,.app-rules{grid-template-columns:1fr}
+  .nav-forms li{grid-template-columns:150px minmax(0,1fr);column-gap:24px}
+  .nav-forms__sketch{grid-row:span 3;height:140px}
+  .nav-forms h4{margin-top:0}
 }
 @media(max-width:640px){
   .hero{grid-template-columns:1fr;min-height:0}
   .hero__visual{max-width:220px}
   .principles,.components,.statuses,.line-system,.kosmen{grid-template-columns:1fr}
-  .element-cards,.neutrals{grid-template-columns:1fr}
+  .element-cards,.neutrals,.learned,.kosmos-nav{grid-template-columns:1fr}
+  .migration div{grid-template-columns:1fr;gap:6px}
+  .nav-forms li{grid-template-columns:1fr}
+  .nav-forms__sketch{grid-row:auto}
   .type-scale li{grid-template-columns:1fr;gap:8px}
   .logo-compare{grid-template-columns:1fr 1fr;gap:20px}
   .lab__reading{text-align:left}

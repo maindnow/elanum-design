@@ -1,4 +1,4 @@
-# ELANUM Gestaltungsatlas 4.9
+# ELANUM Gestaltungsatlas 4.10
 
 ![Gestaltungsatlas: Einstieg mit dem ELANUM-Zeichen im Goldenen Schnitt](docs/screenshots/atlas-desktop.png)
 
@@ -13,9 +13,22 @@
   </tr>
 </table>
 
-Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Bausteinen Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie sowie dem Zeichen in Bewegung. Im Zentrum steht das Resonanzrad mit seinen neun Elementen.
+<table>
+  <tr>
+    <td width="66%"><img src="docs/screenshots/app-desktop.png" alt="App am Desktop: Seitenleiste nach Kosmen, Heute in weichem Licht mit Tagesbogen"></td>
+    <td width="17%"><img src="docs/screenshots/app-telefon.png" alt="App auf dem Telefon: Heute mit Tagesbogen und Leiste unten"></td>
+    <td width="17%"><img src="docs/screenshots/app-entdecken-telefon.png" alt="App auf dem Telefon: Entdecken im Datingkosmos, drei Menschen für heute"></td>
+  </tr>
+  <tr>
+    <td>App am Desktop</td>
+    <td>Heute</td>
+    <td>Entdecken</td>
+  </tr>
+</table>
 
-[Atlas öffnen](index.html) · [Gestaltungsnotizen](DESIGN-NOTES.md) · [Bausteine](components/)
+Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Bausteinen Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, dem Zeichen in Bewegung und dem App-Rahmen. Im Zentrum steht das Resonanzrad mit seinen neun Elementen. Seit 4.10 zeigt der Atlas, wie die App aussieht: mobile zuerst, in jeder Breite.
+
+[Atlas öffnen](index.html) · [App-Screens](components/app/) · [Gestaltungsnotizen](DESIGN-NOTES.md) · [Bausteine](components/)
 
 **Benennung:** Im Zentrum steht das Resonanzrad mit neun Elementen. ELANUM hat drei Kosmen: den **Resonanzkosmos** als Einstieg, daneben den **Datingkosmos** und den **Erlebniskosmos**. Verbindlich ist das [Glossar](GLOSSAR.md).
 
@@ -25,7 +38,8 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Baus
 - **Typografie:** fünf Stufen. Albert Sans trägt die Bedienung, Yrsa ist die Stimme und erscheint nur gross. Kein Kursiv, nichts unter 15 px.
 - **Farbe:** neutrale Flächen, drei ausgeglichene Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit Tief, Fläche für ausgefüllte Elemente und Hauch; offene Elemente grau mit Plus, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
 - **Material:** warme Reliefoberfläche, Licht von links oben, angehobene Bedienung, vertiefte Eingaben.
-- **Bausteine:** Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, Zeichen in Bewegung, je als eigene Seite unter `components/` und im Atlas eingebunden.
+- **Bausteine:** Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, Zeichen in Bewegung, App-Rahmen, je als eigene Seite unter `components/` und im Atlas eingebunden.
+- **In der App:** acht Screens als echte, responsive Seiten (Heute, Ich, Umfeld, Weg, Entdecken, Chats, Aktivitäten, Ankommen). Im Atlas in Telefon- und Desktop-Rahmen nebeneinander oder in freier Breite von 320 bis 1440 px. Dazu die Navigation in drei Formen, acht Regeln für mobile zuerst, was von vergleichbaren Plattformen übernommen wurde und was sich gegenüber der heutigen App ändert.
 - **Bewegung:** erklärend statt nur einblendend. Das Zeichen baut sich im Einstieg aus seiner Konstruktion auf, das Resonanzrad beim Scrollen, Kreise rücken zusammen, Spuren zeichnen sich. Pause und reduzierte Bewegung wirken überall.
 
 ## Lokal öffnen
@@ -53,14 +67,15 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [base.css](base.css) | Gemeinsame Bausteine: Schriftstufen, Buttons, Status, Stationslinie, Seitenrahmen |
 | [style.css](style.css) | Layout des Atlas |
 | [app.js](app.js) | Bedienlogik des Atlas |
-| [components/](components/) | Bausteine als eigene Seiten: `resonanzrad`, `umfeld`, `beziehungsraum`, `weg`, `zeichen` |
+| [components/](components/) | Bausteine als eigene Seiten: `resonanzrad`, `umfeld`, `beziehungsraum`, `weg`, `zeichen`, `app` |
+| [components/app/](components/app/) | App-Rahmen (`app.css`, `app.js`), die Screens als Beispielseiten (`heute.html` …, `screens.css`, `screens.js`) und die Gerätevorschau (`vorschau.css`, `vorschau.js`) |
 | [assets/boot.js](assets/boot.js) | Versteck-Guard, Schriften unter `file://`, GSAP nach dem ersten Paint |
 | [assets/motion.js](assets/motion.js) | Alle Bewegung, deklarativ über `data-anim` |
 | [assets/vendor/gsap/](assets/vendor/gsap/) | GSAP 3.15 lokal, mit Lizenzhinweis |
 | [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` neu |
 | [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt das ELANUM-Zeichen im Goldenen Schnitt (Ink, Spektrum, Blueprint) und die Konstruktion für den Zeichenaufbau in `components/zeichen/zeichen.js`, prüft Knicke; mit `--masks` die Relief-Maske. Nur Python-Standardbibliothek |
 | [tools/serve.py](tools/serve.py) | Lokaler Server auf Port 4173 ohne Browser-Cache. Nur Python-Standardbibliothek |
-| [tools/screenshots.js](tools/screenshots.js) | Erzeugt die Screenshots in `docs/screenshots/` neu (Server auf Port 4173, braucht Playwright) |
+| [tools/screenshots.js](tools/screenshots.js) | Erzeugt die Screenshots in `docs/screenshots/` neu, auch die der App (Server auf Port 4173, braucht Playwright) |
 | [assets/glossar.js](assets/glossar.js) | Glossar: die eine Quelle aller Begriffe |
 | [GLOSSAR.md](GLOSSAR.md) | Glossar als Datei, erzeugt mit `node tools/glossar-md.js` |
 | [DESIGN-NOTES.md](DESIGN-NOTES.md) | Gestaltungs- und Konstruktionsentscheidungen |
@@ -70,7 +85,7 @@ Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Style
 
 ## In der App verwenden
 
-Dieses Repository ist die einzige Designquelle der App ELANUM. Die App installiert es als Paket `@elanum/design` direkt von GitHub, fixiert auf einen Tag. Die Paketversion ist die Atlas-Version: Atlas 4.9 ist `4.9.0`, der Tag dazu `v4.9.0`.
+Dieses Repository ist die einzige Designquelle der App ELANUM. Die App installiert es als Paket `@elanum/design` direkt von GitHub, fixiert auf einen Tag. Die Paketversion ist die Atlas-Version: Atlas 4.10 ist `4.10.0`, der Tag dazu `v4.10.0`.
 
 ### Installation
 
@@ -78,7 +93,7 @@ In der `package.json` der App:
 
 ```json
 "dependencies": {
-  "@elanum/design": "github:maindnow/elanum-design#v4.9.0"
+  "@elanum/design": "github:maindnow/elanum-design#v4.10.0"
 }
 ```
 
@@ -89,13 +104,13 @@ Ausgeliefert wird nur, was die App braucht (`files` in [package.json](package.js
 | Im Paket | Inhalt |
 | --- | --- |
 | `tokens.css`, `base.css` | Alle Werte und die gemeinsamen Grundlagen, auch Weg und Tageslinie (`.track`) |
-| `components/<name>/<name>.css` und `.js` | Resonanzrad, Umfeld, Beziehungsraum, Zeichen |
+| `components/<name>/<name>.css` und `.js` | Resonanzrad, Umfeld, Beziehungsraum, Zeichen, App-Rahmen (`components/app/app.css`, `app.js`) |
 | `assets/ELANUM-*-Harmonic.svg` | ELANUM-Zeichen: Spektrum, Ink, Blueprint |
 | `assets/fonts/` | Albert Sans und Yrsa mit OFL-Lizenzen, dazu die eingebetteten Schriften für `file://` |
 | `assets/boot.js`, `assets/motion.js`, `assets/vendor/gsap/` | Bewegung, GSAP mit Lizenzhinweis |
 | `assets/glossar.js`, `GLOSSAR.md` | Glossar |
 
-Atlas (`index.html`, `style.css`, `app.js`), die Demoseiten der Bausteine (`index.html`, `page.css`, `page.js`, `weg.css`), frühere Fassungen des Zeichens, `docs/` und `tools/` bleiben im Repository, aber ausserhalb des Pakets.
+Atlas (`index.html`, `style.css`, `app.js`), die Demoseiten der Bausteine (`index.html`, `page.css`, `page.js`, `weg.css`), die App-Screens mit ihren Daten (`components/app/*.html`, `screens.css`, `screens.js`, `vorschau.*`), frühere Fassungen des Zeichens, `docs/` und `tools/` bleiben im Repository, aber ausserhalb des Pakets.
 
 Einstiege (`exports`) für Bundler und `require.resolve`: `@elanum/design/tokens.css`, `/base.css`, `/components/*`, `/assets/*`, `/glossar` (`assets/glossar.js`) und `/package.json`.
 
@@ -128,6 +143,7 @@ Die Dateien verweisen relativ aufeinander: `tokens.css` lädt die Schriften aus 
   <link rel="stylesheet" href="/elanum/components/resonanzrad/resonanzrad.css">
   <link rel="stylesheet" href="/elanum/components/umfeld/umfeld.css">
   <link rel="stylesheet" href="/elanum/components/zeichen/zeichen.css">
+  <link rel="stylesheet" href="/elanum/components/app/app.css">
   <link rel="stylesheet" href="/app.css">
 </head>
 <body>
@@ -136,6 +152,7 @@ Die Dateien verweisen relativ aufeinander: `tokens.css` lädt die Schriften aus 
   <script src="/elanum/components/resonanzrad/resonanzrad.js"></script>
   <script src="/elanum/components/umfeld/umfeld.js"></script>
   <script src="/elanum/components/zeichen/zeichen.js"></script>
+  <script src="/elanum/components/app/app.js"></script>
   <script src="/elanum/assets/glossar.js"></script>
   <script src="/app.js"></script>
 </body>
@@ -144,7 +161,7 @@ Die Dateien verweisen relativ aufeinander: `tokens.css` lädt die Schriften aus 
 1. `boot.js` synchron im `<head>`, vor allen Stylesheets. Es setzt den Versteck-Guard und lädt GSAP und `motion.js` nach dem ersten Paint selbst.
 2. `tokens.css`: alle Werte und die Schriften.
 3. `base.css`: setzt `tokens.css` voraus.
-4. Stylesheets der Bausteine, nur die gebrauchten. `umfeld.css` braucht `beziehungsraum.css` (Relief der Kreise).
+4. Stylesheets der Bausteine, nur die gebrauchten. `umfeld.css` braucht `beziehungsraum.css` (Relief der Kreise). `app.css` ist der Rahmen jeder Seite der App.
 5. Eigene Stylesheets der App zuletzt.
 
 Die Skripte der Bausteine stehen am Ende von `<body>`, die App montiert die Bausteine gleich beim Laden. `motion.js` liest das Markup einmal nach `document.fonts.ready`; was später erscheint, steht ohne Auftritt da, aber nie versteckt.
@@ -156,6 +173,7 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 **Resonanzrad** · `components/resonanzrad/` · `window.ElanumResonanzrad`
 
 - `mount(root, { heading })` baut das Rad in `root` und gibt `{ select(i), parts }` zurück. `heading` ist `'h2'` (Standard) oder `'h3'`.
+- `mini(root, { done, focus, label })` zeichnet ein kleines Rad für Karten (ohne Schrift, ohne Bedienung) und gibt `{ done, total }` zurück. `done` ist die Liste der ausgefüllten Element-ids, `focus` das Element, das als Nächstes wartet: sein Stück hebt sich ab und glüht.
 - `groups`, `items`, `icons`, `iconSvg(id)`: Bereiche, Elemente und ihre Icons.
 
 ```html
@@ -226,6 +244,46 @@ Reines Markup mit `.track`, waagrecht als Weg mit `.track--horizontal`. Jede Sta
 </ol>
 ```
 
+**App-Rahmen** · `components/app/` · `window.ElanumApp`
+
+Der Rahmen jeder Seite: Navigation, Kopf, Inhalt, Sheet und die Muster der Kosmen. Mobile zuerst, drei Formen der Navigation mit denselben Zielen:
+
+| Breite | Navigation | Inhalt |
+| --- | --- | --- |
+| bis 599 px | Leiste unten, höchstens fünf Ziele, das letzte ist „Menü“ | eine Spalte, Handlungen schweben über der Leiste |
+| 600 bis 1023 px | Schiene links, Icon über dem Namen | Karten in zwei Spalten |
+| ab 1024 px | Seitenleiste, nach Kosmos gegliedert, „Kosmos wechseln“ immer sichtbar | Haupt- und Begleitspalte, Liste und Detail nebeneinander |
+
+Karten und Spalten richten sich nach dem Platz im Inhalt (Container Queries auf `.app-main`), nicht nach dem Fenster. Der aktive Ort trägt den Glührand im Atemtakt. Zwischen Seiten gleitet er weich zum neuen Ziel (View Transitions), Navigation und Kopf bleiben stehen.
+
+- `mount({ kosmos, current, href, base, me })` baut die Navigation in `[data-app-nav]` und das Menü, verbindet Kopf und Sheets und hört auf die Pause aus dem Atlas. `kosmos` ist `'resonanz'`, `'dating'` oder `'erleben'`, `current` die id des Ziels, `href(id)` liefert die Adresse.
+- `nav(el, opts)`: nur die Navigation.
+- `sheet(dialog)` gibt `{ open(trigger), close() }`: von unten auf dem Telefon, in der Mitte auf dem Tablet, von rechts auf dem Desktop. Schliessen mit Knopf `[data-close]`, Tipp daneben oder Esc, der Fokus kehrt zum Auslöser zurück. `data-sheet-open="id"` an einem Knopf öffnet ein `<dialog data-sheet>`.
+- `dayArc(el, { now, stations, from, to })` zeichnet den Tagesbogen für die Hauptfläche.
+- Mit erlaubter Bewegung setzt `mount` die Klasse `app-in` auf `<html>`: Inhalt steigt auf, der Tagesbogen zeichnet sich, das kleine Rad baut sich auf. Pause und reduzierte Bewegung zeigen sofort den Endzustand.
+- `kosmen`, `more`, `icons`, `iconSvg(id)`, `fillIcons(root)`: Ziele je Kosmos, Einträge im Menü und die Icons der Navigation.
+- Das ELANUM-Zeichen in Navigation und Kopf kommt aus dem Baustein Zeichen: `zeichen.css` und `zeichen.js` vor `app.js` laden, dann trägt es den Lichtlauf. Beim ersten Start (Ankommen) baut es sich auf (`data-zeichen="aufbau"`).
+
+```html
+<body class="app">
+  <a class="skip-link" href="#main">Direkt zum Inhalt</a>
+  <nav data-app-nav></nav>
+  <header class="app-head">
+    <a class="app-head__brand" href="/heute"><span class="zeichen" data-zeichen="lichtlauf"><img src="/elanum/assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></span></a>
+    <p class="app-head__title" aria-hidden="true"></p>
+    <div class="app-head__actions">…</div>
+  </header>
+  <main class="app-main" id="main" tabindex="-1">
+    <header class="app-pagehead"><p class="app-kicker">Dienstag, 14. Oktober</p><h1 class="app-title">Guten Abend, Lina.</h1></header>
+    <article class="app-hero">…</article>
+    <div class="app-actions"><button class="button button--secondary">Später</button><button class="button">Weiter</button></div>
+  </main>
+  <script>ElanumApp.mount({ kosmos: 'resonanz', current: 'heute', href: id => '/' + id, base: '/elanum/' });</script>
+</body>
+```
+
+Muster in `app.css`: `.app-card`, `.app-card--tint` (Karte in der Farbe ihres Bereichs), `.app-hero` (Hauptfläche in weichem Licht, ein Moment pro Screen, `data-area` für die Farbe, `.app-hero--dark` nur für den Beziehungsraum), `.app-flip` (Frage zum Umdrehen, `data-flip`), `.app-layout` und `.app-grid` (Spalten nach Platz), `.app-split` (Liste und Detail), `.app-list` mit `.app-row`, `.person` (eigener, offener Kreis), `.element-chip`, `.profile`, `.photo`, `.note`, `.prompt`, `.event`, `.bubble`, `.app-composer`, `.app-steps`, `.app-field`, `.app-check`, `.app-actions`, `.app-end`. Die Beispielseiten unter `components/app/` zeigen jedes Muster im Einsatz.
+
 **Glossar** · `assets/glossar.js`, Einstieg `@elanum/design/glossar` · `window.ELANUM_GLOSSAR`
 
 `{ version, rule, sentence, groups: [{ title, intro, terms: [{ term, meaning, code }] }], avoid: [[alt, neu]] }`
@@ -252,7 +310,9 @@ document.dispatchEvent(new CustomEvent('elanum:motion', { detail: { off: true } 
 
 ## Gestaltungsregeln
 
-- **Zeichen aus Kreisen.** Gültig ist `-Harmonic`: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R · φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. `ELANUM-Konstruktion-Harmonic.svg` zeigt die Konstruktion. Diese Dateien und die Zeile `var K` in `components/zeichen/zeichen.js` nie von Hand bearbeiten, sondern mit `python3 tools/build_logo_circles.py` neu erzeugen; die Relief-Maske in `app.js` (`RELIEF_MASK`) kommt aus `python3 tools/build_logo_circles.py --masks`. Dateien ohne Suffix sind die unveränderten Quellen, `-Curves` ist die frühere Kurvenkorrektur, `-Geometrisch` die verworfene Alternative aus sechs Grundkreisen. Für kleine Darstellungen die flachen Varianten verwenden.
+- **Zeichen in Spektrum.** Als Marke steht in App, Atlas und Favicon immer `ELANUM-Master-Spektrum-Harmonic.svg`, auch klein. Es darf sich bewegen, seine Form nie: in Navigation und Kopf der App mit Lichtlauf, beim ersten Start im Zeichenaufbau. Ink nur, wo nur eine Farbe geht: Druck, Prägung, Stempel.
+- **Mobile zuerst.** Jeder Screen wird zuerst für 360 bis 390 px gebaut und auf 320, 390, 834, 1280 und 1440 px geprüft. Navigation und Hauptaktion in der Daumenzone, ein Hauptmoment in weichem Licht pro Screen, jede Geste mit Knopf, ein ruhiges Ende statt Endlosliste.
+- **Zeichen aus Kreisen.** Gültig ist `-Harmonic`: jede Kontur ein Kreisbogen, alle Radien aus der Reihe R · φ^(−k/4) (Goldener Schnitt), Übergänge ohne Knick. `ELANUM-Konstruktion-Harmonic.svg` zeigt die Konstruktion. Diese Dateien und die Zeile `var K` in `components/zeichen/zeichen.js` nie von Hand bearbeiten, sondern mit `python3 tools/build_logo_circles.py` neu erzeugen; die Relief-Maske in `app.js` (`RELIEF_MASK`) kommt aus `python3 tools/build_logo_circles.py --masks`. Dateien ohne Suffix sind die unveränderten Quellen, `-Curves` ist die frühere Kurvenkorrektur, `-Geometrisch` die verworfene Alternative aus sechs Grundkreisen.
 - **Fünf Schriftstufen.** Display, Titel, Überschrift, Text, Label. Neue Texte verwenden eine dieser Stufen.
 - **Farbe hat eine Rolle.** Neutral, Bereich oder Status. Weisse Schrift nur auf Tief, Ink auf dem Hauch; auf den Elementen im Rad steht Text nur in Ink.
 - **Raum statt Rahmen.** Abstand gliedert, Linien trennen nur Kapitel.
@@ -270,14 +330,15 @@ git diff --check
 
 Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 
-- Desktop, Tablet und Telefon: kein horizontaler Überlauf, Texte nie unter 15 px.
+- Desktop, Tablet und Telefon: kein horizontaler Überlauf, Texte nie unter 15 px. Die App-Screens auf 320, 390, 834, 1280 und 1440 px.
+- App: Navigation in allen drei Formen, Sheets mit Esc und Fokus zurück, Chat auf dem Telefon ohne Leiste, Zusage im Sheet.
 - Resonanzrad: Auswahl per Tipp, Liste und Tastatur; Ausfüllstatus über Farbe und Kontur.
 - Bewegung: Einstieg mit Zeichenaufbau, festgehaltenes Resonanzrad-Kapitel, Pause, reduzierte Bewegung, Tab-Durchlauf. In der Pause steht das ruhende Zeichen.
 - Assets: keine fehlenden Dateien oder Konsolenfehler, auch unter `file://`.
 
 ## Stand und Historie
 
-4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form steht, nur Licht und Farbe bewegen sich: Zeichenaufbau (einmal) und Lichtlauf (dauernd), gross wie klein. Neuer Baustein `components/zeichen/`, zwei neue Begriffe im Glossar. 4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
+4.10 zeigt ELANUM als App: neuer Baustein App-Rahmen (Navigation in drei Formen, Kopf, Sheet, Hauptfläche in weichem Licht, Tagesbogen, Frage zum Umdrehen, Muster der Kosmen), acht Screens als echte, responsive Seiten auf Grundlage der heutigen App, im Atlas das Kapitel „In der App“ mit Gerätevorschau. Das Zeichen steht als Marke überall in Spektrum, in der App mit Lichtlauf und Zeichenaufbau. Dazu `ElanumResonanzrad.mini()` und eine Korrektur der Verläufe der Bereiche, die leere Farbstopps zeigten. 4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form steht, nur Licht und Farbe bewegen sich: Zeichenaufbau (einmal) und Lichtlauf (dauernd), gross wie klein. Neuer Baustein `components/zeichen/`, zwei neue Begriffe im Glossar. 4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
 
 ## Schriften und Nutzungsrechte
 

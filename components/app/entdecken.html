@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Entdecken</title>
+<link rel="icon" href="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="../beziehungsraum/beziehungsraum.css">
+<link rel="stylesheet" href="../resonanzrad/resonanzrad.css">
+<link rel="stylesheet" href="../zeichen/zeichen.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="screens.css">
+</head>
+<body class="app" data-screen="entdecken">
+<a class="skip-link" href="#main">Direkt zum Inhalt</a>
+<nav data-app-nav></nav>
+<header class="app-head">
+  <a class="app-head__brand" href="entdecken.html" aria-label="ELANUM, Entdecken"><span class="zeichen" data-zeichen="lichtlauf"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></span></a>
+  <p class="app-head__title" aria-hidden="true"></p>
+  <div class="app-head__actions">
+    <button class="app-icon-button glow-edge" type="button" aria-label="Wen du suchst"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="filter"></svg></button>
+  </div>
+</header>
+
+<main class="app-main" id="main" tabindex="-1">
+  <header class="app-pagehead">
+    <p class="app-kicker">Heute für dich</p>
+    <h1 class="app-title">Drei Menschen für heute.</h1>
+    <p class="app-lead">Eine kurze Auswahl, erklärt statt bewertet. Morgen kommen neue.</p>
+  </header>
+
+  <div class="discover">
+    <ol class="app-steps discover__steps" aria-label="Deine Auswahl für heute" data-discover-steps></ol>
+    <div data-discover-profile></div>
+  </div>
+
+  <div class="app-actions" data-discover-actions>
+    <button class="button button--secondary glow-edge" type="button" data-skip>Überspringen</button>
+    <button class="button" type="button" data-resonate>Resonanz zeigen</button>
+  </div>
+</main>
+
+<dialog data-sheet id="resonateSheet" aria-labelledby="resonateTitle">
+  <span class="app-sheet__grip" aria-hidden="true"></span>
+  <div class="app-sheet__head"><h2 class="t-heading" id="resonateTitle">Resonanz zeigen</h2><button class="app-icon-button glow-edge" type="button" data-close aria-label="Schliessen"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="schliessen"></svg></button></div>
+  <form class="app-sheet__body" method="dialog" data-resonate-form>
+    <div class="resonate-on" data-resonate-on></div>
+    <div class="app-field">
+      <label for="resonateText">Ein Satz dazu, wenn du magst</label>
+      <span class="field field--area glow-edge"><textarea id="resonateText" rows="3" placeholder="Was hat dich angesprochen?"></textarea></span>
+      <p class="app-field__hint">Ein persönlicher Satz macht den Anfang leichter. Er ist freiwillig.</p>
+    </div>
+    <button class="button" type="submit" value="send">Senden</button>
+  </form>
+  <div class="app-sheet__body" data-resonate-moment hidden aria-live="polite"></div>
+</dialog>
+
+<script src="../beziehungsraum/beziehungsraum.js"></script>
+<script src="../resonanzrad/resonanzrad.js"></script>
+<script src="../zeichen/zeichen.js"></script>
+<script src="app.js"></script>
+<script src="screens.js"></script>
+</body>
+</html>

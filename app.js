@@ -1,8 +1,8 @@
 'use strict';
 /* ============================================================
-   ELANUM Gestaltungsatlas 4.9 · Bedienlogik
-   Elemente (Beziehungsraum, Resonanzrad, Umfeld, Zeichen) liegen unter
-   components/ und werden hier nur eingebunden. Bewegung steuert
+   ELANUM Gestaltungsatlas 4.10 · Bedienlogik
+   Elemente (Beziehungsraum, Resonanzrad, Umfeld, Zeichen, App-Rahmen) liegen
+   unter components/ und werden hier nur eingebunden. Bewegung steuert
    assets/motion.js; dieses Skript meldet Pause und Layoutwechsel.
    ============================================================ */
 const $ = (s, root = document) => root.querySelector(s);
@@ -42,6 +42,7 @@ function syncMotion() {
   $$('[data-zeichen-nochmals]').forEach(button => { button.disabled = off; });
   $('#motionPreference').textContent = reducedMotion.matches ? 'Dein System bevorzugt reduzierte Bewegung. Alle Darstellungen bleiben ruhig.' : 'Die Systemeinstellung für reduzierte Bewegung wird respektiert.';
   document.dispatchEvent(new CustomEvent('elanum:motion', { detail: { off } }));
+  if (window.ElanumVorschau) window.ElanumVorschau.setMotion(off);   /* auch in die Rahmen der App-Screens */
 }
 $$('[data-motion-toggle]').forEach(button => button.addEventListener('click', () => { paused = !paused; syncMotion(); }));
 reducedMotion.addEventListener('change', syncMotion);
@@ -172,7 +173,7 @@ const GRADIENTS = [
   ['Markenspektrum', 'Zeichen und Verbindung', css('--spectrum-stops')],
   ['Verbindung', 'Linie zwischen zwei Menschen', css('--bridge-stops')],
   ['Glührand', 'Rand bei Hover, Fokus und Auswahl, wandert im Kreis', css('--edge-stops'), true],
-  ...rad.groups.map(group => [group.label, 'Tief bis Hauch', ['tief', 1, 2, 3, 'hauch'].map(n => css(`--${group.id}-${n}`)).join(', ')])
+  ...rad.groups.map(group => [group.label, 'Tief, Fläche, Hauch', ['tief', 'flaeche', 'hauch'].map(n => css(`--${group.id}-${n}`)).join(', ')])
 ];
 GRADIENTS.forEach(([name, use, stops, edge]) => {
   const row = document.createElement('div');
@@ -241,7 +242,19 @@ tabs.forEach((tab, index) => {
   });
 });
 
-/* ---------- 10 Elemente: Icon-Set ---------- */
+/* ---------- 10 In der App: Screens in Rahmen, Ziele je Kosmos aus dem App-Rahmen ---------- */
+window.ElanumVorschau.mount($('[data-vorschau]'), { base: 'components/app/' });
+const appNav = window.ElanumApp;
+appNav.kosmen.forEach(kosmos => {
+  const card = document.createElement('article');
+  card.className = 'kosmos-nav__card';
+  card.innerHTML = `<h4>${kosmos.name}</h4><p class="secondary">${kosmos.sentence}</p><ul>` +
+    kosmos.items.map(item => `<li>${appNav.iconSvg(item.icon)}<span>${item.label}</span>${item.name ? `<span class="secondary t-label">· ${item.name}</span>` : ''}</li>`).join('') +
+    `<li class="kosmos-nav__menu">${appNav.iconSvg('menue')}<span>Menü</span><span class="secondary t-label">· Kosmos wechseln, Wissen, Konto</span></li></ul>`;
+  $('#kosmosNav').append(card);
+});
+
+/* ---------- 11 Bausteine: Icon-Set ---------- */
 rad.items.forEach(item => {
   const li = document.createElement('li');
   li.className = 'area'; li.dataset.area = item.group;
@@ -249,7 +262,7 @@ rad.items.forEach(item => {
   $('#iconSet').append(li);
 });
 
-/* ---------- 13 Prüfung ---------- */
+/* ---------- 14 Prüfung ---------- */
 const RULES = [
   ['Das Zeichen bleibt', 'Grundform, Linien und Proportionen bleiben. Seine Form bewegt sich nie, nur Licht und Farbe.'],
   ['Kreise bleiben rund', 'Auch in Bewegung und auf kleinen Bildschirmen.'],
@@ -259,7 +272,8 @@ const RULES = [
   ['Raum statt Rahmen', 'Abstand gliedert, Linien trennen nur Kapitel.'],
   ['Bewegung erklärt', 'Jede Animation zeigt eine Beziehung, eine Reihenfolge oder einen Zustand. Pause und reduzierte Bewegung wirken.'],
   ['Bedienbar für alle', 'Tastatur, sichtbarer Fokus, 44-px-Ziele, lesbare mobile Beschriftung.'],
-  ['Begriffe aus dem Glossar', 'Alles heisst so wie im Glossar. Keine alten Arbeitsnamen.']
+  ['Begriffe aus dem Glossar', 'Alles heisst so wie im Glossar. Keine alten Arbeitsnamen.'],
+  ['Mobile zuerst', 'Geprüft auf 360, 390, 834, 1280 und 1440 px. Navigation und Hauptaktion in der Daumenzone, jede Geste mit Knopf.']
 ];
 RULES.forEach(([title, text]) => {
   const label = document.createElement('label');
@@ -273,7 +287,7 @@ $$('#checklist input').forEach(input => input.addEventListener('change', () => {
   $('#scoreMessage').textContent = count === RULES.length ? 'Alle ' + RULES.length + ' Regeln bestätigt. Die visuelle Freigabe erfolgt separat.' : count + ' von ' + RULES.length + ' Regeln bestätigt. Eine Checkliste ersetzt kein visuelles Review.';
 }));
 
-/* ---------- 14 Glossar: verbindliche Begriffe aus assets/glossar.js ---------- */
+/* ---------- 15 Glossar: verbindliche Begriffe aus assets/glossar.js ---------- */
 const G = window.ELANUM_GLOSSAR;
 $('#glossarRule').textContent = G.rule;
 $('#glossarSentence').textContent = '«' + G.sentence + '»';
@@ -306,7 +320,7 @@ function filterGlossar() {
 $('#glossarSearch').addEventListener('input', filterGlossar);
 filterGlossar();
 
-/* ---------- 15 Tokens: der Block liest die Werte aus tokens.css ---------- */
+/* ---------- 16 Tokens: der Block liest die Werte aus tokens.css ---------- */
 const TOKEN_GROUPS = [
   ['Fläche und Schrift', ['--canvas', '--paper', '--ink', '--ink-2', '--line']],
   ['Bereiche: tief · Fläche · Hauch, offen', ['--sterne-tief', '--sterne-flaeche', '--sterne-hauch', '--ich-tief', '--ich-flaeche', '--ich-hauch', '--bezug-tief', '--bezug-flaeche', '--bezug-hauch', '--offen']],
