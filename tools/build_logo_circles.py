@@ -6,7 +6,7 @@ Erzeugt aus wenigen Konstruktionskreisen die Logo-Dateien:
   assets/ELANUM-System-Ink-<V>.svg
   assets/ELANUM-Master-Spektrum-<V>.svg   (Farbnetz aus -Curves, neue Konturen)
   assets/ELANUM-Konstruktion-<V>.svg      (Blueprint mit allen Kreisen)
-  components/zeichen/zeichen.js           (Konstruktion für den Zeichenaufbau, Zeile "var K")
+  components/zeichen/zeichen.js           (Form und Kontur für die Bewegung, Zeile "var K")
 
 <V> = Harmonic: alle Radien aus der Reihe R * phi^(-k/4) (Goldener Schnitt).
 Das ist das gültige ELANUM-Zeichen. CIRCLES (nah am Original) bleibt nur als
@@ -471,8 +471,8 @@ def spectrum_svg(rg):
     return src
 
 
-def construction_circles(v, g):
-    """Konstruktionskreise (Mittelpunkt, Radius, Stufe, Rolle) und die gezeigten Bögen."""
+def blueprint_svg(v, g, rg):
+    name = v['name']
     circles = []          # (center, radius, label, role)
     seen = set()
 
@@ -500,12 +500,7 @@ def construction_circles(v, g):
                 add_circle(a.c, a.r, label_for(v, a.r), role)
             if key not in ('L1c', 'L2c'):
                 used.append((a, key))
-    return circles, used
 
-
-def blueprint_svg(v, g, rg):
-    name = v['name']
-    circles, used = construction_circles(v, g)
     parts = []
     parts.append('<rect x="-400" y="-400" width="2200" height="2200" fill="#F6F1E7"/>')
     grid = []
@@ -564,20 +559,14 @@ def blueprint_svg(v, g, rg):
 ZEICHEN_JS = os.path.join(ROOT, 'components', 'zeichen', 'zeichen.js')
 
 
-def zeichen_data(v, g, rg):
-    """Konstruktion für den Zeichenaufbau im Baustein Zeichen, im Raster des Zeichens (VIEWBOX)."""
-    num = lambda x: float(f(x))
-    role = {'main': 'rahmen', 'line': 'linie', 'notch': 'kerbe', 'aux': 'kante'}
-    circles, _ = construction_circles(v, g)
+def zeichen_data(g, rg):
+    """Form und Kontur für den Baustein Zeichen, im Raster des Zeichens (VIEWBOX)."""
     return {
         'viewBox': VIEWBOX,
-        'mitte': [num(g['O'][0]), num(g['O'][1])],
-        'oeffnung': [num(g['H'][0]), num(g['H'][1]), num(g['r0'])],
+        'mitte': [float(f(g['O'][0])), float(f(g['O'][1]))],
+        'radius': float(f(g['R'])),
         'form': rg['silhouette'],
-        'kreise': [[num(c[0]), num(c[1]), num(r), role[ro]] for c, r, _, ro in circles],
-        'konturen': [['rahmen', rg['outline']], ['rahmen', rg['hole']],
-                     ['linie', path(g['L1c'])], ['linie', path(g['L2c'])],
-                     ['kante', path(g['TB'])], ['kante', path(g['FC'])], ['kante', path(g['LA'] + g['LB'])]],
+        'kontur': [rg['outline'], rg['hole']],
     }
 
 
@@ -672,7 +661,7 @@ def main():
         for fn, content in out.items():
             with open(os.path.join(ASSETS, fn), 'w', encoding='utf-8') as fh:
                 fh.write(content)
-        write_zeichen_js(zeichen_data(v, g, rg))
+        write_zeichen_js(zeichen_data(g, rg))
         if write_masks:
             print('  Relief-Maske %s: %s' % (v['name'], mask_uri(ink)))
 

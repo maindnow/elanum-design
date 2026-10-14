@@ -1,4 +1,4 @@
-/* ELANUM Zeichen · Seite. Drei Bewegungen nebeneinander, gross und klein. */
+/* ELANUM Zeichen · Seite. Beide Bewegungen nebeneinander, gross und klein. */
 .bewegungen{display:grid;gap:24px}
 .bewegung{display:grid;gap:14px;align-content:start;justify-items:start;padding:28px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
 .bewegung__buehne{justify-self:stretch;display:grid;place-items:center;aspect-ratio:1;padding:12%;margin-bottom:8px;border-radius:20px;background:linear-gradient(135deg,#F7F3EB,#E9E3D7);box-shadow:var(--pressed)}
@@ -15,4 +15,4 @@
 .motion-toggle{display:flex;align-items:center;gap:12px;min-height:44px;margin-left:-12px;padding:0 12px;border:0;border-radius:var(--radius-control);background:transparent;font:var(--type-label)}
 .motion-toggle::before{content:"";width:12px;height:12px;border:var(--trace) solid currentColor;border-radius:50%}
 .motion-toggle[aria-pressed=true]::before{background:currentColor}
-@media(min-width:960px){.bewegungen{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:760px){.bewegungen{grid-template-columns:repeat(2,minmax(0,1fr))}}

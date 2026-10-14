@@ -124,7 +124,7 @@ function updateSignature() {
 $$('[data-signature-mode]').forEach(button => button.addEventListener('click', () => { signatureMode = button.dataset.signatureMode; updateSignature(); }));
 updateSignature();
 
-/* Das Zeichen in Bewegung: Zeichenaufbau, Lichtlauf, Farbatem (components/zeichen). Die Form steht. */
+/* Das Zeichen in Bewegung: Zeichenaufbau und Lichtlauf (components/zeichen). Die Form steht. */
 window.ElanumZeichen.mountAll();
 $$('[data-zeichen-nochmals]').forEach(button => button.addEventListener('click', () => {
   $$('[data-zeichen=aufbau]', button.closest('.bewegung')).forEach(node => node._zeichen.play());
@@ -161,7 +161,7 @@ rad.groups.forEach(group => {
 $('#areaPalette').addEventListener('click', event => { const b = event.target.closest('[data-copy]'); if (b) copyText(b.dataset.copy, b.dataset.copy + ' kopiert'); });
 
 const SPECTRUM = [['Violet', '#6756D9'], ['Blue', '#4D7FE8'], ['Orchid', '#9466DF'], ['Rose', '#D85BA9'], ['Pink', '#F0719A']];
-$('#spectrumPalette').innerHTML = '<div class="spectrum__row"><div class="zeichen" data-zeichen="farbatem"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="56" height="56"></div>' +
+$('#spectrumPalette').innerHTML = '<div class="spectrum__row"><div class="zeichen" data-zeichen="lichtlauf"><img src="assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="56" height="56"></div>' +
   '<div class="spectrum__bar" role="img" aria-label="Markenspektrum von Violett bis Pink"></div></div><div class="spectrum__values">' +
   SPECTRUM.map(([name, hex]) => `<button type="button" class="glow-edge" data-copy="${hex}" aria-label="${name} ${hex} kopieren">${name} ${hex}</button>`).join('') + '</div>';
 window.ElanumZeichen.mountAll($('#spectrumPalette'));

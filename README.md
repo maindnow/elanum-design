@@ -21,7 +21,7 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Baus
 
 ## Was der Atlas zeigt
 
-- **Zeichen:** das ELANUM-Zeichen, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Spektrum, Ink, Invers, Papierrelief und Blueprint. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin: einmal im Zeichenaufbau, dauernd im Lichtlauf oder im Farbatem, gross wie klein.
+- **Zeichen:** das ELANUM-Zeichen, vollständig aus Kreisbögen konstruiert, alle Radien im Goldenen Schnitt. Spektrum, Ink, Invers, Papierrelief und Blueprint. Seine Form bewegt sich nie, nur Licht und Farbe bewegen sich darin: einmal im Zeichenaufbau oder dauernd im Lichtlauf, gross wie klein.
 - **Typografie:** fünf Stufen. Albert Sans trägt die Bedienung, Yrsa ist die Stimme und erscheint nur gross. Kein Kursiv, nichts unter 15 px.
 - **Farbe:** neutrale Flächen, drei ausgeglichene Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit Tief, Fläche für ausgefüllte Elemente und Hauch; offene Elemente grau mit Plus, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
 - **Material:** warme Reliefoberfläche, Licht von links oben, angehobene Bedienung, vertiefte Eingaben.
@@ -197,11 +197,10 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 
 **Zeichen in Bewegung** · `components/zeichen/` · `window.ElanumZeichen`
 
-Die Form des Zeichens bewegt sich nie. Unter der Bewegung liegt immer die unveränderte Datei `ELANUM-Master-Spektrum-Harmonic.svg`. Darüber liegt eine SVG-Ebene mit Konstruktion oder Glanz, beim Farbatem eine zweite Farbstellung desselben Bildes. `data-zeichen` wählt die Bewegung:
+Die Form des Zeichens bewegt sich nie. Unter der Bewegung liegt immer die unveränderte Datei `ELANUM-Master-Spektrum-Harmonic.svg`, sie wird nur einmal gezeichnet. Bewegt werden Deckkraft und Drehung leichter Ebenen darüber. `data-zeichen` wählt die Bewegung:
 
-- `aufbau`: Zeichenaufbau, einmal, gut 3 s. Startet, sobald das Zeichen zu sehen ist. Unter 120 px ohne Hilfskreise und schneller.
+- `aufbau`: Zeichenaufbau, einmal, knapp 3 s. Aussenkreis und Öffnung zeichnen sich als feine Linie im Markenspektrum, dann füllt sich das Zeichen sanft mit Farbe. Startet, sobald das Zeichen zu sehen ist.
 - `lichtlauf`: Lichtlauf, dauernd, 24 s pro Umlauf.
-- `farbatem`: Farbatem, dauernd, im Takt der Atmung (`--motion-breath`).
 
 - `mount(root, { bewegung })` gibt `{ play(), stop(), parts }` zurück. `play()` baut das Zeichen neu auf, `stop()` zeigt sofort das ruhende Zeichen.
 - `mountAll(scope)`: montiert jedes `[data-zeichen]`.
@@ -278,7 +277,7 @@ Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 
 ## Stand und Historie
 
-4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form steht, nur Licht und Farbe bewegen sich: Zeichenaufbau (einmal), Lichtlauf und Farbatem (dauernd), gross wie klein. Neuer Baustein `components/zeichen/`, drei neue Begriffe im Glossar. 4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
+4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form steht, nur Licht und Farbe bewegen sich: Zeichenaufbau (einmal) und Lichtlauf (dauernd), gross wie klein. Neuer Baustein `components/zeichen/`, zwei neue Begriffe im Glossar. 4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
 
 ## Schriften und Nutzungsrechte
 
