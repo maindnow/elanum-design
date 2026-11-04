@@ -30,7 +30,7 @@ git log --oneline -1
 
 ## Offen
 
-1. **Entwurf 4.11 „Fliesstext“ ist nicht gemergt:** PR #18, Branch `claude/kind-sagan-jkyhkj`. Ein neuer Baustein `components/fliesstext/`: Aussagen mit ihrer Quelle, Quellenkarte „Woher kommt diese Aussage?“, eingebunden im Atlas und auf Heute. Paket 4.11.0. Der Branch bleibt auf GitHub erhalten. Nach dem Merge den Tag `v4.11.0` mit der Vorlage in `CLAUDE.md` setzen. Ansehen:
+1. **Entwurf 4.11 „Fliesstext“ ist nicht gemergt:** PR #18, Branch `claude/kind-sagan-jkyhkj`. Ein neuer Baustein `components/fliesstext/`: Aussagen mit ihrer Quelle, Quellenkarte „Woher kommt diese Aussage?“, eingebunden im Atlas und auf Heute. Paket 4.11.0. Der Branch bleibt auf GitHub erhalten. Nach dem Merge den Tag `v4.11.0` mit der Vorlage in `CLAUDE.md` setzen und die App darauf anheben (Abschnitt „In der App“). Ansehen:
 
    ```bash
    cd ~
@@ -49,6 +49,19 @@ git log --oneline -1
 4. **Namen in der App noch ohne Freigabe im Glossar:** Entdecken, Likes, Chats, Profil, Aktivitäten, Events, Meine, Menü, dazu App-Rahmen, Leiste, Schiene, Seitenleiste, Sheet, Hauptfläche, Tagesbogen, „Eine Frage für heute“, „Resonanz zeigen“. Liste in `DESIGN-NOTES.md`, „Offene Freigaben“.
 5. **Kapitel Haltung im Atlas:** Bei Datingkosmos und Erlebniskosmos steht unter „Darin“ noch „folgt“, obwohl es seit 4.10 die Screens Entdecken, Chats und Aktivitäten gibt. Beim nächsten Atlas-Stand nachführen.
 6. **Alter Branch `codex/elanum-styleguide-2026-09-18`:** zwei Commits vom 18. September, älter als Stand 4.4 und durch alles Spätere ersetzt. Kann gelöscht werden. Alle anderen `claude/*`-Branches sind vollständig in `main`.
+7. **Rosa als Token (Lücke L1/L2 der App):** Die App nutzt für „gemeinsam“ (Paar-Ansichten, Personenfarben) den Wert `#B5387F` (4,86:1 auf Papier). Das Paket hat dafür kein Token (gemessen am 4. November 2026: kein Treffer in `tokens.css`). Vorschlag: als Token ins Paket (Minor), danach in der App ersetzen. Entscheid Chris.
+
+## In der App (`maindnow/soulresonance.ch`)
+
+- **Stand:** Die App pinnt `github:maindnow/elanum-design#v4.10.0` (gemessen am 4. November 2026 auf `integration` und `main`). ELANUM ist dort seit dem 20. Oktober 2026 live.
+- **Dein Zweig:** `chris`, Pull Requests gehen nur nach `integration`, das Release macht Tris. Anleitung `docs/INFO-CHRIS.md`, Abläufe `docs/RUNBOOK-LOKAL.md`, dein Stand `.planning/stand/chris.md`.
+- **Design-Lücken:** `docs/elanum-migration.md` führt 75 Lücken L1 bis L75 zwischen App und Paket. Geschlossen werden sie hier im Paket, nie mit lokalen Werten in der App.
+- **Neue Paketversion in die App holen:**
+    1. Hier mergen und den Tag setzen (`CLAUDE.md`, „Versionen“).
+    2. Im Hauptrepo auf `chris` die Zeile `@elanum/design` in `package.json` auf den neuen Tag ändern, dann `npm install`.
+    3. `tests/design/elanum-theme.test.js` prüft den Tag, die Ladereihenfolge und dass jedes genannte Token im Paket existiert. Ein entferntes oder umbenanntes Token (Major) fällt dort auf.
+    4. Pull Request nach `integration`.
+- **Geschichte:** Das Paket entstand am 13. Oktober 2026 mit 4.8.0 (PR #15). Am 14. Oktober folgte Etappe 1 der Umstellung in der App (`maindnow/soulresonance.ch` PR #6, Konzept `.planning/KONZEPT-ELANUM-UMSTELLUNG-2026-10-13.md`). Eine Zusammenfassung für den Owner vom 14. Oktober lag nur als Claude-Docs-Dokument im Konto von Chris; sie ist überholt, die Fakten stehen hier und in `.planning/stand/chris.md`.
 
 ## Versionen bis heute
 
