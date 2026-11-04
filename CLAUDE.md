@@ -1,5 +1,7 @@
 # Arbeitsregeln für dieses Repository
 
+Zuerst [UEBERGABE.md](UEBERGABE.md) lesen: Stand, offene Punkte, Entscheide zur Benennung und die Arbeitsweise mit Chris.
+
 ## Befehle für Chris
 
 Chris testet lokal auf einem Mac (zsh). Jede Anleitung muss idiotensicher sein:
