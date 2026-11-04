@@ -39,7 +39,7 @@
 
 Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Bausteinen Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, dem Zeichen in Bewegung, dem App-Rahmen und dem Fliesstext. Im Zentrum steht das Resonanzrad mit seinen neun Elementen. Seit 4.10 zeigt der Atlas, wie die App aussieht: mobile zuerst, in jeder Breite.
 
-[Atlas öffnen](index.html) · [App-Screens](components/app/) · [Gestaltungsnotizen](DESIGN-NOTES.md) · [Bausteine](components/)
+[Atlas öffnen](index.html) · [App-Screens](components/app/) · [Gestaltungsnotizen](DESIGN-NOTES.md) · [Bausteine](components/) · [Übergabe](UEBERGABE.md)
 
 **Benennung:** Im Zentrum steht das Resonanzrad mit neun Elementen. ELANUM hat drei Kosmen: den **Resonanzkosmos** als Einstieg, daneben den **Datingkosmos** und den **Erlebniskosmos**. Verbindlich ist das [Glossar](GLOSSAR.md).
 
