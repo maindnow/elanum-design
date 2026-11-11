@@ -1,31 +1,19 @@
-# Übergabe ELANUM-Gestaltungsatlas
+# Übergabe: ELANUM Gestaltungsatlas
 
-Stand: 4. November 2026. Geschrieben am Ende der Arbeit vom 14. Oktober 2026, damit nach einem neuen Klonen nichts fehlt. Wer hier weiterarbeitet (Mensch oder Agent), liest zuerst diese Datei, dann [CLAUDE.md](CLAUDE.md), dann [DESIGN-NOTES.md](DESIGN-NOTES.md).
+Stand 11. November 2026. Mit PR #18 kommt **Atlas 4.11** (Paket `@elanum/design` 4.11.0) auf `main`; der Tag `v4.11.0` folgt nach dem Merge. Davor: Atlas 4.10, Tag `v4.10.0`. Diese Datei fasst alles zusammen, was es zum Weiterarbeiten braucht, auch Entscheide, die bisher nur in Gesprächen mit Claude standen.
 
-## Kurz
+## In zwei Minuten
 
-Dieses Repository ist die einzige Designquelle der App ELANUM (`maindnow/soulresonance.ch`). Die App bindet es als Paket `@elanum/design` über einen Tag ein. Auf `main` steht Atlas 4.10. Atlas 4.11 mit dem neuen Baustein Fliesstext und dieser Übergabe liegt im Zweig `claude/kind-sagan-jkyhkj` und wartet als PR #18 auf den Merge.
+- **Was:** der interaktive Gestaltungsatlas der App ELANUM (Stil Soft 3D Relief). Er ist die einzige Designquelle der App: Tokens, Bausteine, Zeichen, Glossar und acht App-Screens.
+- **Wo:** dieses Repository `github.com/maindnow/elanum-design`. Die App liegt in `maindnow/soulresonance.ch` und bindet den Atlas als Paket über einen Tag ein (siehe README, „In der App verwenden“).
+- **Ohne Build:** reines HTML, CSS und JavaScript. Zum Ansehen genügt `python3 tools/serve.py` im Repo-Ordner, dann http://127.0.0.1:4173.
+- **Verbindlich:** die Begriffe im Glossar (`assets/glossar.js`, daraus `GLOSSAR.md`) und die Werte in `tokens.css`. Begründungen stehen in `DESIGN-NOTES.md`, Arbeitsregeln in `CLAUDE.md`.
 
-## Wo was steht
+## Weitermachen
 
-| Was | Stand |
-| --- | --- |
-| `main` | Atlas 4.10.0, Commit `ef7c18d`, Tag `v4.10.0` |
-| `claude/kind-sagan-jkyhkj` | Atlas 4.11.0: Fliesstext, diese Übergabe, Originalentwurf |
-| PR #18 | https://github.com/maindnow/elanum-design/pull/18, Entwurf, offen, am 14.10.2026 ohne Konflikt, ohne Kommentare, ohne Prüfungen |
-| Tags auf GitHub | `v4.8.0`, `v4.9.0`, `v4.10.0`. `v4.11.0` fehlt noch und kommt erst nach dem Merge |
-| Andere Zweige | Alle in `main` enthalten, ausser `codex/elanum-styleguide-2026-09-18` (zwei alte Commits vom 18.09.2026, nicht geprüft, vermutlich überholt) |
+**Mit Claude Code:** das Repository in einer neuen Session öffnen oder klonen. `CLAUDE.md` wird automatisch gelesen und verweist hierher. Am Anfang schreiben: „Lies UEBERGABE.md und mach dort weiter.“
 
-Ohne Merge bekommt man den ganzen Stand mit `git clone --branch claude/kind-sagan-jkyhkj https://github.com/maindnow/elanum-design.git`.
-
-## Als Nächstes, in dieser Reihenfolge
-
-1. **PR #18 mergen.** Auf GitHub den PR öffnen, „Ready for review“, dann „Merge pull request“. Erst danach steht 4.11 und diese Übergabe auf `main`.
-2. **Tag `v4.11.0` setzen.** Block unten. Er setzt den Tag nur, wenn `main` schon Version 4.11.0 trägt, und zeigt danach `main` im Browser.
-3. **Offene Entscheide** unten treffen (Glossar, Abgleich mit der App).
-4. **In der App** das Paket auf `"@elanum/design": "github:maindnow/elanum-design#v4.11.0"` heben, sobald der Fliesstext dort gebraucht wird.
-
-Tag nach dem Merge (aus CLAUDE.md, mit 4.11.0 ausgefüllt):
+**Lokal ansehen (Mac, zsh):** diesen Block ins Terminal kopieren. Er klont das Repo nach `~/elanum-design`, falls es fehlt, beendet einen alten Server, setzt den Ordner genau auf den Stand von `main` und öffnet den Atlas. Beenden mit Ctrl+C.
 
 ```bash
 cd ~
@@ -33,34 +21,83 @@ cd ~
 cd ~/elanum-design
 git merge --abort 2>/dev/null
 lsof -ti:4173 | xargs kill -9 2>/dev/null
-git fetch origin --tags --force
+git fetch origin
 git reset --hard
 git checkout -B main origin/main
 git log --oneline -1
-if git ls-remote --exit-code --tags origin refs/tags/v4.11.0 >/dev/null; then echo "Tag v4.11.0 ist schon auf GitHub."; elif grep -q '"version": "4.11.0"' package.json; then git tag -f v4.11.0 && git push origin v4.11.0; else echo "STOPP: Auf main steht noch nicht Version 4.11.0. Zuerst den PR mergen, dann diesen Block nochmals einfügen."; fi
-git ls-remote --tags origin v4.11.0
 (sleep 1 && open http://127.0.0.1:4173) & python3 tools/serve.py
 ```
 
-Der Block öffnet den Atlas auf dem Stand von `main`. Beenden mit Ctrl+C.
+## Offen
 
-## Offene Entscheide (nur Chris)
-
-Das Glossar (`assets/glossar.js`, `GLOSSAR.md`) ist bewusst unverändert. Neue Begriffe kommen nur mit Freigabe und einer neuen Atlas-Version hinein. Danach `node tools/glossar-md.js` ausführen.
-
-1. **Glossar, Namen aus der App (seit 4.10):** die Ziele Entdecken, Likes, Chats, Profil, Aktivitäten, Events, Meine und Menü (aus der heutigen App übernommen), dazu App-Rahmen, Leiste, Schiene, Seitenleiste, Sheet, Hauptfläche, Tagesbogen, „Eine Frage für heute“ und „Resonanz zeigen“.
-2. **Glossar, Namen aus dem Fliesstext (4.11):** Fliesstext, Aussage, Quelle, Quellenkarte.
+1. **Tag `v4.11.0` setzen:** nach dem Merge von PR #18 mit der Vorlage in `CLAUDE.md` (Version 4.11.0 ist in `package.json` eingetragen). Danach kann die App auf `#v4.11.0` heben, sobald sie den Fliesstext braucht.
+2. **Glossar, Namen aus dem Fliesstext (4.11):** Fliesstext, Aussage, Quelle, Quellenkarte. Noch ohne Freigabe.
 3. **Abgleich mit dem Muster M1 „Herkunft je Satz“ der App** (`src/lib/components/signatur/AbsatzMitHerkunft.svelte` in `maindnow/soulresonance.ch`, gelesen am 14.10.2026). Gleich sind das Zeichen am Satzende als Knopf, die Markierung beim Antippen, Esc und Fokus zurück. Anders sind drei Dinge:
    - Im Fliesstext ist die Aussage auch in Ruhe leise unterstrichen, in M1 erst beim Antippen.
    - Die Herleitung steht hier in der Quellenkarte, in M1 als Aufklapper unter dem Absatz.
    - Die Farben folgen hier den drei Bereichen des Resonanzrads, in M1 hat jedes System eine eigene Quellenfarbe.
 
-   Empfehlung: den Fliesstext als Vorgabe nehmen. Entscheiden muss es, wer in der App über Muster entscheidet. Dort gilt: Entscheide trifft der Founder, und eine neue Form geht ihm vorher als Frage mit Bild zu (`.planning/MUSTER-VERBINDLICH.md`).
-4. **Wort „Resonanzraum“** im Text „Dein erstes Muster“: Es ist kein Glossarbegriff und liegt nah an „Beziehungsraum“. Es steht so, wie Chris es geschrieben hat.
+   Empfehlung: den Fliesstext als Vorgabe nehmen. In der App entscheidet der Founder über Muster, eine neue Form geht ihm vorher als Frage mit Bild zu (`.planning/MUSTER-VERBINDLICH.md`).
+4. **Wort „Resonanzraum“** im Text „Dein erstes Muster“: kein Glossarbegriff, liegt nah an „Beziehungsraum“. Steht so, wie Chris es geschrieben hat.
+5. **Leitsatz nennt noch die alten Phasen:** „Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg.“ steht im Glossar, im Einstieg des Atlas und auf dem App-Screen Ankommen. Er blieb bewusst stehen, entschieden ist noch nichts. Vorschlag von Claude: „Mit ELANUM findest du Resonanz: in dir, in der Liebe und mit anderen.“
+6. **Partner oder Partnerschaft:** Resonanz sagt „zu deinem Partner“ (so von Chris formuliert), der Resonanzkosmos „in deiner Partnerschaft“. Beides ist so freigegeben. „Partner“ schliesst Partnerinnen sprachlich aus. Bei Gelegenheit angleichen, falls gewünscht.
+7. **Namen in der App noch ohne Freigabe im Glossar:** Entdecken, Likes, Chats, Profil, Aktivitäten, Events, Meine, Menü, dazu App-Rahmen, Leiste, Schiene, Seitenleiste, Sheet, Hauptfläche, Tagesbogen, „Eine Frage für heute“, „Resonanz zeigen“. Liste in `DESIGN-NOTES.md`, „Offene Freigaben“.
+8. **Kapitel Haltung im Atlas:** Bei Datingkosmos und Erlebniskosmos steht unter „Darin“ noch „folgt“, obwohl es seit 4.10 die Screens Entdecken, Chats und Aktivitäten gibt. Beim nächsten Atlas-Stand nachführen.
+9. **Alter Branch `codex/elanum-styleguide-2026-09-18`:** zwei Commits vom 18. September, älter als Stand 4.4 und durch alles Spätere ersetzt. Kann gelöscht werden. Offen sind noch PR #18 (dieser Stand) und PR #20 (Übergabe: App-Seite), alle anderen `claude/*`-Branches sind in `main`.
+
+## Versionen bis heute
+
+| Stand | Inhalt |
+|---|---|
+| 4.4 | Freigegebener Stand (`abb9939`), Kurvenkorrektur des Zeichens |
+| 4.5 | Ruhe, fünf Schriftstufen, Bereichsfarben des Resonanzrads, echte Bausteine, erklärende Bewegung, Glossar, Zeichen als Kreiskonstruktion im Goldenen Schnitt |
+| 4.6 | Phasen heissen Kosmen: Resonanzkosmos, Datingkosmos, Erlebniskosmos |
+| 4.7 | Resonanz neu gefasst |
+| 4.8 | „Sterne & Ursprung“ statt „Grundtöne“ (Code `sterne`), Resonanz ohne „Das Leitthema:“, Server ohne Cache. Paket 4.8.0, Tag `v4.8.0` |
+| 4.9 | Das Zeichen bewegt sich, seine Form steht: Zeichenaufbau und Lichtlauf, Baustein `components/zeichen/`. Tag `v4.9.0` |
+| 4.10 | ELANUM als App, mobile zuerst: App-Rahmen `components/app/`, acht Screens, Kapitel „In der App“. Tag `v4.10.0` |
+| 4.11 | Fliesstext: Aussagen mit ihrer Quelle, Quellenkarte „Woher kommt diese Aussage?“, Baustein `components/fliesstext/`, im Atlas und auf Heute. PR #18, Tag `v4.11.0` nach dem Merge |
+
+Das Glossar trägt die Version 4.9, weil es sich in 4.10 nicht geändert hat.
+
+## Entscheide zur Benennung (12. Oktober 2026, mit Chris)
+
+Freigegeben und umgesetzt:
+
+| Begriff | Satz | Darin |
+|---|---|---|
+| **Resonanzkosmos** | Resonanz in dir, in deiner Partnerschaft und in deinem Umfeld. | Resonanzrad, Heute, Weg, Umfeld, Beziehungsraum. Der Einstieg. |
+| **Datingkosmos** | Finde die eine Resonanz. | nur Dating |
+| **Erlebniskosmos** | Resoniere mit anderen. | Events, unabhängig vom Dating |
+| **Resonanz** | Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. | |
+| **Sterne & Ursprung** | Bereich in Violett: Astrologie, Numerologie, Human Design. Alle drei gehen von deiner Geburt aus. | Code `sterne`, Tokens `--sterne-*` |
+
+- Die drei heissen **Kosmen**, nicht Phasen: Datingkosmos und Erlebniskosmos stehen gleichwertig neben dem Resonanzkosmos, es gibt keine feste Reihenfolge. Namen immer in einem Wort, wie Resonanzrad.
+- Der Beziehungsraum gehört zum Resonanzkosmos (Partnerschaft), nicht zum Dating.
+
+Verworfen, damit es nicht wieder vorgeschlagen wird:
+
+- Soul Kosmos, Dating Kosmos, Event Kosmos: passten nicht; Englisch, zu eng.
+- Ich-Kosmos, Du-Kosmos, Wir-Kosmos: „Ich“ passt nicht, im ersten Kosmos geht es um dich und andere.
+- „Finde die gegenseitige Resonanz“: „gegen“ klingt negativ.
+- „Grosse Resonanz“: heisst im Deutschen „viel Echo“, also Beliebtheit.
+- „Erlebe Resonanz mit anderen“: Chris wählte „Resoniere mit anderen“.
+- Für den violetten Bereich: „Grundtöne“ sagt nichts aus. „Anlage & Ursprung“ und „Geburt & Anlage“: „Anlage“ passt nicht. „Herkunft“: klingt nach Familie oder Nationalität.
+
+Die weiteren Entscheide zu Zeichen, Bewegung und App (zum Beispiel: Farbatem verworfen, Zeichen in der App in Spektrum, Dating ohne Prozent-Score) stehen mit Datum und Begründung in `DESIGN-NOTES.md`.
+
+## Arbeitsweise
+
+- **Sprache:** Deutsch, Schweizer Schreibweise („ss“ statt „ß“). Begriffe genau wie im Glossar.
+- **Ablauf:** Claude arbeitet auf einem Branch `claude/…` und eröffnet einen PR als Entwurf. Chris prüft lokal mit dem Block aus `CLAUDE.md` und mergt selbst. Danach den Block für `main` und, bei neuer Paketversion, den Block für den Tag.
+- **Glossar ändern:** nur mit Freigabe von Chris und mit neuer Atlas-Version. Immer `assets/glossar.js` bearbeiten, dann `node tools/glossar-md.js`. `GLOSSAR.md` nie von Hand.
+- **Versionen und Tags:** Regeln in `CLAUDE.md`, „Versionen“. Die App verlässt sich auf die Tags: nie verschieben oder löschen.
+- **Vor jedem Push:** die Prüfungen aus `CLAUDE.md`, dazu der Atlas im Browser (Desktop, Tablet, Telefon, ohne Konsolenfehler).
+- **Lehre aus der Arbeit:** Chris sah lange einen alten Stand, weil sein lokaler Ordner nicht nachgezogen war. Deshalb gibt es `tools/serve.py` (ohne Browser-Cache), und nach jedem Merge gehört der Block für `main` in die Antwort.
 
 ## Was gebaut ist
 
-**4.11 Fliesstext** (`components/fliesstext/`, im PR #18): Ein Text, der zu einem Menschen spricht und bei jeder Kernaussage zeigt, woher sie kommt.
+**4.11 Fliesstext** (`components/fliesstext/`, PR #18): Ein Text, der zu einem Menschen spricht und bei jeder Kernaussage zeigt, woher sie kommt.
 - Aussage leise unterstrichen in der Bereichsfarbe, am Satzende ein runder Knopf je Element mit dessen Icon, Tippfläche 44 px.
 - Quellenkarte „Woher kommt diese Aussage?“ als `<dialog>`: Telefon von unten, sonst schwebend; Auswahl bei mehreren Quellen; die Seite rollt die Aussage über die Karte.
 - Zwei Stufen: Stimme (Yrsa) und leise (Albert Sans).
@@ -97,14 +134,25 @@ Das Glossar (`assets/glossar.js`, `GLOSSAR.md`) ist bewusst unverändert. Neue B
 04.11.2026:
 7. „Ich muss den Account schliessen, commite alles in das Repo mit allen Informationen für eine Übergabe, sodass ich beim nächsten Repo Kloning alles habe.“ → diese Datei.
 
-## Weiterarbeiten
+## Prüfen und neue Bausteine
 
-- **Regeln:** [CLAUDE.md](CLAUDE.md). Befehle für Chris immer als ein vollständiger Block, Antworten auf Deutsch mit „ss“, Begriffe nur aus dem Glossar, Versionen nach Major, Minor und Patch.
-- **Lokal ansehen:** Vorlage in CLAUDE.md, Server immer `python3 tools/serve.py` auf Port 4173.
-- **Prüfen vor jedem Push:** `node --check` über alle Skripte, `python3 tools/build_logo_circles.py`, `node tools/glossar-md.js`, `git diff --check`, bei neuen Dateien im Paket `npm pack --dry-run`.
 - **Im Browser prüfen** (mit Playwright, mit und ohne reduzierte Bewegung): kein horizontaler Überlauf, kein sichtbarer Text unter 15 px, keine Konsolenfehler, Bedienung mit Tastatur, Esc und Fokus zurück. Bekannter Fehlalarm: `<small>Konto</small>` in der Seitenleiste ist unter 1024 px ausgeblendet und wirkt in einer reinen Schriftgrössen-Suche wie 12,5 px.
-- **Screenshots für das README:** Server starten, dann `node tools/screenshots.js` (braucht Playwright, siehe Kopf der Datei).
 - **Neuer Baustein:** eigener Ordner `components/<name>/` mit `<name>.css`, `<name>.js` (klassisches Skript mit `mount()`, läuft auch unter `file://`) und einer Seite `index.html`. Beide Dateien in `files` der `package.json`, Version als Minor anheben, „Gestaltungsatlas X.Y“ in allen Seiten nachziehen, Karte im Kapitel Bausteine, API im README, Begründung in DESIGN-NOTES.
+
+## Wo was liegt
+
+| Datei oder Ordner | Inhalt |
+|---|---|
+| `index.html`, `style.css`, `app.js` | Der Atlas mit allen Kapiteln |
+| `tokens.css`, `base.css` | Alle Werte und die gemeinsamen Grundlagen |
+| `components/` | Bausteine als eigene Seiten: Resonanzrad, Umfeld, Beziehungsraum, Weg, Zeichen, Fliesstext, App (mit den acht Screens) |
+| `assets/` | Zeichen (SVG), Schriften, Bewegung (`motion.js`, GSAP), Glossar |
+| `tools/` | Zeichen erzeugen, Schriften einbetten, Glossar erzeugen, Screenshots, lokaler Server |
+| `docs/screenshots/` | Bilder für das README |
+| `README.md` | Überblick, Aufbau, Verwendung in der App, Prüfen |
+| `DESIGN-NOTES.md` | Entscheide und Begründungen, nach Version |
+| `GLOSSAR.md` | Alle verbindlichen Begriffe und was nicht mehr verwendet wird |
+| `CLAUDE.md` | Arbeitsregeln, Befehlsvorlagen, Versionen |
 
 ## Bezug zur App
 

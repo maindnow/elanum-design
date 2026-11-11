@@ -1,6 +1,6 @@
 # Arbeitsregeln für dieses Repository
 
-Zuerst [UEBERGABE.md](UEBERGABE.md) lesen: Stand, offene Entscheide und nächste Schritte.
+Zuerst [UEBERGABE.md](UEBERGABE.md) lesen: Stand, offene Punkte, Entscheide zur Benennung und die Arbeitsweise mit Chris.
 
 ## Befehle für Chris
 
