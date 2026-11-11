@@ -30,7 +30,7 @@ git log --oneline -1
 
 ## Offen
 
-1. **Tag `v4.11.0` setzen:** nach dem Merge von PR #18 mit der Vorlage in `CLAUDE.md` (Version 4.11.0 ist in `package.json` eingetragen). Danach kann die App auf `#v4.11.0` heben, sobald sie den Fliesstext braucht.
+1. **Tag `v4.11.0` setzen:** nach dem Merge von PR #18 mit der Vorlage in `CLAUDE.md` (Version 4.11.0 ist in `package.json` eingetragen). Danach die App darauf anheben, sobald sie den Fliesstext braucht (Abschnitt „In der App“).
 2. **Glossar, Namen aus dem Fliesstext (4.11):** Fliesstext, Aussage, Quelle, Quellenkarte. Noch ohne Freigabe.
 3. **Abgleich mit dem Muster M1 „Herkunft je Satz“ der App** (`src/lib/components/signatur/AbsatzMitHerkunft.svelte` in `maindnow/soulresonance.ch`, gelesen am 14.10.2026). Gleich sind das Zeichen am Satzende als Knopf, die Markierung beim Antippen, Esc und Fokus zurück. Anders sind drei Dinge:
    - Im Fliesstext ist die Aussage auch in Ruhe leise unterstrichen, in M1 erst beim Antippen.
@@ -43,7 +43,20 @@ git log --oneline -1
 6. **Partner oder Partnerschaft:** Resonanz sagt „zu deinem Partner“ (so von Chris formuliert), der Resonanzkosmos „in deiner Partnerschaft“. Beides ist so freigegeben. „Partner“ schliesst Partnerinnen sprachlich aus. Bei Gelegenheit angleichen, falls gewünscht.
 7. **Namen in der App noch ohne Freigabe im Glossar:** Entdecken, Likes, Chats, Profil, Aktivitäten, Events, Meine, Menü, dazu App-Rahmen, Leiste, Schiene, Seitenleiste, Sheet, Hauptfläche, Tagesbogen, „Eine Frage für heute“, „Resonanz zeigen“. Liste in `DESIGN-NOTES.md`, „Offene Freigaben“.
 8. **Kapitel Haltung im Atlas:** Bei Datingkosmos und Erlebniskosmos steht unter „Darin“ noch „folgt“, obwohl es seit 4.10 die Screens Entdecken, Chats und Aktivitäten gibt. Beim nächsten Atlas-Stand nachführen.
-9. **Alter Branch `codex/elanum-styleguide-2026-09-18`:** zwei Commits vom 18. September, älter als Stand 4.4 und durch alles Spätere ersetzt. Kann gelöscht werden. Offen sind noch PR #18 (dieser Stand) und PR #20 (Übergabe: App-Seite), alle anderen `claude/*`-Branches sind in `main`.
+9. **Alter Branch `codex/elanum-styleguide-2026-09-18`:** zwei Commits vom 18. September, älter als Stand 4.4 und durch alles Spätere ersetzt. Kann gelöscht werden. PR #20 (Übergabe: App-Seite) ist in PR #18 enthalten, alle anderen `claude/*`-Branches sind in `main`.
+10. **Rosa als Token (Lücke L1/L2 der App):** Die App nutzt für „gemeinsam“ (Paar-Ansichten, Personenfarben) den Wert `#B5387F` (4,86:1 auf Papier). Das Paket hat dafür kein Token (gemessen am 4. November 2026: kein Treffer in `tokens.css`). Vorschlag: als Token ins Paket (Minor), danach in der App ersetzen. Entscheid Chris.
+
+## In der App (`maindnow/soulresonance.ch`)
+
+- **Stand:** Die App pinnt `github:maindnow/elanum-design#v4.10.0` (gemessen am 4. November 2026 auf `integration` und `main`). ELANUM ist dort seit dem 20. Oktober 2026 live.
+- **Zweig von Chris:** `chris-design` (seit 11. November 2026, vorher `chris`). Chris committet nie auf `main`, jede Änderung geht als Entwurfs-PR, das Release macht Tris. Anleitung `docs/INFO-CHRIS.md`, Abläufe `docs/RUNBOOK-LOKAL.md`, dein Stand `.planning/stand/chris.md`.
+- **Design-Lücken:** `docs/elanum-migration.md` führt 75 Lücken L1 bis L75 zwischen App und Paket. Geschlossen werden sie hier im Paket, nie mit lokalen Werten in der App.
+- **Neue Paketversion in die App holen:**
+    1. Hier mergen und den Tag setzen (`CLAUDE.md`, „Versionen“).
+    2. Im Hauptrepo auf `chris-design` die Zeile `@elanum/design` in `package.json` auf den neuen Tag ändern, dann `npm install`.
+    3. `tests/design/elanum-theme.test.js` prüft den Tag, die Ladereihenfolge und dass jedes genannte Token im Paket existiert. Ein entferntes oder umbenanntes Token (Major) fällt dort auf.
+    4. Entwurfs-PR mit den angepassten Seiten und Screenshots.
+- **Geschichte:** Das Paket entstand am 13. Oktober 2026 mit 4.8.0 (PR #15). Am 14. Oktober folgte Etappe 1 der Umstellung in der App (`maindnow/soulresonance.ch` PR #6, Konzept `.planning/KONZEPT-ELANUM-UMSTELLUNG-2026-10-13.md`). Eine Zusammenfassung für den Owner vom 14. Oktober lag nur als Claude-Docs-Dokument im Konto von Chris; sie ist überholt, die Fakten stehen hier und in `.planning/stand/chris.md`.
 
 ## Versionen bis heute
 
