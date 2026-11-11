@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../beziehungsraum/beziehungsraum.css">
 <link rel="stylesheet" href="../resonanzrad/resonanzrad.css">
 <link rel="stylesheet" href="../zeichen/zeichen.css">
+<link rel="stylesheet" href="../fliesstext/fliesstext.css">
 <link rel="stylesheet" href="app.css">
 <link rel="stylesheet" href="screens.css">
 </head>
@@ -40,10 +41,8 @@
           <div class="day__arc" data-day-arc></div>
         </div>
         <p class="app-hero__voice">Heute darf etwas offen bleiben.</p>
-        <p class="app-card__text">Der Mond steht in den Fischen. Gefühle liegen näher an der Oberfläche als sonst. Gib ihnen Raum, bevor du entscheidest. Was sich heute nicht klärt, darf bis morgen warten.</p>
-        <div class="element-chips" aria-label="Woher dieser Text kommt">
-          <span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="astrology"></svg>Mond in den Fischen</span>
-          <span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="numerology"></svg>Persönlicher Tag 7</span>
+        <div class="fliesstext fliesstext--leise" data-fliesstext data-day-text>
+          <p>Der Mond steht in den Fischen. <mark class="fliesstext__aussage" data-quellen="astrology">Gefühle liegen näher an der Oberfläche als sonst.</mark> Gib ihnen Raum, bevor du entscheidest. <mark class="fliesstext__aussage" data-quellen="numerology">Was sich heute nicht klärt, darf bis morgen warten.</mark></p>
         </div>
         <div class="app-card__foot"><a class="app-more glow-edge" href="#">Weiter vertiefen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="pfeil"></svg></a></div>
       </article>
@@ -98,7 +97,9 @@
       <article class="app-card app-card--tint area" data-area="sterne">
         <p class="app-card__kicker">Diese Woche</p>
         <h2 class="app-card__title">Ein Nein, das dir guttut.</h2>
-        <p class="app-card__text">Saturn steht deinem Mond gegenüber. Grenzen setzen fällt leichter, wenn du sie früh und freundlich aussprichst.</p>
+        <div class="fliesstext fliesstext--leise" data-fliesstext data-week-text>
+          <p>Saturn steht deinem Mond gegenüber. <mark class="fliesstext__aussage" data-quellen="astrology">Grenzen setzen fällt leichter, wenn du sie früh und freundlich aussprichst.</mark></p>
+        </div>
       </article>
       <a class="app-card app-card--tint area glow-edge" data-area="bezug" href="umfeld.html">
         <span class="app-card__kicker">Umfeld</span>
@@ -115,6 +116,7 @@
 <script src="../beziehungsraum/beziehungsraum.js"></script>
 <script src="../resonanzrad/resonanzrad.js"></script>
 <script src="../zeichen/zeichen.js"></script>
+<script src="../fliesstext/fliesstext.js"></script>
 <script src="app.js"></script>
 <script src="screens.js"></script>
 </body>

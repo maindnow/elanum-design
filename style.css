@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM Gestaltungsatlas 4.10 · Layout
+   ELANUM Gestaltungsatlas 4.11 · Layout
    Setzt tokens.css und base.css voraus. Alle Schriften laufen über die
    fünf Stufen aus tokens.css. Linien trennen nur Kapitel.
    ============================================================ */
@@ -241,6 +241,10 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .element-card__mark{display:grid;place-items:center;width:72px;height:72px;margin-bottom:12px;border-radius:50%;background:var(--tint);color:var(--tone)}
 .element-card__mark svg{width:44px;height:44px}
 .element-card__name{font:var(--type-heading)}
+.element-cards__weit{grid-column:1 / -1}
+.element-cards__weit .element-card{grid-template-columns:72px minmax(0,1fr);column-gap:28px;row-gap:6px;align-content:center}
+.element-cards__weit .element-card__mark{grid-row:span 3;align-self:center;margin-bottom:0}
+.atlas-fliesstext{margin-bottom:8px}
 @media(hover:hover) and (pointer:fine){body[data-motion=on] .element-card:hover{transform:translateY(-4px)}}
 .line-system{display:grid;grid-template-columns:repeat(2,1fr);gap:40px 56px}
 .line-system div{display:grid;grid-template-columns:96px 1fr;gap:24px;align-items:start}
@@ -375,6 +379,8 @@ body[data-motion=off] .paper,body[data-motion=off] .swatch,body[data-motion=off]
   .hero__visual{max-width:220px}
   .principles,.components,.statuses,.line-system,.kosmen{grid-template-columns:1fr}
   .element-cards,.neutrals,.learned,.kosmos-nav{grid-template-columns:1fr}
+  .element-cards__weit .element-card{grid-template-columns:1fr}
+  .element-cards__weit .element-card__mark{grid-row:auto;margin-bottom:12px}
   .migration div{grid-template-columns:1fr;gap:6px}
   .nav-forms li{grid-template-columns:1fr}
   .nav-forms__sketch{grid-row:auto}

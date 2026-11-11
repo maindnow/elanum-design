@@ -1,4 +1,6 @@
-# ELANUM — Gestaltungsatlas 4.10
+# ELANUM — Gestaltungsatlas 4.11
+
+4.11 bringt den Baustein Fliesstext: ein Text, der zu einem Menschen spricht und bei jeder Kernaussage zeigt, woher sie kommt. Grundlage ist Chris’ Entwurf „Christopher, das bist du.“ (14.10.2026), übersetzt in die Regeln des Atlas. Eigene Seite unter `components/fliesstext/` mit dem ersten Muster als Beispiel, im Atlas im Kapitel Sprache, in der App auf Heute.
 
 4.10 zeigt ELANUM als App. Neuer Baustein App-Rahmen unter `components/app/`, acht Screens als echte, responsive Seiten und im Atlas das Kapitel „In der App“ mit einer Gerätevorschau: Telefon und Desktop nebeneinander oder in freier Breite von 320 bis 1440 px. Grundlage ist die heutige App unter soulresonance.ch. Das Zeichen steht als Marke überall in Spektrum, in Navigation und Kopf der App mit Lichtlauf, beim ersten Start im Zeichenaufbau.
 
@@ -11,6 +13,26 @@
 4.6 benennt die drei Phasen neu. Sie heissen jetzt Kosmen: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Gestaltung und Werte bleiben wie in 4.5.
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
+
+## Fliesstext (4.11)
+
+Der Entwurf zeigt, was ELANUM nach dem Ankommen als Erstes sagt: ein persönlicher Text in grosser Schrift, die Kernaussagen unterstrichen, am Satzende runde Zeichen für Astrologie, Numerologie und Human Design, beim Antippen eine Karte „Woher kommt diese Aussage?“. Das Prinzip trägt: Lesen bleibt ruhig, und wer wissen will, woher ein Satz kommt, findet es genau dort, wo der Satz steht. Übernommen sind Aufbau, Texte, Reihenfolge und die Bedienung (Karte unten, Esc, Fokus zurück, Name im Fenster gehalten).
+
+Übersetzt in den Atlas:
+
+- **Schrift:** Yrsa statt Iowan, Albert Sans statt Avenir. Der gelesene Text steht in der Stufe Titel (32 bis 48 px) mit ruhiger Zeilenhöhe 1,36, der Name im Muster in der Stufe Display. Kleine Versalien mit Sperrung (0,72 bis 0,78 rem) gibt es nicht: Kicker, Legende und Hinweis stehen in 15 px, normal geschrieben.
+- **Farbe:** Der Entwurf gibt jeder Quelle eine eigene Farbe (Violett, Blau, Rosé). Im Atlas sind Astrologie, Numerologie und Human Design Elemente desselben Bereichs Sterne & Ursprung und tragen alle dessen Violett. Unterschieden wird über das Icon des Elements aus dem Resonanzrad. Eine Aussage aus einem Element von Ich & Orientierung oder Beziehung & Verbindung trägt Koralle oder Petrol. Kein Rauschen im Grund, die Fläche bleibt Canvas.
+- **Aussage:** Unterstrich in der Bereichsfarbe mit 42 % Deckkraft, damit sie nie wie ein Link aussieht (der ist Ink mit 1 px). Geöffnet bekommt die Aussage den Hauch ihres Bereichs als Grund und den vollen Unterstrich.
+- **Quelle:** Ring 1,6 px in der Bereichsfarbe, Grund im Hauch, Icon mit 1,6 px. Sichtbar 0,86 em, Trefferfläche 44 px statt der knapp 30 px im Entwurf. Hover und Fokus zeigen den Glührand und den Namen in 15 px auf Papier. Das letzte Wort bleibt mit den Quellen in einer Zeile.
+- **Quellenkarte:** ein echtes `<dialog>`, damit Fokus, Esc und Hintergrund von selbst stimmen. Auf dem Telefon von unten wie ein Sheet, ab 600 px schwebend über dem unteren Rand, so bleibt der Text darüber lesbar. Die Karte zeigt zusätzlich den Satz selbst, und bei zwei Quellen eine Auswahl. „Mehr dazu“ heisst „Mehr über Astrologie“ und erscheint nur mit Ziel. Liegt die Aussage hinter der Karte, rollt die Seite sie darüber.
+- **Linien:** Der Entwurf trennt Kopf, Text und Schluss mit Haarlinien. Im Atlas trennt Raum.
+- **Zwei Stufen:** Stimme (Yrsa) für den Moment, in dem ELANUM zu dir spricht, leise (Albert Sans, Stufe Text) in Karten. Auf Heute ersetzt der leise Fliesstext die Chips „Mond in den Fischen“ und „Persönlicher Tag 7“ unter dem Tagestext: Die Herkunft steht jetzt beim Satz, den sie betrifft.
+
+Abgleich mit der App: soulresonance.ch hat dasselbe Prinzip schon als Muster M1 „Herkunft je Satz“ (`AbsatzMitHerkunft.svelte`). Gleich sind Zeichen am Satzende als Knopf, Markierung des Satzes beim Antippen, Esc und Fokus zurück. Anders sind drei Dinge, die vor dem Nachzug in der App zu entscheiden sind: (1) Im Fliesstext ist die Kernaussage auch in Ruhe leise unterstrichen, in M1 erst beim Antippen. (2) Die Herleitung steht hier in der Quellenkarte, in M1 als Aufklapper unter dem Absatz. (3) Die Farben folgen hier den Bereichen des Rads, in M1 hat jedes System eine eigene Quellenfarbe.
+
+### Offene Freigaben (Fliesstext)
+
+Diese Namen stehen im Baustein, aber noch nicht im Glossar: Fliesstext, Aussage, Quelle, Quellenkarte. Das Glossar ist unverändert, bis sie freigegeben sind.
 
 ## In der App (4.10)
 
@@ -233,6 +255,8 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 **Weg und Tageslinie** (`components/weg/`, Baustein `.track` in `base.css`): Stationen erledigt (gefüllter Punkt), jetzt (Ring) und offen (Kontur mit Öffnung unten). Bis „jetzt“ führt die Spur, danach eine Unterbrechung. Labels stehen in einer eigenen Spalte und kreuzen die Linie nie. Waagrecht ab 900 px, darunter senkrecht.
 
 **Zeichen in Bewegung** (`components/zeichen/`): Zeichenaufbau und Lichtlauf, siehe oben beim ELANUM-Zeichen. Markup `<div class="zeichen" data-zeichen="aufbau | lichtlauf">` mit dem Spektrum als `<img>`; ohne Skript steht das Bild.
+
+**Fliesstext** (`components/fliesstext/`): Aussage, Quelle und Quellenkarte, siehe oben unter Fliesstext. Markup `<mark class="fliesstext__aussage" data-quellen="…">` in einem `[data-fliesstext]`; ohne Skript bleibt ein ruhiger Text mit leise unterstrichenen Aussagen.
 
 **Linien-System:** Kontur 1,6 px, Verbindung 2,8 px, Knoten 3,3 px Radius. **Icons:** 24er-Raster, 1,6 px, runde Enden, keine Füllung, Sprache aus Kreisen, Öffnungen und Verbindungen.
 

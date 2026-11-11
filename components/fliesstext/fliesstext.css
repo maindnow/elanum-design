@@ -1,0 +1,90 @@
+/* ============================================================
+   ELANUM Fliesstext 4.11
+   Ein Text, der zu einem Menschen spricht, und bei jeder Kernaussage
+   zeigt, woher sie kommt. Setzt tokens.css und base.css voraus.
+
+   Aussage     leise unterstrichen in der Farbe ihres Bereichs. Nie wie
+               ein Link (der ist Ink mit 1 px). Geöffnet: Grund im Hauch.
+   Quelle      runder Knopf am Satzende, Icon des Elements, Ring in der
+               Bereichsfarbe, Trefferfläche 44 px. Name bei Hover und Fokus.
+   Quellenkarte  „Woher kommt diese Aussage?“: Telefon von unten,
+               ab 600 px schwebend über dem unteren Rand. Der Text darüber
+               bleibt sichtbar. Esc, Schliessen und Tipp daneben schliessen,
+               der Fokus kehrt zur Quelle zurück.
+   ============================================================ */
+
+/* ---------- Stimme und Text ---------- */
+.fliesstext{display:grid;gap:.9em;max-width:780px;font:var(--type-title);line-height:1.36;letter-spacing:-.012em;color:var(--ink);text-wrap:pretty}
+.fliesstext--leise{gap:1em;max-width:var(--measure);font:var(--type-body);letter-spacing:0;color:var(--ink-2)}
+
+/* ---------- Aussage ---------- */
+.fliesstext__aussage{margin:0 -.06em;padding:0 .06em;border-radius:.16em;background:transparent;color:inherit;
+  text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--tone) 42%,transparent);text-decoration-thickness:max(1.6px,.055em);text-underline-offset:.2em;text-decoration-skip-ink:auto;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-color var(--motion-ui) ease,text-decoration-color var(--motion-ui) ease}
+.fliesstext--leise .fliesstext__aussage{color:var(--ink)}
+.fliesstext__aussage.is-offen{background:var(--tint);text-decoration-color:var(--tone)}
+.fliesstext__aussage:has(.fliesstext__quelle:focus-visible){text-decoration-color:var(--tone)}
+.fliesstext__ende{white-space:nowrap}
+.fliesstext__quellen{display:inline-flex;gap:.12em;margin-left:.22em;vertical-align:middle}
+
+/* ---------- Quelle ---------- */
+.fliesstext__quelle{position:relative;display:inline-grid;place-items:center;width:.86em;height:.86em;padding:0;border:0;border-radius:50%;
+  background:var(--tint);color:var(--tone);box-shadow:inset 0 0 0 1.6px var(--tone);font-size:inherit;line-height:1;
+  transition:transform var(--motion-ui) var(--ease),box-shadow var(--motion-ui) ease,background-color var(--motion-ui) ease}
+.fliesstext__quelle .icon{width:.6em;height:.6em}
+.fliesstext__quelle .icon *{vector-effect:non-scaling-stroke}
+.fliesstext__quelle::before{content:"";position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);border-radius:50%;transform:translate(-50%,-50%)}
+.fliesstext__quelle:is(:hover,:focus-visible){z-index:3}
+.fliesstext--leise .fliesstext__quelle{width:1.42em;height:1.42em}
+.fliesstext--leise .fliesstext__quelle .icon{width:.96em;height:.96em}
+.fliesstext--leise .fliesstext__quellen{margin-left:.3em}
+
+.fliesstext__name{position:absolute;z-index:3;left:50%;bottom:calc(100% + 12px);padding:8px 14px;border-radius:var(--radius-control);background:var(--paper);box-shadow:var(--raised-sm);
+  font:var(--type-label);font-weight:600;letter-spacing:0;color:var(--tone);white-space:nowrap;pointer-events:none;
+  opacity:0;transform:translate(calc(-50% + var(--ruck,0px)),6px);transition:opacity 140ms ease,transform var(--motion-ui) var(--ease)}
+.fliesstext__quelle:focus-visible .fliesstext__name{opacity:1;transform:translate(calc(-50% + var(--ruck,0px)),0)}
+@media(hover:hover) and (pointer:fine){
+  .fliesstext__quelle:hover{background:var(--paper);box-shadow:inset 0 0 0 1.6px var(--tone),var(--glow)}
+  body:not([data-motion=off]) .fliesstext__quelle:hover{transform:translateY(-.04em)}
+  .fliesstext__quelle:hover .fliesstext__name{opacity:1;transform:translate(calc(-50% + var(--ruck,0px)),0)}
+  .fliesstext__aussage:has(.fliesstext__quelle:hover){text-decoration-color:var(--tone)}
+}
+
+/* ---------- Legende ---------- */
+.fliesstext-legende{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ---------- Quellenkarte ---------- */
+.fliesstext-karte{position:fixed;inset:auto 0 0;width:100%;max-width:none;max-height:calc(100dvh - 24px);margin:0;padding:0 0 env(safe-area-inset-bottom,0px);border:0;
+  border-radius:var(--radius-surface) var(--radius-surface) 0 0;background:var(--canvas);color:var(--ink);box-shadow:0 -18px 44px -18px #16363B59;overflow:auto;overscroll-behavior:contain}
+.fliesstext-karte::backdrop{background:#16363B2E}
+.fliesstext-karte[open]{animation:fliesstext-auf 360ms var(--ease)}
+.fliesstext-karte[open]::backdrop{animation:fliesstext-blende 360ms ease}
+@keyframes fliesstext-auf{from{transform:translateY(32px);opacity:0}}
+@keyframes fliesstext-blende{from{opacity:0}}
+.fliesstext-karte__griff{display:block;width:44px;height:5px;margin:10px auto 0;border-radius:3px;background:var(--line)}
+.fliesstext-karte__kopf{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 12px 0 24px}
+.fliesstext-karte__titel{font:var(--type-heading)}
+.fliesstext-karte__schliessen{display:grid;place-items:center;flex:none;width:48px;height:48px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ink);transition:background var(--motion-ui) ease}
+.fliesstext-karte__inhalt{display:grid;gap:18px;justify-items:start;padding:6px 24px 28px}
+.fliesstext-karte__satz{font:var(--type-body);color:var(--ink-2)}
+.fliesstext-karte__satz::before{content:"«"}
+.fliesstext-karte__satz::after{content:"»"}
+.fliesstext-karte__wahl{max-width:100%}
+.fliesstext-karte__wahl.segmented button{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 10px}
+.fliesstext-karte__wahl.segmented .icon{color:var(--tone)}
+.fliesstext-karte__text{font:var(--type-body);color:var(--ink)}
+.fliesstext-karte__mehr{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin:-6px 0 -10px -14px;padding:0 14px;border-radius:var(--radius-control);
+  font:var(--type-label);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;transition:background var(--motion-ui) ease}
+@media(hover:hover) and (pointer:fine){
+  .fliesstext-karte__schliessen:hover,.fliesstext-karte__mehr:hover{background:var(--paper)}
+  .fliesstext-karte__mehr:hover{color:var(--sterne-tief);text-decoration-thickness:2px}
+}
+@media(min-width:600px){
+  .fliesstext-karte{inset:auto 0 24px;width:min(620px,100% - 48px);max-height:calc(100dvh - 48px);margin:0 auto;padding:0;border-radius:var(--radius-surface);box-shadow:var(--raised),0 30px 60px -30px #16363B80}
+  .fliesstext-karte__griff{display:none}
+  .fliesstext-karte__kopf{padding:16px 16px 0 28px}
+  .fliesstext-karte__inhalt{padding:4px 28px 28px}
+}
+
+/* Bewegung: Pause und reduzierte Bewegung wirken auch hier */
+body[data-motion=off] .fliesstext-karte[open],body[data-motion=off] .fliesstext-karte[open]::backdrop{animation:none}
