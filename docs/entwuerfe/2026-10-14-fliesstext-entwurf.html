@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3efe7">
+  <title>ELANUM – Christopher, das bist du.</title>
+  <style>
+    :root {
+      --paper: #f3efe7;
+      --paper-light: #faf7f1;
+      --ink: #262522;
+      --ink-soft: #68655f;
+      --line: rgba(38, 37, 34, 0.14);
+      --ast: #7565a8;
+      --ast-soft: rgba(117, 101, 168, 0.14);
+      --num: #4e77a8;
+      --num-soft: rgba(78, 119, 168, 0.14);
+      --hd: #bd6c86;
+      --hd-soft: rgba(189, 108, 134, 0.14);
+      --marker: rgba(225, 203, 112, 0.48);
+      --marker-line: rgba(151, 116, 18, 0.72);
+      --shadow: 0 24px 80px rgba(50, 45, 37, 0.16);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { color-scheme: light; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: clip;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 9% 5%, rgba(117, 101, 168, 0.08), transparent 28rem),
+        radial-gradient(circle at 94% 42%, rgba(189, 108, 134, 0.07), transparent 30rem),
+        var(--paper);
+      font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.28;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+    }
+
+    button, a { font: inherit; }
+
+    .page {
+      width: min(100% - 40px, 920px);
+      margin: 0 auto;
+      padding: clamp(36px, 7vw, 88px) 0 64px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: clamp(52px, 9vw, 104px);
+      color: var(--ink-soft);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+    }
+
+    .brand::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--ink-soft);
+    }
+
+    .hero {
+      position: relative;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--ink-soft);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 690px;
+      margin: 0;
+      font-family: "Iowan Old Style", "Baskerville", Georgia, serif;
+      font-size: clamp(3rem, 7vw, 5.7rem);
+      font-weight: 400;
+      letter-spacing: -0.055em;
+      line-height: 0.96;
+    }
+
+    .intro {
+      max-width: 660px;
+      margin: 30px 0 0;
+      color: var(--ink-soft);
+      font-family: "Iowan Old Style", "Baskerville", Georgia, serif;
+      font-size: clamp(1.16rem, 2.3vw, 1.42rem);
+      line-height: 1.55;
+    }
+
+    .reading {
+      max-width: 790px;
+      margin-top: clamp(56px, 10vw, 112px);
+      padding-top: clamp(36px, 6vw, 64px);
+      border-top: 1px solid var(--line);
+    }
+
+    .reading p {
+      margin: 0;
+      font-family: "Iowan Old Style", "Baskerville", Georgia, serif;
+      font-size: clamp(1.58rem, 3.25vw, 2.2rem);
+      line-height: 1.58;
+      letter-spacing: -0.022em;
+    }
+
+    .reading p + p { margin-top: 1.05em; }
+
+    .insight {
+      padding: 0;
+      color: var(--ink);
+      background: transparent;
+      text-decoration-line: underline;
+      text-decoration-color: rgba(38, 37, 34, 0.34);
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 0.16em;
+      text-decoration-skip-ink: auto;
+    }
+
+    .citations {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.16em;
+      margin-left: 0.18em;
+      vertical-align: 0.14em;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .citation {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 0.9em;
+      min-width: 0.9em;
+      height: 0.9em;
+      padding: 0;
+      border: 1.5px solid currentColor;
+      border-radius: 999px;
+      color: var(--source-color);
+      background: color-mix(in srgb, var(--source-color) 7%, var(--paper-light));
+      overflow: visible;
+      cursor: pointer;
+      font-family: "Avenir Next", Avenir, sans-serif;
+      font-size: 1em;
+      line-height: 1;
+      vertical-align: middle;
+      isolation: isolate;
+      text-decoration: none;
+      box-sizing: border-box;
+      transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    .citation:hover,
+    .citation:focus-visible {
+      z-index: 4;
+      background: color-mix(in srgb, var(--source-color) 14%, var(--paper-light));
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--source-color) 18%, transparent);
+      transform: translateY(-0.025em);
+    }
+
+    .citation:focus-visible,
+    .close:focus-visible {
+      outline: 2px solid var(--source-color, var(--ink));
+      outline-offset: 3px;
+    }
+
+    .citation svg {
+      width: 0.46em;
+      height: 0.46em;
+      flex: 0 0 0.46em;
+      overflow: visible;
+      transform: translateZ(0);
+    }
+
+    .citation-name {
+      position: absolute;
+      z-index: 6;
+      bottom: calc(100% + 0.55em);
+      left: 50%;
+      width: max-content;
+      max-width: calc(100vw - 24px);
+      padding: 0.48em 0.72em 0.45em;
+      border: 1px solid color-mix(in srgb, var(--source-color) 55%, transparent);
+      border-radius: 999px;
+      opacity: 0;
+      color: var(--source-color);
+      background: var(--paper-light);
+      box-shadow: 0 6px 22px rgba(50, 45, 37, 0.14);
+      font-family: "Avenir Next", Avenir, sans-serif;
+      font-size: 0.35em;
+      font-weight: 700;
+      letter-spacing: 0.035em;
+      line-height: 1;
+      white-space: nowrap;
+      pointer-events: none;
+      transform: translateX(calc(-50% + var(--citation-shift, 0px))) translateY(0.22em);
+      transition: opacity 130ms ease 30ms, transform 190ms cubic-bezier(.2, .75, .2, 1);
+    }
+
+    .citation:hover .citation-name,
+    .citation:focus-visible .citation-name {
+      opacity: 1;
+      transform: translateX(calc(-50% + var(--citation-shift, 0px))) translateY(0);
+    }
+
+    .citation--ast {
+      --source-color: var(--ast);
+      --source-soft: var(--ast-soft);
+    }
+
+    .citation--num {
+      --source-color: var(--num);
+      --source-soft: var(--num-soft);
+    }
+
+    .citation--hd  {
+      --source-color: var(--hd);
+      --source-soft: var(--hd-soft);
+    }
+
+    .closing {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: end;
+      margin-top: clamp(62px, 10vw, 112px);
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .closing strong {
+      display: block;
+      font-family: "Iowan Old Style", "Baskerville", Georgia, serif;
+      font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+      font-weight: 400;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 12px;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .legend i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 12%, transparent);
+    }
+
+    .legend .ast { color: var(--ast); }
+    .legend .num { color: var(--num); }
+    .legend .hd { color: var(--hd); }
+
+    .prompt {
+      color: var(--ink-soft);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .veil {
+      position: fixed;
+      inset: 0;
+      z-index: 9;
+      background: rgba(38, 37, 34, 0.18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+
+    .source-sheet {
+      position: fixed;
+      z-index: 10;
+      left: 50%;
+      bottom: 18px;
+      width: min(calc(100% - 36px), 660px);
+      padding: 24px 26px 26px;
+      border: 1px solid rgba(38, 37, 34, 0.1);
+      border-radius: 6px;
+      background: var(--paper-light);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translate(-50%, calc(100% + 42px));
+      pointer-events: none;
+      transition: opacity 220ms ease, transform 300ms cubic-bezier(.2, .75, .2, 1);
+    }
+
+    body.sheet-open .veil {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    body.sheet-open .source-sheet {
+      opacity: 1;
+      transform: translate(-50%, 0);
+      pointer-events: auto;
+    }
+
+    .sheet-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .source-sheet h2 {
+      margin: 0;
+      font-family: "Iowan Old Style", "Baskerville", Georgia, serif;
+      font-size: 1.65rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+
+    .close {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--ink);
+      background: transparent;
+      cursor: pointer;
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .source-name {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 26px 0 6px;
+      color: var(--active-source, var(--ink));
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .source-name::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    .source-detail {
+      max-width: 520px;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .more {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--ink);
+      font-size: 0.8rem;
+      font-weight: 650;
+      letter-spacing: 0.02em;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .page { width: min(100% - 32px, 920px); padding-top: 28px; }
+      .brand { margin-bottom: 56px; }
+      h1 { font-size: clamp(3.35rem, 16vw, 4.4rem); }
+      .intro { margin-top: 22px; }
+      .reading { margin-top: 62px; padding-top: 34px; }
+      .reading p { font-size: clamp(1.45rem, 6.65vw, 1.86rem); line-height: 1.55; }
+      .citations { gap: 0.12em; margin-left: 0.12em; }
+      .closing { grid-template-columns: 1fr; gap: 28px; }
+      .prompt { white-space: normal; }
+      .source-sheet { bottom: 10px; padding: 22px 21px 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="brand" aria-label="ELANUM">ELANUM</div>
+
+    <header class="hero">
+      <p class="eyebrow">Dein erstes Muster</p>
+      <h1>Christopher,<br>das bist du.</h1>
+      <p class="intro">Aus deinem Geburtsmoment entsteht ein Muster, das überraschend viel über deine Art zu denken, zu entscheiden und mit anderen in Verbindung zu sein erzählt.</p>
+    </header>
+
+    <article class="reading" aria-label="Persönliche Einordnung">
+      <p>
+        <mark class="insight">Du merkst oft körperlich schneller als gedanklich, ob etwas für dich passt.<span class="citations"><button class="citation citation--hd" type="button" data-source="hd" aria-label="Quelle: Human Design"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 4 14 8.5 5 14Z" stroke="currentColor"/><circle cx="4" cy="4" r="2" fill="currentColor"/><circle cx="14" cy="8.5" r="2" fill="currentColor"/><circle cx="5" cy="14" r="2" fill="currentColor"/></svg><span class="citation-name">Human Design</span></button></span></mark>
+        Dein innerer Kompass meldet sich nicht immer als fertiger Gedanke. Manchmal ist er zuerst nur ein leises Ziehen hin zu etwas – oder davon weg.
+      </p>
+
+      <p>
+        Du musst deshalb nicht alles im Voraus festlegen. <mark class="insight">Vieles entwickelt sich für dich aus konkreten Situationen und Begegnungen heraus.<span class="citations"><button class="citation citation--hd" type="button" data-source="hd" aria-label="Quelle: Human Design"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 4 14 8.5 5 14Z" stroke="currentColor"/><circle cx="4" cy="4" r="2" fill="currentColor"/><circle cx="14" cy="8.5" r="2" fill="currentColor"/><circle cx="5" cy="14" r="2" fill="currentColor"/></svg><span class="citation-name">Human Design</span></button><button class="citation citation--ast" type="button" data-source="ast" aria-label="Quelle: Astrologie"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M14.5 11.5A6 6 0 1 1 13 4" stroke="currentColor" stroke-linecap="round"/><circle cx="13.7" cy="4.2" r="2" fill="currentColor"/></svg><span class="citation-name">Astrologie</span></button></span></mark>
+        Wenn etwas Reales vor dir liegt, wird oft klarer, was sich wirklich stimmig anfühlt.
+      </p>
+
+      <p>
+        <mark class="insight">Menschen können in dir gleichzeitig etwas Eigenständiges und Verbindendes wahrnehmen.<span class="citations"><button class="citation citation--ast" type="button" data-source="ast" aria-label="Quelle: Astrologie"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M14.5 11.5A6 6 0 1 1 13 4" stroke="currentColor" stroke-linecap="round"/><circle cx="13.7" cy="4.2" r="2" fill="currentColor"/></svg><span class="citation-name">Astrologie</span></button><button class="citation citation--num" type="button" data-source="num" aria-label="Quelle: Numerologie"><svg viewBox="0 0 20 8" aria-hidden="true"><circle cx="3" cy="4" r="2.2" fill="currentColor"/><circle cx="10" cy="4" r="2.2" fill="currentColor"/><circle cx="17" cy="4" r="2.2" fill="currentColor"/></svg><span class="citation-name">Numerologie</span></button></span></mark>
+        Beziehungen sind für dich nicht nur Nähe; sie können auch Resonanzraum, Spiegel und Ausgangspunkt für neue Möglichkeiten sein.
+      </p>
+
+      <p>
+        Nicht jede Erfahrung muss sich sofort erklären lassen. <mark class="insight">Besonders wertvoll wird sie für dich oft dann, wenn du sie später einordnen und weitergeben kannst.<span class="citations"><button class="citation citation--hd" type="button" data-source="hd" aria-label="Quelle: Human Design"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 4 14 8.5 5 14Z" stroke="currentColor"/><circle cx="4" cy="4" r="2" fill="currentColor"/><circle cx="14" cy="8.5" r="2" fill="currentColor"/><circle cx="5" cy="14" r="2" fill="currentColor"/></svg><span class="citation-name">Human Design</span></button></span></mark>
+      </p>
+    </article>
+
+    <footer class="closing">
+      <div>
+        <strong>Drei Perspektiven. Ein Bild von dir.</strong>
+        <div class="legend" aria-label="Quellenlegende">
+          <span class="ast"><i aria-hidden="true"></i>Astrologie</span>
+          <span class="num"><i aria-hidden="true"></i>Numerologie</span>
+          <span class="hd"><i aria-hidden="true"></i>Human Design</span>
+        </div>
+      </div>
+      <span class="prompt">Quelle antippen für Details</span>
+    </footer>
+  </main>
+
+  <div class="veil" data-close aria-hidden="true"></div>
+  <aside class="source-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-hidden="true">
+    <div class="sheet-head">
+      <h2 id="sheet-title">Woher kommt diese Aussage?</h2>
+      <button class="close" type="button" data-close aria-label="Quellenangabe schliessen">×</button>
+    </div>
+    <div class="source-name" id="source-name">Human Design</div>
+    <p class="source-detail" id="source-detail">Profil 4/6 · deine bewusste und unbewusste Linie sowie die Art, wie du auf Situationen reagierst.</p>
+    <a class="more" href="#" aria-label="Mehr zur ausgewählten Quelle erfahren">Mehr dazu</a>
+  </aside>
+
+  <script>
+    const sourceData = {
+      ast: {
+        name: "Astrologie",
+        detail: "Relevante Stellungen und Häuser aus Geburtsort, Geburtszeit und Planetenkonstellation.",
+        color: "var(--ast)"
+      },
+      num: {
+        name: "Numerologie",
+        detail: "Zahlenmuster deines Geburtsdatums und die Beziehungen zwischen ihren zentralen Werten.",
+        color: "var(--num)"
+      },
+      hd: {
+        name: "Human Design",
+        detail: "Profil 4/6 · deine bewusste und unbewusste Linie sowie die Art, wie du auf Situationen reagierst.",
+        color: "var(--hd)"
+      }
+    };
+
+    const sheet = document.querySelector(".source-sheet");
+    const sourceName = document.querySelector("#source-name");
+    const sourceDetail = document.querySelector("#source-detail");
+    let lastTrigger = null;
+
+    function openSheet(source, trigger) {
+      const data = sourceData[source];
+      if (!data) return;
+      lastTrigger = trigger;
+      sourceName.textContent = data.name;
+      sourceDetail.textContent = data.detail;
+      sheet.style.setProperty("--active-source", data.color);
+      document.body.classList.add("sheet-open");
+      sheet.setAttribute("aria-hidden", "false");
+      document.querySelector(".close").focus();
+    }
+
+    function closeSheet() {
+      document.body.classList.remove("sheet-open");
+      sheet.setAttribute("aria-hidden", "true");
+      if (lastTrigger) lastTrigger.focus();
+    }
+
+    function positionCitationLabel(button) {
+      const label = button.querySelector(".citation-name");
+      if (!label) return;
+
+      button.style.setProperty("--citation-shift", "0px");
+      const buttonRect = button.getBoundingClientRect();
+      const labelWidth = label.getBoundingClientRect().width;
+      const viewportPadding = 12;
+      const naturalLeft = buttonRect.left + (buttonRect.width / 2) - (labelWidth / 2);
+      const maximumLeft = Math.max(viewportPadding, window.innerWidth - labelWidth - viewportPadding);
+      const safeLeft = Math.min(Math.max(naturalLeft, viewportPadding), maximumLeft);
+
+      button.style.setProperty("--citation-shift", `${safeLeft - naturalLeft}px`);
+    }
+
+    document.querySelectorAll(".citation").forEach((button) => {
+      button.addEventListener("pointerenter", () => positionCitationLabel(button));
+      button.addEventListener("focus", () => positionCitationLabel(button));
+      button.addEventListener("click", () => openSheet(button.dataset.source, button));
+    });
+
+    window.addEventListener("resize", () => {
+      document.querySelectorAll(".citation:hover, .citation:focus").forEach(positionCitationLabel);
+    });
+
+    document.querySelectorAll("[data-close]").forEach((element) => {
+      element.addEventListener("click", closeSheet);
+    });
+
+    document.querySelector(".more").addEventListener("click", (event) => event.preventDefault());
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && document.body.classList.contains("sheet-open")) closeSheet();
+    });
+  </script>
+</body>
+</html>

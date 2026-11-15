@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F0ECE3">
-<meta name="description" content="ELANUM Gestaltungsatlas 4.10. Kreis, Freiraum und Verbindung, ein interaktives Markensystem.">
+<meta name="description" content="ELANUM Gestaltungsatlas 4.11. Kreis, Freiraum und Verbindung, ein interaktives Markensystem.">
 <title>ELANUM · Gestaltungsatlas</title>
 <link rel="icon" href="assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
 <script src="assets/boot.js" data-base=""></script>
@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="components/resonanzrad/resonanzrad.css">
 <link rel="stylesheet" href="components/umfeld/umfeld.css">
 <link rel="stylesheet" href="components/zeichen/zeichen.css">
+<link rel="stylesheet" href="components/fliesstext/fliesstext.css">
 <link rel="stylesheet" href="components/app/vorschau.css">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -49,7 +50,7 @@
   </nav>
   <div class="rail-bottom">
     <button class="motion-toggle glow-edge" data-motion-toggle aria-pressed="false">Bewegung pausieren</button>
-    <p>Gestaltungsatlas 4.10</p>
+    <p>Gestaltungsatlas 4.11</p>
   </div>
 </aside>
 
@@ -411,7 +412,8 @@
     <li><a class="element-card area glow-edge" data-area="ich" href="components/beziehungsraum/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M10 40a13 13 0 1 1 15 0M39 40a13 13 0 1 1 15 0"/><path d="M30 32c2 3 2 3 4 0"/></svg></span><span class="element-card__kosmos">Resonanzkosmos</span><span class="element-card__name">Beziehungsraum</span><span class="secondary">Zwei eigene Räume und ihre Verbindung.</span></a></li>
     <li><a class="element-card area glow-edge" data-area="sterne" href="components/weg/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 32h30"/><path d="M46 32h10" stroke-dasharray="3 4"/><circle cx="8" cy="32" r="3" fill="currentColor"/><circle cx="23" cy="32" r="3" fill="currentColor"/><circle cx="38" cy="32" r="5"/></svg></span><span class="element-card__kosmos">Resonanzkosmos</span><span class="element-card__name">Weg &amp; Tageslinie</span><span class="secondary">Stationen: erledigt, jetzt, offen.</span></a></li>
     <li><a class="element-card area glow-edge" data-area="sterne" href="components/zeichen/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M56.6 28.6A25 25 0 1 0 57 34a11 11 0 0 1-14-6 9 9 0 0 0 13.6.6"/><circle cx="26" cy="34" r="7"/><path d="M33 34c0 8-7 12-13 10M19 27c4-7 15-8 21-1"/></svg></span><span class="element-card__kosmos">Marke</span><span class="element-card__name">Zeichen in Bewegung</span><span class="secondary">Zeichenaufbau und Lichtlauf.</span></a></li>
-    <li><a class="element-card area glow-edge" data-area="bezug" href="components/app/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="17" y="6" width="30" height="52" rx="7"/><path d="M17 46h30"/><circle cx="25" cy="52" r="1.6" fill="currentColor"/><circle cx="32" cy="52" r="1.6"/><circle cx="39" cy="52" r="1.6"/></svg></span><span class="element-card__kosmos">Alle Kosmen</span><span class="element-card__name">App-Rahmen</span><span class="secondary">Navigation, Kopf, Sheet, Karten. Mobile zuerst.</span></a></li>
+    <li><a class="element-card area glow-edge" data-area="sterne" href="components/fliesstext/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M10 20h44M10 44h30"/><path d="M10 32h24" stroke-width="3.4" stroke-opacity=".45"/><circle cx="46" cy="31" r="7"/></svg></span><span class="element-card__kosmos">Alle Kosmen</span><span class="element-card__name">Fliesstext</span><span class="secondary">Aussagen mit ihrer Quelle, ruhig zu lesen.</span></a></li>
+    <li class="element-cards__weit"><a class="element-card area glow-edge" data-area="bezug" href="components/app/"><span class="element-card__mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="17" y="6" width="30" height="52" rx="7"/><path d="M17 46h30"/><circle cx="25" cy="52" r="1.6" fill="currentColor"/><circle cx="32" cy="52" r="1.6"/><circle cx="39" cy="52" r="1.6"/></svg></span><span class="element-card__kosmos">Alle Kosmen</span><span class="element-card__name">App-Rahmen</span><span class="secondary">Navigation, Kopf, Sheet, Karten. Mobile zuerst.</span></a></li>
   </ul>
   <div class="block-head" data-anim="reveal">
     <h3 class="block-title">Ein Linien-System</h3>
@@ -464,6 +466,14 @@
     <article><p class="t-label secondary">Unterschied</p><blockquote>Hier seid ihr unterschiedlich.</blockquote><p class="secondary">Keine Diagnose. Keine Bewertung von Kompatibilität.</p></article>
     <article><p class="t-label secondary">Nähe</p><blockquote>Ihr braucht nicht dasselbe, um euch nah zu sein.</blockquote><p class="secondary">Verständliche Beobachtungen statt Beziehungsscores.</p></article>
   </div>
+  <div class="block-head" data-anim="reveal">
+    <h3 class="block-title">Jede Aussage zeigt, woher sie kommt</h3>
+    <p class="secondary">Der Baustein Fliesstext unterstreicht die Kernaussage leise und setzt ans Satzende jedes Element, aus dem sie stammt. Antippen öffnet die Quellenkarte mit der Herleitung.</p>
+  </div>
+  <div class="fliesstext atlas-fliesstext" data-fliesstext data-anim="reveal">
+    <p>Du musst nicht alles im Voraus festlegen. <mark class="fliesstext__aussage" data-quellen="human-design astrology">Vieles entwickelt sich für dich aus konkreten Situationen und Begegnungen heraus.</mark> Wenn etwas Reales vor dir liegt, wird oft klarer, was sich wirklich stimmig anfühlt.</p>
+  </div>
+  <p class="chapter-foot"><a class="text-link glow-edge" href="components/fliesstext/">Fliesstext als eigene Seite: dein erstes Muster</a></p>
 </section>
 
 <section class="chapter" id="pruefung" aria-labelledby="pruefungTitle">
@@ -521,7 +531,7 @@
 
 <footer class="footer">
   <p class="footer__line" data-anim="title">Das Eigene hinterlässt eine Spur. Resonanz verändert sie.</p>
-  <p class="secondary">ELANUM · Gestaltungsatlas 4.10 · Oktober 2026</p>
+  <p class="secondary">ELANUM · Gestaltungsatlas 4.11 · Oktober 2026</p>
 </footer>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -530,6 +540,7 @@
 <script src="components/resonanzrad/resonanzrad.js"></script>
 <script src="components/umfeld/umfeld.js"></script>
 <script src="components/zeichen/zeichen.js"></script>
+<script src="components/fliesstext/fliesstext.js"></script>
 <script src="components/app/app.js"></script>
 <script src="components/app/vorschau.js"></script>
 <script src="assets/glossar.js"></script>

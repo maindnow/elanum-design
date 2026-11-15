@@ -83,6 +83,10 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
 .area[data-area=bezug]{--tone:var(--bezug-tief);--tint:var(--bezug-hauch)}
 .chip{display:inline-flex;align-items:center;gap:10px;font:var(--type-label);font-weight:600;color:var(--tone)}
 .chip::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--tone)}
+/* Element-Chip: Icon des Elements im Kreis, Name daneben, Grund im Hauch des Bereichs. */
+.element-chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:4px 14px 4px 5px;border-radius:18px;background:var(--tint);font:var(--type-label);font-weight:600;color:var(--ink)}
+.element-chip>.icon{width:28px;height:28px;padding:3px;border-radius:50%;background:var(--paper);color:var(--tone)}
+.element-chips{display:flex;flex-wrap:wrap;gap:8px}
 
 /* ---------- Icons: 24er-Raster, 1,6 px, runde Enden ---------- */
 .icon{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
