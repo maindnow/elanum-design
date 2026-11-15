@@ -2,8 +2,8 @@
 /* ============================================================
    ELANUM Regel-Messung
    Misst im Browser, was sich im CSS nicht ablesen lässt. Jede Seite
-   des Atlas, jeder Baustein und jeder App-Screen wird in sechs
-   Breiten geladen und gegen fünf Regeln geprüft:
+   des Atlas, jeder Baustein und jeder App-Screen wird in sieben
+   Breiten geladen und gegen sechs Regeln geprüft:
 
    1 Bedienziel     Jedes Bedienelement trifft man auf mindestens
                     44 × 44 px (--target). Die Fläche eines Labels und
@@ -19,7 +19,11 @@
                     Überschrift mit zwei bis vier Zeilen verteilt sich
                     gleichmässig (text-wrap: balance). Lauftext in
                     grosser Schrift (LAUFTEXT) ist ausgenommen.
-   5 Überlauf       Keine Seite lässt sich waagrecht schieben.
+   5 Überlauf       Keine Seite lässt sich waagrecht schieben, und kein
+                    Text wird von seinem Rahmen abgeschnitten (ausser
+                    mit Auslassungspunkten, das ist gewollt).
+   6 Ganzes Wort    Kein Wort steht auf zwei Zeilen. Code ist
+                    ausgenommen.
 
    Vorher im Repository einen Server starten:  python3 tools/serve.py
    Dann:  node tools/regel-messung.js
@@ -33,16 +37,16 @@ const { chromium } = require(process.env.PLAYWRIGHT || 'playwright');
 
 const BASE = process.env.ATLAS_URL || 'http://127.0.0.1:4173/';
 const SCHRIFT = Number(process.env.SCHRIFT) || 100;
-const SCREENS = ['heute', 'ich', 'umfeld', 'weg', 'entdecken', 'chats', 'aktivitaeten', 'ankommen'].map(s => ['App · ' + s, 'components/app/' + s + '.html']);
+const SCREENS = ['heute', 'ich', 'umfeld', 'weg', 'entdecken', 'chats', 'aktivitaeten', 'ankommen', 'folgt', 'index'].map(s => ['App · ' + s, 'components/app/' + s + '.html']);
 const BAUSTEINE = ['resonanzrad', 'umfeld', 'beziehungsraum', 'weg', 'zeichen', 'fliesstext'].map(k => ['Baustein · ' + k, 'components/' + k + '/index.html']);
 const SEITEN = [...SCREENS, ...BAUSTEINE, ['Atlas', 'index.html']];
-const BREITEN = [[320, 640], [390, 844], [834, 1112], [1024, 768], [1280, 800], [1440, 900]];
+const BREITEN = [[320, 640], [360, 780], [390, 844], [834, 1112], [1024, 768], [1280, 800], [1440, 900]];
 
 /* Läuft in der Seite. */
 function messen(faktor) {
   const LAUFTEXT = '.fliesstext,.fliesstext-karte';
   const ZIEL = 43.5;   /* 44 px gelten bei jeder Schriftgrösse */
-  const res = { ziel: [], beruehrung: [], einsam: [], titel: [], ueberlauf: 0 };
+  const res = { ziel: [], beruehrung: [], einsam: [], titel: [], abgeschnitten: [], wort: [], ueberlauf: 0 };
   const sichtbarEl = el => {
     const r = el.getBoundingClientRect(), s = getComputedStyle(el);
     return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && s.display !== 'none' && !el.closest('[hidden],[inert],dialog:not([open])');
@@ -106,7 +110,25 @@ function messen(faktor) {
     if (![...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 1)) continue;
     /* Nur Text, der selbst umbricht: Ein Kind als eigener Block (Name über Zusatz) ist kein Umbruch. */
     if ([...el.children].some(c => !getComputedStyle(c).display.startsWith('inline') && c.textContent.trim())) continue;
+    /* 5 Abgeschnitten: Der Text ragt über einen Rahmen, der nichts überstehen lässt. */
+    const k = kasten(el);
+    for (let a = el; k && a && a !== document.body; a = a.parentElement) {
+      const as = getComputedStyle(a);
+      if (as.textOverflow === 'ellipsis') break;
+      if (/hidden|clip/.test(as.overflowX)) { const r = a.getBoundingClientRect(); if (r.width <= 2) break;   /* für Vorleser versteckt, mit Absicht */
+        if (k.right > r.right + 1.5 || k.left < r.left - 1.5) res.abgeschnitten.push(name(el) + ' «' + wort(el) + '» ragt ' + Math.round(Math.max(k.right - r.right, r.left - k.left)) + ' px über ' + name(a)); break; }
+      if (/auto|scroll/.test(as.overflowX)) break;
+    }
     const ls = zeilen(el); if (ls.length < 2) continue;
+    /* 6 Ganzes Wort: erster und letzter Buchstabe eines Worts stehen auf derselben Zeile. */
+    for (const n of [...el.childNodes].filter(n => n.nodeType === 3)) {
+      for (const m of n.data.matchAll(/[^\s\u00AD\u2010-\u2014-]{4,}/g)) {
+        const a = document.createRange(), b = document.createRange();
+        a.setStart(n, m.index); a.setEnd(n, m.index + 1); b.setStart(n, m.index + m[0].length - 1); b.setEnd(n, m.index + m[0].length);
+        const A = a.getBoundingClientRect(), B = b.getBoundingClientRect();
+        if (A.height && B.height && Math.abs(A.top - B.top) > A.height * 0.6) { res.wort.push(name(el) + ' bricht «' + m[0].slice(0, 28) + '»'); break; }
+      }
+    }
     const s = getComputedStyle(el), stil = s.textWrapStyle || s.textWrap || '';
     const gross = parseFloat(s.fontSize) >= 20 * faktor - 0.5;
     if (gross && !el.closest(LAUFTEXT)) {
@@ -125,7 +147,7 @@ function messen(faktor) {
 
 (async () => {
   const browser = await chromium.launch();
-  const funde = { ziel: new Map(), beruehrung: new Map(), einsam: new Map(), titel: new Map(), ueberlauf: new Map() };
+  const funde = { ziel: new Map(), beruehrung: new Map(), einsam: new Map(), titel: new Map(), ueberlauf: new Map(), wort: new Map() };
   const merke = (regel, text, ort) => { const m = funde[regel]; if (!m.has(text)) m.set(text, []); m.get(text).push(ort); };
   let ladungen = 0;
   for (const [breite, hoehe] of BREITEN) {
@@ -137,14 +159,15 @@ function messen(faktor) {
       await page.waitForTimeout(500);
       const r = await page.evaluate(messen, SCHRIFT / 100); ladungen++;
       const ort = titel + ' @' + breite;
-      for (const regel of ['ziel', 'beruehrung', 'einsam', 'titel']) r[regel].forEach(t => merke(regel, t, ort));
+      for (const regel of ['ziel', 'beruehrung', 'einsam', 'titel', 'wort']) r[regel].forEach(t => merke(regel, t, ort));
+      r.abgeschnitten.forEach(t => merke('ueberlauf', t, ort));
       if (r.ueberlauf > 0) merke('ueberlauf', titel + ': ' + r.ueberlauf + ' px zu breit', '@' + breite);
     }
     await context.close();
   }
   await browser.close();
 
-  const NAMEN = { ziel: '1 Bedienziel unter 44 px', beruehrung: '2 Berührung', einsam: '3 Einsames Wort', titel: '4 Titel ohne Ausgleich', ueberlauf: '5 Überlauf' };
+  const NAMEN = { ziel: '1 Bedienziel unter 44 px', beruehrung: '2 Berührung', einsam: '3 Einsames Wort', titel: '4 Titel ohne Ausgleich', ueberlauf: '5 Überlauf oder abgeschnitten', wort: '6 Wort auf zwei Zeilen' };
   let summe = 0;
   for (const [regel, m] of Object.entries(funde)) {
     const n = [...m.values()].reduce((s, o) => s + o.length, 0); summe += n;

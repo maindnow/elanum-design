@@ -114,7 +114,7 @@
         }).join('') +
       '</div>' +
       '<div class="app-nav__foot"><a class="app-me glow-edge" href="' + esc(href('konto')) + '"><span class="person person--sm" aria-hidden="true">' + esc(me.initial) + '</span>' +
-        '<span class="app-me__name">' + esc(me.name) + '<span class="visually-hidden">, </span><small>Konto</small></span></a></div>';
+        '<span class="app-me__name">' + esc(me.name) + ' <small>Konto</small></span></a></div>';
   }
 
   /* ---------- Sheet: <dialog>, von unten, in der Mitte oder von rechts ---------- */

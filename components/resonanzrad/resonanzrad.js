@@ -243,10 +243,11 @@
       tab.dataset.index = i;
       if (!item.done) tab.classList.add('is-open');
       tab.innerHTML = '<span class="rad__swatch' + (item.done ? ' is-done' : '') + '" style="--swatch:' + tone(item, 'flaeche') + '"></span>' +
-        iconSvg(item.id) + '<span class="rad__item-name">' + item.label + '<span class="visually-hidden">' + (item.done ? ', ausgefüllt:' : ', noch offen') + '</span></span>' +
+        iconSvg(item.id) + '<span class="rad__item-name">' + item.label + '<span class="visually-hidden"> ' + (item.done ? 'ausgefüllt:' : 'noch offen') + ' </span></span> ' +
         (item.done ? '<span class="rad__item-state">' + item.result + '</span>'
                    : '<span class="rad__item-state rad__fill-cta" aria-hidden="true">+ Ausfüllen</span>');
-      /* Der Name für Vorleser entsteht aus dem sichtbaren Text: «Astrologie, ausgefüllt: Jungfrau». Kein aria-label, das davon abweicht. */
+      /* Der Name für Vorleser entsteht aus dem sichtbaren Text: «Astrologie ausgefüllt: Jungfrau». Kein aria-label, das davon abweicht.
+         Der unsichtbare Zusatz beginnt mit einem Wort, nicht mit einem Komma: So steht kein Leerzeichen vor einem Satzzeichen. */
       groupLists[item.group].appendChild(tab);
       return { face: face, contour: contour, icon: icon, glyph: glyph, name: name, lines: lines, result: result, tab: tab, angle: a };
     });

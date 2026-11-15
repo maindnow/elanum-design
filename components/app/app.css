@@ -15,7 +15,7 @@
 /* Die Masse des Rahmens stehen auf :root. So gelten sie für jeden Baustein
    des Rahmens, auch wenn er ausserhalb von .app steht. */
 :root{
-  --app-bar:72px;             /* Leiste unten, ohne Safe Area */
+  --app-bar:4.5rem;           /* Leiste unten, ohne Safe Area: 72 px, wächst mit der Schrift */
   --app-rail:104px;           /* Schiene */
   --app-side:272px;           /* Seitenleiste */
   --app-head:64px;            /* Kopf, ohne Safe Area */
@@ -323,10 +323,16 @@ body[data-motion=off] .app-sheet[open],body[data-motion=off] .app-sheet[open]::b
 
 /* ---------- Aktivität im Erlebniskosmos ----------
    Datum als Kreis, wer dabei ist als offene Kreise. Plätze sachlich. */
-.event{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 18px;align-items:start;width:100%;height:100%}
+.event{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 18px;align-items:start;width:100%;height:100%;container:erlebnis/inline-size}
+/* Schmale Karte (bis 19 rem Inhalt): Der Datumskreis steht mittig, der Titel darunter über die ganze Breite.
+   Daneben hätte ein langes Wort im Titel keinen Platz mehr. So gebaut in der App (Chris Beyeler, 16.10.2026). */
+@container erlebnis (max-width:19rem){
+  .event__date{grid-column:1/-1;justify-self:center}
+  .event__head{grid-column:1/-1}
+}
 .event__date{display:grid;place-items:center;align-content:center;width:5rem;height:5rem;border-radius:50%;background:var(--canvas);box-shadow:var(--raised-sm);font:var(--type-label);color:var(--ink-2);text-align:center;line-height:1.1}
 .event__day{display:block;font:400 2rem/1 var(--display-font);color:var(--ink)}
-.event__head{display:grid;gap:4px;min-width:0}
+.event__head{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;min-width:0}
 .event__kind{font:var(--type-label);color:var(--ink-2)}
 .event__title{font:var(--type-heading);color:var(--ink);text-wrap:balance}
 .event__meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 16px;font:var(--type-label);color:var(--ink-2)}
@@ -417,8 +423,10 @@ body[data-motion=off] .app-nav__item,body[data-motion=off] .app-nav__item *,body
 /* Drücken gibt nach, spürbar und kurz. Jedes Bedienelement antwortet, auch die leisen. */
 a.app-card:active,button.app-card:active,.app-row:active,.app-kosmos:active,.idea:active,.app-flip:active,button.app-hero:active{transform:scale(.985);transition-duration:var(--motion-press)}
 .app-nav__item:active .app-nav__icon{transform:scale(.92);transition:transform var(--motion-press) var(--ease-out)}
-:is(.app-icon-button,.app-more,.app-switch,.app-me,.app-check,.app-steps button):active{background:var(--paper);transition-duration:var(--motion-press)}
+/* Auch unter der Maus unterscheidet sich Drücken vom Zeigen: Die Fläche gibt leicht nach. */
+:is(.app-icon-button,.app-more,.app-switch,.app-me,.app-check,.app-steps button):active{background:var(--paper);transform:scale(.98);transition-duration:var(--motion-press)}
 .app-icon-button:active{transform:scale(.94)}
+.app-hero--dark .app-more:active{background:color-mix(in srgb,var(--white) 8%,transparent)}
 .app-head__brand:active,.app-nav__brand:active{opacity:.72}
 
 /* Zahlen und Zeiten stehen ruhig untereinander */
@@ -555,7 +563,7 @@ body[data-motion=off] .app-flip__inner{transition:none}
   .app-nav{border-top:1px solid CanvasText}
   .app-nav__item[aria-current=page] .app-nav__icon{forced-color-adjust:none;background:Highlight;color:HighlightText;box-shadow:none}
   .app-nav__item[aria-current=page] .app-nav__icon::before,.app-nav__item[aria-current=page] .app-nav__icon::after,.app-nav__item[aria-current=page]::before,.app-nav__item[aria-current=page]::after{display:none}
-  .app-row[aria-current=true],.app-kosmos[aria-current=true]{outline:2px solid Highlight;outline-offset:-2px}
+  :is(.app-row,.app-kosmos)[aria-current=true]:not(:focus-visible){outline:2px solid Highlight;outline-offset:-2px}
   .app-dot,.app-row.is-new .app-row__meta::after{forced-color-adjust:none;background:Highlight;box-shadow:none}
   .person{forced-color-adjust:none;--ink:CanvasText;background:Canvas;color:CanvasText;box-shadow:none}
   .persons .person{box-shadow:0 0 0 1px CanvasText}

@@ -82,10 +82,10 @@
 .rad__swatch.is-done{background:var(--swatch);border:0}
 .rad__item[aria-selected=true]{background:var(--tint);box-shadow:var(--raised-sm)}
 @media(hover:hover) and (pointer:fine){.rad__item:hover{background:var(--tint)}}
-.rad__item:active{background:var(--tint);transition-duration:var(--motion-press)}
+.rad__item:active{background:var(--tint);transform:scale(.985);transition-duration:var(--motion-press)}
 /* Schmale Liste: Der Stand steht unter dem Namen. So berühren sich Name und Stand nie,
    auch nicht bei langen Namen oder grösserer Schrift (die Grenze wächst mit, rem). */
-@container (max-width:21.25rem){
+@container (max-width:20.5rem){
   .rad__item{grid-template-columns:18px 24px minmax(0,1fr);row-gap:2px}
   .rad__item-state{grid-column:3;justify-self:start}
   .rad__fill-cta{margin:-4px 0 -4px -10px}

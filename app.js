@@ -192,7 +192,7 @@ Object.entries(STATUS).forEach(([key, item]) => {
   const hex = css(item.token), button = document.createElement('button');
   button.type = 'button'; button.className = 'status glow-edge'; button.dataset.role = key;
   /* Der vorgelesene Name entsteht aus dem sichtbaren Text, am Ende steht, was der Knopf tut. */
-  button.innerHTML = statusInner(key, item.role).replace('</p></div>', `<span class="status__hex">${hex}</span></p><span class="visually-hidden">, kopieren</span></div>`);
+  button.innerHTML = statusInner(key, item.role).replace('</p></div>', `<span class="status__hex">${hex}</span></p> <span class="visually-hidden">kopieren</span></div>`);
   button.addEventListener('click', () => copyText(hex, hex + ' kopiert'));
   $('#statusPalette').append(button);
 });

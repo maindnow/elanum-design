@@ -20,7 +20,7 @@
 .umfeld__person-state{color:var(--ink-2)}
 .umfeld__person[aria-pressed=true]{background:var(--paper);box-shadow:var(--raised-sm)}
 @media(hover:hover) and (pointer:fine){.umfeld__person:hover{background:var(--paper)}}
-.umfeld__person:active{background:var(--paper);transition-duration:var(--motion-press)}
+.umfeld__person:active{background:var(--paper);transform:scale(.985);transition-duration:var(--motion-press)}
 .umfeld__detail{display:grid;gap:14px;justify-items:start}
 /* Das Detail blendet ein, beim Erscheinen und bei jedem Wechsel des Menschen: Bewegt wird der Inhalt,
    nicht der Rahmen, darum spielt es jedes Mal. Nur Deckkraft, 180 ms. */

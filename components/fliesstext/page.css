@@ -2,8 +2,7 @@
 .muster__kopf{display:grid;grid-template-columns:minmax(0,1fr);gap:0;max-width:760px}
 .muster__zeichen{width:56px;margin-bottom:28px}
 .muster__kicker{font:var(--type-label);font-weight:600;color:var(--sterne-tief)}
-.muster__titel{margin-top:14px;font:var(--type-display);letter-spacing:-.025em}
-@media(max-width:399px){.muster__titel{font-size:13vw}}
+.muster__titel{margin-top:14px;font:var(--type-display);font-size:min(var(--size-display),13vw);letter-spacing:-.025em}
 .muster__einleitung{max-width:var(--measure);margin-top:28px;color:var(--ink-2)}
 .muster__text{margin-top:clamp(64px,10vw,120px)}
 .muster__text:focus{outline:none}

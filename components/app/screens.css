@@ -79,7 +79,7 @@
 .bubble--element{gap:6px}
 .bubble--element>span:last-child{color:var(--ink-2)}
 @media(hover:hover) and (pointer:fine){.idea:hover,.thread__space:hover{background:var(--paper);color:var(--ink)}}
-.thread__space:active{background:var(--paper);color:var(--ink)}
+.thread__space:active{background:var(--paper);color:var(--ink);transform:scale(.98)}
 /* Telefon: Im Verlauf weicht die Leiste, der Verlauf bekommt den Platz. */
 @media(max-width:599.98px){
   body[data-view=detail]{--app-bottom:var(--safe-bottom)}

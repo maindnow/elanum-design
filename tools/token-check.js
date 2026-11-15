@@ -129,7 +129,7 @@ for (const file of cssFiles()) {
       /* Schrift wächst mit: keine Grösse in px. Die Zeilenhöhe hinter dem Schrägstrich zählt nicht. */
       if (prop === 'font-size' || prop === 'font') {
         const size = prop === 'font' ? value.split('/')[0] : value;
-        if (/(?<![\w.-])\d*\.?\d+px\b/.test(size.replace(/var\([^()]*\)/g, ' ')) && !/var\(--u\b/.test(size)) report(index, 'Schrift in px', prop + ':' + value);
+        if (/(?<![\w.-])\d*\.?\d+(?:px|pt)\b/i.test(size.replace(/var\(--[a-z0-9-]+\)/g, ' ')) && !/var\(--u[,)]/.test(size)) report(index, 'Schrift in px', prop + ':' + value);
       }
       if (prop === 'z-index' && !/^(?:-1|[0-3]|auto|var\(--layer-[a-z]+\)|calc\(var\(--layer-[a-z]+\) [-+] \d+\))$/.test(value)) report(index, 'Ebene ohne Namen', prop + ':' + value);
       if (prop === 'outline' && !/^(?:none|0)$/.test(value) && !/var\(--focus-width\)/.test(value) && !new RegExp('^\\d+px solid ' + SYSTEM + '$').test(value)) report(index, 'Fokus ohne Namen', prop + ':' + value);

@@ -155,6 +155,12 @@
   --motion-breath:7800ms;                     /* Atemtakt, Dauerschleife */
 }
 
+/* Im Kontrastmodus des Systems trägt der Fokusring die Auswahlfarbe des Systems, auch dort,
+   wo ein Baustein seine eigenen Farben behält. */
+@media(forced-colors:active){
+  :root{--focus-color:Highlight;--focus-color-dark:Highlight}
+}
+
 /* Mehr Kontrast, wenn das System es verlangt: Sekundärtext in Ink, Linien kräftiger. */
 @media(prefers-contrast:more){
   :root{--ink-2:var(--ink);--line:#6D7F7E;--line-control:var(--ink)}
