@@ -1,9 +1,10 @@
 /* ============================================================
    ELANUM Umfeld
-   "Ich" in der Mitte, Menschen als eigene, offene Kreise darum.
-   Abstand zeigt Nähe, Stärke der Verbindung zeigt Resonanz. Ohne aktive
-   Resonanz bleibt nur der Abstand, keine Linie. Kreise bleiben rund,
-   Öffnungen unten, Verbindungen treffen beide Konturen exakt.
+   "Ich" in der Mitte, Menschen als eigene, geschlossene Kreise darum.
+   Abstand zeigt Nähe. Null bis drei Linien im Verlauf um die Person zeigen
+   die Resonanz (wie im Beziehungsraum), keine Linie führt zur Mitte. Ohne
+   aktive Resonanz bleibt nur der Abstand. Der Freiraum fehlt, das Umfeld
+   kennt den Wert nicht.
    Die Liste darunter ist die Bedienung; das Bild zeigt dasselbe.
 
    Mobile-first: Unter 560 px Breite gilt ein Hochformat mit grösseren
@@ -31,10 +32,6 @@
     return near + ' · ' + res;
   }
   function el(name, attrs) { var n = document.createElementNS(NS, name); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
-  function openCircle(cx, cy, r) {
-    var half = 16 * Math.PI / 180, dx = r * Math.sin(half), dy = r * Math.cos(half);
-    return 'M' + (cx - dx) + ' ' + (cy + dy) + ' A' + r + ' ' + r + ' 0 1 1 ' + (cx + dx) + ' ' + (cy + dy);
-  }
 
   var count = 0;
   function mount(root, opts) {
@@ -64,10 +61,10 @@
       var relief = el('linearGradient', { id: uid + '-relief', x1: '0%', y1: '0%', x2: '100%', y2: '100%' });
       relief.appendChild(el('stop', { offset: 0, 'stop-color': '#FCF9F0' })); relief.appendChild(el('stop', { offset: 1, 'stop-color': '#E2DBCD' }));
       defs.appendChild(relief);
-      var bridges = el('g', { class: 'umfeld__bridges' }), discs = el('g', {}), lines = el('g', { class: 'umfeld__contours' });
-      svg.appendChild(bridges); svg.appendChild(discs); svg.appendChild(lines);
+      var rings = el('g', { class: 'umfeld__rings' }), discs = el('g', {}), lines = el('g', { class: 'umfeld__contours' });
+      svg.appendChild(rings); svg.appendChild(discs); svg.appendChild(lines);
       discs.appendChild(el('circle', { cx: L.CX, cy: L.CY, r: L.ME - 5, fill: 'url(#' + uid + '-relief)', class: 'relief-disc' }));
-      var me = el('path', { d: openCircle(L.CX, L.CY, L.ME), class: 'umfeld__contour umfeld__me', 'data-contour': '' });
+      var me = el('circle', { cx: L.CX, cy: L.CY, r: L.ME, class: 'umfeld__contour umfeld__me', 'data-contour': '' });
       lines.appendChild(me);
       var label = function (text, x, y, cls) {
         var s = document.createElement('span'); s.className = 'umfeld__name' + (cls ? ' ' + cls : ''); s.textContent = text;
@@ -79,22 +76,22 @@
         var dist = L.base + (100 - p.proximity) * L.k;
         var a = p.angle * Math.PI / 180, x = L.CX + dist * Math.sin(a), y = L.CY - dist * Math.cos(a);
         var ux = (x - L.CX) / dist, uy = (y - L.CY) / dist;
-        var x0 = L.CX + ux * L.ME, y0 = L.CY + uy * L.ME, x1 = x - ux * L.R, y1 = y - uy * L.R;
-        var mx = (x0 + x1) / 2 - uy * 12, my = (y0 + y1) / 2 + ux * 12;
-        var grad = el('linearGradient', { id: uid + '-g' + i, gradientUnits: 'userSpaceOnUse', x1: x0, y1: y0, x2: x1, y2: y1 });
-        grad.appendChild(el('stop', { offset: 0, 'stop-color': '#6756D9' })); grad.appendChild(el('stop', { offset: 1, 'stop-color': '#D85BA9' }));
-        defs.appendChild(grad);
-        var bridge = el('path', { d: 'M' + x0 + ' ' + y0 + ' Q' + mx + ' ' + my + ' ' + x1 + ' ' + y1, class: 'umfeld__bridge', stroke: 'url(#' + uid + '-g' + i + ')', 'stroke-width': (1.4 + p.resonance * .022).toFixed(2), 'data-bridge': '' });
-        if (p.resonance === 0) bridge.style.display = 'none';   /* ohne aktive Resonanz keine Linie, nur Abstand */
-        bridges.appendChild(bridge);
+        var level = p.resonance === 0 ? 0 : p.resonance < 40 ? 1 : p.resonance < 80 ? 2 : 3;
+        var stroke = null, ringList = [];
+        if (level) {
+          stroke = el('linearGradient', { id: uid + '-g' + i, gradientUnits: 'userSpaceOnUse', x1: x - (L.R + 24), y1: y, x2: x + (L.R + 24), y2: y });
+          [[0, '#6756D9'], [.3, '#4D7FE8'], [.55, '#9466DF'], [1, '#F0719A']].forEach(function (st) { stroke.appendChild(el('stop', { offset: st[0], 'stop-color': st[1] })); });
+          defs.appendChild(stroke);
+        }
+        for (var k = 1; k <= level; k++) {
+          var ring = el('circle', { cx: x, cy: y, r: L.R + 8 * k, class: 'umfeld__ring', stroke: 'url(#' + uid + '-g' + i + ')', 'stroke-width': 1.8, 'data-ring': '' });
+          rings.appendChild(ring); ringList.push(ring);
+        }
         var disc = el('circle', { cx: x, cy: y, r: L.R - 4, fill: 'url(#' + uid + '-relief)', class: 'relief-disc' });
         discs.appendChild(disc);
-        var contour = el('path', { d: openCircle(x, y, L.R), class: 'umfeld__contour', 'data-contour': '' });
+        var contour = el('circle', { cx: x, cy: y, r: L.R, class: 'umfeld__contour', 'data-contour': '' });
         lines.appendChild(contour);
-        var nodes = el('g', { class: 'umfeld__nodes' });
-        if (p.resonance > 0) { nodes.appendChild(el('circle', { cx: x0, cy: y0, r: 3.3 })); nodes.appendChild(el('circle', { cx: x1, cy: y1, r: 3.3 })); }
-        lines.appendChild(nodes);
-        return { person: p, bridge: bridge, disc: disc, contour: contour, nodes: nodes, name: label(p.name, x, y),
+        return { person: p, rings: ringList, disc: disc, contour: contour, name: label(p.name, x, y),
           from: { x: L.CX + ux * L.edge, y: L.CY + uy * L.edge }, at: { x: x, y: y }, width: L.W };
       });
       api.parts = { svg: svg, me: me, people: people, width: L.W };
@@ -106,7 +103,7 @@
         var on = k === selected;
         q.contour.classList.toggle('is-active', on);
         q.name.classList.toggle('is-active', on);
-        q.bridge.classList.toggle('is-active', on);
+        q.rings.forEach(function (r) { r.classList.toggle('is-active', on); });
       });
       buttons.forEach(function (b, k) { b.setAttribute('aria-pressed', String(k === selected)); });
     }

@@ -245,7 +245,7 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 - Der Ring zeigt die drei Bereiche gleich stark und hebt nichts hervor. Icons, Konturen und Auswahlbogen sind Ink.
 - Seit 4.11.1 steht das Rad still: Ein Tipp wählt das Stück an seinem Platz, nichts dreht und nichts lässt sich ziehen. In der App wählen Rad und Pfeile nur, «Lesen» und die Liste öffnen das Element als Fenster (Telefon von unten, Computer Mitte); dieser Aufbau ist im Baustein noch nicht nachgebaut.
 
-**Umfeld** (`components/umfeld/`): Ich in der Mitte, Menschen als eigene, offene Kreise. Abstand zeigt Nähe, die Stärke der Linie die Resonanz, ohne aktive Resonanz gibt es keine Linie. Eine Liste ist die Bedienung, der gewählte Mensch öffnet den Beziehungsraum mit seinen Werten. So trägt das Umfeld mehr als eine einzelne Beziehung. Unter 560 px Breite gilt ein Hochformat mit grösseren Kreisen, damit die Namen in echten 15 px hineinpassen.
+**Umfeld** (`components/umfeld/`): Ich in der Mitte, Menschen als eigene, geschlossene Kreise. Der Abstand zeigt die Nähe. Null bis drei Linien im Verlauf um die Person zeigen die Resonanz, wie im Beziehungsraum; ohne aktive Resonanz gibt es keine Linie. Keine Linie führt zur Mitte, und einen Freiraum gibt es nicht, weil das Umfeld den Wert nicht kennt. Eine Liste ist die Bedienung, der gewählte Mensch öffnet den Beziehungsraum mit seinen Werten. So trägt das Umfeld mehr als eine einzelne Beziehung. Unter 560 px Breite gilt ein Hochformat mit grösseren Kreisen, damit die Namen in echten 15 px hineinpassen. Entwurf vom 15.11.2026, die Version ist noch nicht freigegeben.
 
 **Beziehungsraum** (`components/beziehungsraum/`), neue Darstellung vom 15.11.2026 (Entwurf, PR 24). Der Baustein wird in der App ohne Regler gezeigt, darum muss das Bild allein lesbar sein. Jeder Wert hat ein eigenes Zeichen:
 - SVG-Raum 720 × 400, Mitte y = 170. Die Person ist ein Kreis mit Radius 50, immer gleich gross.
@@ -278,7 +278,7 @@ Bewegung erklärt: Kreise rücken zusammen, das Rad baut sich Bereich für Berei
 | Beziehung | Kreise starten weit, Konturen zeichnen sich, dann rücken sie auf „nah“, die Verbindung entsteht. Die Regler laufen mit und zeigen, was sie bedeuten. Wer einen Regler anfasst, übernimmt sofort. |
 | Resonanzrad | Das einzige festgehaltene Kapitel (ab 900 px): Zentrum, drei Bereiche nacheinander, Stücke, Füllung der ausgefüllten Elemente, Konturen. Daneben erklären vier Schritte, was geschieht. Schmaler läuft dieselbe Folge einmal ohne Festhalten. |
 | Farbe | Jede Rampe wächst von Tief nach Hauch. |
-| Umfeld | Menschen rücken aus dem Rand auf ihre Nähe, danach zeichnen sich die Verbindungen. |
+| Umfeld | Menschen rücken aus dem Rand auf ihre Nähe, danach blenden die Linien um die Person ein. |
 | Weg und Tageslinie | Die Spur wächst, Stationen erscheinen beim Erreichen. Auf der Element-Seite an den Scroll gekoppelt. |
 | Status | Das Zeichen federt beim Wechsel kurz ein. |
 | Glühen | Die Station „jetzt“, der Auswahlbogen im Rad und ausgewählte Flächen glühen im Atemtakt; Verbindungslinien leuchten weich. |

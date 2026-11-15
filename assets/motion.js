@@ -255,11 +255,13 @@
           .from(api.parts.me, { drawSVG: '0%', duration: 1, ease: M.ease.line }, 0);
         people.forEach(function (p, i) {
           var dx = p.from.x - p.at.x, dy = p.from.y - p.at.y, at = 0.3 + i * M.stagger.items;
-          tl.from([p.disc, p.contour, p.nodes], { x: dx, y: dy, opacity: 0, duration: 1.3 }, at)
-            .fromTo(p.name, { x: dx * scale, y: dy * scale, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.3, clearProps: CLEAR }, at);
+          tl.from([p.disc, p.contour], { x: dx, y: dy, opacity: 0, duration: 1.3 }, at);
+          if (p.rings.length) tl.from(p.rings, { x: dx, y: dy, duration: 1.3, clearProps: 'transform' }, at);
+          tl.fromTo(p.name, { x: dx * scale, y: dy * scale, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.3, clearProps: CLEAR }, at);
         });
-        tl.from(people.filter(function (p) { return p.person.resonance > 0; }).map(function (p) { return p.bridge; }), { drawSVG: '0%', duration: 0.9, ease: M.ease.line, stagger: 0.15 }, 1.4)
-          .from(all('.umfeld__person', el), { opacity: 0, y: 16, duration: 0.5, stagger: 0.08, clearProps: CLEAR }, 1.2)
+        /* Die Linien um die Person blenden sanft ein, wo vorher die Verbindung gezeichnet wurde. */
+        people.forEach(function (p, i) { if (p.rings.length) tl.from(p.rings, { opacity: 0, duration: 0.9, ease: M.ease.reveal, stagger: 0.15, clearProps: 'opacity' }, 1.4 + i * 0.15); });
+        tl.from(all('.umfeld__person', el), { opacity: 0, y: 16, duration: 0.5, stagger: 0.08, clearProps: CLEAR }, 1.2)
           .from(el.querySelector('.umfeld__detail'), { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 1.6);
       }, 0.3);
     });
