@@ -270,8 +270,8 @@
       <form class="demo-form" id="demoForm">
         <label for="demoInput">Was beschäftigt dich?</label>
         <span class="field glow-edge"><input id="demoInput" placeholder="Ein Gedanke für diesen Moment" maxlength="140" aria-describedby="formNote demoResult"></span>
-        <button class="button" type="submit">Vorschau übernehmen</button>
-        <p class="secondary" id="formNote">Nur diese Vorschau. Kein Versand, keine Speicherung.</p>
+        <button class="button" type="submit" data-commit data-busy="Wird übernommen" data-done="Übernommen">Vorschau übernehmen</button>
+        <p class="secondary" id="formNote">Nur diese Vorschau. Kein Versand, keine Speicherung. Der Knopf antwortet am Ort der Handlung: Ruhe, läuft, bestätigt.</p>
         <p class="demo-result" id="demoResult" role="status"></p>
       </form>
     </div>
@@ -544,6 +544,7 @@
 <script src="components/app/app.js"></script>
 <script src="components/app/vorschau.js"></script>
 <script src="assets/glossar.js"></script>
+<script src="assets/button.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

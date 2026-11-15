@@ -20,7 +20,7 @@
 /* ---------- Aussage ---------- */
 .fliesstext__aussage{margin:0 -.06em;padding:0 .06em;border-radius:.16em;background:transparent;color:inherit;
   text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--tone) 42%,transparent);text-decoration-thickness:max(1.6px,.055em);text-underline-offset:.2em;text-decoration-skip-ink:auto;
-  -webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-color var(--motion-ui) ease,text-decoration-color var(--motion-ui) ease}
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-color var(--motion-ui) var(--ease-out),text-decoration-color var(--motion-ui) var(--ease-out)}
 .fliesstext--leise .fliesstext__aussage{color:var(--ink)}
 .fliesstext__aussage.is-offen{background:var(--tint);text-decoration-color:var(--tone)}
 .fliesstext__aussage:has(.fliesstext__quelle:focus-visible){text-decoration-color:var(--tone)}
@@ -30,7 +30,7 @@
 /* ---------- Quelle ---------- */
 .fliesstext__quelle{position:relative;display:inline-grid;place-items:center;width:.86em;height:.86em;padding:0;border:0;border-radius:50%;
   background:var(--tint);color:var(--tone);box-shadow:inset 0 0 0 1.6px var(--tone);font-size:inherit;line-height:1;
-  transition:transform var(--motion-ui) var(--ease),box-shadow var(--motion-ui) ease,background-color var(--motion-ui) ease}
+  transition:transform var(--motion-ui) var(--ease-out),box-shadow var(--motion-ui) var(--ease-out),background-color var(--motion-ui) var(--ease-out)}
 .fliesstext__quelle .icon{width:.6em;height:.6em}
 .fliesstext__quelle .icon *{vector-effect:non-scaling-stroke}
 .fliesstext__quelle::before{content:"";position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);border-radius:50%;transform:translate(-50%,-50%)}
@@ -41,7 +41,7 @@
 
 .fliesstext__name{position:absolute;z-index:3;left:50%;bottom:calc(100% + 12px);padding:8px 14px;border-radius:var(--radius-control);background:var(--paper);box-shadow:var(--raised-sm);
   font:var(--type-label);font-weight:600;letter-spacing:0;color:var(--tone);white-space:nowrap;pointer-events:none;
-  opacity:0;transform:translate(calc(-50% + var(--ruck,0px)),6px);transition:opacity 140ms ease,transform var(--motion-ui) var(--ease)}
+  opacity:0;transform:translate(calc(-50% + var(--ruck,0px)),6px);transition:opacity var(--motion-ui) var(--ease-out),transform var(--motion-ui) var(--ease-out)}
 .fliesstext__quelle:focus-visible .fliesstext__name{opacity:1;transform:translate(calc(-50% + var(--ruck,0px)),0)}
 @media(hover:hover) and (pointer:fine){
   .fliesstext__quelle:hover{background:var(--paper);box-shadow:inset 0 0 0 1.6px var(--tone),var(--glow)}
@@ -57,14 +57,19 @@
 .fliesstext-karte{position:fixed;inset:auto 0 0;width:100%;max-width:none;max-height:calc(100dvh - 24px);margin:0;padding:0 0 env(safe-area-inset-bottom,0px);border:0;
   border-radius:var(--radius-surface) var(--radius-surface) 0 0;background:var(--canvas);color:var(--ink);box-shadow:0 -18px 44px -18px #16363B59;overflow:auto;overscroll-behavior:contain}
 .fliesstext-karte::backdrop{background:#16363B2E}
-.fliesstext-karte[open]{animation:fliesstext-auf 360ms var(--ease)}
-.fliesstext-karte[open]::backdrop{animation:fliesstext-blende 360ms ease}
+.fliesstext-karte[open]{animation:fliesstext-auf var(--motion-enter) var(--ease-out)}
+.fliesstext-karte[open]::backdrop{animation:fliesstext-blende var(--motion-enter) var(--ease-out)}
 @keyframes fliesstext-auf{from{transform:translateY(32px);opacity:0}}
 @keyframes fliesstext-blende{from{opacity:0}}
+/* Was kommt, geht auch: Schliessen läuft denselben Weg zurück, in zwei Dritteln der Zeit */
+@keyframes fliesstext-zu{from{transform:translateY(32px);opacity:0}}
+@keyframes fliesstext-blende-zu{from{opacity:0}}
+.fliesstext-karte.is-schliesst{animation:fliesstext-zu calc(var(--motion-enter) * 2 / 3) var(--ease-out) reverse both}
+.fliesstext-karte.is-schliesst::backdrop{animation:fliesstext-blende-zu calc(var(--motion-enter) * 2 / 3) var(--ease-out) reverse both}
 .fliesstext-karte__griff{display:block;width:44px;height:5px;margin:10px auto 0;border-radius:3px;background:var(--line)}
 .fliesstext-karte__kopf{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 12px 0 24px}
 .fliesstext-karte__titel{font:var(--type-heading)}
-.fliesstext-karte__schliessen{display:grid;place-items:center;flex:none;width:48px;height:48px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ink);transition:background var(--motion-ui) ease}
+.fliesstext-karte__schliessen{display:grid;place-items:center;flex:none;width:48px;height:48px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ink);transition:background var(--motion-ui) var(--ease-out)}
 .fliesstext-karte__inhalt{display:grid;gap:18px;justify-items:start;padding:6px 24px 28px}
 .fliesstext-karte__satz{font:var(--type-body);color:var(--ink-2)}
 .fliesstext-karte__satz::before{content:"«"}
@@ -74,7 +79,7 @@
 .fliesstext-karte__wahl.segmented .icon{color:var(--tone)}
 .fliesstext-karte__text{font:var(--type-body);color:var(--ink)}
 .fliesstext-karte__mehr{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin:-6px 0 -10px -14px;padding:0 14px;border-radius:var(--radius-control);
-  font:var(--type-label);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;transition:background var(--motion-ui) ease}
+  font:var(--type-label);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;transition:background var(--motion-ui) var(--ease-out)}
 @media(hover:hover) and (pointer:fine){
   .fliesstext-karte__schliessen:hover,.fliesstext-karte__mehr:hover{background:var(--paper)}
   .fliesstext-karte__mehr:hover{color:var(--sterne-tief);text-decoration-thickness:2px}

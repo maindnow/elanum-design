@@ -122,9 +122,23 @@
     if (dialog._sheet) return dialog._sheet;
     var opener = null;
     var api = {
-      open: function (trigger) { opener = trigger || document.activeElement; if (!dialog.open) dialog.showModal(); },
-      close: function () { if (dialog.open) dialog.close(); }
+      open: function (trigger) { opener = trigger || document.activeElement; dialog.classList.remove('is-closing'); if (!dialog.open) dialog.showModal(); },
+      close: function () { leave(); }
     };
+    /* Was kommt, geht auch: Schliessen läuft denselben Weg zurück (CSS .is-closing),
+       erst danach schliesst der Dialog. Ohne Bewegung schliesst er sofort. */
+    function leave() {
+      if (!dialog.open || dialog.classList.contains('is-closing')) return;
+      var still = document.body.getAttribute('data-motion') === 'off' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (still) { dialog.close(); return; }
+      var done = false;
+      function finish() { if (done) return; done = true; dialog.removeEventListener('animationend', ended); var closing = dialog.classList.contains('is-closing'); dialog.classList.remove('is-closing'); if (closing && dialog.open) dialog.close(); }
+      function ended(e) { if (e.target === dialog && !e.pseudoElement) finish(); }
+      dialog.addEventListener('animationend', ended);
+      dialog.classList.add('is-closing');
+      setTimeout(finish, 700);                                    /* Sicherung, falls keine Animation läuft */
+    }
+    dialog.addEventListener('cancel', function (e) { e.preventDefault(); leave(); });   /* Esc */
     /* Fokus zurück zum Auslöser. Wurde er neu gezeichnet, hilft data-sheet-return. */
     dialog.addEventListener('close', function () {
       var back = opener && opener.isConnected ? opener : document.querySelector(dialog.getAttribute('data-sheet-return') || 'x-none');
@@ -218,6 +232,7 @@
         '<path class="day-arc__open" d="' + arc(aNow, START + SPAN) + '"/>' +
         '<path class="day-arc__done" pathLength="1" stroke="url(#' + id + ')" d="' + arc(START, aNow) + '"/>' +
         (opts.stations || []).map(function (t) { var q = pt(ang(t)); return '<circle class="day-arc__station" cx="' + q[0] + '" cy="' + q[1] + '" r="3.3"/>'; }).join('') +
+        '<circle class="day-arc__halo" cx="' + pNow[0] + '" cy="' + pNow[1] + '" r="9"/>' +
         '<circle class="day-arc__now" cx="' + pNow[0] + '" cy="' + pNow[1] + '" r="7"/>' +
       '</g></svg>' +
       '<span class="day-arc__time"><strong>' + esc(now) + '</strong><span>' + esc(opts.label || 'jetzt') + '</span></span>';

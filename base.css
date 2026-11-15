@@ -42,20 +42,29 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
   background:#16363B linear-gradient(135deg,#34565A,#16363B);color:#fff;
   font:var(--type-label);font-weight:600;text-decoration:none;
   box-shadow:5px 5px 11px #C4BDAF,-4px -4px 10px #FFFFFF99;
-  transition:transform 160ms var(--ease),box-shadow var(--motion-ui) ease;
+  transition:transform var(--motion-ui) var(--ease-out),box-shadow var(--motion-ui) var(--ease-out);
 }
-.button::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:#fff;opacity:0;transition:opacity var(--motion-ui) ease}
+.button::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:#fff;opacity:0;transition:opacity var(--motion-ui) var(--ease-out)}
 .button:active{transform:translateY(1px) scale(.98);box-shadow:inset 0 2px 5px #0003}
 .button--secondary{background:var(--canvas);color:var(--ink);box-shadow:var(--raised-sm)}
 .button--secondary::before{background:var(--ink)}
 .button--secondary:active{box-shadow:var(--pressed)}
 .button--icon{min-width:52px;padding:0}
 .button:disabled{opacity:.45;cursor:default}
+/* Antwort am Ort der Handlung (assets/button.js): Ruhe, läuft, bestätigt. Der Knopf
+   behält seinen Platz, Zeichen und Wort wechseln. «läuft» trägt aria-busy und ein
+   Laufzeichen, «bestätigt» einen Haken und ein Wort. Ohne Bewegung steht das Laufzeichen. */
+.button[aria-disabled=true]{cursor:default}
+.button__sign{display:grid;place-items:center;width:20px;height:20px;flex:none}
+.button__sign .icon{width:20px;height:20px;stroke-width:2}
+.button__sign--busy{border:var(--trace) solid currentColor;border-right-color:transparent;border-radius:50%;animation:button-turn calc(var(--motion-enter) * 2.5) linear infinite}
+@keyframes button-turn{to{transform:rotate(1turn)}}
+body[data-motion=off] .button__sign--busy{animation:none}
 @media(hover:hover) and (pointer:fine){
   .button:hover::before{opacity:.14}
   .button--secondary:hover::before{opacity:.06}
-  body:not([data-motion=off]) .button:hover{transform:translateY(-2px);box-shadow:var(--glow)}
-  body:not([data-motion=off]) .button--secondary:hover{box-shadow:var(--raised-sm),var(--glow)}
+  body:not([data-motion=off]) .button:not([aria-disabled=true]):hover{transform:translateY(-2px);box-shadow:var(--glow)}
+  body:not([data-motion=off]) .button--secondary:not([aria-disabled=true]):hover{box-shadow:var(--raised-sm),var(--glow)}
   .button:active{transform:translateY(1px) scale(.98)}
   .segmented button:not([aria-pressed=true]):not([aria-selected=true]):hover{background:#FFFFFF8C;color:var(--ink);box-shadow:var(--raised-sm)}
   .back-link:hover,.brand:hover{color:var(--sterne-tief)}
@@ -63,7 +72,7 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
 }
 
 .segmented{display:inline-flex;flex-wrap:wrap;gap:6px;padding:6px;border-radius:calc(var(--radius-control) + 6px);background:var(--canvas);box-shadow:var(--pressed)}
-.segmented button{min-height:44px;padding:10px 16px;border:0;border-radius:var(--radius-control);background:transparent;font:var(--type-label);color:var(--ink-2);transition:background var(--motion-ui) ease,box-shadow var(--motion-ui) ease,color var(--motion-ui) ease}
+.segmented button{min-height:44px;padding:10px 16px;border:0;border-radius:var(--radius-control);background:transparent;font:var(--type-label);color:var(--ink-2);transition:background var(--motion-ui) var(--ease-out),box-shadow var(--motion-ui) var(--ease-out),color var(--motion-ui) var(--ease-out)}
 .segmented button[aria-pressed=true],.segmented button[aria-selected=true]{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--raised-sm)}
 
 /* ---------- Status ----------
@@ -99,9 +108,9 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
 .track__station:last-child{padding-bottom:0}
 .track__marker{position:relative;z-index:1;width:var(--marker);height:var(--marker);margin-top:6px;border-radius:50%}
 .track__station[data-state=done] .track__marker{background:var(--ink);transform:scale(.72)}
-.track__station[data-state=now] .track__marker{background:var(--canvas);box-shadow:0 0 0 var(--trace) var(--sterne-tief),0 0 0 6px var(--sterne-hauch);animation:now-glow var(--motion-breath) ease-in-out infinite}
-@keyframes now-glow{0%,100%{box-shadow:0 0 0 1.6px var(--sterne-tief),0 0 0 6px var(--sterne-hauch),0 0 0 0 #6756D900}43%{box-shadow:0 0 0 1.6px #9466DF,0 0 0 6px var(--sterne-hauch),0 0 22px 8px #D85BA955}}
-body[data-motion=off] .track__marker{animation-play-state:paused}
+.track__station[data-state=now] .track__marker{background:var(--canvas);box-shadow:0 0 0 var(--trace) var(--sterne-tief),0 0 0 6px var(--sterne-hauch)}
+/* Glühen von «jetzt»: eine eigene Ebene. Im Atemtakt bewegt sich nur ihre Deckkraft (siehe Atemtakt). */
+.track__station[data-state=now] .track__marker::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 22px 8px #D85BA955;opacity:.6;pointer-events:none}
 .track__station[data-state=open] .track__marker{border:var(--trace) solid var(--ink-2);-webkit-mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0);mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0)}
 .track__seg{position:absolute;left:calc(var(--marker) / 2 - .8px);top:calc(6px + var(--marker) / 2);bottom:calc(-6px - var(--marker) / 2);width:var(--trace);background:var(--ink);transform-origin:top}
 .track__station:last-child .track__seg{display:none}
@@ -126,7 +135,7 @@ body[data-motion=off] .track__marker{animation-play-state:paused}
 .page-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px var(--gutter);max-width:calc(var(--content) + 2 * var(--gutter));margin:0 auto}
 .brand{display:inline-flex;align-items:center;gap:12px;min-height:44px;text-decoration:none;font:var(--type-label);font-weight:600;letter-spacing:.18em}
 .brand img{width:30px;height:30px}
-.back-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin-left:-14px;padding:0 14px;border-radius:var(--radius-control);font:var(--type-label);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;transition:background var(--motion-ui) ease}
+.back-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin-left:-14px;padding:0 14px;border-radius:var(--radius-control);font:var(--type-label);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;transition:background var(--motion-ui) var(--ease-out)}
 .page-top .back-link{margin:0 -14px 0 0}
 .page{max-width:calc(var(--content) + 2 * var(--gutter));margin:0 auto;padding:clamp(40px,8vw,96px) var(--gutter) var(--section)}
 .page-intro{max-width:var(--measure);margin-bottom:clamp(48px,7vw,96px)}
@@ -134,24 +143,41 @@ body[data-motion=off] .track__marker{animation-play-state:paused}
 .page-intro p{margin-top:24px;color:var(--ink-2)}
 
 /* ---------- Glührand ----------
-   Ein Rand, dessen Farbe dem Markenspektrum entlang wandert, und ein
-   weiches Glühen. Sichtbar bei Hover, Fokus und Auswahl. Ohne Bewegung
-   steht der Verlauf still. */
+   Ein Rand im Markenspektrum und ein weiches Glühen. Sichtbar bei Hover,
+   Fokus und Auswahl. Die Farbe wandert nur, solange man den Rand berührt
+   (Hover, Fokus). In der Auswahl steht er, und die Auswahl glüht ruhig. */
 @property --edge-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
 @keyframes edge-turn{to{--edge-angle:360deg}}
-@keyframes glow-breathe{0%,100%{box-shadow:var(--glow)}43%{box-shadow:0 12px 36px -8px #4D7FE880,0 0 30px -4px #9466DF66}}
+/* Ruhiges Glühen der Auswahl. Als Animation mit einem einzigen Bild gesetzt: So ersetzt das Glühen
+   wie bisher den eigenen Schatten des Bausteins, und bei reduzierter Bewegung bleibt dessen Schatten. */
+@keyframes glow-hold{from,to{box-shadow:var(--glow)}}
 .glow-edge,.button{position:relative;isolation:isolate}
 .glow-edge::after,.button::after{content:"";position:absolute;inset:0;z-index:2;padding:2px;border-radius:inherit;pointer-events:none;
   background:conic-gradient(from var(--edge-angle),var(--edge-stops));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
-  opacity:0;transition:opacity 220ms ease;animation:edge-turn 6s linear infinite}
+  opacity:0;transition:opacity var(--motion-ui) var(--ease-out);animation:edge-turn 6s linear infinite paused}
 .glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true])::after,:is(.glow-edge,.button):focus-visible::after,.glow-edge:has(:focus-visible)::after{opacity:1}
-.glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true]){animation:glow-breathe var(--motion-breath) ease-in-out infinite}
-@media(hover:hover) and (pointer:fine){:is(.glow-edge,.button):not(:disabled):hover::after{opacity:1}}
-body[data-motion=off] :is(.glow-edge,.button)::after,body[data-motion=off] .glow-edge{animation-play-state:paused}
+:is(.glow-edge,.button):focus-visible::after,.glow-edge:has(:focus-visible)::after{animation-play-state:running}
+.glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true]){animation:glow-hold var(--motion-ui) both}
+@media(hover:hover) and (pointer:fine){:is(.glow-edge,.button):not(:disabled):hover::after{opacity:1;animation-play-state:running}}
+body[data-motion=off] :is(.glow-edge,.button)::after{animation-play-state:paused!important}
+
+/* ---------- Atemtakt ----------
+   Je Screen atmet ein Ort, neben dem ELANUM-Zeichen im Lichtlauf. Rangfolge:
+   «jetzt» im Tagesbogen, der Auswahlbogen im Resonanzrad, «jetzt» auf der
+   Spur, sonst der aktive Ort der Navigation. Wo der Beziehungsraum atmet,
+   atmet die Navigation nicht. Jeder Ort hat eine eigene Glüh-Ebene, bewegt
+   wird nur ihre Deckkraft. Alle anderen Orte glühen ruhig. */
+@keyframes atem{0%,100%{opacity:.4}43%{opacity:1}}
+.day-arc__halo,
+body:not(:has(.day-arc__halo)) .rad__halo,
+body:not(:has(.day-arc__halo,.rad__halo)) .track:not(.is-pending) .track__station[data-state=now] .track__marker::after,
+body:not(:has(.day-arc__halo,.rad__halo,.track__station[data-state=now],.relationship-frame)) .app-nav__item[aria-current=page] .app-nav__icon::before,
+body:not(:has(.day-arc__halo,.rad__halo,.track__station[data-state=now],.relationship-frame)) .app-nav__item[aria-current=page]::before{animation:atem var(--motion-breath) var(--ease-in-out) infinite}
+body[data-motion=off] :is(.day-arc__halo,.rad__halo),body[data-motion=off] .track__marker::after,body[data-motion=off] .app-nav__icon::before,body[data-motion=off] .app-nav__item::before{animation-play-state:paused!important}
 
 /* Eingabefelder: Die Hülle trägt Vertiefung und Glührand, das Feld ist nur Schrift. */
-.field{display:block;width:100%;border-radius:var(--radius-button);background:var(--canvas);box-shadow:var(--pressed);transition:box-shadow var(--motion-ui) ease}
+.field{display:block;width:100%;border-radius:var(--radius-button);background:var(--canvas);box-shadow:var(--pressed);transition:box-shadow var(--motion-ui) var(--ease-out)}
 .field--area{border-radius:var(--radius-surface)}
 .field>input,.field>textarea{display:block;width:100%;min-height:56px;padding:16px 20px;border:0;border-radius:inherit;background:transparent;font:var(--type-body);color:var(--ink);outline:none}
 .field>input::placeholder,.field>textarea::placeholder{color:var(--ink-2)}

@@ -208,8 +208,14 @@ $('#choiceButton').addEventListener('click', event => { const b = event.currentT
 $('#demoForm').addEventListener('submit', event => {
   event.preventDefault();
   const value = $('#demoInput').value.trim();
-  $('#demoResult').textContent = value ? 'Deine Vorschau: «' + value + '»' : 'Schreibe zuerst einen Gedanken.';
   $('#demoInput').setAttribute('aria-invalid', String(!value));
+  if (!value) { $('#demoResult').textContent = 'Schreibe zuerst einen Gedanken.'; return; }
+  const button = event.currentTarget.querySelector('[data-commit]');
+  if (button.getAttribute('aria-disabled') === 'true') return;
+  $('#demoResult').textContent = '';
+  /* Antwort am Ort der Handlung (assets/button.js). Die Vorschau wartet nicht wirklich, darum eine kurze Frist. */
+  window.ElanumButton.commit(button, () => new Promise(done => setTimeout(done, 900)))
+    .then(() => { $('#demoResult').textContent = 'Deine Vorschau: «' + value + '»'; });
 });
 $$('[data-status-pick]').forEach(button => button.addEventListener('click', () => {
   const key = button.dataset.statusPick, demo = $('#statusDemo');

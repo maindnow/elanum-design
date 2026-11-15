@@ -35,7 +35,8 @@
   var SPEKTRUM = ['#6756D9', '#4D7FE8', '#9466DF', '#D85BA9', '#F0719A'];
   /* Zeichenaufbau in ms: Linie, Öffnung, Farbe (nach Linienbeginn), Linie aus (nach Farbbeginn) */
   var PLAN = { linie: [0, 1700], oeffnung: [350, 1200], farbe: [1100, 1400], aus: [800, 900], ein: 400 };
-  var SANFT = 'cubic-bezier(.45,0,.2,1)';
+  /* Dieselbe Kurve wie --ease-in-out in tokens.css; der feste Wert gilt, wenn tokens.css fehlt. */
+  var SANFT = getComputedStyle(document.documentElement).getPropertyValue('--ease-in-out').trim() || 'cubic-bezier(.45,0,.2,1)';
   var reduced = matchMedia('(prefers-reduced-motion: reduce)');
   var mounted = [], count = 0;
 

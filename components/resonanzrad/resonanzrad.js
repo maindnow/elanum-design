@@ -146,7 +146,7 @@
           '<svg class="rad__svg" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><defs></defs>' +
             '<g class="rad__rotor"><g class="rad__ring"></g><g class="rad__ring-labels"></g><g class="rad__faces"></g></g>' +
             '<path class="rad__lift"></path>' +
-            '<g class="rad__rotor"><g class="rad__contours"></g><g class="rad__icons"></g><path class="rad__active"></path></g>' +
+            '<g class="rad__rotor"><g class="rad__contours"></g><g class="rad__icons"></g><path class="rad__halo"></path><path class="rad__active"></path></g>' +
           '</svg>' +
           '<div class="rad__center" aria-hidden="true"><span>Ich</span></div>' +
         '</div>' +
@@ -164,7 +164,7 @@
     var rotors = root.querySelectorAll('.rad__rotor');
     var ring = root.querySelector('.rad__ring'), ringLabels = root.querySelector('.rad__ring-labels');
     var faces = root.querySelector('.rad__faces'), contours = root.querySelector('.rad__contours');
-    var icons = root.querySelector('.rad__icons'), active = root.querySelector('.rad__active'), lift = root.querySelector('.rad__lift');
+    var icons = root.querySelector('.rad__icons'), active = root.querySelector('.rad__active'), halo = root.querySelector('.rad__halo'), lift = root.querySelector('.rad__lift');
     var wheel = root.querySelector('[data-rad-wheel]'), reader = root.querySelector('.rad__reader'), list = root.querySelector('.rad__list');
     var current = root.querySelector('[data-current]');
 
@@ -323,6 +323,7 @@
       if (i !== index) {
         index = i;
         active.setAttribute('d', arcPath(CFG.activeRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
+        halo.setAttribute('d', active.getAttribute('d'));
         lift.setAttribute('d', sectorPath(a - half, a + half, CFG.segmentRadius));
         lift.style.fill = fill(item);
         /* Auswahlbogen in der Farbe seines Bereichs, nicht im Markenspektrum */
@@ -337,7 +338,7 @@
         current.style.setProperty('--tone', tone(item, 'tief'));
         renderReader(item);
         if (!first && animate !== false && !reduced.matches && !viaKeyboard && reader.animate) {
-          reader.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.23,1,.32,1)' });
+          reader.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--motion-ui')) || 180, easing: getComputedStyle(document.documentElement).getPropertyValue('--ease-out').trim() || 'cubic-bezier(.23,1,.32,1)' });
         }
       }
     }

@@ -285,8 +285,12 @@
         ScrollTrigger.create({ trigger: el, start: 'top 75%', end: 'bottom 45%', scrub: 1, animation: tl, invalidateOnRefresh: true });
         return;
       }
+      /* Solange die Spur noch verdeckt ist, atmet «jetzt» nicht (base.css, Atemtakt). */
+      el.classList.add('is-pending');
+      finishers.push(function () { el.classList.remove('is-pending'); });
       hideUntilVisible(all('.track__station', el));
       whenVisible(el, function () {
+        el.classList.remove('is-pending');
         gsap.set(all('.track__station', el), { opacity: 1 });
         trackTimeline(el);
       }, 0.2);

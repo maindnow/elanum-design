@@ -68,9 +68,17 @@
   --trace:1.6px;
   --bridge:2.8px;
 
-  /* Bewegung */
-  --ease:cubic-bezier(.23,1,.32,1);
-  --motion-ui:180ms;
-  --motion-reveal:900ms;
-  --motion-breath:7800ms;
+  /* Bewegung: zwei Kurven, fünf Dauern, ein Versatz.
+     Was erscheint oder antwortet, läuft aus. Was den Ort wechselt, läuft an,
+     wird schnell und läuft aus. Gleichmässig läuft nur, was nie endet. */
+  --ease-out:cubic-bezier(.23,1,.32,1);      /* erscheinen, antworten */
+  --ease-in-out:cubic-bezier(.45,0,.2,1);    /* den Ort wechseln */
+  --ease:var(--ease-out);                     /* früherer Name von --ease-out, bleibt gültig */
+  --motion-press:90ms;                        /* Drücken gibt nach */
+  --motion-ui:180ms;                          /* Hover, Fokus, Farbe */
+  --motion-enter:360ms;                       /* Sheet, Karte, Seitenwechsel */
+  --motion-move:520ms;                        /* ein Stück rückt an seinen Platz */
+  --motion-reveal:700ms;                      /* Auftritt eines Screens */
+  --motion-stagger:90ms;                      /* Versatz in einer Gruppe */
+  --motion-breath:7800ms;                     /* Atemtakt, Dauerschleife */
 }
