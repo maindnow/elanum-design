@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /* ============================================================
    ELANUM Token-Prüfung
-   Jeder Wert hat einen Namen: Farben, Schatten, Radien, Kurven
-   und Dauern stehen als Wert nur in tokens.css. Dieses Skript
+   Jeder Wert hat einen Namen: Farben, Schatten, Radien, Kurven,
+   Dauern, Schriftgrössen, Ebenen und der Fokusring stehen als
+   Wert nur in tokens.css. Dieses Skript
    liest das CSS des Pakets und meldet jeden Wert, der daneben
    steht. Aufruf im Repo-Ordner:  node tools/token-check.js
    Meldet es nichts, endet es mit 0, sonst mit 1.
@@ -15,7 +16,10 @@
    Was erlaubt ist:
    - Farben: var(--name), color-mix() aus Namen, currentColor,
      transparent, inherit. Kein #hex, kein rgb(), kein hsl(),
-     kein Farbname wie white oder black.
+     kein Farbname wie white oder black. Im Kontrastmodus des
+     Systems (forced-colors) stehen die Systemfarben: Canvas,
+     CanvasText, ButtonFace, ButtonText, Highlight, HighlightText,
+     GrayText.
    - Radien: var(--radius-…), calc() mit einem Radius-Token
      (ein abgeleiteter Radius, etwa ein Drittel), 50 %, 0, inherit.
    - Schatten: var(--name), auch als Mass mit Farbe dahinter
@@ -28,6 +32,14 @@
    - Dauern: var(--motion-…) und calc() daraus. Verzögerungen
      dürfen Zahlen sein. Die Dauerschleifen in LOOPS haben
      eigene Dauern.
+   - Schrift: Grössen in rem, em, cqi, vw oder als Token, nie
+     in px. So wächst die Schrift mit, wenn ein Mensch sie
+     grösser stellt. Ausnahme: Schrift im SVG, die mit --u
+     gegen den Massstab der Zeichnung rechnet.
+   - Ebenen: z-index ist var(--layer-…) oder calc() daraus.
+     Innerhalb eines Bausteins sind -1 bis 3 erlaubt.
+   - Fokus: outline trägt die Tokens --focus-width und
+     --focus-color (oder none, oder eine Systemfarbe).
    ============================================================ */
 'use strict';
 const fs = require('fs');
@@ -64,7 +76,8 @@ function split(value, at) {
 const word = name => new RegExp('(?<![-\\w])' + name + '(?![-\\w(])');
 
 const TIME = /(?<![\w.#(-])(\d*\.?\d+m?s)\b/g;
-const COLOR_OK = '(?:var\\(--[a-z0-9-]+\\)|color-mix\\([^;]*\\)|currentColor|transparent)';
+const SYSTEM = '(?:Canvas|CanvasText|ButtonFace|ButtonText|Highlight|HighlightText|GrayText)';
+const COLOR_OK = '(?:var\\(--[a-z0-9-]+\\)|color-mix\\([^;]*\\)|currentColor|transparent|' + SYSTEM + ')';
 const LEN = '(?:-?\\d*\\.?\\d+(?:px|em|rem)?|var\\(--[a-z0-9-]+\\))';
 const RING = new RegExp('^(?:inset\\s+)?' + LEN + '\\s+' + LEN + '\\s+0(?:\\s+' + LEN + ')?\\s+' + COLOR_OK + '$');
 const SHADOW_TOKEN = new RegExp('^var\\(--[a-z0-9-]+\\)(?:\\s+' + COLOR_OK + ')?$');
@@ -112,6 +125,14 @@ for (const file of cssFiles()) {
         }
       }
       if (/^(?:-webkit-)?(?:backdrop-)?filter$/.test(prop) && /drop-shadow\(\s*-?\d/.test(value)) report(index, 'Schatten ohne Namen', prop + ':' + value);
+
+      /* Schrift wächst mit: keine Grösse in px. Die Zeilenhöhe hinter dem Schrägstrich zählt nicht. */
+      if (prop === 'font-size' || prop === 'font') {
+        const size = prop === 'font' ? value.split('/')[0] : value;
+        if (/(?<![\w.-])\d*\.?\d+px\b/.test(size.replace(/var\([^()]*\)/g, ' ')) && !/var\(--u\b/.test(size)) report(index, 'Schrift in px', prop + ':' + value);
+      }
+      if (prop === 'z-index' && !/^(?:-1|[0-3]|auto|var\(--layer-[a-z]+\)|calc\(var\(--layer-[a-z]+\) [-+] \d+\))$/.test(value)) report(index, 'Ebene ohne Namen', prop + ':' + value);
+      if (prop === 'outline' && !/^(?:none|0)$/.test(value) && !/var\(--focus-width\)/.test(value) && !new RegExp('^\\d+px solid ' + SYSTEM + '$').test(value)) report(index, 'Fokus ohne Namen', prop + ':' + value);
 
       if (/^(?:transition|animation)(?:-duration|-timing-function)?$/.test(prop) && !/^none\b/.test(value)) {
         for (const p of split(value, ',')) {

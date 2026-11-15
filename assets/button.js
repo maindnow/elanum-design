@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM Button 4.12 · Antwort am Ort der Handlung
+   ELANUM Button 4.13 · Antwort am Ort der Handlung
    Wer etwas speichert oder sendet, sieht drei Zustände am selben
    Knopf: Ruhe, läuft, bestätigt. Darstellung in base.css.
 
@@ -22,7 +22,7 @@
 (function () {
   'use strict';
   var WARTEN = 300, MINDESTENS = 400, ZURUECK = 2400;
-  var HAKEN = '<svg class="icon" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var HAKEN = '<svg class="icon" viewBox="0 0 24 24"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 

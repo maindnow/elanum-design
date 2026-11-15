@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F0ECE3">
-<meta name="description" content="ELANUM Gestaltungsatlas 4.12. Kreis, Freiraum und Verbindung, ein interaktives Markensystem.">
+<meta name="description" content="ELANUM Gestaltungsatlas 4.13. Kreis, Freiraum und Verbindung, ein interaktives Markensystem.">
 <title>ELANUM · Gestaltungsatlas</title>
 <link rel="icon" href="assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
 <script src="assets/boot.js" data-base=""></script>
@@ -50,7 +50,7 @@
   </nav>
   <div class="rail-bottom">
     <button class="motion-toggle glow-edge" data-motion-toggle aria-pressed="false">Bewegung pausieren</button>
-    <p>Gestaltungsatlas 4.12</p>
+    <p>Gestaltungsatlas 4.13</p>
   </div>
 </aside>
 
@@ -264,6 +264,11 @@
       <h3>Eine klare Entscheidung</h3>
       <div class="actions"><button class="button" id="demoContinue">Weiter</button><button class="button button--secondary glow-edge" id="demoLater">Später</button></div>
       <p class="secondary">Primär und sekundär unterscheiden sich durch Gewicht. Beim Zeigen hellt sich die Fläche auf, beim Drücken gibt sie nach.</p>
+    </div>
+    <div class="component">
+      <h3>Klein und endgültig</h3>
+      <div class="actions"><button class="button button--secondary button--compact glow-edge" type="button">Bearbeiten</button><button class="button button--danger button--compact glow-edge" type="button">Notiz löschen</button></div>
+      <p class="secondary">Kompakt für Zeilen und Leisten, nie kleiner als 44 px. Was sich nicht zurücknehmen lässt, steht in der Fehlerfarbe und heisst beim Namen.</p>
     </div>
     <div class="component">
       <h3>Ein Gedanke</h3>
@@ -528,14 +533,14 @@
     </div>
     <div class="code-panel" data-anim="reveal">
       <div class="code-panel__top"><span class="t-label">tokens.css</span><button class="button button--secondary glow-edge" id="copyTokens">Kopieren</button></div>
-      <pre id="tokenCode"></pre>
+      <pre id="tokenCode" tabindex="0" role="region" aria-label="Tokens zum Kopieren"></pre>
     </div>
   </div>
 </section>
 
 <footer class="footer">
   <p class="footer__line" data-anim="title">Das Eigene hinterlässt eine Spur. Resonanz verändert sie.</p>
-  <p class="secondary">ELANUM · Gestaltungsatlas 4.12 · Oktober 2026</p>
+  <p class="secondary">ELANUM · Gestaltungsatlas 4.13 · November 2026</p>
 </footer>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

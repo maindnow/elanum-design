@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM Fliesstext 4.11
+   ELANUM Fliesstext 4.13
    Ein Text, der zu einem Menschen spricht, und bei jeder Kernaussage
    zeigt, woher sie kommt. Setzt tokens.css und base.css voraus.
 
@@ -33,20 +33,25 @@
   transition:transform var(--motion-ui) var(--ease-out),box-shadow var(--motion-ui) var(--ease-out),background-color var(--motion-ui) var(--ease-out)}
 .fliesstext__quelle .icon{width:.6em;height:.6em}
 .fliesstext__quelle .icon *{vector-effect:non-scaling-stroke}
-.fliesstext__quelle::before{content:"";position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);border-radius:50%;transform:translate(-50%,-50%)}
+.fliesstext__quelle::before{content:"";position:absolute;left:50%;top:50%;width:max(100%,var(--target));height:max(100%,var(--target));border-radius:50%;transform:translate(-50%,-50%)}
 .fliesstext__quelle:is(:hover,:focus-visible){z-index:3}
+.fliesstext__quelle:active{transform:scale(.92);transition-duration:var(--motion-press)}
 .fliesstext--leise .fliesstext__quelle{width:1.42em;height:1.42em}
 .fliesstext--leise .fliesstext__quelle .icon{width:.96em;height:.96em}
 .fliesstext--leise .fliesstext__quellen{margin-left:.3em}
 
 .fliesstext__name{position:absolute;z-index:3;left:50%;bottom:calc(100% + 12px);padding:8px 14px;border-radius:var(--radius-control);background:var(--paper);box-shadow:var(--raised-sm);
   font:var(--type-label);font-weight:600;letter-spacing:0;color:var(--tone);white-space:nowrap;pointer-events:none;
-  opacity:0;transform:translate(calc(-50% + var(--ruck,0px)),6px);transition:opacity var(--motion-ui) var(--ease-out),transform var(--motion-ui) var(--ease-out)}
-.fliesstext__quelle:focus-visible .fliesstext__name{opacity:1;transform:translate(calc(-50% + var(--ruck,0px)),0)}
+  display:none;opacity:0;transform:translate(calc(-50% + var(--ruck,0px)),6px);transition:opacity var(--motion-ui) var(--ease-out),transform var(--motion-ui) var(--ease-out),display var(--motion-ui) allow-discrete}
+/* Der Name nimmt nur Platz, solange er zu sehen ist: In Ruhe steht er nicht im Layout und
+   verbreitert die Seite nie. Er blendet trotzdem weich ein und aus (@starting-style). */
+.fliesstext__quelle:focus-visible .fliesstext__name{display:block;opacity:1;transform:translate(calc(-50% + var(--ruck,0px)),0)}
+@starting-style{.fliesstext__quelle:focus-visible .fliesstext__name{opacity:0;transform:translate(calc(-50% + var(--ruck,0px)),6px)}}
 @media(hover:hover) and (pointer:fine){
   .fliesstext__quelle:hover{background:var(--paper);box-shadow:inset 0 0 0 1.6px var(--tone),var(--glow)}
   body:not([data-motion=off]) .fliesstext__quelle:hover{transform:translateY(-.04em)}
-  .fliesstext__quelle:hover .fliesstext__name{opacity:1;transform:translate(calc(-50% + var(--ruck,0px)),0)}
+  .fliesstext__quelle:hover .fliesstext__name{display:block;opacity:1;transform:translate(calc(-50% + var(--ruck,0px)),0)}
+  @starting-style{.fliesstext__quelle:hover .fliesstext__name{opacity:0;transform:translate(calc(-50% + var(--ruck,0px)),6px)}}
   .fliesstext__aussage:has(.fliesstext__quelle:hover){text-decoration-color:var(--tone)}
 }
 
@@ -78,7 +83,7 @@
 .fliesstext-karte__wahl.segmented button{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 10px}
 .fliesstext-karte__wahl.segmented .icon{color:var(--tone)}
 .fliesstext-karte__text{font:var(--type-body);color:var(--ink)}
-.fliesstext-karte__mehr{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin:-6px 0 -10px -14px;padding:0 14px;border-radius:var(--radius-control);
+.fliesstext-karte__mehr{display:inline-flex;align-items:center;gap:10px;min-height:var(--target);margin:-6px 0 -10px -14px;padding:0 14px;border-radius:var(--radius-control);
   font:var(--type-label);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;transition:background var(--motion-ui) var(--ease-out)}
 @media(hover:hover) and (pointer:fine){
   .fliesstext-karte__schliessen:hover,.fliesstext-karte__mehr:hover{background:var(--paper)}
@@ -93,3 +98,14 @@
 
 /* Bewegung: Pause und reduzierte Bewegung wirken auch hier */
 body[data-motion=off] .fliesstext-karte[open],body[data-motion=off] .fliesstext-karte[open]::backdrop{animation:none}
+
+/* Kontrastmodus des Systems: Eine Aussage bleibt Text mit Unterstreichung (mark bekäme
+   sonst die Markierfarbe ohne Grund und verschwände). Geöffnet trägt sie die Auswahlfarbe. */
+@media(forced-colors:active){
+  :is(.fliesstext,.fliesstext--leise) .fliesstext__aussage{forced-color-adjust:none;background:Canvas;color:CanvasText;text-decoration-color:CanvasText}
+  :is(.fliesstext,.fliesstext--leise) .fliesstext__aussage.is-offen{background:Highlight;color:HighlightText;text-decoration-color:HighlightText}
+  .fliesstext__quelle{forced-color-adjust:none;background:ButtonFace;color:ButtonText;box-shadow:inset 0 0 0 1.6px ButtonText}
+  .fliesstext__name{forced-color-adjust:none;background:Canvas;color:CanvasText;box-shadow:0 0 0 1px CanvasText}
+  .fliesstext-karte{border:1px solid CanvasText}
+  .fliesstext-karte__griff{background:CanvasText}
+}

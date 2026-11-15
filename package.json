@@ -1,6 +1,6 @@
 {
   "name": "@elanum/design",
-  "version": "4.12.0",
+  "version": "4.13.0",
   "private": true,
   "description": "ELANUM Gestaltungsatlas: Tokens, Basis, Bausteine und Assets der App ELANUM",
   "repository": {
@@ -9,6 +9,7 @@
   },
   "files": [
     "tokens.css",
+    "tokens.json",
     "base.css",
     "components/beziehungsraum/beziehungsraum.css",
     "components/beziehungsraum/beziehungsraum.js",
@@ -33,6 +34,7 @@
   ],
   "exports": {
     "./tokens.css": "./tokens.css",
+    "./tokens.json": "./tokens.json",
     "./base.css": "./base.css",
     "./components/*": "./components/*",
     "./assets/*": "./assets/*",

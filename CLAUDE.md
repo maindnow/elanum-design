@@ -46,11 +46,19 @@ git log --oneline -1
 for f in app.js assets/*.js components/*/*.js; do node --check "$f"; done
 python3 tools/build_logo_circles.py
 node tools/glossar-md.js
+node tools/tokens-json.js
 node tools/token-check.js
 git diff --check
 ```
 
-`tools/token-check.js` meldet jede Farbe, jeden Schatten, jeden Radius, jede Kurve und jede Dauer, die im CSS als Wert statt als Token steht. Ein neuer Wert kommt zuerst mit Namen nach `tokens.css`.
+`tools/token-check.js` meldet jede Farbe, jeden Schatten, jeden Radius, jede Kurve, jede Dauer, jede Schriftgrösse in px, jede Ebene und jeden Fokusring, die im CSS als Wert statt als Token stehen. Ein neuer Wert kommt zuerst mit Namen nach `tokens.css`. `tools/tokens-json.js` schreibt `tokens.json` daraus neu.
+
+Nach jeder Änderung an Layout, Schrift oder Bedienelementen zusätzlich messen (Server auf Port 4173, braucht Playwright). Beide Läufe müssen ohne Fund enden, bis auf die Punkte, die in `DESIGN-NOTES.md` unter „Offen nach 4.13“ stehen:
+
+```bash
+node tools/regel-messung.js
+SCHRIFT=125 node tools/regel-messung.js
+```
 
 ## Versionen
 

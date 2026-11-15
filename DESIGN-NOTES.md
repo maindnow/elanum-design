@@ -16,6 +16,68 @@
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
 
+## Reife (4.13)
+
+Chris wollte am 15.11.2026 mehr Regeln im Design und alles auf dem neusten Stand. Diese Runde hat drei Quellen. Erstens die Lückenliste der App (`docs/elanum-migration.md` in soulresonance.ch, L1 bis L61): Sie nennt, was dem Paket fehlt. Zweitens sieben Kits und Regelwerke als Messlatte: Untitled UI, Magic UI, SmoothUI, RetroUI, die Skills von shadcn/ui, React Bits und `ui-ux-pro-max` mit 120 Regeln. Drittens eine Messung im Browser: jede Seite des Atlas, jeder Baustein und jeder App-Screen in sechs Breiten, 90 Seitenaufrufe, vorher und nachher mit demselben Skript (`tools/regel-messung.js`: 310 Funde vorher, keiner nachher).
+
+| Regel | Was gilt | Gemessen vorher, nachher | Wo |
+|---|---|---|---|
+| Die Schrift wächst mit | Jede Schriftgrösse steht in rem. Stellt ein Mensch im Browser oder in der App eine grössere Schrift ein, wächst jede Stufe mit. Jede Stufe gibt es als Ganzes (`--type-…`) und einzeln (`--size-…`, `--leading-…`). Bei 100 % bleibt jede Grösse gleich. | Schrift in px: 12 Stellen, 0 | `tokens.css`, `node tools/token-check.js` |
+| Ein Titel verteilt sich | Titel und Stimme verteilen sich gleichmässig auf ihre Zeilen (`text-wrap: balance`). Lauftext endet nicht mit einem einsamen Wort (`text-wrap: pretty`). Zeiten und Plätze, die untereinander stehen, tragen Tabellenziffern. | Titel ohne Ausgleich: 141, 0. Einsame Wörter: 73, 0 | `base.css`, Titelklassen der Bausteine |
+| Alles ist treffbar, nichts berührt sich | Jedes Bedienelement trifft man auf 44 × 44 px (`--target`). In der Liste des Resonanzrads steht der Stand unter dem Namen, sobald die Liste schmal ist. | Ziele unter 44 px: 87, 0. Berührungen: 8, 0. Überlauf: 1, 0 | `base.css`, `components/resonanzrad/resonanzrad.css` |
+| Ein Feld hat eine Kante | Die Vertiefung allein hebt ein Feld nur mit etwa 1,5:1 vom Grund ab. Darum trägt es eine feine Kante (`--line-control`, 3,6:1 auf Canvas). Fokus bleibt das Glühen, ein Fehler der Ring in der Fehlerfarbe. | Kontrast der Feldgrenze: 1,5:1, 3,6:1 | `.field` in `base.css` |
+| Fokus und Ebenen haben Namen | Der Fokusring steht als `--focus-width`, `--focus-offset`, `--focus-color`. Was über was liegt, steht als `--layer-…`. | Feste Ebenen: 10, 0. Fester Fokusring: 2, 0 | `tokens.css`, `node tools/token-check.js` |
+| Drücken antwortet sofort | Jedes Bedienelement gibt beim Drücken in 90 ms nach (`--motion-press`), auch die leisen: Zeichen-Knopf, Link mit Pfeil, Rückweg, Quelle im Fliesstext, Zeile im Rad und im Umfeld, Karte zum Umdrehen. Der Haken im Zustand «bestätigt» zeichnet sich in einem Zug. | Arten von Bedienelementen ohne Antwort auf Druck: 16, 0 (282 geprüft) | `base.css`, `components/app/app.css`, `assets/button.js` |
+| Das System hat das letzte Wort | ELANUM sagt dem Browser, dass es hell ist (`color-scheme`). Im Kontrastmodus des Systems bekommt jede Fläche eine Kontur und jede Auswahl die Auswahlfarbe, kein Satz verschwindet. Verlangt das System mehr Kontrast, wird Sekundärtext zu Ink und jede Linie kräftiger. Verlangt es weniger Durchsicht, stehen die Leisten ohne Schleier. | Im Kontrastmodus unsichtbar: Aussagen im Fliesstext, Stationen, Auswahl, Feldgrenzen. Jetzt sichtbar | `@media` in `tokens.css`, `base.css`, `components/app/app.css`, `components/fliesstext/fliesstext.css`, `components/resonanzrad/resonanzrad.css` |
+| Der Name kommt aus dem sichtbaren Text | Was ein Vorleser sagt, beginnt mit dem, was man sieht. Zusätze stehen unsichtbar im Text, nicht in einem abweichenden `aria-label`. | axe: 2 Arten von Verstössen, 0 | `components/resonanzrad/resonanzrad.js`, `components/app/app.js` |
+
+**Neue Namen in `tokens.css`.**
+
+- Schrift: `--size-display`, `--size-title`, `--size-heading`, `--size-body`, `--size-label` und dazu `--leading-…`. Die fünf `--type-…` setzen sich daraus zusammen.
+- Abstände: `--space-1` bis `--space-16`, zehn Stufen im 4er-Raster in rem. Die Zahl im Namen mal 4 ergibt Pixel.
+- Bedienung: `--target` (44 px), `--button-height` (52 px), `--focus-width`, `--focus-offset`, `--focus-color`, `--focus-color-dark`.
+- Ebenen: `--layer-float`, `--layer-head`, `--layer-nav`, `--layer-toast`, `--layer-skip`. Sheets und Karten brauchen keine Ebene, sie liegen als `dialog` zuoberst.
+- Linie: `--line-control`, die Kante eines Bedienelements.
+
+**Neue Varianten.** `.button--compact` für Zeilen und Leisten (44 px hoch). `.button--danger` für Löschen und Auflösen: ruhig wie die zweite Handlung, das Wort in der Fehlerfarbe. `.app-row--danger` für dieselbe Handlung als Zeile.
+
+**Neu im Paket.** `tokens.json` listet jedes Token mit Name, Wert, Gruppe und Notiz, erzeugt aus `tokens.css` (`node tools/tokens-json.js`). Werkzeuge und Agenten lesen die Werte, ohne CSS zu zerlegen.
+
+**Zwei Prüfungen.** `tools/token-check.js` prüft neu auch Schrift in px, Ebenen und den Fokusring. `tools/regel-messung.js` misst im Browser, was sich im CSS nicht ablesen lässt: Bedienziel, Berührung, einsames Wort, Titel ohne Ausgleich, Überlauf. Mit `SCHRIFT=125` misst es dieselben Regeln bei grösserer Schrift.
+
+**Sichtbar anders.** Eingabefelder haben eine feine Kante. Der Datumskreis der Erlebnisse misst auf jeder Karte 5 rem (80 px) statt 72 px. Titel brechen ausgeglichen um («Abendessen / zu sechst» statt «Abendessen zu / sechst»). In der Liste des Resonanzrads steht der Stand bei 320 px und zwischen 1024 und 1400 px unter dem Namen. Auf Telefonen unter 400 px wird der Seitentitel der Bausteinseiten mit dem Fenster kleiner, damit «Beziehungsraum» ganz bleibt (dieselbe Zeile wie in PR #23). Die Regler im Beziehungsraum sind 44 statt 36 px hoch.
+
+**Lücken der App, die damit schliessen.** L7 (Schrift in rem), L8 (Abstandsskala, die breite Lesespalte fehlt weiter), L9 (Trefferfläche und Fokus), L11 (Knopfhöhe als Token, kompakt, Löschen), L35 (Kante der Felder), L41 (Datumskreis), L53 (Zeile für gefährliche Handlungen), L55 (Masse des Rahmens gelten ausserhalb von `.app`). Schon mit 4.12 geschlossen: L10, L31, L33, L46, L54.
+
+**Aus den Kits übernommen.**
+
+- Untitled UI: Grösse und Zeilenhöhe als Paar je Stufe. Abstände als benannte Skala im 4er-Raster. Der Fokusring als Teil des Systems. Die Prüfung des Kontrasts an jeder Farbe gab es im Atlas schon.
+- SmoothUI: Die Kurve fürs Erscheinen ist dieselbe wie bei ELANUM (`cubic-bezier(.23,1,.32,1)`). Übernommen ist die Liste je Baustein: Tastatur, Namen für Vorleser, reduzierte Bewegung. Sie ist hier als Messung gebaut, nicht als Tabelle.
+- shadcn/ui Skills und React Bits: Ein Paket beschreibt sich so, dass ein Agent es lesen kann. Daraus ist `tokens.json` entstanden.
+- `ui-ux-pro-max`: die Regeln zu Trefferfläche, Umbruch, Tabellenziffern, Antwort auf Druck, Systemeinstellungen und zum Namen aus dem sichtbaren Text.
+
+**Bewusst nicht übernommen.**
+
+- Schmuckbewegung aus Magic UI und React Bits: Laufbänder, Zahlen, die hochzählen, wandernde Hintergründe, Textzerfall, Zeiger-Effekte. Bei ELANUM hat jede Bewegung einen Grund.
+- Federn mit Überschwingen (SmoothUI). ELANUM läuft aus, es federt nicht.
+- Die Pixel-Ästhetik von RetroUI. Sie zeigt, wie stark ein System wirkt, das eine Idee durchzieht. Die Idee von ELANUM ist das warme Relief.
+- Eine Schatten-Skala von klein bis gross (Untitled UI). ELANUM benennt Schatten nach ihrer Aufgabe (erhaben, vertieft, schwebend), nicht nach ihrer Grösse.
+- Eine dunkle Darstellung. Chris hat am 15.10.2026 für die App entschieden, dass es keinen dunklen Hintergrund mehr gibt (Entscheid 35 in `docs/elanum-migration.md`).
+- Eigene Formen für Kästchen und Auswahlfelder. Das Kästchen des Browsers in Ink ist bedienbar, bekannt und im Kontrastmodus sicher.
+
+**Offen nach 4.13.**
+
+- Abstände in den Bausteinen: 415 von 585 liegen im 4er-Raster, 170 auf Zwischenwerten (6, 10, 14, 18, 22 px). Die Skala steht in `tokens.css`, die Bausteine nutzen sie noch nicht. Angleichen würde an 170 Stellen 2 px verschieben.
+- Die Lesespalte `--measure` (62ch) ergibt gemessen 83 bis 88 Zeichen je Zeile. Als gut lesbar gelten 60 bis 75. Mit 56ch wären es rund 75.
+- Die Karte «Wo es schwingt» ist im Screen Entdecken dunkel. In der App ist sie hell gebaut (Lücke L36).
+- Das Sheet steht ab 1024 px am rechten Rand. In der App steht es in der Mitte (Lücke L52).
+- `screens.css` liegt nicht im Paket (Lücke L25). Ein eigener Baustein für Meldung, Auswahlfeld, Tabelle und Fortschritt fehlt (Lücke L16).
+- Die Schrift im Resonanzrad und im Umfeld ist Teil der Zeichnung und wächst nicht mit (Lücke L60).
+- Auf der Bausteinseite Fliesstext bleiben bei 320 px und 125 % Schrift 8 px Überlauf: Das letzte Wort bleibt mit seinen Quellen in einer Zeile. In den App-Screens tritt das nicht auf.
+- Der Kontrastmodus ist in Chromium nachgestellt geprüft (hell und dunkel), nicht auf einem Gerät mit Windows.
+- Silbentrennung ist nicht eingeschaltet. Lange Wörter brechen nur im Notfall, dann ohne Trennstrich.
+- `tools/regel-messung.js` braucht Playwright und läuft darum nicht mit den Prüfbefehlen vor jedem Push.
+
 ## Feinschliff (4.12)
 
 Chris hat am 15.11.2026 fünf Clips eines Studios und ein Markenbrett als Messlatte geschickt. Sie wurden Bild für Bild vermessen, ELANUM mit denselben Massen. Ergebnis: Zurückhaltung, Zeiten und Staffelung von ELANUM lagen schon auf der Höhe der Referenz (Auftritt 700 ms gegen 700–770 ms, Staffelung 90 ms gegen rund 100 ms), bei der Lesbarkeit ist ELANUM strenger. Es fehlte an Entschiedenheit im Einzelnen. Acht Regeln standen zur Freigabe, sieben sind gebaut.

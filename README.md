@@ -1,4 +1,4 @@
-# ELANUM Gestaltungsatlas 4.12
+# ELANUM Gestaltungsatlas 4.13
 
 ![Gestaltungsatlas: Einstieg mit dem ELANUM-Zeichen im Goldenen Schnitt](docs/screenshots/atlas-desktop.png)
 
@@ -76,6 +76,7 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | --- | --- |
 | [index.html](index.html) | Atlas mit allen Kapiteln |
 | [tokens.css](tokens.css) | Eine Quelle für Farben, Schrift, Raum, Relief und Bewegung |
+| [tokens.json](tokens.json) | Dieselben Werte als Liste für Werkzeuge und Agenten, erzeugt mit `node tools/tokens-json.js` |
 | [base.css](base.css) | Gemeinsame Bausteine: Schriftstufen, Buttons, Status, Element-Chip, Stationslinie, Seitenrahmen |
 | [style.css](style.css) | Layout des Atlas |
 | [app.js](app.js) | Bedienlogik des Atlas |
@@ -88,7 +89,9 @@ Kein Paketmanager, Build oder Backend erforderlich. Schriften und SVG-Assets lie
 | [tools/embed-fonts.py](tools/embed-fonts.py) | Erzeugt `assets/fonts/fonts-embedded.css` neu |
 | [tools/build_logo_circles.py](tools/build_logo_circles.py) | Erzeugt das ELANUM-Zeichen im Goldenen Schnitt (Ink, Spektrum, Blueprint) und die Konstruktion für den Zeichenaufbau in `components/zeichen/zeichen.js`, prüft Knicke; mit `--masks` die Relief-Maske. Nur Python-Standardbibliothek |
 | [tools/serve.py](tools/serve.py) | Lokaler Server auf Port 4173 ohne Browser-Cache. Nur Python-Standardbibliothek |
-| [tools/token-check.js](tools/token-check.js) | Meldet jeden Wert im CSS, der nicht aus `tokens.css` kommt: Farben, Schatten, Radien, Kurven, Dauern |
+| [tools/token-check.js](tools/token-check.js) | Meldet jeden Wert im CSS, der nicht aus `tokens.css` kommt: Farben, Schatten, Radien, Kurven, Dauern, Schrift in px, Ebenen, Fokusring |
+| [tools/tokens-json.js](tools/tokens-json.js) | Erzeugt `tokens.json` aus `tokens.css`: jedes Token mit Name, Wert, Gruppe und Notiz, für Werkzeuge und Agenten |
+| [tools/regel-messung.js](tools/regel-messung.js) | Misst im Browser fünf Regeln auf jeder Seite in sechs Breiten: Bedienziel 44 px, Berührung, einsames Wort, Titel ohne Ausgleich, Überlauf. Mit `SCHRIFT=125` bei grösserer Schrift (Server auf Port 4173, braucht Playwright) |
 | [tools/screenshots.js](tools/screenshots.js) | Erzeugt die Screenshots in `docs/screenshots/` neu, auch die der App (Server auf Port 4173, braucht Playwright) |
 | [assets/glossar.js](assets/glossar.js) | Glossar: die eine Quelle aller Begriffe |
 | [GLOSSAR.md](GLOSSAR.md) | Glossar als Datei, erzeugt mit `node tools/glossar-md.js` |
@@ -107,7 +110,7 @@ In der `package.json` der App:
 
 ```json
 "dependencies": {
-  "@elanum/design": "github:maindnow/elanum-design#v4.12.0"
+  "@elanum/design": "github:maindnow/elanum-design#v4.13.0"
 }
 ```
 
@@ -118,6 +121,7 @@ Ausgeliefert wird nur, was die App braucht (`files` in [package.json](package.js
 | Im Paket | Inhalt |
 | --- | --- |
 | `tokens.css`, `base.css` | Alle Werte und die gemeinsamen Grundlagen, auch Weg und Tageslinie (`.track`) |
+| `tokens.json` | Die Werte aus `tokens.css` als Liste: Name, Wert, Gruppe, Notiz |
 | `components/<name>/<name>.css` und `.js` | Resonanzrad, Umfeld, Beziehungsraum, Zeichen, App-Rahmen (`components/app/app.css`, `app.js`), Fliesstext |
 | `assets/ELANUM-*-Harmonic.svg` | ELANUM-Zeichen: Spektrum, Ink, Blueprint |
 | `assets/fonts/` | Albert Sans und Yrsa mit OFL-Lizenzen, dazu die eingebetteten Schriften für `file://` |
@@ -127,7 +131,7 @@ Ausgeliefert wird nur, was die App braucht (`files` in [package.json](package.js
 
 Atlas (`index.html`, `style.css`, `app.js`), die Demoseiten der Bausteine (`index.html`, `page.css`, `page.js`, `weg.css`), die App-Screens mit ihren Daten (`components/app/*.html`, `screens.css`, `screens.js`, `vorschau.*`), frühere Fassungen des Zeichens, `docs/` und `tools/` bleiben im Repository, aber ausserhalb des Pakets.
 
-Einstiege (`exports`) für Bundler und `require.resolve`: `@elanum/design/tokens.css`, `/base.css`, `/components/*`, `/assets/*`, `/glossar` (`assets/glossar.js`) und `/package.json`.
+Einstiege (`exports`) für Bundler und `require.resolve`: `@elanum/design/tokens.css`, `/tokens.json`, `/base.css`, `/components/*`, `/assets/*`, `/glossar` (`assets/glossar.js`) und `/package.json`.
 
 ### Assets unter einem festen Pfad
 
@@ -377,7 +381,8 @@ document.dispatchEvent(new CustomEvent('elanum:motion', { detail: { off: true } 
 - **Raum statt Rahmen.** Abstand gliedert, Linien trennen nur Kapitel.
 - **Bewegung erklärt und bleibt kontrollierbar.** Jede Animation zeigt eine Beziehung, Reihenfolge oder einen Zustand. Keine Animation versteckt Inhalte dauerhaft; Pause, Tastatur und `prefers-reduced-motion` beenden alle Auftritte.
 - **Bewegung hat ein Vokabular.** Zwei Kurven (`--ease-out` für Erscheinen und Antworten, `--ease-in-out` für Ortswechsel) und fünf Dauern (`--motion-press`, `-ui`, `-enter`, `-move`, `-reveal`), dazu `--motion-stagger`. Was erscheint, verschwindet auch mit Bewegung. Je Screen atmet ein Ort, der Glührand wandert nur bei Hover und Fokus.
-- **Jeder Wert hat einen Namen.** Farben, Schatten, Radien, Kurven und Dauern stehen als Wert nur in `tokens.css`. `node tools/token-check.js` meldet alles andere.
+- **Jeder Wert hat einen Namen.** Farben, Schatten, Radien, Kurven, Dauern, Schriftgrössen (in rem), Ebenen und der Fokusring stehen als Wert nur in `tokens.css`. `node tools/token-check.js` meldet alles andere. Nach einer Änderung an `tokens.css` `node tools/tokens-json.js` ausführen.
+- **Messen, was das CSS nicht zeigt.** `node tools/regel-messung.js` prüft im Browser: Jedes Bedienelement ist auf 44 px treffbar, nichts berührt sich, kein Absatz endet mit einem einsamen Wort, jeder Titel bricht ausgeglichen um, keine Seite läuft über.
 - **Antwort am Ort der Handlung.** Speichern und Senden zeigen «läuft» und «bestätigt» am selben Knopf (`assets/button.js`).
 - **Begriffe aus dem Glossar.** Neue oder geänderte Begriffe nur in `assets/glossar.js`, danach `node tools/glossar-md.js`.
 - **Dokumentation mitpflegen.** Bei Änderungen an Tokens `tokens.css` anpassen; Palette und Tokenblock lesen die Werte daraus. Nach Änderungen an Schriften `python3 tools/embed-fonts.py` ausführen.
@@ -403,6 +408,8 @@ Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 - Assets: keine fehlenden Dateien oder Konsolenfehler, auch unter `file://`.
 
 ## Stand und Historie
+
+4.13 bringt die Regeln aus sieben Kits und Regelwerken und schliesst acht Lücken aus der Liste der App: Die Schrift steht in rem und wächst mit, Titel brechen ausgeglichen um, jedes Bedienelement ist auf 44 px treffbar und antwortet auf Druck, Eingabefelder tragen eine Kante mit 3,6:1, Fokus, Ebenen und Abstände haben Namen, und ELANUM folgt den Einstellungen des Systems (Kontrastmodus, mehr Kontrast, weniger Durchsicht). Neu sind `.button--compact`, `.button--danger`, `tokens.json` und die Messung im Browser (`tools/regel-messung.js`). Alles dazu in [DESIGN-NOTES.md](DESIGN-NOTES.md), Abschnitt «Reife (4.13)».
 
 4.12 gibt der Bewegung ein Vokabular (zwei Kurven, fünf Dauern), begrenzt die Dauerschleifen auf einen Ort im Atemtakt je Screen, lässt Sheet und Quellenkarte mit Übergang schliessen, bringt den Button mit «läuft» und «bestätigt» (`assets/button.js`) und gibt jedem Wert einen Namen: Farben, Schatten und Radien stehen nur noch in `tokens.css`, geprüft von `tools/token-check.js`. In der App steht der Seitentitel in der Stufe Überschrift. Begründung und offene Punkte in `DESIGN-NOTES.md`, „Feinschliff (4.12)“. 4.11 bringt den Baustein Fliesstext unter `components/fliesstext/`: Aussagen mit ihrer Quelle am Satzende und der Quellenkarte „Woher kommt diese Aussage?“, als Stimme für dein erstes Muster und leise in Karten. Im Atlas im Kapitel Sprache, in der App auf Heute (ersetzt dort die Chips unter dem Text). Der Element-Chip liegt jetzt in `base.css`. 4.10 zeigt ELANUM als App: neuer Baustein App-Rahmen (Navigation in drei Formen, Kopf, Sheet, Hauptfläche in weichem Licht, Tagesbogen, Frage zum Umdrehen, Muster der Kosmen), acht Screens als echte, responsive Seiten auf Grundlage der heutigen App, im Atlas das Kapitel „In der App“ mit Gerätevorschau. Das Zeichen steht als Marke überall in Spektrum, in der App mit Lichtlauf und Zeichenaufbau. Dazu `ElanumResonanzrad.mini()` und eine Korrektur der Verläufe der Bereiche, die leere Farbstopps zeigten. 4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form steht, nur Licht und Farbe bewegen sich: Zeichenaufbau (einmal) und Lichtlauf (dauernd), gross wie klein. Neuer Baustein `components/zeichen/`, zwei neue Begriffe im Glossar. 4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
 

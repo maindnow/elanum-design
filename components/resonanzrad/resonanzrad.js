@@ -243,10 +243,10 @@
       tab.dataset.index = i;
       if (!item.done) tab.classList.add('is-open');
       tab.innerHTML = '<span class="rad__swatch' + (item.done ? ' is-done' : '') + '" style="--swatch:' + tone(item, 'flaeche') + '"></span>' +
-        iconSvg(item.id) + '<span class="rad__item-name">' + item.label + '</span>' +
+        iconSvg(item.id) + '<span class="rad__item-name">' + item.label + '<span class="visually-hidden">' + (item.done ? ', ausgefüllt:' : ', noch offen') + '</span></span>' +
         (item.done ? '<span class="rad__item-state">' + item.result + '</span>'
                    : '<span class="rad__item-state rad__fill-cta" aria-hidden="true">+ Ausfüllen</span>');
-      tab.setAttribute('aria-label', item.label + ', ' + (item.done ? 'ausgefüllt: ' + item.result : 'noch offen'));
+      /* Der Name für Vorleser entsteht aus dem sichtbaren Text: «Astrologie, ausgefüllt: Jungfrau». Kein aria-label, das davon abweicht. */
       groupLists[item.group].appendChild(tab);
       return { face: face, contour: contour, icon: icon, glyph: glyph, name: name, lines: lines, result: result, tab: tab, angle: a };
     });

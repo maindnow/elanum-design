@@ -10,7 +10,7 @@
 .umfeld__bridge.is-active{opacity:1;filter:var(--glow-line)}
 .umfeld__nodes circle{fill:var(--ink)}
 .umfeld__name{position:absolute;transform:translate(-50%,-50%);font:var(--type-heading);white-space:nowrap;pointer-events:none}
-.umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
+.umfeld__name--me{font:var(--type-title);font-size:2rem;line-height:1}
 .umfeld__name.is-active{color:var(--sterne-tief)}
 
 .umfeld__side{display:grid;gap:32px;align-content:start}
@@ -20,10 +20,11 @@
 .umfeld__person-state{color:var(--ink-2)}
 .umfeld__person[aria-pressed=true]{background:var(--paper);box-shadow:var(--raised-sm)}
 @media(hover:hover) and (pointer:fine){.umfeld__person:hover{background:var(--paper)}}
+.umfeld__person:active{background:var(--paper);transition-duration:var(--motion-press)}
 .umfeld__detail{display:grid;gap:14px;justify-items:start}
 .umfeld__state{color:var(--sterne-tief)}
 /* Hochformat für schmale Schirme: Namen in echten 15 px, passend in ihren Kreis */
 .umfeld__stage[data-layout=tall]{width:min(100%,440px)}
 .umfeld__stage[data-layout=tall] .umfeld__name{font:var(--type-label);font-weight:600}
-.umfeld__stage[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
+.umfeld__stage[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:2rem;line-height:1}
 @media(min-width:900px){.umfeld{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}}

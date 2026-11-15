@@ -1,6 +1,6 @@
 # Übergabe: ELANUM Gestaltungsatlas
 
-Stand 15. November 2026. Auf `main` steht **Atlas 4.11.1** (PR #18 und #21 sind gemergt). Die Tags `v4.11.0` und `v4.11.1` setzt Chris, sie fehlen noch. Der PR «Feinschliff» bringt **Atlas 4.12** (Paket `@elanum/design` 4.12.0), der Tag `v4.12.0` folgt nach dem Merge. Die App nutzt `v4.10.0`. Diese Datei fasst alles zusammen, was es zum Weiterarbeiten braucht, auch Entscheide, die bisher nur in Gesprächen mit Claude standen.
+Stand 15. November 2026. Auf `main` steht **Atlas 4.11.1** (PR #18 und #21 sind gemergt). Die Tags `v4.11.0` und `v4.11.1` setzt Chris, sie fehlen noch. Der PR «Feinschliff» bringt **Atlas 4.12** und im selben Zug **Atlas 4.13** (Paket `@elanum/design` 4.13.0). Der Tag `v4.13.0` folgt nach dem Merge; `v4.12.0` gibt es als eigenen Stand auf `main` nicht. Die App nutzt `v4.10.0`. Diese Datei fasst alles zusammen, was es zum Weiterarbeiten braucht, auch Entscheide, die bisher nur in Gesprächen mit Claude standen.
 
 ## In zwei Minuten
 
@@ -30,7 +30,8 @@ git log --oneline -1
 
 ## Offen
 
-1. **Tags setzen:** `v4.11.0` auf den Merge von PR #18 (`2f6776f`), `v4.11.1` auf den Merge von PR #21 (`b2e2114`), `v4.12.0` nach dem Merge des PR «Feinschliff», je mit der Vorlage in `CLAUDE.md`. Danach die App auf den neuesten Tag anheben (Abschnitt „In der App“).
+1. **Tags setzen:** `v4.11.0` auf den Merge von PR #18 (`2f6776f`), `v4.11.1` auf den Merge von PR #21 (`b2e2114`), `v4.13.0` nach dem Merge des PR «Feinschliff», je mit der Vorlage in `CLAUDE.md`. Danach die App auf den neuesten Tag anheben (Abschnitt „In der App“).
+1b. **Reife 4.13, offene Entscheide:** Abstände der Bausteine ins 4er-Raster (170 Stellen), Lesespalte 62ch oder 56ch, Karte «Wo es schwingt» hell wie in der App (L36), Sheet am Computer in der Mitte wie in der App (L52). Liste in `DESIGN-NOTES.md`, „Reife (4.13)“.
 1a. **Feinschliff 4.12, offene Punkte:** grösste Schrift noch mehrfach auf Ich und Aktivitäten, feste Farben in den Skripten der Bausteine, Wörter am Button ohne Glossar-Freigabe. Liste in `DESIGN-NOTES.md`, „Feinschliff (4.12)“.
 2. **Glossar, Namen aus dem Fliesstext (4.11):** Fliesstext, Aussage, Quelle, Quellenkarte. Noch ohne Freigabe.
 3. **Abgleich mit dem Muster M1 „Herkunft je Satz“ der App** (`src/lib/components/signatur/AbsatzMitHerkunft.svelte` in `maindnow/soulresonance.ch`, gelesen am 14.10.2026). Gleich sind das Zeichen am Satzende als Knopf, die Markierung beim Antippen, Esc und Fokus zurück. Anders sind drei Dinge:
@@ -72,7 +73,8 @@ git log --oneline -1
 | 4.10 | ELANUM als App, mobile zuerst: App-Rahmen `components/app/`, acht Screens, Kapitel „In der App“. Tag `v4.10.0` |
 | 4.11 | Fliesstext: Aussagen mit ihrer Quelle, Quellenkarte „Woher kommt diese Aussage?“, Baustein `components/fliesstext/`, im Atlas und auf Heute. PR #18 gemergt, Tag `v4.11.0` fehlt noch |
 | 4.11.1 | Das Resonanzrad steht still. PR #21 gemergt, Tag `v4.11.1` fehlt noch |
-| 4.12 | Feinschliff: zwei Kurven und fünf Dauern als Tokens, ein Ort im Atemtakt je Screen, Schliessen mit Übergang, Button mit «läuft» und «bestätigt», jeder Wert mit Namen, `tools/token-check.js`. Tag `v4.12.0` nach dem Merge |
+| 4.12 | Feinschliff: zwei Kurven und fünf Dauern als Tokens, ein Ort im Atemtakt je Screen, Schliessen mit Übergang, Button mit «läuft» und «bestätigt», jeder Wert mit Namen, `tools/token-check.js`. Kein eigener Tag, geht in 4.13 auf |
+| 4.13 | Reife: Schrift in rem, Abstände, Trefferfläche, Fokus und Ebenen als Tokens, Kante der Felder, ausgeglichener Umbruch, Antwort auf Druck überall, Kontrastmodus des Systems, `.button--compact`, `.button--danger`, `tokens.json`, `tools/regel-messung.js`. Schliesst die Lücken L7, L8, L9, L11, L35, L41, L53, L55 der App. Tag `v4.13.0` nach dem Merge |
 
 Das Glossar trägt die Version 4.9, weil es sich in 4.10 nicht geändert hat.
 
