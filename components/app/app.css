@@ -125,6 +125,13 @@
 .app-title{font:var(--type-heading);text-wrap:balance}
 .app-lead{max-width:var(--measure);color:var(--ink-2)}
 @media(min-width:600px){.app-pagehead{padding:24px 0 40px}}
+/* Titel im Kopf (data-kopf-titel-sofort am Seitenkopf): Am Telefon steht der Seitentitel sofort oben neben dem
+   Zeichen, damit darunter mehr ins Bild passt. Die h1 bleibt für Vorleser und die Gliederung, nur nicht im Bild. */
+@media(max-width:599.98px){
+  .app-pagehead[data-kopf-titel-sofort]{padding-bottom:var(--space-3)}
+  .app-pagehead[data-kopf-titel-sofort] .app-title{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+  body:has(.app-pagehead[data-kopf-titel-sofort]) .app-head__title{opacity:1;transform:none}
+}
 
 .app-stack{display:grid;gap:var(--gap,40px);align-content:start}
 .app-section{display:grid;gap:18px;align-content:start}

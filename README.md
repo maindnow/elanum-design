@@ -202,7 +202,8 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 
 **Resonanzrad** · `components/resonanzrad/` · `window.ElanumResonanzrad`
 
-- `mount(root, { heading })` baut das Rad in `root` und gibt `{ select(i), parts }` zurück. `heading` ist `'h2'` (Standard) oder `'h3'`.
+- `mount(root, { heading, select })` baut das Rad in `root` und gibt `{ select(i), open(), close(), parts }` zurück. `heading` ist `'h2'` (Standard) oder `'h3'` und gilt für den Titel der Liste. Beim Start ist nichts gewählt; `select` (id oder Zahl) wählt ein Element vor. `select(i)` wählt nur, `open()` öffnet das Blatt zum gewählten Element. Das Rad steht, das Detail öffnet sich als `dialog` (Telefon von unten, ab 600 px in der Mitte).
+- Am Telefon richtet sich das Rad nach der Höhe des Fensters. Eine Seite mit längerem Kopf setzt `--rad-rest` an der Hülle des Rads (Vorgabe 24,75 rem): die Höhe von allem, was neben dem Rad ins Bild muss.
 - `mini(root, { done, focus, label })` zeichnet ein kleines Rad für Karten (ohne Schrift, ohne Bedienung) und gibt `{ done, total }` zurück. `done` ist die Liste der ausgefüllten Element-ids, `focus` das Element, das als Nächstes wartet: sein Stück hebt sich ab und glüht.
 - `groups`, `items`, `icons`, `iconSvg(id)`: Bereiche, Elemente und ihre Icons.
 
@@ -210,7 +211,8 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 <div data-anim="resonanzrad"><div data-resonanzrad></div></div>
 <script>
   const rad = ElanumResonanzrad.mount(document.querySelector('[data-resonanzrad]'), { heading: 'h2' });
-  rad.select(4);
+  rad.select(4);   /* wählt nur */
+  rad.open();      /* öffnet das Blatt zum gewählten Element */
 </script>
 ```
 

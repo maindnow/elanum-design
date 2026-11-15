@@ -200,7 +200,7 @@
        erscheinen sie am Ende der Erklärung, sonst sind sie sofort da. */
     if (steps) {
       tl.from(parts.reader, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 7.6)
-        .from([parts.nav, parts.list], { opacity: 0, y: M.y, duration: 0.6, stagger: 0.1, clearProps: CLEAR }, 7.7);
+        .from([parts.nav, parts.list].filter(Boolean), { opacity: 0, y: M.y, duration: 0.6, stagger: 0.1, clearProps: CLEAR }, 7.7);
     }
     tl.call(function () { rad.classList.remove('is-entering'); restore(); });
     return tl;

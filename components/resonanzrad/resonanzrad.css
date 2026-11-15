@@ -70,7 +70,7 @@
 /* Liste: Namen, Status, Auswahl. Sie ist die Tastatur-Bedienung des Rads. */
 .rad__list{display:grid;gap:32px}
 .rad__group{display:grid;gap:12px}
-.rad__items{display:grid;gap:6px;container-type:inline-size}
+.rad__items{display:grid;gap:6px}
 .rad__item{display:grid;grid-template-columns:18px 24px minmax(0,1fr) auto;align-items:center;gap:14px;min-height:52px;padding:10px 16px;border:0;border-radius:var(--radius-control);background:transparent;text-align:left;font:var(--type-label);transition:background var(--motion-ui) var(--ease-out),box-shadow var(--motion-ui) var(--ease-out)}
 .rad__item .icon{color:var(--tone)}
 .rad__item-name{font-weight:600}
@@ -83,12 +83,6 @@
 .rad__item[aria-selected=true]{background:var(--tint);box-shadow:var(--raised-sm)}
 @media(hover:hover) and (pointer:fine){.rad__item:hover{background:var(--tint)}}
 .rad__item:active{background:var(--tint);transform:scale(.985);transition-duration:var(--motion-press)}
-/* Schmale Liste: Der Stand steht unter dem Namen. So berühren sich Name und Stand nie,
-   auch nicht bei langen Namen oder grösserer Schrift (die Grenze wächst mit, rem). */
-@container (max-width:20.5rem){
-  .rad__item{grid-template-columns:18px 24px minmax(0,1fr);row-gap:2px}
-  .rad__item-state{grid-column:3;justify-self:start}
-  .rad__fill-cta{margin:-4px 0 -4px -10px}
 }
 
 @media(min-width:900px){
@@ -102,6 +96,127 @@
   .rad{grid-template-columns:minmax(0,520px) minmax(0,1fr)}
 }
 
+/* ============================================================
+   Karte und Blatt (4.13, wie in der App seit 15.11.2026)
+   Das Rad steht. Unter dem Rad steht das gewählte Element, das
+   Detail öffnet sich als Blatt. Die Klasse .rad--blatt setzt das
+   Skript. Die Regeln davor (.rad__nav, .rad__current, .rad__swatch,
+   .rad__legend, .rad__result) bleiben für die frühere Form gültig.
+   Abstände auf der Skala 0,5 / 1 / 1,5 / 2,5 rem.
+   ============================================================ */
+.rad--blatt{gap:var(--space-10)}
+.rad--blatt .rad__reader{max-width:none;min-width:0}
+
+/* ---------- Das gewählte Element ---------- */
+.rad-karte{display:grid;justify-items:center;justify-self:center;width:100%;max-width:32.5rem;padding:var(--space-4) var(--space-4) var(--space-6);border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
+/* Feste Höhen: Pfeile und Knopf stehen bei jedem Element am selben Ort. */
+.rad-karte__kopf{display:grid;grid-template-columns:var(--target) minmax(0,1fr) var(--target);align-items:center;gap:var(--space-2);width:100%;height:var(--target)}
+.rad-karte__pfeil{display:grid;place-items:center;width:var(--target);height:var(--target);padding:0;border:0;border-radius:50%;background:transparent;color:var(--ink);transition:background var(--motion-ui) var(--ease-out),transform var(--motion-ui) var(--ease-out)}
+.rad-karte__pfeil .icon{width:1.375rem;height:1.375rem}
+@media(hover:hover) and (pointer:fine){.rad-karte__pfeil:hover{background:var(--canvas)}}
+.rad-karte__pfeil:active{background:var(--canvas);transform:scale(.94);transition-duration:var(--motion-press)}
+.rad-karte__name{display:flex;align-items:center;justify-content:center;gap:var(--space-2);min-width:0;font:var(--type-label);color:var(--ink-2)}
+.rad-karte__name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rad-karte__punkt{flex:none;width:.625rem;height:.625rem;border-radius:50%;background:var(--tone,currentColor)}
+.rad-karte__wort{display:flex;align-items:center;justify-content:center;height:2.3em;margin:var(--space-2) var(--space-2) 0;font:var(--type-title);letter-spacing:-.015em;color:var(--ink);text-align:center;text-wrap:balance}
+/* Vier Zeilen fest, der ganze Text steht im Blatt. */
+.rad-karte__satz{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;line-clamp:4;overflow:hidden;max-width:30ch;height:6.4em;margin-top:var(--space-2);font:var(--type-body);color:var(--ink-2);text-align:center;text-wrap:pretty}
+/* Ohne Auswahl trägt die Karte den Hinweis in ganzer Länge. */
+.rad-karte--leer .rad-karte__satz{display:block;height:auto}
+.rad-karte__knopf{width:calc(100% - var(--space-4));margin-top:var(--space-6)}
+
+/* ---------- Liste ----------
+   Ruhigere Zeilen: Das Zeichen in der Bereichsfarbe genügt, offene Elemente erkennt man am Wort
+   «+ Ausfüllen». Der Name behält sein längstes Wort, ein langer Stand bricht ausgeglichen um. */
+.rad--blatt .rad__overview{gap:var(--space-6);margin-top:var(--space-6)}
+.rad-liste-titel{font:var(--type-heading);color:var(--ink)}
+.rad--blatt .rad__item{grid-template-columns:24px minmax(auto,1fr) auto}
+.rad--blatt .rad__item-state{white-space:normal;text-align:end;text-wrap:balance}
+.rad--blatt .rad__fill-cta{white-space:nowrap}
+.rad--blatt .rad__item[aria-current=true]{background:var(--tint);box-shadow:var(--raised-sm)}
+.rad--blatt .rad__group{align-content:start}
+/* Sehr schmale Liste oder grosse Schrift (unter 16,5 rem): Der Stand steht unter dem Namen, damit die Zeile
+   nie breiter wird als die Liste. Bei normaler Schrift greift das erst unter 264 px. */
+.rad--blatt .rad__items{container-type:inline-size}
+@container (max-width:16.5rem){
+  .rad--blatt .rad__item{grid-template-columns:24px minmax(0,1fr);row-gap:2px}
+  .rad--blatt .rad__item-state{grid-column:2;justify-self:start;text-align:start}
+  .rad--blatt .rad__fill-cta{margin:-4px 0 -4px -10px}
+}
+
+@media(min-width:900px){
+  /* Derselbe Aufbau am Computer: Rad links, Karte und Liste rechts. */
+  .rad--blatt .rad__stage{grid-row:1 / span 2}
+  .rad--blatt .rad-karte,.rad--blatt .rad__overview{grid-column:2}
+}
+/* Ab 1024 px bleibt das Rad beim Lesen der Liste stehen, wenn das Fenster hoch genug ist. */
+@media(min-width:1024px) and (min-height:44rem){
+  .rad--blatt .rad__stage{align-self:stretch;align-content:start}
+  .rad--blatt .rad__wheel{position:sticky;top:calc(var(--app-head,0px) + var(--space-6))}
+}
+
+/* ---------- Am Telefon passt alles ins Bild ----------
+   Das Rad richtet sich nach der Höhe des Fensters: Was Kopf, Element, Abstände und die Leiste unten
+   brauchen (--rad-rest, Vorgabe 24,75 rem wie in der App), geht ab, der Rest gehört dem Rad, mindestens
+   10 rem. Eine Seite mit längerem Kopf setzt --rad-rest an ihrer Hülle. Das gewählte Element steht
+   ohne Rahmen direkt auf dem Grund, die Pfeile links und rechts neben Name und Wort. Der Satz entfällt,
+   er steht im Blatt. */
+@media(max-width:599.98px){
+  .rad--blatt{gap:var(--space-6)}
+  .rad--blatt .rad__wheel{width:clamp(10rem,calc(100dvh - var(--rad-rest,24.75rem)),100%)}
+  .rad--blatt .rad-karte{grid-template-columns:var(--target) minmax(0,1fr) var(--target);column-gap:var(--space-2);align-items:center;padding:0;border-radius:0;background:none;box-shadow:none}
+  .rad--blatt .rad-karte__kopf{display:contents}
+  .rad--blatt .rad-karte__pfeil{grid-row:1 / span 2;align-self:center}
+  .rad--blatt .rad-karte__pfeil:first-child{grid-column:1}
+  .rad--blatt .rad-karte__pfeil:last-child{grid-column:3}
+  .rad--blatt .rad-karte__name{grid-column:2;grid-row:1}
+  .rad--blatt .rad-karte__wort{grid-column:2;grid-row:2;height:2.2em;margin:var(--space-1) 0 0;font-size:1.75rem}
+  .rad--blatt .rad-karte:not(.rad-karte--leer) .rad-karte__satz{display:none}
+  .rad--blatt .rad-karte--leer .rad-karte__satz{grid-column:1 / -1}
+  .rad--blatt .rad-karte__knopf{grid-column:1 / -1;width:100%;margin-top:var(--space-4)}
+}
+
+/* ---------- Blatt ----------
+   Telefon: von unten, mit Griff. Ab 600 px in der Mitte. Immer mit Schliessen-Knopf und Esc. */
+.rad-blatt{position:fixed;inset:auto 0 0;width:100%;max-width:none;max-height:92dvh;margin:0;padding:0 0 env(safe-area-inset-bottom,0px);border:0;
+  border-radius:var(--radius-surface) var(--radius-surface) 0 0;background:var(--paper);color:var(--ink);box-shadow:var(--sheet-shadow);overflow-y:auto;overscroll-behavior:contain}
+.rad-blatt::backdrop{background:color-mix(in srgb,var(--ink) 25%,transparent)}
+.rad-blatt[open]{animation:rad-blatt-auf var(--motion-enter) var(--ease-out)}
+.rad-blatt[open]::backdrop{animation:rad-blatt-grund var(--motion-enter) var(--ease-out)}
+@keyframes rad-blatt-auf{from{transform:translateY(2.5rem);opacity:0}}
+@keyframes rad-blatt-grund{from{opacity:0}}
+/* Was kommt, geht auch: Schliessen läuft denselben Weg zurück, in zwei Dritteln der Zeit. */
+@keyframes rad-blatt-zu{from{transform:translateY(2.5rem);opacity:0}}
+@keyframes rad-blatt-grund-zu{from{opacity:0}}
+.rad-blatt.is-schliesst{animation:rad-blatt-zu calc(var(--motion-enter) * 2 / 3) var(--ease-out) reverse both}
+.rad-blatt.is-schliesst::backdrop{animation:rad-blatt-grund-zu calc(var(--motion-enter) * 2 / 3) var(--ease-out) reverse both}
+.rad-blatt__inhalt{min-width:0;padding:var(--space-3) var(--space-6) var(--space-10);overflow-x:clip}
+.rad-blatt__griff{width:44px;height:5px;margin:0 auto var(--space-2);border-radius:var(--radius-round);background:var(--line)}
+.rad-blatt__kopf{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);min-height:var(--target);margin-bottom:var(--space-4)}
+.rad-blatt__name{justify-content:flex-start}
+.rad-blatt__zu{display:grid;place-items:center;flex:none;width:48px;height:48px;margin-right:calc(-1 * var(--space-3));padding:0;border:0;border-radius:50%;background:transparent;color:var(--ink);transition:background var(--motion-ui) var(--ease-out),transform var(--motion-ui) var(--ease-out)}
+@media(hover:hover) and (pointer:fine){.rad-blatt__zu:hover{background:var(--canvas)}}
+.rad-blatt__zu:active{background:var(--canvas);transform:scale(.94);transition-duration:var(--motion-press)}
+@media(min-width:600px){
+  .rad-blatt{inset:0;width:min(100% - 3rem,44rem);max-height:86dvh;margin:auto;padding:0;border-radius:var(--radius-surface);box-shadow:var(--raised),var(--float-shadow)}
+  .rad-blatt__griff{display:none}
+  .rad-blatt__inhalt{padding:var(--space-6) var(--space-10) var(--space-10)}
+}
+body[data-motion=off] .rad-blatt[open],body[data-motion=off] .rad-blatt[open]::backdrop{animation:none}
+
+/* ---------- Detail im Blatt: Name klein, Wort gross, Fachzeile, Kernsatz, Text ---------- */
+.rad-detail-kopf{margin-bottom:var(--space-6)}
+.rad-detail-titel{font:var(--type-label);color:var(--ink-2)}
+.rad-detail-ergebnis{margin-top:var(--space-1);font:var(--type-title);letter-spacing:-.015em;color:var(--ink);text-wrap:balance}
+.rad-detail-fach{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-6);margin:var(--space-3) 0 0;font:var(--type-label)}
+.rad-detail-fach div{display:flex;gap:var(--space-2);min-width:0}
+.rad-detail-fach dt{color:var(--ink-2)}
+.rad-detail-fach dd{margin:0;font-weight:600;color:var(--ink)}
+.rad-detail-kern{font:var(--type-heading);font-weight:500;color:var(--ink)}
+.rad-detail .rad__text+.rad__text{margin-top:var(--space-4)}
+.rad-detail-einleitung{max-width:var(--measure);margin-bottom:var(--space-4)}
+.rad-detail .rad__open{margin-top:var(--space-6)}
+
 /* Kleines Rad für Karten (ElanumResonanzrad.mini): ohne Schrift, ohne Bedienung */
 .rad-mini{display:block;width:100%;height:auto;aspect-ratio:1;filter:var(--relief-disc-sm)}
 /* Das Stück, das als Nächstes wartet (opts.focus), hebt sich ab und glüht ruhig */
@@ -111,8 +226,11 @@ body[data-motion=off] .rad-mini__face{animation-play-state:paused}
 
 /* Kontrastmodus des Systems: Auswahl in der Auswahlfarbe, «ausgefüllt» als volle Scheibe. */
 @media(forced-colors:active){
-  .rad__item[aria-selected=true]{forced-color-adjust:none;--ink:HighlightText;--ink-2:HighlightText;--tone:HighlightText;background:Highlight;color:HighlightText;box-shadow:none}
+  .rad__item:is([aria-selected=true],[aria-current=true]){forced-color-adjust:none;--ink:HighlightText;--ink-2:HighlightText;--tone:HighlightText;background:Highlight;color:HighlightText;box-shadow:none}
   .rad__swatch.is-done{forced-color-adjust:none;background:CanvasText}
   .rad__item[aria-selected=true] .rad__swatch.is-done{background:HighlightText}
-  :where(.rad__result){outline:1px solid CanvasText;outline-offset:-1px}
+  :where(.rad__result,.rad-karte){outline:1px solid CanvasText;outline-offset:-1px}
+  .rad-blatt{border:1px solid CanvasText}
+  .rad-blatt__griff{background:CanvasText}
+  .rad-karte__punkt{forced-color-adjust:none;background:CanvasText}
 }
