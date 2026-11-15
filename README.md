@@ -185,6 +185,17 @@ Die Dateien verweisen relativ aufeinander: `tokens.css` lädt die Schriften aus 
 
 Die Skripte der Bausteine stehen am Ende von `<body>`, die App montiert die Bausteine gleich beim Laden. `motion.js` liest das Markup einmal nach `document.fonts.ready`; was später erscheint, steht ohne Auftritt da, aber nie versteckt.
 
+### Seitenwechsel
+
+Den Übergang zwischen zwei Seiten liefert `components/app/app.css`: Navigation und Kopf bleiben stehen, der alte Inhalt blendet in 180 ms aus, der neue in 360 ms ein, der aktive Ort der Navigation gleitet zum neuen Ziel. Die App setzt keine eigenen `::view-transition`-Regeln daneben.
+
+`base.css` rollt Sprünge innerhalb einer Seite weich (`scroll-behavior: smooth`). Wechselt die App die Seite ohne neues Dokument, setzt sie für die Dauer des Wechsels das Attribut `data-seitenwechsel` auf `<html>` und entfernt es danach wieder. So steht die neue Seite sofort oben und fährt nicht von der alten Stelle herauf. In SvelteKit steht das in `onNavigate`:
+
+```js
+document.documentElement.setAttribute('data-seitenwechsel', '');
+navigation.complete.finally(() => requestAnimationFrame(() => document.documentElement.removeAttribute('data-seitenwechsel')));
+```
+
 ### Globale API
 
 Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit einem Bundler genügt ein Import ohne Namen, etwa `import '@elanum/design/components/resonanzrad/resonanzrad.js'`.
@@ -409,7 +420,7 @@ Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 
 ## Stand und Historie
 
-4.13 bringt die Regeln aus sieben Kits und Regelwerken und schliesst acht Lücken aus der Liste der App: Die Schrift steht in rem und wächst mit, Titel brechen ausgeglichen um, jedes Bedienelement ist auf 44 px treffbar und antwortet auf Druck, Eingabefelder tragen eine Kante mit 3,6:1, Fokus, Ebenen und Abstände haben Namen, und ELANUM folgt den Einstellungen des Systems (Kontrastmodus, mehr Kontrast, weniger Durchsicht). Neu sind `.button--compact`, `.button--danger`, `tokens.json` und die Messung im Browser (`tools/regel-messung.js`). Alles dazu in [DESIGN-NOTES.md](DESIGN-NOTES.md), Abschnitt «Reife (4.13)».
+4.13 bringt die Regeln aus sieben Kits und Regelwerken, übernimmt den freigegebenen Seitenwechsel der App (kein Rollen beim Wechsel, `html[data-seitenwechsel]`) und schliesst acht Lücken aus der Liste der App: Die Schrift steht in rem und wächst mit, Titel brechen ausgeglichen um, jedes Bedienelement ist auf 44 px treffbar und antwortet auf Druck, Eingabefelder tragen eine Kante mit 3,6:1, Fokus, Ebenen und Abstände haben Namen, und ELANUM folgt den Einstellungen des Systems (Kontrastmodus, mehr Kontrast, weniger Durchsicht). Neu sind `.button--compact`, `.button--danger`, `tokens.json` und die Messung im Browser (`tools/regel-messung.js`). Alles dazu in [DESIGN-NOTES.md](DESIGN-NOTES.md), Abschnitt «Reife (4.13)».
 
 4.12 gibt der Bewegung ein Vokabular (zwei Kurven, fünf Dauern), begrenzt die Dauerschleifen auf einen Ort im Atemtakt je Screen, lässt Sheet und Quellenkarte mit Übergang schliessen, bringt den Button mit «läuft» und «bestätigt» (`assets/button.js`) und gibt jedem Wert einen Namen: Farben, Schatten und Radien stehen nur noch in `tokens.css`, geprüft von `tools/token-check.js`. In der App steht der Seitentitel in der Stufe Überschrift. Begründung und offene Punkte in `DESIGN-NOTES.md`, „Feinschliff (4.12)“. 4.11 bringt den Baustein Fliesstext unter `components/fliesstext/`: Aussagen mit ihrer Quelle am Satzende und der Quellenkarte „Woher kommt diese Aussage?“, als Stimme für dein erstes Muster und leise in Karten. Im Atlas im Kapitel Sprache, in der App auf Heute (ersetzt dort die Chips unter dem Text). Der Element-Chip liegt jetzt in `base.css`. 4.10 zeigt ELANUM als App: neuer Baustein App-Rahmen (Navigation in drei Formen, Kopf, Sheet, Hauptfläche in weichem Licht, Tagesbogen, Frage zum Umdrehen, Muster der Kosmen), acht Screens als echte, responsive Seiten auf Grundlage der heutigen App, im Atlas das Kapitel „In der App“ mit Gerätevorschau. Das Zeichen steht als Marke überall in Spektrum, in der App mit Lichtlauf und Zeichenaufbau. Dazu `ElanumResonanzrad.mini()` und eine Korrektur der Verläufe der Bereiche, die leere Farbstopps zeigten. 4.9 lässt das ELANUM-Zeichen sich bewegen. Seine Form steht, nur Licht und Farbe bewegen sich: Zeichenaufbau (einmal) und Lichtlauf (dauernd), gross wie klein. Neuer Baustein `components/zeichen/`, zwei neue Begriffe im Glossar. 4.8 benennt den Bereich Grundtöne in Sterne & Ursprung um und kürzt Resonanz auf den Satz „Es schwingt zu dir, zu deinem Partner oder deinem Umfeld.“ 4.7 fasst den Begriff Resonanz neu: Es schwingt zu dir, zu deinem Partner oder deinem Umfeld. 4.6 benennt die drei Phasen als Kosmen neu: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Umfeld und Beziehungsraum gehören jetzt zum Resonanzkosmos. 4.5 baut auf dem freigegebenen Stand 4.4 (`abb9939`) auf. Das Resonanzrad stammt aus dem persönlichen Rad im Repo-Stand `8995945` und ist überarbeitet. Die Git-Historie bleibt erhalten; ein Push auf GitHub ist kein Deployment. Für statisches Hosting das ganze Repository mit `index.html` als Einstieg bereitstellen.
 

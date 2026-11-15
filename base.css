@@ -7,6 +7,10 @@
 *,*::before,*::after{box-sizing:border-box}
 /* ELANUM ist hell. color-scheme sagt es dem Browser: Felder, Rollbalken und Datumswahl bleiben hell. */
 html{background:var(--canvas);color-scheme:light;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+/* Weich rollt nur der Sprung innerhalb einer Seite. Wechselt eine App die Seite ohne neues Dokument,
+   setzt sie für die Dauer des Wechsels data-seitenwechsel auf <html>: Die neue Seite steht sofort oben,
+   ohne Fahrt von der alten Stelle. */
+html[data-seitenwechsel]{scroll-behavior:auto}
 body{margin:0;background:var(--canvas);color:var(--ink);font:var(--type-body);-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
 h1,h2,h3,h4,p,figure,blockquote,dl,dd,ol,ul{margin:0}
 ol,ul{padding:0;list-style:none}

@@ -89,10 +89,10 @@
 .app-me{display:flex;align-items:center;justify-content:center;gap:12px;min-height:60px;padding:8px;border-radius:var(--radius-button);text-decoration:none;font:var(--type-label);font-weight:600;color:var(--ink);transition:background var(--motion-ui) var(--ease-out)}
 /* Unter 1024 px steht nur der Kreis. Der Name bleibt für Vorleser da (nicht display:none). */
 .app-me__name{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.app-me small{font:var(--type-label);font-weight:500;color:var(--ink-2)}
 @media(min-width:1024px){
   .app-me{justify-content:flex-start;padding:8px 14px 8px 10px}
   .app-me__name{position:static;width:auto;height:auto;overflow:visible;clip:auto;white-space:normal;display:grid}
-  .app-me small{font:var(--type-label);font-weight:500;color:var(--ink-2)}
 }
 @media(hover:hover) and (pointer:fine){.app-me:hover{background:var(--paper)}}
 /* Sehr schmal (unter 360 px): Leiste rückt zusammen, Namen bleiben 15 px */
@@ -394,8 +394,11 @@ body.app{background:
 }
 body[data-motion=off] .app-nav__item,body[data-motion=off] .app-nav__item *,body[data-motion=off] .app-nav__item::after,body[data-motion=off] .app-nav__icon::after{animation-play-state:paused!important}
 
-/* Wechsel zwischen Screens: Navigation und Kopf bleiben stehen, der Inhalt
-   steigt weich auf, der aktive Ort gleitet zum neuen Ziel. */
+/* Wechsel zwischen Screens: Navigation und Kopf bleiben stehen. Der alte Inhalt
+   blendet in 180 ms aus, der neue in 360 ms ein, der aktive Ort gleitet zum neuen
+   Ziel. Nichts fährt seitlich, nichts rollt: Die neue Seite steht oben
+   (base.css, data-seitenwechsel). Der getippte Ort ist sofort markiert. Die App
+   übernimmt diese Regeln und setzt keine eigenen daneben. */
 @view-transition{navigation:auto}
 .app-nav{view-transition-name:app-nav}
 .app-head{view-transition-name:app-head}
