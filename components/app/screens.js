@@ -200,7 +200,7 @@
       var on = resonateOn == null ? 'dein Profil' : '«' + p.prompts[resonateOn][0] + '»';
       moment.innerHTML =
         '<div class="app-hero app-hero--dark resonate-moment">' +
-          '<div class="relationship-frame" data-beziehung data-dark role="img" aria-label="Du und ' + esc(p.name) + ', zwei eigene Kreise, die Verbindung entsteht."><svg viewBox="0 0 720 400" aria-hidden="true"></svg>' +
+          '<div class="relationship-frame" data-beziehung data-dark data-skala="aus" role="img" aria-label="Du und ' + esc(p.name) + ', zwei eigene Kreise, die Verbindung entsteht."><svg viewBox="0 0 720 400" aria-hidden="true"></svg>' +
           '<div class="relationship-label" data-person="a">Du</div><div class="relationship-label" data-person="b">' + esc(p.name) + '</div></div>' +
           '<h2 class="app-hero__voice" id="momentTitle" tabindex="-1">Deine Resonanz ist bei ' + esc(p.name) + '.</h2>' +
           '<p class="app-card__text">' + esc(p.name) + ' sieht, worauf du reagiert hast: ' + esc(on) + '. Wenn es auch bei ' + esc(p.name) + ' schwingt, öffnet sich ein Chat.</p>' +

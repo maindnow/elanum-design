@@ -213,6 +213,8 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 - `mount(el)`, `mountAll(root)`: zeichnet jeden Rahmen mit `data-beziehung`. Startwerte aus `data-proximity`, `data-resonance`, `data-openness`, `data-dark` für dunklen Grund.
 - `set(el, { proximity, resonance, openness }, immediate)`: Nähe, Resonanz und Freiraum, je 0 bis 100.
 - `setMode(el, 'spectrum' | 'ink')`, `setPaused(bool)`, `isPaused()`, `onPhase(fn)` für die Atmung, `redraw()`.
+- `words({ proximity, resonance, openness })` gibt die Stufen als Wörter zurück (`nah`, `spürbar`, `offen`), `SCALE` die Stufen mit ihren Grenzen.
+- Unter dem Bild steht von selbst die Skala mit allen Stufen, die geltende ist hervorgehoben. `data-skala="aus"` lässt sie weg.
 
 ```html
 <div class="relationship-frame" data-beziehung data-anim="beziehung" role="img" aria-label="Zwei runde, offene Konturen, verbunden durch eine kurze gebogene Linie.">

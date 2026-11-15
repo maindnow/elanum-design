@@ -84,11 +84,7 @@ let labMode = 'spectrum';
 function updateLab() {
   const value = id => +$('#' + id).value;
   const state = { proximity: value('proximity'), resonance: value('resonance'), openness: value('openness') };
-  const words = {
-    proximity: state.proximity < 34 ? 'weit' : state.proximity < 75 ? 'nah' : 'sehr nah',
-    resonance: state.resonance === 0 ? 'keine' : state.resonance < 40 ? 'leise' : state.resonance < 80 ? 'spürbar' : 'stark',
-    openness: state.openness < 30 ? 'klein' : state.openness < 60 ? 'offen' : 'weit offen'
-  };
+  const words = window.ElanumBeziehung.words(state);
   Object.entries(words).forEach(([key, text]) => { $('#' + key + 'Value').textContent = text; $('#' + key).setAttribute('aria-valuetext', text); });
   $('#labReading').textContent = (state.proximity < 34 ? 'Viel eigener Raum' : state.proximity < 75 ? 'Nah beieinander' : 'Grosse Nähe, eigener Raum') + ' · ' +
     (state.resonance === 0 ? 'keine aktive Verbindung' : state.resonance < 40 ? 'leise Resonanz' : state.resonance < 80 ? 'spürbare Resonanz' : 'starke Resonanz');
