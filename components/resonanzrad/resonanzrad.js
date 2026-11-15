@@ -285,22 +285,13 @@
     if (window.ResizeObserver) new ResizeObserver(layoutIcons).observe(wheel);
     layoutIcons();
 
-    /* ---------- Auswahl und Drehung ---------- */
-    var index = -1, rotation = 0, restTimer = 0;
-    function applyRotation(animate) {
-      rotors.forEach(function (r) { r.classList.toggle('is-still', !animate); r.style.transform = 'rotate(' + rotation + 'deg)'; });
-      upright.forEach(function (u) { u.classList.toggle('is-still', !animate); u.style.transform = 'rotate(' + (-rotation) + 'deg)'; });
-      tracks.forEach(function (t) {
-        var onScreen = norm(t.center + rotation);
-        t.path.setAttribute('href', '#' + uid + '-t-' + t.id + (onScreen > 90 && onScreen < 270 ? '-flip' : ''));
-      });
-      clearTimeout(restTimer);
-      var off = norm(rotation + segAngle(index));
-      if (off > 0.01 && off < 359.99) { root.classList.add('is-turning'); return; }
-      if (animate) { root.classList.add('is-turning'); restTimer = setTimeout(function () { root.classList.remove('is-turning'); }, 380); }
-      else root.classList.remove('is-turning');
-    }
-    function targetFor(i) { var want = -segAngle(i); return want + Math.round((rotation - want) / 360) * 360; }
+    /* ---------- Auswahl ---------- */
+    /* Das Rad steht (Chris Beyeler 14.11.2026): Die Auswahl dreht nichts, sie hebt das Stück an seinem Platz. */
+    var index = -1;
+    tracks.forEach(function (t) {
+      var onScreen = norm(t.center);
+      t.path.setAttribute('href', '#' + uid + '-t-' + t.id + (onScreen > 90 && onScreen < 270 ? '-flip' : ''));
+    });
 
     function renderReader(item) {
       var g = GROUPS.filter(function (x) { return x.id === item.group; })[0];
@@ -332,6 +323,7 @@
       if (i !== index) {
         index = i;
         active.setAttribute('d', arcPath(CFG.activeRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
+        lift.setAttribute('d', sectorPath(a - half, a + half, CFG.segmentRadius));
         lift.style.fill = fill(item);
         /* Auswahlbogen in der Farbe seines Bereichs, nicht im Markenspektrum */
         root.style.setProperty('--arc', tone(item, 'tief'));
@@ -348,38 +340,13 @@
           reader.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.23,1,.32,1)' });
         }
       }
-      rotation = targetFor(i);
-      applyRotation(animate !== false && !reduced.matches);
     }
 
-    /* Ziehen dreht, Loslassen rastet ein; ein Tipp wählt das Stück. */
-    var drag = null;
-    function pointerAngle(e) { var r = svg.getBoundingClientRect(); return Math.atan2(e.clientX - (r.left + r.width / 2), -(e.clientY - (r.top + r.height / 2))) / RAD; }
-    wheel.addEventListener('pointerdown', function (e) {
-      if (e.button !== undefined && e.button !== 0) return;
-      drag = { last: pointerAngle(e), t: e.timeStamp, v: 0, moved: 0, target: e.target.closest ? e.target.closest('.rad__face') : null };
-      wheel.setPointerCapture(e.pointerId);
+    /* Ein Tipp wählt das Stück. Kein Ziehen, kein Drehen. */
+    wheel.addEventListener('click', function (e) {
+      var t = e.target.closest ? e.target.closest('.rad__face') : null;
+      if (t) select(Number(t.getAttribute('data-index')));
     });
-    wheel.addEventListener('pointermove', function (e) {
-      if (!drag) return;
-      var a = pointerAngle(e), d = a - drag.last;
-      if (d > 180) d -= 360; if (d < -180) d += 360;
-      drag.v = d / Math.max(1, e.timeStamp - drag.t); drag.last = a; drag.t = e.timeStamp; drag.moved += Math.abs(d);
-      if (drag.moved > 3) { rotation += d; applyRotation(false); }
-    });
-    function endDrag(e, cancelled) {
-      if (!drag) return;
-      var d = drag; drag = null;
-      if (wheel.hasPointerCapture && wheel.hasPointerCapture(e.pointerId)) wheel.releasePointerCapture(e.pointerId);
-      if (cancelled) { select(index); return; }
-      if (d.moved <= 3) { if (d.target) select(Number(d.target.getAttribute('data-index'))); return; }
-      var impulse = Math.abs(d.v) > 0.35 ? Math.sign(d.v) * Math.min(2, Math.round(Math.abs(d.v) * 3)) : 0;
-      var aim = rotation + impulse * CFG.segmentDeg, best = 0, bestDiff = Infinity;
-      ITEMS.forEach(function (_, i) { var want = -segAngle(i), t = want + Math.round((aim - want) / 360) * 360; if (Math.abs(t - aim) < bestDiff) { bestDiff = Math.abs(t - aim); best = i; } });
-      select(best);
-    }
-    wheel.addEventListener('pointerup', function (e) { endDrag(e, false); });
-    wheel.addEventListener('pointercancel', function (e) { endDrag(e, true); });
 
     list.addEventListener('click', function (e) {
       var t = e.target.closest('.rad__item'); if (!t) return;
@@ -399,7 +366,6 @@
     root.querySelectorAll('[data-nav]').forEach(function (b) {
       b.addEventListener('click', function () { select(index + (b.getAttribute('data-nav') === 'next' ? 1 : -1)); });
     });
-    reduced.addEventListener('change', function () { applyRotation(false); });
     select(0, false);
     root.classList.add('is-ready');
 
