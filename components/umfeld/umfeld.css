@@ -8,18 +8,21 @@
 .umfeld__contour.is-active{stroke-width:2.6}
 .umfeld__ring{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.8;transition:opacity var(--motion-ui) ease}
 .umfeld__ring.is-active{opacity:1}
-.umfeld__name{position:absolute;transform:translate(-50%,-50%);font:var(--type-heading);white-space:nowrap;pointer-events:none}
+.umfeld__name{position:absolute;translate:-50% -50%;font:var(--type-heading);white-space:nowrap;pointer-events:none}
+/* Menschen sind Knöpfe über dem ganzen Kreis, per left/top auf den Kreis gesetzt (kein translate: GSAP bewegt sie im Auftritt über transform) */
+.umfeld__pick{translate:none;display:grid;place-items:center;min-width:44px;min-height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent}
 .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
 .umfeld__name.is-active{color:var(--sterne-tief)}
 
-.umfeld__side{display:grid;gap:32px;align-content:start}
-.umfeld__list{display:grid;gap:6px}
-.umfeld__person{display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;min-height:52px;padding:10px 16px;border:0;border-radius:var(--radius-control);background:transparent;text-align:left;font:var(--type-label);transition:background var(--motion-ui) ease,box-shadow var(--motion-ui) ease}
-.umfeld__person-name{font-weight:600}
-.umfeld__person-state{color:var(--ink-2)}
-.umfeld__person[aria-pressed=true]{background:var(--paper);box-shadow:var(--raised-sm)}
-@media(hover:hover) and (pointer:fine){.umfeld__person:hover{background:var(--paper)}}
-.umfeld__detail{display:grid;gap:14px;justify-items:start}
+.umfeld__card{position:relative;display:grid;gap:20px;min-width:0;padding:24px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
+.umfeld__nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.umfeld__count{font:var(--type-label);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.umfeld__slides{position:relative;display:flex;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;margin:-8px}
+.umfeld__slides::-webkit-scrollbar{display:none}
+.umfeld__slide{flex:0 0 100%;box-sizing:border-box;min-width:0;padding:8px;scroll-snap-align:start;scroll-snap-stop:always;display:grid;gap:14px;justify-items:start;align-content:start}
+.umfeld__slides.is-dragging{scroll-snap-type:none;scroll-behavior:auto;user-select:none}
+@media(hover:hover) and (pointer:fine){.umfeld__slides{cursor:grab}.umfeld__slides.is-dragging{cursor:grabbing}}
+.umfeld__live{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .umfeld__state{color:var(--sterne-tief)}
 /* Hochformat für schmale Schirme: Namen in echten 15 px, passend in ihren Kreis */
 .umfeld__stage[data-layout=tall]{width:min(100%,440px)}

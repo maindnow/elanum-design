@@ -5,13 +5,16 @@
    die Resonanz (wie im Beziehungsraum), keine Linie führt zur Mitte. Ohne
    aktive Resonanz bleibt nur der Abstand. Der Freiraum fehlt, das Umfeld
    kennt den Wert nicht.
-   Die Liste darunter ist die Bedienung; das Bild zeigt dasselbe.
+   Bedienung wie beim Resonanzrad: Die Kreise im Bild sind Knöpfe. Eine Karte
+   zeigt den gewählten Menschen, mit Pfeilen und zum Ziehen (Finger oder Maus),
+   Kreis und Karte bleiben im Gleichschritt. Eine Liste gibt es nicht.
 
    Mobile-first: Unter 560 px Breite gilt ein Hochformat mit grösseren
    Kreisen, damit Namen in echten 15 px in ihren Kreis passen. Wird das
    Element breiter oder schmaler, baut sich das Bild neu auf.
 
    API: ElanumUmfeld.mount(root, { link: 'pfad/zum/beziehungsraum/', heading: 'h3' })
+        gibt { select(i), parts } zurück. select(i) wählt den Menschen i (läuft um).
    ============================================================ */
 (function () {
   'use strict';
@@ -39,18 +42,84 @@
     opts = opts || {};
     var uid = 'uf' + (++count), heading = opts.heading || 'h2', link = opts.link || '../beziehungsraum/';
     root.classList.add('umfeld');
+    var ARROW_PREV = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg>';
+    var ARROW_NEXT = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg>';
     root.innerHTML = '<div class="umfeld__stage"></div>' +
-      '<div class="umfeld__side"><ul class="umfeld__list" aria-label="Menschen in deinem Umfeld"></ul><div class="umfeld__detail" aria-live="polite"></div></div>';
-    var stage = root.querySelector('.umfeld__stage'), list = root.querySelector('.umfeld__list'), detail = root.querySelector('.umfeld__detail');
+      '<div class="umfeld__card" role="group" aria-roledescription="Karussell" aria-label="Menschen in deinem Umfeld">' +
+        '<div class="umfeld__nav">' +
+          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="prev" aria-label="Vorheriger Mensch">' + ARROW_PREV + '</button>' +
+          '<p class="umfeld__count" aria-hidden="true"></p>' +
+          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="next" aria-label="Nächster Mensch">' + ARROW_NEXT + '</button>' +
+        '</div>' +
+        '<div class="umfeld__slides"></div>' +
+        '<p class="umfeld__live" aria-live="polite"></p>' +
+      '</div>';
+    var stage = root.querySelector('.umfeld__stage'), card = root.querySelector('.umfeld__card'), slider = root.querySelector('.umfeld__slides');
+    var count_ = root.querySelector('.umfeld__count'), live = root.querySelector('.umfeld__live');
     var selected = 0, layoutName = '', api = { parts: {} };
+    var calm = function () { return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; };
 
-    var buttons = PEOPLE.map(function (p, i) {
-      var li = document.createElement('li');
-      li.innerHTML = '<button type="button" class="umfeld__person glow-edge" aria-pressed="false"><span class="umfeld__person-name">' + p.name + '</span><span class="umfeld__person-state">' + words(p) + '</span></button>';
-      list.appendChild(li);
-      li.firstChild.addEventListener('click', function () { select(i); });
-      return li.firstChild;
+    var slides = PEOPLE.map(function (p) {
+      var href = link + '?person=' + encodeURIComponent(p.name) + '&proximity=' + p.proximity + '&resonance=' + p.resonance;
+      var s = document.createElement('div');
+      s.className = 'umfeld__slide'; s.setAttribute('role', 'group'); s.setAttribute('aria-roledescription', 'Folie');
+      s.innerHTML = '<' + heading + ' class="t-title">Du &amp; ' + p.name + '</' + heading + '>' +
+        '<p class="umfeld__state t-label">' + words(p) + '</p><p class="secondary">' + p.note + '</p>' +
+        '<a class="button button--secondary glow-edge" href="' + href + '">Beziehungsraum öffnen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></svg></a>';
+      slider.appendChild(s);
+      return s;
     });
+    slides.forEach(function (s, i) { s.setAttribute('aria-label', (i + 1) + ' von ' + PEOPLE.length); });
+    card.querySelectorAll('[data-nav]').forEach(function (b) {
+      b.addEventListener('click', function () { select(selected + (b.getAttribute('data-nav') === 'next' ? 1 : -1)); });
+    });
+
+    /* Abstand von Slide zu Slide (Breite eines Slides, ohne Kartenrand). */
+    function pitch() { return slides[0].offsetWidth || slider.clientWidth; }
+    function slideTo(i, smooth) {
+      var left = i * pitch();
+      if (Math.abs(slider.scrollLeft - left) < 1) return;
+      slider.scrollTo({ left: left, behavior: smooth && !calm() ? 'smooth' : 'auto' });
+    }
+    /* Von Hand gescrollt: nach dem Einrasten den passenden Menschen wählen. */
+    var settleTimer = 0, dragging = false;
+    function settle() {
+      clearTimeout(settleTimer);
+      if (dragging) return;
+      var w = pitch(); if (!w) return;
+      var i = Math.max(0, Math.min(PEOPLE.length - 1, Math.round(slider.scrollLeft / w)));
+      if (i !== selected) select(i, true);
+    }
+    slider.addEventListener('scroll', function () { clearTimeout(settleTimer); settleTimer = setTimeout(settle, 140); });
+    slider.addEventListener('scrollend', settle);
+
+    /* Ziehen mit der Maus. Berührung scrollt von selbst. */
+    var drag = null, suppress = false;
+    slider.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      drag = { x: e.clientX, left: slider.scrollLeft, moved: 0 };
+    });
+    document.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      drag.moved = Math.max(drag.moved, Math.abs(dx));
+      if (!dragging && drag.moved > 6) { dragging = true; slider.classList.add('is-dragging'); }
+      if (dragging) slider.scrollLeft = drag.left - dx;
+    });
+    function release() {
+      if (!drag) return;
+      var was = dragging; drag = null; dragging = false;
+      slider.classList.remove('is-dragging');
+      if (was) {
+        suppress = true; setTimeout(function () { suppress = false; }, 0);
+        var i = Math.max(0, Math.min(PEOPLE.length - 1, Math.round(slider.scrollLeft / pitch())));
+        if (i !== selected) select(i); else slideTo(i, true);
+      }
+    }
+    document.addEventListener('pointerup', release);
+    document.addEventListener('pointercancel', release);
+    slider.addEventListener('click', function (e) { if (suppress) { e.preventDefault(); e.stopPropagation(); } }, true);
+    slider.addEventListener('dragstart', function (e) { e.preventDefault(); });
 
     /* Das Bild: aus einem Layout berechnet, bei Bedarf neu gezeichnet. */
     function draw(name) {
@@ -67,9 +136,26 @@
       discs.appendChild(el('circle', { cx: L.CX, cy: L.CY, r: L.ME - 5, fill: 'url(#' + uid + '-relief)', class: 'relief-disc' }));
       var me = el('circle', { cx: L.CX, cy: L.CY, r: L.ME, class: 'umfeld__contour umfeld__me', 'data-contour': '' });
       lines.appendChild(me);
+      /* Name im Bild („Ich“, ruht): eingemittet über `translate`. */
       var label = function (text, x, y, cls) {
         var s = document.createElement('span'); s.className = 'umfeld__name' + (cls ? ' ' + cls : ''); s.textContent = text;
         s.style.left = x / L.W * 100 + '%'; s.style.top = y / L.H * 100 + '%'; stage.appendChild(s); return s;
+      };
+      /* Mensch: Knopf über dem ganzen Kreis. Er sitzt über left/top und Grösse genau auf dem Kreis, ohne Verschiebung:
+         GSAP schreibt `translate` beim ersten Tween in `transform` um und verlöre die Einmittung. */
+      var pick = function (p, i, x, y) {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'umfeld__name umfeld__pick'; b.textContent = p.name;
+        b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', p.name + ', ' + words(p));
+        b.style.left = (x - L.R) / L.W * 100 + '%'; b.style.top = (y - L.R) / L.H * 100 + '%';
+        b.style.width = 2 * L.R / L.W * 100 + '%'; b.style.height = 2 * L.R / L.H * 100 + '%';
+        b.addEventListener('click', function () { select(i); });
+        b.addEventListener('keydown', function (e) {
+          var at = PEOPLE.indexOf(p), d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+          if (!d) return;
+          e.preventDefault(); select(at + d);
+          var q = api.parts.people[selected]; if (q) q.name.focus();
+        });
+        stage.appendChild(b); return b;
       };
       label('Ich', L.CX, L.CY, 'umfeld__name--me');
 
@@ -92,7 +178,7 @@
         discs.appendChild(disc);
         var contour = el('circle', { cx: x, cy: y, r: L.R, class: 'umfeld__contour', 'data-contour': '' });
         lines.appendChild(contour);
-        return { person: p, rings: ringList, disc: disc, contour: contour, name: label(p.name, x, y),
+        return { person: p, rings: ringList, disc: disc, contour: contour, name: pick(p, i, x, y),
           from: { x: L.CX + ux * L.edge, y: L.CY + uy * L.edge }, at: { x: x, y: y }, width: L.W };
       });
       api.parts = { svg: svg, me: me, people: people, width: L.W };
@@ -106,20 +192,27 @@
         q.name.classList.toggle('is-active', on);
         q.rings.forEach(function (r) { r.classList.toggle('is-active', on); });
       });
-      buttons.forEach(function (b, k) { b.setAttribute('aria-pressed', String(k === selected)); });
+      (api.parts.people || []).forEach(function (q, k) { q.name.setAttribute('aria-pressed', String(k === selected)); });
     }
-    function select(i) {
+    function select(i, fromScroll) {
+      i = ((i % PEOPLE.length) + PEOPLE.length) % PEOPLE.length;
+      var first = !api.ready;
       selected = i; mark();
       var p = PEOPLE[i];
-      var href = link + '?person=' + encodeURIComponent(p.name) + '&proximity=' + p.proximity + '&resonance=' + p.resonance;
-      detail.innerHTML = '<' + heading + ' class="t-title">Du &amp; ' + p.name + '</' + heading + '>' +
-        '<p class="umfeld__state t-label">' + words(p) + '</p><p class="secondary">' + p.note + '</p>' +
-        '<a class="button button--secondary glow-edge" href="' + href + '">Beziehungsraum öffnen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></svg></a>';
+      slides.forEach(function (s, k) {
+        var on = k === i;
+        if (on) { s.removeAttribute('inert'); s.removeAttribute('aria-hidden'); } else { s.setAttribute('inert', ''); s.setAttribute('aria-hidden', 'true'); }
+        s.querySelector('a').tabIndex = on ? 0 : -1;
+      });
+      count_.textContent = (i + 1) + ' / ' + PEOPLE.length;
+      if (!first) live.textContent = 'Du & ' + p.name + ', ' + words(p);
+      if (!fromScroll) slideTo(i, !first);
     }
-    var pick = function () { var w = stage.getBoundingClientRect().width || root.getBoundingClientRect().width; return w && w < 560 ? 'tall' : 'wide'; };
-    draw(pick());
+    var pickLayout = function () { var w = stage.getBoundingClientRect().width || root.getBoundingClientRect().width; return w && w < 560 ? 'tall' : 'wide'; };
+    draw(pickLayout());
     select(0);
-    if (window.ResizeObserver) new ResizeObserver(function () { var n = pick(); if (n !== layoutName) draw(n); }).observe(root);
+    api.ready = true;
+    if (window.ResizeObserver) new ResizeObserver(function () { var n = pickLayout(); if (n !== layoutName) draw(n); slideTo(selected, false); }).observe(root);
     api.select = select;
     root._umfeld = api;
     return api;

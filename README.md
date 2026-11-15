@@ -199,6 +199,7 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 **Umfeld** · `components/umfeld/`, dazu `beziehungsraum.css` · `window.ElanumUmfeld`
 
 - `mount(root, { link, heading })` zeichnet Ich und die Menschen darum und gibt `{ select(i), parts }` zurück. `link` führt zum Beziehungsraum, ergänzt um `?person=…&proximity=…&resonance=…`.
+- Bedienung: Die Kreise im Bild sind Knöpfe (Pfeiltasten wechseln den Menschen). Eine Karte `.umfeld__card` zeigt den gewählten Menschen, mit Pfeilen und Zähler wie beim Resonanzrad und zum Ziehen mit Finger oder Maus. Eine Liste gibt es nicht mehr.
 - `people`: die Menschen der Vorschau.
 
 ```html

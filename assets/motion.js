@@ -242,7 +242,8 @@
       var stage = el.querySelector('.umfeld__stage');
       /* Bis die Szene sichtbar wird, bleibt sie verborgen, statt kurz voll dazustehen
          und dann für den Auftritt wieder zu verschwinden. */
-      var veiled = [stage].concat(all('.umfeld__list, .umfeld__detail', el));
+      var card = el.querySelector('.umfeld__card');
+      var veiled = [stage, card].filter(Boolean);
       hideUntilVisible(veiled);
       finishers.push(function () { gsap.set(veiled, { clearProps: 'opacity' }); });
       whenVisible(stage, function () {
@@ -261,8 +262,7 @@
         });
         /* Die Linien um die Person blenden sanft ein, wo vorher die Verbindung gezeichnet wurde. */
         people.forEach(function (p, i) { if (p.rings.length) tl.from(p.rings, { opacity: 0, duration: 0.9, ease: M.ease.reveal, stagger: 0.15, clearProps: 'opacity' }, 1.4 + i * 0.15); });
-        tl.from(all('.umfeld__person', el), { opacity: 0, y: 16, duration: 0.5, stagger: 0.08, clearProps: CLEAR }, 1.2)
-          .from(el.querySelector('.umfeld__detail'), { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 1.6);
+        if (card) tl.from(card, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 1.4);
       }, 0.3);
     });
   }
