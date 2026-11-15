@@ -6,6 +6,8 @@ Zuerst [UEBERGABE.md](UEBERGABE.md) lesen: Stand, offene Punkte, Entscheide zur 
 
 Mergen darf nur Tris (Chris Beyeler, 15.11.2026). Weder Chris noch Claude mergen einen PR, auch nicht auf Zuruf. Jede Änderung geht als Entwurfs-PR an Tris, mit einem Abschnitt «Für Tris»: Aufgabe, nötige Inputs, offene Fragen.
 
+Commit ist nicht Merge: Auf dem eigenen Branch `claude/…` darf Claude alles, committen und pushen eingeschlossen. Von `main` lässt Claude die Finger: kein Merge, kein Push (Chris Beyeler, 15.11.2026).
+
 ## Befehle für Chris
 
 Chris testet lokal auf einem Mac (zsh). Jede Anleitung muss idiotensicher sein:
