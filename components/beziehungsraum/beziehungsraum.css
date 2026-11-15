@@ -13,7 +13,7 @@
 [data-dark] .relationship-label span:not([data-name]){color:#CBD9D6}
 [data-dark] [data-contour]{filter:drop-shadow(0 2px 1px #071D23AA)}
 [data-contour]{stroke-linejoin:round;opacity:.8}
-[data-field][data-on]{filter:drop-shadow(0 0 3px #9466DFAA)}
+[data-field]{transition:opacity var(--motion-ui) ease}
 /* Die drei Werte als Wort: Name leise oben, Wert kräftig darunter. */
 .relationship-scale{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:520px;margin:12px auto 16px;font:var(--type-label);text-align:center}
 .relationship-scale dt{color:var(--ink-2)}

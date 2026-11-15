@@ -2,11 +2,10 @@
    ELANUM Beziehungsraum
    Zwei Menschen, jeder Wert mit eigenem Zeichen:
    - Nähe ist der Abstand der zwei Personenkreise. Sie überlappen nie.
-   - Freiraum ist die helle Fläche um jede Person. Eine feine Linie zeigt,
-     wie gross sie höchstens wird. In der Mitte endet der eigene Platz dort,
-     wo der des anderen beginnt.
-   - Resonanz ist das Feld um beide: null bis drei leuchtende Linien, die
-     übrigen stehen gepunktet da.
+   - Freiraum ist die helle Fläche um jede Person. In der Mitte endet der
+     eigene Platz dort, wo der des anderen beginnt.
+   - Resonanz ist das Feld um beide: null bis drei Linien im Spektrum.
+   Das Bild zeigt nur, was gilt: keine Hilfslinien, kein Leuchten.
    Unter dem Bild stehen die drei Werte als Wort. Ohne: data-skala="aus".
    Eine Uhr bewegt alle Darstellungen gemeinsam: 3,4 s Raum geben, 4,4 s zur
    Ruhe kommen. Es atmet nur der Freiraum (höchstens 5 %) und das Leuchten.
@@ -35,7 +34,7 @@
   };
   var KEYS = ['proximity', 'resonance', 'openness'];
   /* Masse im SVG-Raum 720 × 400. */
-  var CY = 170, PERSON = 50, ROOM = [66, 112], ROOM_MAX = 118, FIELD = [132, 146, 160], GAP = [190, 10];
+  var CY = 170, PERSON = 50, ROOM = [66, 112], FIELD = [132, 146, 160], GAP = [190, 10];
   function level(key, value) {
     var steps = SCALE[key].steps, i = 0;
     while (i < steps.length - 1 && value >= steps[i][1]) i++;
@@ -85,7 +84,7 @@
   function mount(container) {
     if (container._beziehung) return container._beziehung;
     var svg = container.querySelector('svg'), dark = container.hasAttribute('data-dark');
-    var id = frames.length, ink = dark ? '#E8EEEA' : '#16363B', quiet = dark ? '#CBD9D6' : '#3D5055';
+    var id = frames.length, ink = dark ? '#E8EEEA' : '#16363B';
     var defs = svgEl('defs', {});
     var gradient = svgEl('linearGradient', { id: 'bz-gradient-' + id, gradientUnits: 'userSpaceOnUse', x1: 0, y1: CY, x2: 720, y2: CY });
     var colors = dark ? ['#B4A4FF', '#8DBBFF', '#D7B0F1', '#F4A5C7', '#F9B8CD'] : ['#6756D9', '#4D7FE8', '#9466DF', '#D85BA9', '#F0719A'];
@@ -105,10 +104,9 @@
     });
     var side = function (clip) {
       var g = svgEl('g', { 'clip-path': 'url(#' + clip + id + ')' });
-      var limit = svgEl('circle', { cy: CY, r: ROOM_MAX, fill: 'none', stroke: quiet, 'stroke-width': 1, opacity: dark ? .3 : .4, 'vector-effect': 'non-scaling-stroke', 'data-room-limit': '' });
       var room = svgEl('circle', { cy: CY, fill: dark ? '#DCE8E4' : '#16363B', opacity: dark ? .2 : .1, 'data-room': '' });
-      g.appendChild(limit); g.appendChild(room); svg.appendChild(g);
-      return { limit: limit, room: room };
+      g.appendChild(room); svg.appendChild(g);
+      return { room: room };
     };
     var roomA = side('bz-left-'), roomB = side('bz-right-');
     var disc = function () { var n = svgEl('circle', { cy: CY, r: PERSON, fill: 'url(#bz-relief-' + id + ')', class: 'relief-disc' }); svg.appendChild(n); return n; };
@@ -122,7 +120,7 @@
     };
     var frame = {
       container: container, svg: svg, gradient: gradient, field: field, roomA: roomA, roomB: roomB, discA: discA, discB: discB, a: a, b: b,
-      ink: ink, quiet: quiet, id: id, mode: 'spectrum', visible: false, target: Object.assign({}, start), current: Object.assign({}, start),
+      ink: ink, id: id, mode: 'spectrum', visible: false, target: Object.assign({}, start), current: Object.assign({}, start),
       labelA: container.querySelector('[data-person=a]'), labelB: container.querySelector('[data-person=b]'), width: 0, wide: 0,
       scale: buildScale(container), scaleKey: '', img: container.getAttribute('role') === 'img', base: '', label: null
     };
@@ -150,17 +148,16 @@
     var cxA = 360 - gap / 2 - PERSON, cxB = 720 - cxA;
     var room = (ROOM[0] + (ROOM[1] - ROOM[0]) * Math.max(0, Math.min(100, s.openness)) / 100) * (1 + .05 * breath);
     [[f.roomA, cxA], [f.roomB, cxB]].forEach(function (r) {
-      r[0].limit.setAttribute('cx', r[1]); r[0].room.setAttribute('cx', r[1]); r[0].room.setAttribute('r', room);
+      r[0].room.setAttribute('cx', r[1]); r[0].room.setAttribute('r', room);
     });
     [[f.discA, cxA], [f.discB, cxB], [f.a, cxA], [f.b, cxB]].forEach(function (d) { d[0].setAttribute('cx', d[1]); });
     var lvl = level('resonance', s.resonance);
     f.field.forEach(function (n, i) {
       var R = FIELD[i], on = i < lvl;
       n.setAttribute('d', 'M' + cxA + ' ' + (CY - R) + 'L' + cxB + ' ' + (CY - R) + 'A' + R + ' ' + R + ' 0 0 1 ' + cxB + ' ' + (CY + R) + 'L' + cxA + ' ' + (CY + R) + 'A' + R + ' ' + R + ' 0 0 1 ' + cxA + ' ' + (CY - R) + 'Z');
-      n.setAttribute('stroke', on ? (f.mode === 'ink' ? f.ink : 'url(#bz-gradient-' + f.id + ')') : f.quiet);
-      n.setAttribute('stroke-width', on ? 1.8 : 1);
-      n.setAttribute('stroke-dasharray', on ? 'none' : '1 5');
-      n.setAttribute('opacity', on ? .86 + .14 * breath : .5);
+      n.setAttribute('stroke', f.mode === 'ink' ? f.ink : 'url(#bz-gradient-' + f.id + ')');
+      n.setAttribute('stroke-width', 1.8);
+      n.setAttribute('opacity', on ? .86 + .14 * breath : 0);
       if (on) n.setAttribute('data-on', ''); else n.removeAttribute('data-on');
     });
     f.gradient.setAttribute('x1', cxA - FIELD[2]); f.gradient.setAttribute('x2', cxB + FIELD[2]);

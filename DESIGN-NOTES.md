@@ -247,14 +247,14 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 
 **Umfeld** (`components/umfeld/`): Ich in der Mitte, Menschen als eigene, offene Kreise. Abstand zeigt Nähe, die Stärke der Linie die Resonanz, ohne aktive Resonanz gibt es keine Linie. Eine Liste ist die Bedienung, der gewählte Mensch öffnet den Beziehungsraum mit seinen Werten. So trägt das Umfeld mehr als eine einzelne Beziehung. Unter 560 px Breite gilt ein Hochformat mit grösseren Kreisen, damit die Namen in echten 15 px hineinpassen.
 
-**Beziehungsraum** (`components/beziehungsraum/`), neue Darstellung vom 15.11.2026 (Entwurf, PR 24). Der Baustein wird in der App ohne Regler gezeigt, darum muss das Bild allein lesbar sein. Jeder Wert hat ein eigenes Zeichen mit eigener Referenz:
+**Beziehungsraum** (`components/beziehungsraum/`), neue Darstellung vom 15.11.2026 (Entwurf, PR 24). Der Baustein wird in der App ohne Regler gezeigt, darum muss das Bild allein lesbar sein. Jeder Wert hat ein eigenes Zeichen:
 - SVG-Raum 720 × 400, Mitte y = 170. Die Person ist ein Kreis mit Radius 50, immer gleich gross.
 - **Nähe** ist der Abstand der zwei Personenkreise: Lücke 190 bei «weit» bis 10 bei «sehr nah» (190 − 1,8 × Nähe). Sie überlappen nie.
-- **Freiraum** ist die helle Fläche um jede Person, Radius 66 bis 112 (in der Atmung höchstens 117,6). Eine feine Linie bei Radius 118 zeigt, wie gross sie höchstens wird. In der Mitte endet der eigene Platz dort, wo der des anderen beginnt.
-- **Resonanz** ist das Feld um beide: drei Linien im Abstand 132, 146 und 160 um beide Personen. Null bis drei leuchten im Spektrum, die übrigen stehen gepunktet da. So liest man «zwei von drei», bei jedem Abstand gleich gut.
+- **Freiraum** ist die helle Fläche um jede Person, Radius 66 bis 112 (in der Atmung höchstens 117,6).  In der Mitte endet der eigene Platz dort, wo der des anderen beginnt.
+- **Resonanz** ist das Feld um beide: drei Linien im Abstand 132, 146 und 160 um beide Personen. Null bis drei stehen im Spektrum da, bei jedem Abstand gleich gut lesbar. Das Bild zeigt nur, was gilt: keine Hilfslinien, keine gepunkteten Linien, kein Leuchten. Eine erste Fassung zeigte das Höchstmass des Freiraums als feine Linie und die nicht geltenden Feldlinien gepunktet; das waren bis zu neun Linien und zu unruhig (Entscheid Chris, 15.11.2026). Die Stufe trägt das Wort darunter.
 - Unter dem Bild stehen die drei Werte als Wort (`.relationship-scale`, vom Skript erzeugt): Name leise oben, Wert kräftig darunter. Abschalten mit `data-skala="aus"` (Match-Moment in der App, Bewegungsbeispiel im Atlas). Der Vorlesetext des Bilds nennt die drei Stufen.
 - Namen sind HTML-Text unter den Personen. Stehen zwei Menschen sehr nah, rücken die Namen so weit auseinander, dass sie sich nicht berühren. Werte sind Gestaltungsparameter, keine Messung.
-- Es atmet nur der Freiraum (5 %) und das Leuchten des Felds.
+- Es atmet nur der Freiraum (5 %), das Feld wird im Atem leicht kräftiger.
 - Verworfen: die frühere Form mit zwei grossen Kreisen (Radius 128), Verbindungslinie und Öffnung unten. Bei grosser Nähe war die Resonanz nicht lesbar, die Öffnung sagte nichts über Freiraum, und es fehlte jede Referenz für Minimum und Maximum. Ebenfalls verworfen: Wortreihen mit allen Stufen, Messlinien, Beschriftung im Bild, Freiraum als Grösse des Personenkreises.
 - Seit 4.11.2 wird der Seitentitel der Bausteinseiten (`.page-intro h1`) unter 400 px Fensterbreite mit dem Fenster kleiner (13vw, bei 320 px sind das 41,6 px). Vorher war «Beziehungsraum» in 52 px 325 px breit, Platz waren 272 px.
 
