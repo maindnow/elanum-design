@@ -5,12 +5,12 @@
 .relationship-frame svg{width:100%;height:auto;overflow:visible}
 .relationship-label{position:absolute;top:50%;transform:translate(-50%,-50%);font:var(--type-title);line-height:1;text-align:center;white-space:nowrap;pointer-events:none}
 .relationship-label span:not([data-name]){display:block;margin-top:10px;font:var(--type-label);color:var(--ink-2)}
-.relief-disc{filter:var(--relief-disc)}
+.relief-disc{filter:var(--relief-disc-soft)}
 [data-dark] .relief-disc{filter:var(--relief-disc-dark)}
 [data-dark] [data-contour]{filter:var(--relief-line-dark)}
 [data-dark] .relationship-label span:not([data-name]){color:var(--on-dark)}
 [data-contour]{stroke-linejoin:round;opacity:.8}
-[data-bridge]{filter:var(--glow-line) var(--drop-soft)}
+[data-bridge]{filter:var(--glow-line) var(--drop-line)}
 @media(max-width:560px){
   .relationship-frame{margin-left:-8px;margin-right:-8px;width:calc(100% + 16px)}
   .relationship-label span:not([data-name]){margin-top:6px}

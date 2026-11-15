@@ -3,7 +3,7 @@
    Setzt tokens.css und base.css voraus. Mobile-first.
    ============================================================ */
 
-.rad{--turn:420ms;display:grid;gap:clamp(40px,6vw,72px);align-items:start}
+.rad{--turn:var(--motion-enter);display:grid;gap:clamp(40px,6vw,72px);align-items:start}
 .rad__stage{display:grid;gap:24px;justify-items:center}
 
 .rad__wheel{position:relative;width:min(100%,520px);aspect-ratio:1}

@@ -41,7 +41,7 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
   min-height:52px;padding:14px 24px;border:0;border-radius:var(--radius-button);
   background:var(--ink) linear-gradient(135deg,var(--ink-soft),var(--ink));color:var(--white);
   font:var(--type-label);font-weight:600;text-decoration:none;
-  box-shadow:var(--raised-sm);
+  box-shadow:var(--raised-button);
   transition:transform var(--motion-ui) var(--ease-out),box-shadow var(--motion-ui) var(--ease-out);
 }
 .button::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--white);opacity:0;transition:opacity var(--motion-ui) var(--ease-out)}
@@ -52,7 +52,7 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
 .button--icon{min-width:52px;padding:0}
 .button:disabled{opacity:.45;cursor:default}
 /* Antwort am Ort der Handlung (assets/button.js): Ruhe, läuft, bestätigt. Der Knopf
-   behält seinen Platz, Zeichen und Wort wechseln. «läuft» trägt aria-busy und ein
+   bleibt am Ort und wird nie schmaler, Zeichen und Wort wechseln. Ist ein Wort länger, wächst er. «läuft» trägt aria-busy und ein
    Laufzeichen, «bestätigt» einen Haken und ein Wort. Ohne Bewegung steht das Laufzeichen. */
 .button[aria-disabled=true]{cursor:default}
 .button__sign{display:grid;place-items:center;width:20px;height:20px;flex:none}
@@ -174,6 +174,8 @@ body:not(:has(.day-arc__halo)) .rad__halo,
 body:not(:has(.day-arc__halo,.rad__halo)) .track:not(.is-pending) .track__station[data-state=now] .track__marker::after,
 body:not(:has(.day-arc__halo,.rad__halo,.track__station[data-state=now],.relationship-frame)) .app-nav__item[aria-current=page] .app-nav__icon::before,
 body:not(:has(.day-arc__halo,.rad__halo,.track__station[data-state=now],.relationship-frame)) .app-nav__item[aria-current=page]::before{animation:atem var(--motion-breath) var(--ease-in-out) infinite}
+/* Ausserhalb des Fensters ruht jede Schleife (assets/motion.js setzt .is-away). */
+.is-away,.is-away *,.is-away ::before,.is-away ::after{animation-play-state:paused!important}
 body[data-motion=off] :is(.day-arc__halo,.rad__halo),body[data-motion=off] .track__marker::after,body[data-motion=off] .app-nav__icon::before,body[data-motion=off] .app-nav__item::before{animation-play-state:paused!important}
 
 /* Eingabefelder: Die Hülle trägt Vertiefung und Glührand, das Feld ist nur Schrift. */

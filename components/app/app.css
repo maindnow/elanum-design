@@ -218,7 +218,7 @@ a.app-card,button.app-card{border:0;text-align:left;font:inherit;cursor:pointer;
 .app-thread{display:grid;gap:10px;align-content:start}
 .app-thread__day{justify-self:center;margin:12px 0 4px;font:var(--type-label);color:var(--ink-2)}
 .bubble{justify-self:start;max-width:min(80%,520px);padding:12px 16px;border-radius:var(--radius-surface) var(--radius-surface) var(--radius-surface) calc(var(--radius-control) / 1.5);background:var(--paper);box-shadow:var(--raised-sm);font:var(--type-body)}
-.bubble--me{justify-self:end;border-radius:var(--radius-surface) var(--radius-surface) calc(var(--radius-control) / 1.5) var(--radius-surface);background:var(--ink);color:var(--white);box-shadow:var(--raised-sm)}
+.bubble--me{justify-self:end;border-radius:var(--radius-surface) var(--radius-surface) calc(var(--radius-control) / 1.5) var(--radius-surface);background:var(--ink);color:var(--white);box-shadow:var(--cast)}
 .bubble__time{display:block;margin-top:4px;font:var(--type-label);color:var(--ink-2)}
 .bubble--me .bubble__time{color:var(--on-dark)}
 .bubble--element{display:grid;gap:10px;background:var(--tint)}
@@ -381,11 +381,13 @@ body.app{background:
   -webkit-mask:linear-gradient(var(--black) 0 0) content-box,linear-gradient(var(--black) 0 0);-webkit-mask-composite:xor;mask:linear-gradient(var(--black) 0 0) content-box exclude,linear-gradient(var(--black) 0 0);
   opacity:1;animation:edge-turn 6s linear infinite paused}
 .app-nav__item[aria-current=page]::before,.app-nav__item[aria-current=page]::after{display:none}
+.app-nav__item[aria-current=page]:focus-visible .app-nav__icon::after,.app-nav__item[aria-current=page]:focus-visible::after{animation-play-state:running}
+@media(hover:hover) and (pointer:fine){.app-nav__item[aria-current=page]:hover .app-nav__icon::after,.app-nav__item[aria-current=page]:hover::after{animation-play-state:running}}
 @media(min-width:1024px){
   .app-nav__item[aria-current=page] .app-nav__icon::before,.app-nav__item[aria-current=page] .app-nav__icon::after{display:none}
   .app-nav__item[aria-current=page]::before,.app-nav__item[aria-current=page]::after{display:block}
 }
-body[data-motion=off] .app-nav__item,body[data-motion=off] .app-nav__item *,body[data-motion=off] .app-nav__item::after,body[data-motion=off] .app-nav__icon::after{animation-play-state:paused}
+body[data-motion=off] .app-nav__item,body[data-motion=off] .app-nav__item *,body[data-motion=off] .app-nav__item::after,body[data-motion=off] .app-nav__icon::after{animation-play-state:paused!important}
 
 /* Wechsel zwischen Screens: Navigation und Kopf bleiben stehen, der Inhalt
    steigt weich auf, der aktive Ort gleitet zum neuen Ziel. */

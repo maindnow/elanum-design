@@ -51,6 +51,7 @@
 
     button.style.minWidth = Math.ceil(button.getBoundingClientRect().width) + 'px';
     button.setAttribute('aria-disabled', 'true');
+    sage(button, '');                 /* Ansage früh anlegen: Ein Bereich, der mit Text entsteht, wird oft nicht vorgelesen */
 
     function zeige(zustand, zeichen, wort) {
       button.innerHTML = '<span class="button__sign button__sign--' + zustand + '" aria-hidden="true">' + zeichen + '</span>' +

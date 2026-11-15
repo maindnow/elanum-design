@@ -30,17 +30,21 @@ Chris hat am 15.11.2026 fünf Clips eines Studios und ein Markenbrett als Messla
 | Dauerschleifen sind die Ausnahme | Der Glührand wandert nur bei Hover und Fokus, in der Auswahl steht er. Je Screen atmet ein Ort, neben dem ELANUM-Zeichen im Lichtlauf. Schleifen bewegen nur Deckkraft und Lage. | `base.css`, Abschnitte Glührand und Atemtakt |
 | Jeder Wert hat einen Namen | Farben, Schatten und Radien stehen als Wert nur in `tokens.css`. | `node tools/token-check.js` |
 
-**Ein Ort im Atemtakt.** Rangfolge je Screen: «jetzt» im Tagesbogen, der Auswahlbogen im Resonanzrad, «jetzt» auf der Spur, sonst der aktive Ort der Navigation. Wo der Beziehungsraum atmet, atmet die Navigation nicht. Solange eine Spur noch verdeckt ist, atmet ihr «jetzt» nicht. Jeder dieser Orte hat eine eigene Glüh-Ebene, im Atemtakt bewegt sich nur ihre Deckkraft. Alle anderen Orte glühen ruhig: die Auswahl, das wartende Stück im kleinen Rad, der Kreis des Tagesbogens. Gemessen auf Heute bei vierfach gedrosseltem Prozessor: vorher 21 Dauerschleifen, davon 14 unsichtbar, und 63 % Last auf dem Hauptfaden. Nachher 2 Schleifen und 9 %.
+**Ein Ort im Atemtakt.** Rangfolge je Screen: «jetzt» im Tagesbogen, der Auswahlbogen im Resonanzrad, «jetzt» auf der Spur, sonst der aktive Ort der Navigation. Wo der Beziehungsraum atmet, atmet die Navigation nicht. Solange eine Spur noch verdeckt ist, atmet ihr «jetzt» nicht, und ausserhalb des Fensters ruht jede Schleife. Jeder dieser Orte hat eine eigene Glüh-Ebene, im Atemtakt bewegt sich nur ihre Deckkraft. Alle anderen Orte glühen ruhig: die Auswahl, das wartende Stück im kleinen Rad, der Kreis des Tagesbogens. Gemessen auf Heute bei vierfach gedrosseltem Prozessor: vorher 21 Dauerschleifen, davon 14 unsichtbar, und 63 % Last auf dem Hauptfaden. Nachher 2 Schleifen und 9 %.
 
 **Neue Namen in `tokens.css`.**
 
 - Farben: `--paper-light`, `--sand`, `--sand-deep`, `--ink-soft`, `--on-dark`, `--white`, `--black` und die fünf Stopps des Markenspektrums einzeln als `--violet`, `--blue`, `--orchid`, `--rose`, `--pink`. Stufen der Deckkraft entstehen mit `color-mix(in srgb, <Name> <Anteil>, transparent)`.
-- Relief: `--lifted`, `--lifted-deep`, `--lifted-dark`, `--sheen`, `--under`, `--under-far`, `--sheet-shadow`, `--float-shadow`, `--bar-shadow`, `--pressed-ink`, `--raised-dark`, `--pressed-dark`, `--text-lift`.
-- Runde Formen (als `filter`): `--relief-disc`, `--relief-disc-sm`, `--relief-disc-dark`, `--relief-zeichen`, `--relief-line-dark`, `--drop-soft`.
+- Relief: `--raised-button`, `--cast`, `--lifted`, `--lifted-deep`, `--lifted-dark`, `--sheen`, `--under`, `--under-far`, `--sheet-shadow`, `--float-shadow`, `--bar-shadow`, `--pressed-ink`, `--raised-dark`, `--pressed-dark`, `--text-lift`.
+- Runde Formen (als `filter`): `--relief-disc`, `--relief-disc-sm`, `--relief-disc-soft`, `--relief-disc-dark`, `--relief-zeichen`, `--relief-line-dark`, `--drop-soft`, `--drop-line`.
 - Glühen: `--glow-line`, `--glow-rose`, `--glow-now`, `--glow-dot`, `--glow-thumb`.
 - Form: `--radius-round`.
 
-Zusammengeführt: Sechs fast gleiche Papiertöne sind `--paper` und `--paper-light`, sieben Beigetöne sind `--offen`, zehn Radien stehen auf Control, Button, Fläche oder rund. Eine Kontur oder Linie ohne Weichzeichnung (`0 0 0 2px Farbe`) gilt nicht als Schatten und darf im CSS stehen, wenn ihre Farbe einen Namen hat.
+Zusammengeführt: Sechs fast gleiche Papiertöne sind `--paper` und `--paper-light`, sieben Beigetöne sind `--offen`, zehn Radien stehen auf Control, Button, Fläche oder rund. Eine Kontur oder Linie ohne Weichzeichnung (`0 0 0 2px Farbe`) gilt nicht als Schatten und darf im CSS stehen, wenn ihre Farbe einen Namen hat. Ein abgeleiteter Radius steht als `calc()` aus einem Token: ein Drittel von Control (4 px) am Status und an der Aussage, zwei Drittel (8 px) an der Ecke der Sprechblase.
+
+**Geänderter Wert.** `--motion-reveal` steht neu auf 700 ms statt 900 ms. Im Paket nutzte bisher keine Regel das Token, die App nutzt es nicht (gemessen im Klon der App). Die Auftritte im Atlas laufen weiter mit 900 ms, sie kommen aus `assets/motion.js`.
+
+**Sichtbar anders durch die Namen.** Die Hauptfläche hat 28 statt 32 px Radius, Sprechblasen und Gesprächsideen 28 statt 22 px, Composer und Handlungsleiste 28 statt 26 px, das Ziel der Leiste 16 statt 18 px. Im Atlas haben das dunkle Kapitel und die Gerätevorschau 28 px Radius und einen leichteren Schatten. Notiz, Papierkarte, Rad-Zentrum und Bühnen sind einen Hauch dunkler (`--paper` und `--offen` statt eigener Töne). Der Bildplatz auf Entdecken ist aus benannten Farben gemischt.
 
 **Bewusst nicht übernommen.** Die Clips sind Werbung für erfundene Produkte. Diese sechs Dinge machen dort Eindruck und würden ELANUM schaden:
 
@@ -57,7 +61,9 @@ Zusammengeführt: Sechs fast gleiche Papiertöne sind `--paper` und `--paper-lig
 
 - Die grösste Schrift steht noch mehrfach auf Ich (Rad-Zentrum und Name des gewählten Elements) und auf Aktivitäten (Datum im Kreis und Titel des Erlebnisses), am Desktop auch auf Weg und Ankommen. Freigegeben war nur der Schritt am Seitentitel.
 - Die Skripte der Bausteine zeichnen SVG noch mit festen Farben (Beziehungsraum, Umfeld, Zeichen, Tagesbogen, Resonanzrad, 38 Stellen). `tools/token-check.js` prüft nur das CSS.
-- Die Szenen in `assets/motion.js` haben eigene Zeiten und Kurven. Sie sind Erzählung, nicht Bedienung.
+- Die Szenen in `assets/motion.js` haben eigene Zeiten und Kurven. Sie sind Erzählung, nicht Bedienung. Einzelne Skripte nennen Kurven noch beim Schlüsselwort (`app.js` des Atlas, `components/zeichen/zeichen.js`).
+- Zweimal Esc kurz hintereinander schliesst ein Sheet ohne Übergang, das macht der Browser. Der Fokus kehrt trotzdem zurück.
+- Ausserhalb des Fensters ruhen Lichtlauf und Atemtakt nur, wenn `assets/motion.js` geladen ist. Ohne das Skript laufen sie dort weiter.
 - Im Beziehungsraum rücken die Kreise über eine eigene Näherung zusammen, dort gibt es keine Kurve zum Tauschen.
 - Die Zusage im Sheet (Dabei, Vielleicht, Nicht dabei) ist eine Auswahl mit Status darunter und hat die Zustände des Buttons nicht.
 - Wörter am Button ohne Freigabe im Glossar: «Einen Moment» und «Erledigt» als Vorgabe, in den Screens «Wird gesendet», «Gesendet», «Speichert», «Gespeichert», «Wird behalten», «Behalten», «Wird übernommen», «Übernommen».

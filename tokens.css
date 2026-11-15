@@ -72,6 +72,8 @@
   --paper-shadow:6px 8px 22px #C4BDAF80,-3px -3px 8px #FFFFFFB3;     /* Papier: ruhiger als --raised */
   --raised-sm:4px 4px 10px #C4BDAF99,-4px -4px 10px #FFFFFFD9;
   --pressed:inset 5px 5px 12px #C8C1B580,inset -5px -5px 12px #FFFFFFE0;
+  --raised-button:5px 5px 11px #C4BDAF,-4px -4px 10px #FFFFFF99;         /* Button in Ruhe */
+  --cast:4px 4px 10px #C4BDAF99;                                         /* nur Schatten, ohne Lichtkante: Fläche in Ink */
   --pressed-ink:inset 0 2px 5px #00000033;                               /* gedrückter Button in Ink */
   --lifted:12px 16px 30px -18px #A39B8A,-10px -10px 26px #FFFFFFC0;      /* schwebende Fläche: Hauptfläche, Gerätevorschau */
   --lifted-deep:14px 18px 36px -16px #7F776A,-10px -10px 26px #FFFFFFC0; /* dunkle Hauptfläche */
@@ -89,10 +91,12 @@
   /* Relief für runde Formen, als filter */
   --relief-disc:drop-shadow(4px 5px 6px #B9B0A0A6) drop-shadow(-4px -4px 5px #FFFFFF);
   --relief-disc-sm:drop-shadow(3px 4px 5px #C4BDAF80) drop-shadow(-2px -2px 4px #FFFFFFB3);
+  --relief-disc-soft:drop-shadow(6px 8px 6px #958B773B) drop-shadow(-5px -5px 5px #FFFFFFC0);   /* Kreise im Beziehungsraum */
   --relief-disc-dark:drop-shadow(6px 8px 7px #09252C99) drop-shadow(-4px -4px 5px #78949125);
   --relief-zeichen:drop-shadow(6px 9px 6px #79726830) drop-shadow(-3px -3px 3px #FFFFFF88);
   --relief-line-dark:drop-shadow(0 2px 1px #071D23AA);
   --drop-soft:drop-shadow(3px 5px 3px #16363B22);
+  --drop-line:drop-shadow(0 2px 2px #16363B33);                          /* Verbindung, direkt darunter */
 
   /* Glühen: immer im Markenspektrum */
   --glow-line:drop-shadow(0 0 5px #9466DF99);                            /* Verbindung, Spur bis jetzt */

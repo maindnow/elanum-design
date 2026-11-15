@@ -325,6 +325,23 @@
   });
   document.addEventListener('elanum:layout', function () { if (!stopped) ScrollTrigger.refresh(); });
 
+  /* ---------- Dauerschleifen ruhen ausserhalb des Fensters ----------
+     Lichtlauf und Atemtakt laufen nur, solange ihr Baustein zu sehen ist
+     (base.css, .is-away). Bausteine, die später dazukommen, werden nachgetragen. */
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var LOOPS = '.zeichen,.day-arc,.rad,.track__station[data-state=now]';
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { e.target.classList.toggle('is-away', !e.isIntersecting); });
+    });
+    function watch() { all(LOOPS).forEach(function (el) { if (!el._loopWatched) { el._loopWatched = true; io.observe(el); } }); }
+    watch();
+    if ('MutationObserver' in window) {
+      var due = 0;
+      new MutationObserver(function () { if (!due) due = setTimeout(function () { due = 0; watch(); }, 200); }).observe(document.body, { childList: true, subtree: true });
+    }
+  })();
+
   /* Start nach fonts.ready, damit Titel mit der echten Schrift gesplittet werden. */
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () {
     if (document.body.dataset.motion === 'off') { ready(); return; }

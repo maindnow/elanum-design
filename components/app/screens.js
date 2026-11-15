@@ -12,11 +12,14 @@
   var A = window.ElanumApp, R = window.ElanumResonanzrad;
   /* Antwort am Ort der Handlung: Der Knopf des Formulars zeigt «läuft» und «bestätigt»
      (assets/button.js). In der Vorschau wartet nichts wirklich, darum eine kurze Frist. */
-  function commit(form, after) {
+  function commit(form, after, still) {
     var button = form.querySelector('[data-commit]');
     if (!button || !window.ElanumButton) { after(); return; }
     if (button.getAttribute('aria-disabled') === 'true') return;
-    window.ElanumButton.commit(button, function () { return new Promise(function (done) { setTimeout(done, 900); }); }).then(after);
+    /* still() sagt, ob die Handlung noch gilt. Wer das Sheet schliesst, während der Knopf läuft, bricht ab: Der Knopf kehrt zur Ruhe zurück. */
+    window.ElanumButton.commit(button, function () {
+      return new Promise(function (done, stop) { setTimeout(function () { if (still && !still()) stop(new Error('abgebrochen')); else done(); }, 900); });
+    }).then(after, function () {});
   }
   var screen = document.body.dataset.screen;
   var reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -203,7 +206,7 @@
     var finish = function () { if (!pending) return; pending = false; form.hidden = false; moment.hidden = true; go(at + 1, true); };
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      commit(form, sent);
+      commit(form, sent, function () { var s = $('#resonateSheet'); return s.open && !s.classList.contains('is-closing'); });
     });
     function sent() {
       var p = PEOPLE[at], next = PEOPLE[at + 1];
