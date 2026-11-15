@@ -1,4 +1,6 @@
-# ELANUM — Gestaltungsatlas 4.11
+# ELANUM — Gestaltungsatlas 4.12
+
+4.12 gibt der Bewegung ein Vokabular und jedem Wert einen Namen. Zwei Kurven und fünf Dauern stehen als Tokens. Farben, Schatten und Radien stehen als Wert nur noch in `tokens.css`, `tools/token-check.js` prüft das. Je Screen atmet ein Ort, der Glührand wandert nur noch, wenn man ihn berührt. Sheet und Quellenkarte schliessen mit Übergang, der Button kennt die Zustände «läuft» und «bestätigt», und in der App steht der Seitentitel in der Stufe Überschrift. Grundlage ist ein Vergleich mit fünf Referenz-Clips, freigegeben von Chris am 15.11.2026.
 
 4.11 bringt den Baustein Fliesstext: ein Text, der zu einem Menschen spricht und bei jeder Kernaussage zeigt, woher sie kommt. Grundlage ist Chris’ Entwurf „Christopher, das bist du.“ (14.10.2026), übersetzt in die Regeln des Atlas. Eigene Seite unter `components/fliesstext/` mit dem ersten Muster als Beispiel, im Atlas im Kapitel Sprache, in der App auf Heute.
 
@@ -13,6 +15,52 @@
 4.6 benennt die drei Phasen neu. Sie heissen jetzt Kosmen: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Gestaltung und Werte bleiben wie in 4.5.
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
+
+## Feinschliff (4.12)
+
+Chris hat am 15.11.2026 fünf Clips eines Studios und ein Markenbrett als Messlatte geschickt. Sie wurden Bild für Bild vermessen, ELANUM mit denselben Massen. Ergebnis: Zurückhaltung, Zeiten und Staffelung von ELANUM lagen schon auf der Höhe der Referenz (Auftritt 700 ms gegen 700–770 ms, Staffelung 90 ms gegen rund 100 ms), bei der Lesbarkeit ist ELANUM strenger. Es fehlte an Entschiedenheit im Einzelnen. Acht Regeln standen zur Freigabe, sieben sind gebaut.
+
+| Regel | Was gilt | Wo |
+|---|---|---|
+| Ein Moment, eine Grösse | Der Seitentitel der App steht in der Stufe Überschrift. Die grösste Schrift gehört dem einen Moment des Screens. | `.app-title` in `components/app/app.css` |
+| Zwei Kurven mit Namen | `--ease-out` für alles, was erscheint oder antwortet. `--ease-in-out` für alles, was den Ort wechselt (der Wert, den der Zeichenaufbau schon nutzte). `linear` nur in Dauerschleifen. `--ease` bleibt als zweiter Name von `--ease-out`. | `tokens.css` |
+| Fünf Dauern mit Namen | `--motion-press` 90 ms, `--motion-ui` 180 ms, `--motion-enter` 360 ms, `--motion-move` 520 ms, `--motion-reveal` 700 ms, dazu `--motion-stagger` 90 ms als Versatz. Längere Abläufe sind ein Vielfaches (`calc`). Verzögerungen dürfen Zahlen sein. | `tokens.css` |
+| Was kommt, geht auch | Sheet und Quellenkarte laufen beim Schliessen denselben Weg zurück, in zwei Dritteln der Zeit. Erst danach schliesst der Dialog, auch mit Esc. Ohne Bewegung schliesst er sofort. | `components/app/app.js`, `components/fliesstext/fliesstext.js` |
+| Antwort am Ort der Handlung | Wer speichert oder sendet, sieht am selben Knopf Ruhe, läuft, bestätigt. «läuft» erscheint erst nach 300 ms und trägt `aria-busy`, «bestätigt» zeigt Haken und Wort. Beides wird angesagt. | `assets/button.js`, `.button__sign` in `base.css` |
+| Dauerschleifen sind die Ausnahme | Der Glührand wandert nur bei Hover und Fokus, in der Auswahl steht er. Je Screen atmet ein Ort, neben dem ELANUM-Zeichen im Lichtlauf. Schleifen bewegen nur Deckkraft und Lage. | `base.css`, Abschnitte Glührand und Atemtakt |
+| Jeder Wert hat einen Namen | Farben, Schatten und Radien stehen als Wert nur in `tokens.css`. | `node tools/token-check.js` |
+
+**Ein Ort im Atemtakt.** Rangfolge je Screen: «jetzt» im Tagesbogen, der Auswahlbogen im Resonanzrad, «jetzt» auf der Spur, sonst der aktive Ort der Navigation. Wo der Beziehungsraum atmet, atmet die Navigation nicht. Solange eine Spur noch verdeckt ist, atmet ihr «jetzt» nicht. Jeder dieser Orte hat eine eigene Glüh-Ebene, im Atemtakt bewegt sich nur ihre Deckkraft. Alle anderen Orte glühen ruhig: die Auswahl, das wartende Stück im kleinen Rad, der Kreis des Tagesbogens. Gemessen auf Heute bei vierfach gedrosseltem Prozessor: vorher 21 Dauerschleifen, davon 14 unsichtbar, und 63 % Last auf dem Hauptfaden. Nachher 2 Schleifen und 9 %.
+
+**Neue Namen in `tokens.css`.**
+
+- Farben: `--paper-light`, `--sand`, `--sand-deep`, `--ink-soft`, `--on-dark`, `--white`, `--black` und die fünf Stopps des Markenspektrums einzeln als `--violet`, `--blue`, `--orchid`, `--rose`, `--pink`. Stufen der Deckkraft entstehen mit `color-mix(in srgb, <Name> <Anteil>, transparent)`.
+- Relief: `--lifted`, `--lifted-deep`, `--lifted-dark`, `--sheen`, `--under`, `--under-far`, `--sheet-shadow`, `--float-shadow`, `--bar-shadow`, `--pressed-ink`, `--raised-dark`, `--pressed-dark`, `--text-lift`.
+- Runde Formen (als `filter`): `--relief-disc`, `--relief-disc-sm`, `--relief-disc-dark`, `--relief-zeichen`, `--relief-line-dark`, `--drop-soft`.
+- Glühen: `--glow-line`, `--glow-rose`, `--glow-now`, `--glow-dot`, `--glow-thumb`.
+- Form: `--radius-round`.
+
+Zusammengeführt: Sechs fast gleiche Papiertöne sind `--paper` und `--paper-light`, sieben Beigetöne sind `--offen`, zehn Radien stehen auf Control, Button, Fläche oder rund. Eine Kontur oder Linie ohne Weichzeichnung (`0 0 0 2px Farbe`) gilt nicht als Schatten und darf im CSS stehen, wenn ihre Farbe einen Namen hat.
+
+**Bewusst nicht übernommen.** Die Clips sind Werbung für erfundene Produkte. Diese sechs Dinge machen dort Eindruck und würden ELANUM schaden:
+
+- Kleine Schrift in Versalien. ELANUM bleibt bei 15 px als Minimum.
+- Dunkles Glas über Foto. ELANUM gehört das warme Relief.
+- Kursiv als Betonung. Kursiv gibt es nicht mehr.
+- Kamerafahrt, animierte Unschärfe und Ton.
+- Zahlen, die hochzählen. ELANUM zeigt keine Zähler und keine Scores.
+- Die Zeiten der Clips für direkte Rückmeldung. Was am Finger antwortet, bleibt bei 180 ms.
+
+**Abgelehnt.** Die Hauptfläche trägt weiter den Schleier ihres Bereichs, nicht dessen volle Fläche.
+
+**Offen nach 4.12.**
+
+- Die grösste Schrift steht noch mehrfach auf Ich (Rad-Zentrum und Name des gewählten Elements) und auf Aktivitäten (Datum im Kreis und Titel des Erlebnisses), am Desktop auch auf Weg und Ankommen. Freigegeben war nur der Schritt am Seitentitel.
+- Die Skripte der Bausteine zeichnen SVG noch mit festen Farben (Beziehungsraum, Umfeld, Zeichen, Tagesbogen, Resonanzrad, 38 Stellen). `tools/token-check.js` prüft nur das CSS.
+- Die Szenen in `assets/motion.js` haben eigene Zeiten und Kurven. Sie sind Erzählung, nicht Bedienung.
+- Im Beziehungsraum rücken die Kreise über eine eigene Näherung zusammen, dort gibt es keine Kurve zum Tauschen.
+- Die Zusage im Sheet (Dabei, Vielleicht, Nicht dabei) ist eine Auswahl mit Status darunter und hat die Zustände des Buttons nicht.
+- Wörter am Button ohne Freigabe im Glossar: «Einen Moment» und «Erledigt» als Vorgabe, in den Screens «Wird gesendet», «Gesendet», «Speichert», «Gespeichert», «Wird behalten», «Behalten», «Wird übernommen», «Übernommen».
 
 ## Fliesstext (4.11)
 
@@ -68,8 +116,8 @@ Rückmeldung nach dem ersten Stand (14.10.2026): Das Zeichen darf nicht Ink sein
 - **Zeichen in Spektrum** in Navigation, Kopf, Favicon und im Atlas. Ink bleibt für Einfarbiges. Seit dem Zusammenführen mit 4.9 bewegt es sich mit dem Baustein Zeichen: in Navigation und Kopf der App sanft und dauernd im Lichtlauf, beim ersten Start (Ankommen) einmal im Zeichenaufbau. Die Form steht.
 - **Ein Moment pro Screen:** die Hauptfläche `.app-hero`. Heute: der Satz des Tages mit Tagesbogen. Weg: das aktuelle Kapitel. Entdecken: „Wo es schwingt“ mit dem Beziehungsraum. Aktivitäten: das eine Erlebnis der Woche. Ankommen: die Frage des Schritts.
 - **Ein nächster Schritt:** Heute führt direkt unter dem Tag zum nächsten offenen Element, mit kleinem Resonanzrad und einer primären Handlung.
-- **Tagesbogen:** Der Tag als offener Kreis, die Öffnung unten ist die Nacht. Bis „jetzt“ führt die Verbindung im Markenspektrum (wie die Spur der Tageslinie bis „jetzt“), danach bleibt der Bogen gestrichelt offen. Stationen sind Knoten, „jetzt“ ist ein Ring, der im Atemtakt glüht. Der Kreis atmet höchstens 3 %.
-- **Wo du bist, glüht:** Der aktive Ort in der Navigation trägt den Glührand im Atemtakt. Beim Wechsel gleitet er zum neuen Ziel (View Transitions zwischen Seiten), Navigation und Kopf bleiben stehen, der Inhalt steigt weich auf.
+- **Tagesbogen:** Der Tag als offener Kreis, die Öffnung unten ist die Nacht. Bis „jetzt“ führt die Verbindung im Markenspektrum (wie die Spur der Tageslinie bis „jetzt“), danach bleibt der Bogen gestrichelt offen. Stationen sind Knoten, „jetzt“ ist ein Ring, der im Atemtakt glüht. Der Kreis steht seit 4.12 still.
+- **Wo du bist, glüht:** Der aktive Ort in der Navigation trägt den Glührand. Seit 4.12 steht der Rand, und der Ort atmet nur, wenn der Screen keinen eigenen Ort im Atemtakt hat. Beim Wechsel gleitet er zum neuen Ziel (View Transitions zwischen Seiten), Navigation und Kopf bleiben stehen, der Inhalt steigt weich auf.
 - **Licht von links oben** auch auf der Grundfläche: eine warme Aufhellung oben links, ein Hauch Schatten unten rechts.
 - **Drücken gibt nach:** Karten, Zeilen und Ziele der Leiste geben beim Tippen kurz nach (90 ms).
 - **Resonanz ist Verbindung:** Die Nachricht „zeigt Resonanz auf“ im Chat trägt den Rand im Markenspektrum, neue Nachrichten einen Punkt im Spektrum.
@@ -138,6 +186,8 @@ In einer App ist die meiste Schrift klein, schnell und bedienbar: Buttons, Liste
 | Text | Albert Sans 400 | 17 / 18 px | Fliesstext |
 | Label | Albert Sans 500, betont 600 | 15 px | Beschriftung, Tabs, Buttons. Das Minimum. |
 
+In der App steht der Seitentitel seit 4.12 in der Stufe Überschrift, damit die grösste Schrift dem einen Moment des Screens gehört.
+
 Sekundärtext ist `#3D5055` (7,2:1 auf Canvas). Im Rad werden Ringschrift und Icons auf echte 15 bzw. 30 px umgerechnet, egal wie gross das Rad gezeigt wird.
 
 ## Farbe: drei Rollen
@@ -177,7 +227,7 @@ Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe au
 
 Warme Reliefoberfläche, Licht von links oben. Was man bedienen kann, hebt sich an (`--raised`), Eingaben liegen vertieft (`--pressed`). Radien: Control 12 px, Button 16 px, Fläche 28 px. Schatten tragen nie allein eine Funktion; Auswahl hat immer auch Text, Fokus oder ein Zeichen.
 
-**Glührand und Hover:** Bedienbare Flächen zeigen bei Hover, Fokus und Auswahl einen Rand, dessen Farbe dem Markenspektrum entlang im Kreis wandert (6 s pro Umlauf), dazu ein weiches Glühen. Ausgewählte Flächen (gewähltes Element, gewählte Person, aktiver Tab, bewusste Auswahl) glühen im Atemtakt. Jeder Hover ist gut sichtbar: Karten heben sich und glühen, Listen und Navigation bekommen eine Fläche, Links werden violett mit kräftigerer Unterstreichung, Buttons hellen auf und heben sich. Ohne Bewegung steht der Verlauf still.
+**Glührand und Hover:** Bedienbare Flächen zeigen bei Hover, Fokus und Auswahl einen Rand im Markenspektrum, dazu ein weiches Glühen. Bei Hover und Fokus wandert die Farbe im Kreis (6 s pro Umlauf). In der Auswahl (gewähltes Element, gewählte Person, aktiver Tab, bewusste Auswahl) steht der Rand seit 4.12, und die Fläche glüht ruhig. Jeder Hover ist gut sichtbar: Karten heben sich und glühen, Listen und Navigation bekommen eine Fläche, Links werden violett mit kräftigerer Unterstreichung, Buttons hellen auf und heben sich. Ohne Bewegung steht der Verlauf still.
 
 Der Glührand gilt durchgängig für alles, was man bedienen kann: Buttons (über `.button` automatisch), Segmente, Tabs, Listen, Navigation, Links mit Klasse, Farbstufen, Kopieren-Knöpfe, Checkbox-Zeilen und Pause-Schalter. Eingabefelder und Textfelder liegen in einer Hülle `.field.glow-edge`, die Vertiefung und Rand trägt; sie leuchtet bei Hover und sobald das Feld den Fokus hat. Schieberegler zeigen den wandernden Rand als Ring um den Griff. Ausnahmen: das ELANUM-Zeichen als Link, Textlinks im Fliesstext und der Sprunglink (Fokusring).
 
@@ -276,8 +326,10 @@ Bewegung erklärt: Kreise rücken zusammen, das Rad baut sich Bereich für Berei
 | Umfeld | Menschen rücken aus dem Rand auf ihre Nähe, danach zeichnen sich die Verbindungen. |
 | Weg und Tageslinie | Die Spur wächst, Stationen erscheinen beim Erreichen. Auf der Element-Seite an den Scroll gekoppelt. |
 | Status | Das Zeichen federt beim Wechsel kurz ein. |
-| Glühen | Die Station „jetzt“, der Auswahlbogen im Rad und ausgewählte Flächen glühen im Atemtakt; Verbindungslinien leuchten weich. |
-| Bedienung | 160–220 ms, ohne Blitz. |
+| Glühen | Je Screen atmet ein Ort (Feinschliff 4.12), alle anderen glühen ruhig; Verbindungslinien leuchten weich. |
+| Bedienung | 180 ms (`--motion-ui`), Drücken 90 ms (`--motion-press`), ohne Blitz. |
+| Schliessen | Sheet und Quellenkarte laufen denselben Weg zurück, in zwei Dritteln der Zeit. |
+| Antwort | Der Button zeigt «läuft» und «bestätigt» am Ort der Handlung. |
 | Zeichen | Zeichenaufbau einmal, sobald das Zeichen zu sehen ist. Lichtlauf dauernd, wo er gesetzt ist. Die Form steht. |
 | Immer | Nur die Atmung: 3,4 s Raum geben, 4,4 s zur Ruhe, höchstens 7,5 % Radius. Im Zeichen dazu der Lichtlauf, wo gesetzt. |
 

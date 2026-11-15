@@ -1,6 +1,6 @@
 'use strict';
 /* ============================================================
-   ELANUM Gestaltungsatlas 4.11 · Bedienlogik
+   ELANUM Gestaltungsatlas 4.12 · Bedienlogik
    Elemente (Beziehungsraum, Resonanzrad, Umfeld, Zeichen, App-Rahmen, Fliesstext) liegen
    unter components/ und werden hier nur eingebunden. Bewegung steuert
    assets/motion.js; dieses Skript meldet Pause und Layoutwechsel.
@@ -334,12 +334,15 @@ filterGlossar();
 
 /* ---------- 16 Tokens: der Block liest die Werte aus tokens.css ---------- */
 const TOKEN_GROUPS = [
-  ['Fläche und Schrift', ['--canvas', '--paper', '--ink', '--ink-2', '--line']],
+  ['Fläche und Schrift', ['--canvas', '--paper', '--paper-light', '--sand', '--sand-deep', '--ink', '--ink-2', '--ink-soft', '--on-dark', '--line', '--white', '--black']],
   ['Bereiche: tief · Fläche · Hauch, offen', ['--sterne-tief', '--sterne-flaeche', '--sterne-hauch', '--ich-tief', '--ich-flaeche', '--ich-hauch', '--bezug-tief', '--bezug-flaeche', '--bezug-hauch', '--offen']],
   ['Status', ['--info', '--info-bg', '--hint', '--hint-bg', '--error', '--error-bg', '--success', '--success-bg']],
   ['Typografie', ['--type-display', '--type-title', '--type-heading', '--type-body', '--type-label']],
-  ['Raum und Form', ['--gutter', '--section', '--content', '--radius-control', '--radius-button', '--radius-surface', '--raised', '--pressed']],
-  ['Linien und Bewegung', ['--trace', '--bridge', '--ease', '--motion-ui', '--motion-reveal', '--motion-breath']]
+  ['Markenspektrum, einzelne Stopps', ['--violet', '--blue', '--orchid', '--rose', '--pink']],
+  ['Raum und Form', ['--gutter', '--section', '--content', '--radius-control', '--radius-button', '--radius-surface', '--radius-round']],
+  ['Relief', ['--raised', '--raised-sm', '--pressed', '--paper-shadow', '--lifted', '--lifted-deep', '--sheen', '--sheet-shadow', '--float-shadow', '--bar-shadow']],
+  ['Glühen', ['--glow', '--glow-line', '--glow-rose', '--glow-now', '--glow-dot']],
+  ['Linien und Bewegung', ['--trace', '--bridge', '--ease-out', '--ease-in-out', '--motion-press', '--motion-ui', '--motion-enter', '--motion-move', '--motion-reveal', '--motion-stagger', '--motion-breath']]
 ];
 $('#tokenCode').textContent = ':root {\n' + TOKEN_GROUPS.map(([title, names]) =>
   `  /* ${title} */\n` + names.map(name => `  ${name}: ${css(name)};`).join('\n')).join('\n\n') + '\n}';

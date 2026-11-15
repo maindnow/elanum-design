@@ -40,8 +40,11 @@ git log --oneline -1
 for f in app.js assets/*.js components/*/*.js; do node --check "$f"; done
 python3 tools/build_logo_circles.py
 node tools/glossar-md.js
+node tools/token-check.js
 git diff --check
 ```
+
+`tools/token-check.js` meldet jede Farbe, jeden Schatten, jeden Radius, jede Kurve und jede Dauer, die im CSS als Wert statt als Token steht. Ein neuer Wert kommt zuerst mit Namen nach `tokens.css`.
 
 ## Versionen
 
