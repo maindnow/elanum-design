@@ -12,11 +12,7 @@
   ElanumBeziehung.mount(frame);
   function update() {
     var s = { proximity: +$('#proximity').value, resonance: +$('#resonance').value, openness: +$('#openness').value };
-    var w = {
-      proximity: s.proximity < 34 ? 'weit' : s.proximity < 75 ? 'nah' : 'sehr nah',
-      resonance: s.resonance === 0 ? 'keine' : s.resonance < 40 ? 'leise' : s.resonance < 80 ? 'spürbar' : 'stark',
-      openness: s.openness < 30 ? 'klein' : s.openness < 60 ? 'offen' : 'weit offen'
-    };
+    var w = ElanumBeziehung.words(s);
     Object.keys(w).forEach(function (k) { $('#' + k + 'Value').textContent = w[k]; $('#' + k).setAttribute('aria-valuetext', w[k]); });
     $('#labReading').textContent = 'Du & ' + person + ' · ' + w.proximity + ' · ' + (s.resonance === 0 ? 'keine aktive Resonanz' : w.resonance + 'e Resonanz');
     ElanumBeziehung.set(frame, s);

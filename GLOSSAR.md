@@ -57,7 +57,7 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | **Umfeld** | Ich in der Mitte, Menschen als eigene Kreise nach Nähe und Resonanz. | `components/umfeld` |
 | **Beziehungsraum** | Zwei eigene Räume und die Verbindung dazwischen. | `components/beziehungsraum` |
 | **Verbindung** | Die Linie zwischen zwei Kreisen. Sie trifft beide Konturen exakt. |  |
-| **Nähe · Resonanz · Freiraum** | Die drei Werte einer Beziehung: Abstand der Kreise, Stärke der Verbindung, Grösse der Öffnung. Gestaltungswerte, keine Messung. | `proximity · resonance · openness` |
+| **Nähe · Resonanz · Freiraum** | Die drei Werte einer Beziehung: Abstand der zwei Kreise, Feld um beide, Platz um jeden. Gestaltungswerte, keine Messung. | `proximity · resonance · openness` |
 | **Atmung** | Der gemeinsame Bewegungstakt der Kreise: 3,4 s Raum geben, 4,4 s zur Ruhe kommen. |  |
 
 ## Farbe und Material

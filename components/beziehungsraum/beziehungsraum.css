@@ -1,17 +1,25 @@
 /* ============================================================
    ELANUM Beziehungsraum · Darstellung
    ============================================================ */
-.relationship-frame{position:relative;width:100%;max-width:1040px;margin:0 auto}
-.relationship-frame svg{width:100%;height:auto;overflow:visible}
-.relationship-label{position:absolute;top:50%;transform:translate(-50%,-50%);font:var(--type-title);line-height:1;text-align:center;white-space:nowrap;pointer-events:none}
-.relationship-label span:not([data-name]){display:block;margin-top:10px;font:var(--type-label);color:var(--ink-2)}
+.relationship-frame{position:relative;width:100%;max-width:1040px;margin:0 auto;container-type:inline-size}
+.relationship-frame svg{display:block;width:100%;height:auto;overflow:visible}
+/* Die Namen stehen unter den Personen (y = 338 von 720 Breite). */
+.relationship-label{position:absolute;top:46.944cqw;transform:translateX(-50%);font:var(--type-heading);text-align:center;white-space:nowrap;pointer-events:none}
+.relationship-label span:not([data-name]){display:block;font:var(--type-label);color:var(--ink-2)}
 .relief-disc{filter:var(--relief-disc-soft)}
 [data-dark] .relief-disc{filter:var(--relief-disc-dark)}
-[data-dark] [data-contour]{filter:var(--relief-line-dark)}
+[data-beziehung] .relief-disc{filter:var(--relief-disc-flat)}
+[data-beziehung][data-dark] .relief-disc{filter:var(--relief-disc-flat-dark)}
 [data-dark] .relationship-label span:not([data-name]){color:var(--on-dark)}
+[data-dark] [data-contour]{filter:var(--relief-line-dark)}
 [data-contour]{stroke-linejoin:round;opacity:.8}
-[data-bridge]{filter:var(--glow-line) var(--drop-line)}
+[data-field]{transition:opacity var(--motion-ui) var(--ease-out)}
+/* Die drei Werte als Wort: Name leise oben, Wert kräftig darunter. */
+.relationship-scale{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:520px;margin:12px auto 16px;font:var(--type-label);text-align:center}
+.relationship-scale dt{color:var(--ink-2)}
+.relationship-scale dd{margin:0;font-weight:600;color:var(--ink)}
+[data-dark] .relationship-scale dt{color:var(--on-dark)}
+[data-dark] .relationship-scale dd{color:var(--white)}
 @media(max-width:560px){
   .relationship-frame{margin-left:-8px;margin-right:-8px;width:calc(100% + 16px)}
-  .relationship-label span:not([data-name]){margin-top:6px}
 }

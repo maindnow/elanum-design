@@ -122,6 +122,8 @@
   --relief-disc-sm:drop-shadow(3px 4px 5px #C4BDAF80) drop-shadow(-2px -2px 4px #FFFFFFB3);
   --relief-disc-soft:drop-shadow(6px 8px 6px #958B773B) drop-shadow(-5px -5px 5px #FFFFFFC0);   /* Kreise im Beziehungsraum */
   --relief-disc-dark:drop-shadow(6px 8px 7px #09252C99) drop-shadow(-4px -4px 5px #78949125);
+  --relief-disc-flat:drop-shadow(3px 4px 4px #958B7740);                 /* Menschen im Beziehungsraum: ein flacher Schatten, ohne Lichtkante */
+  --relief-disc-flat-dark:drop-shadow(3px 4px 5px #09252C99);
   --relief-zeichen:drop-shadow(6px 9px 6px #79726830) drop-shadow(-3px -3px 3px #FFFFFF88);
   --relief-line-dark:drop-shadow(0 2px 1px #071D23AA);
   --drop-soft:drop-shadow(3px 5px 3px #16363B22);
