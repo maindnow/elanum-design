@@ -22,6 +22,17 @@
 .relationship-scale span[data-on]{background:var(--ink);color:var(--canvas);font-weight:600}
 [data-dark] .relationship-scale :is(dt,span){color:#CBD9D6}
 [data-dark] .relationship-scale span[data-on]{background:#E8EEEA;color:#16363B}
+/* Schmal: eine Zeile je Wert, Name links, Stufen rechts in einer Flucht. Das braucht 278 px.
+   Unter 280 px Rahmenbreite steht der Name über den Stufen. */
+@container(max-width:699.98px){
+  .relationship-scale{gap:8px;padding:0}
+  .relationship-scale dd{gap:0}
+  .relationship-scale span{padding:3px 6px}
+}
+@container(min-width:280px) and (max-width:699.98px){
+  .relationship-scale{grid-template-columns:max-content max-content;justify-content:center;align-items:center}
+  .relationship-scale div{display:contents}
+}
 @container(min-width:700px){.relationship-scale{grid-template-columns:repeat(3,auto);justify-content:center;gap:48px}}
 @media(max-width:560px){
   .relationship-frame{margin-left:-8px;margin-right:-8px;width:calc(100% + 16px)}
