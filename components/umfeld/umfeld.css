@@ -1,8 +1,10 @@
 /* ============================================================
    ELANUM Umfeld · Darstellung
    ============================================================ */
-.umfeld{display:grid;gap:clamp(32px,5vw,64px);align-items:center}
-.umfeld__stage{position:relative;width:min(100%,640px);margin:0 auto}
+/* Aufbau und Masse wie .rad (Resonanzrad): Bühne mit Bild und Zeile, daneben oder darunter der Lesebereich */
+.umfeld{display:grid;gap:clamp(40px,6vw,72px);align-items:start}
+.umfeld__stage{display:grid;gap:24px;justify-items:center}
+.umfeld__scene{position:relative;width:min(100%,640px)}
 .umfeld__svg{width:100%;height:auto;overflow:visible}
 .umfeld__contour{fill:none;stroke:var(--ink);stroke-width:var(--trace);stroke-linecap:round;vector-effect:non-scaling-stroke;transition:stroke-width var(--motion-ui) ease}
 .umfeld__contour.is-active{stroke-width:2.6}
@@ -14,18 +16,26 @@
 .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
 .umfeld__name.is-active{color:var(--sterne-tief)}
 
-.umfeld__card{position:relative;display:grid;gap:20px;min-width:0;padding:24px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
-.umfeld__nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.umfeld__count{font:var(--type-label);color:var(--ink-2);font-variant-numeric:tabular-nums}
+/* Zeile wie .rad__nav und .rad__current */
+.umfeld__nav{display:flex;align-items:center;justify-content:space-between;gap:16px;width:min(100%,520px)}
+.umfeld__current{display:flex;align-items:center;justify-content:center;gap:12px;min-width:0;text-align:left}
+.umfeld__current strong{display:block;font:var(--type-label);font-weight:600}
+.umfeld__current span span{display:block;font:var(--type-label);color:var(--ink-2)}
+/* Lesebereich wie .rad__reader, ohne Karte */
+.umfeld__reader{position:relative;min-width:0;max-width:var(--measure)}
 .umfeld__slides{position:relative;display:flex;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;margin:-8px}
 .umfeld__slides::-webkit-scrollbar{display:none}
-.umfeld__slide{flex:0 0 100%;box-sizing:border-box;min-width:0;padding:8px;scroll-snap-align:start;scroll-snap-stop:always;display:grid;gap:14px;justify-items:start;align-content:start}
+.umfeld__slide{flex:0 0 100%;box-sizing:border-box;min-width:0;padding:8px;scroll-snap-align:start;scroll-snap-stop:always;display:grid;gap:18px;justify-items:start;align-content:start}
+.umfeld__title{margin-top:4px}
+.umfeld__pills{display:flex;flex-wrap:wrap;gap:8px}
+/* Pillen: .element-chip ohne Icon. Nähe neutral, Resonanz im Hauch von Sterne wie der gewählte Name im Bild. */
+.umfeld__pill{padding:4px 14px;--tint:var(--offen)}
+.umfeld__pill.area{--tint:var(--sterne-hauch)}
 .umfeld__slides.is-dragging{scroll-snap-type:none;scroll-behavior:auto;user-select:none}
 @media(hover:hover) and (pointer:fine){.umfeld__slides{cursor:grab}.umfeld__slides.is-dragging{cursor:grabbing}}
 .umfeld__live{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.umfeld__state{color:var(--sterne-tief)}
 /* Hochformat für schmale Schirme: Namen in echten 15 px, passend in ihren Kreis */
-.umfeld__stage[data-layout=tall]{width:min(100%,440px)}
-.umfeld__stage[data-layout=tall] .umfeld__name{font:var(--type-label);font-weight:600}
-.umfeld__stage[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
-@media(min-width:900px){.umfeld{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}}
+.umfeld__scene[data-layout=tall]{width:min(100%,440px)}
+.umfeld__scene[data-layout=tall] .umfeld__name{font:var(--type-label);font-weight:600}
+.umfeld__scene[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
+@media(min-width:900px){.umfeld{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);column-gap:clamp(48px,6vw,96px)}}

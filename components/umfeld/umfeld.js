@@ -5,9 +5,14 @@
    die Resonanz (wie im Beziehungsraum), keine Linie führt zur Mitte. Ohne
    aktive Resonanz bleibt nur der Abstand. Der Freiraum fehlt, das Umfeld
    kennt den Wert nicht.
-   Bedienung wie beim Resonanzrad: Die Kreise im Bild sind Knöpfe. Eine Karte
-   zeigt den gewählten Menschen, mit Pfeilen und zum Ziehen (Finger oder Maus),
-   Kreis und Karte bleiben im Gleichschritt. Eine Liste gibt es nicht.
+   Aufbau und Bedienung wie beim Resonanzrad (Screen „Ich“): Bild, darunter
+   eine Zeile mit Pfeilen und dem gewählten Menschen, darunter der Lesebereich
+   ohne Karte. Dort stehen Nähe und Resonanz als Pillen, die Überschrift, die
+   Notiz und der Knopf. Die Kreise im Bild sind Knöpfe, der Lesebereich lässt
+   sich ziehen (Finger oder Maus), Kreis, Zeile und Lesebereich bleiben im
+   Gleichschritt. Eine Liste gibt es nicht.
+   Das Bild ist senkrecht auf seinen Inhalt beschnitten (Rand 16 Einheiten),
+   damit Zeile und Lesebereich früh im Sichtfeld stehen.
 
    Mobile-first: Unter 560 px Breite gilt ein Hochformat mit grösseren
    Kreisen, damit Namen in echten 15 px in ihren Kreis passen. Wird das
@@ -30,11 +35,9 @@
     { name: 'Lea', angle: 128, proximity: 24, resonance: 64, note: 'Weit weg im Alltag, trotzdem spürbar verbunden.' },
     { name: 'Sam', angle: 214, proximity: 70, resonance: 0, note: 'Oft nah, im Moment ohne aktive Resonanz.' }
   ];
-  function words(p) {
-    var near = p.proximity < 34 ? 'weit' : p.proximity < 75 ? 'nah' : 'sehr nah';
-    var res = p.resonance === 0 ? 'keine Resonanz' : p.resonance < 40 ? 'leise Resonanz' : p.resonance < 80 ? 'spürbare Resonanz' : 'starke Resonanz';
-    return near + ' · ' + res;
-  }
+  function near(p) { return p.proximity < 34 ? 'weit' : p.proximity < 75 ? 'nah' : 'sehr nah'; }
+  function res(p) { return p.resonance === 0 ? 'keine Resonanz' : p.resonance < 40 ? 'leise Resonanz' : p.resonance < 80 ? 'spürbare Resonanz' : 'starke Resonanz'; }
+  function words(p) { return near(p) + ' · ' + res(p); }
   function el(name, attrs) { var n = document.createElementNS(NS, name); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
 
   var count = 0;
@@ -44,18 +47,20 @@
     root.classList.add('umfeld');
     var ARROW_PREV = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg>';
     var ARROW_NEXT = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg>';
-    root.innerHTML = '<div class="umfeld__stage"></div>' +
-      '<div class="umfeld__card" role="group" aria-roledescription="Karussell" aria-label="Menschen in deinem Umfeld">' +
+    root.innerHTML = '<div class="umfeld__stage">' +
+        '<div class="umfeld__scene"></div>' +
         '<div class="umfeld__nav">' +
           '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="prev" aria-label="Vorheriger Mensch">' + ARROW_PREV + '</button>' +
-          '<p class="umfeld__count" aria-hidden="true"></p>' +
+          '<p class="umfeld__current" aria-hidden="true"></p>' +
           '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="next" aria-label="Nächster Mensch">' + ARROW_NEXT + '</button>' +
         '</div>' +
+      '</div>' +
+      '<div class="umfeld__reader" role="group" aria-roledescription="Karussell" aria-label="Menschen in deinem Umfeld">' +
         '<div class="umfeld__slides"></div>' +
         '<p class="umfeld__live" aria-live="polite"></p>' +
       '</div>';
-    var stage = root.querySelector('.umfeld__stage'), card = root.querySelector('.umfeld__card'), slider = root.querySelector('.umfeld__slides');
-    var count_ = root.querySelector('.umfeld__count'), live = root.querySelector('.umfeld__live');
+    var stage = root.querySelector('.umfeld__scene'), slider = root.querySelector('.umfeld__slides');
+    var current = root.querySelector('.umfeld__current'), live = root.querySelector('.umfeld__live');
     var selected = 0, layoutName = '', api = { parts: {} };
     var calm = function () { return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; };
 
@@ -63,18 +68,20 @@
       var href = link + '?person=' + encodeURIComponent(p.name) + '&proximity=' + p.proximity + '&resonance=' + p.resonance;
       var s = document.createElement('div');
       s.className = 'umfeld__slide'; s.setAttribute('role', 'group'); s.setAttribute('aria-roledescription', 'Folie');
-      s.innerHTML = '<' + heading + ' class="t-title">Du &amp; ' + p.name + '</' + heading + '>' +
-        '<p class="umfeld__state t-label">' + words(p) + '</p><p class="secondary">' + p.note + '</p>' +
+      s.innerHTML = '<div class="umfeld__pills"><span class="element-chip umfeld__pill">' + near(p) + '</span>' +
+        '<span class="element-chip area umfeld__pill">' + res(p) + '</span></div>' +
+        '<' + heading + ' class="umfeld__title t-title">Du &amp; ' + p.name + '</' + heading + '>' +
+        '<p class="secondary">' + p.note + '</p>' +
         '<a class="button button--secondary glow-edge" href="' + href + '">Beziehungsraum öffnen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></svg></a>';
       slider.appendChild(s);
       return s;
     });
     slides.forEach(function (s, i) { s.setAttribute('aria-label', (i + 1) + ' von ' + PEOPLE.length); });
-    card.querySelectorAll('[data-nav]').forEach(function (b) {
+    root.querySelectorAll('[data-nav]').forEach(function (b) {
       b.addEventListener('click', function () { select(selected + (b.getAttribute('data-nav') === 'next' ? 1 : -1)); });
     });
 
-    /* Abstand von Slide zu Slide (Breite eines Slides, ohne Kartenrand). */
+    /* Abstand von Slide zu Slide (Breite eines Slides). */
     function pitch() { return slides[0].offsetWidth || slider.clientWidth; }
     function slideTo(i, smooth) {
       var left = i * pitch();
@@ -125,7 +132,17 @@
     function draw(name) {
       var L = LAYOUTS[name];
       layoutName = name;
-      stage.innerHTML = '<svg class="umfeld__svg" viewBox="0 0 ' + L.W + ' ' + L.H + '" aria-hidden="true"><defs></defs></svg>';
+      /* Lage aller Menschen zuerst: daraus wird das Bild senkrecht auf den Inhalt beschnitten. */
+      var geo = PEOPLE.map(function (p) {
+        var dist = L.base + (100 - p.proximity) * L.k, a = p.angle * Math.PI / 180;
+        var level = p.resonance === 0 ? 0 : p.resonance < 40 ? 1 : p.resonance < 80 ? 2 : 3;
+        return { dist: dist, level: level, x: L.CX + dist * Math.sin(a), y: L.CY - dist * Math.cos(a) };
+      });
+      var minY = L.CY - L.ME, maxY = L.CY + L.ME;
+      geo.forEach(function (g) { var r = L.R + L.ring * g.level; minY = Math.min(minY, g.y - r); maxY = Math.max(maxY, g.y + r); });
+      var vbY = Math.floor(minY - 16), vbH = Math.ceil(maxY + 16) - vbY;
+      var fy = function (y) { return (y - vbY) / vbH * 100; };
+      stage.innerHTML = '<svg class="umfeld__svg" viewBox="0 ' + vbY + ' ' + L.W + ' ' + vbH + '" aria-hidden="true"><defs></defs></svg>';
       stage.dataset.layout = name;
       var svg = stage.firstChild, defs = svg.firstChild;
       var relief = el('linearGradient', { id: uid + '-relief', x1: '0%', y1: '0%', x2: '100%', y2: '100%' });
@@ -139,15 +156,15 @@
       /* Name im Bild („Ich“, ruht): eingemittet über `translate`. */
       var label = function (text, x, y, cls) {
         var s = document.createElement('span'); s.className = 'umfeld__name' + (cls ? ' ' + cls : ''); s.textContent = text;
-        s.style.left = x / L.W * 100 + '%'; s.style.top = y / L.H * 100 + '%'; stage.appendChild(s); return s;
+        s.style.left = x / L.W * 100 + '%'; s.style.top = fy(y) + '%'; stage.appendChild(s); return s;
       };
       /* Mensch: Knopf über dem ganzen Kreis. Er sitzt über left/top und Grösse genau auf dem Kreis, ohne Verschiebung:
          GSAP schreibt `translate` beim ersten Tween in `transform` um und verlöre die Einmittung. */
       var pick = function (p, i, x, y) {
         var b = document.createElement('button'); b.type = 'button'; b.className = 'umfeld__name umfeld__pick'; b.textContent = p.name;
         b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', p.name + ', ' + words(p));
-        b.style.left = (x - L.R) / L.W * 100 + '%'; b.style.top = (y - L.R) / L.H * 100 + '%';
-        b.style.width = 2 * L.R / L.W * 100 + '%'; b.style.height = 2 * L.R / L.H * 100 + '%';
+        b.style.left = (x - L.R) / L.W * 100 + '%'; b.style.top = fy(y - L.R) + '%';
+        b.style.width = 2 * L.R / L.W * 100 + '%'; b.style.height = 2 * L.R / vbH * 100 + '%';
         b.addEventListener('click', function () { select(i); });
         b.addEventListener('keydown', function (e) {
           var at = PEOPLE.indexOf(p), d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
@@ -160,10 +177,8 @@
       label('Ich', L.CX, L.CY, 'umfeld__name--me');
 
       var people = PEOPLE.map(function (p, i) {
-        var dist = L.base + (100 - p.proximity) * L.k;
-        var a = p.angle * Math.PI / 180, x = L.CX + dist * Math.sin(a), y = L.CY - dist * Math.cos(a);
+        var g = geo[i], dist = g.dist, x = g.x, y = g.y, level = g.level;
         var ux = (x - L.CX) / dist, uy = (y - L.CY) / dist;
-        var level = p.resonance === 0 ? 0 : p.resonance < 40 ? 1 : p.resonance < 80 ? 2 : 3;
         var stroke = null, ringList = [];
         if (level) {
           stroke = el('linearGradient', { id: uid + '-g' + i, gradientUnits: 'userSpaceOnUse', x1: x - (L.R + 24), y1: y, x2: x + (L.R + 24), y2: y });
@@ -181,7 +196,7 @@
         return { person: p, rings: ringList, disc: disc, contour: contour, name: pick(p, i, x, y),
           from: { x: L.CX + ux * L.edge, y: L.CY + uy * L.edge }, at: { x: x, y: y }, width: L.W };
       });
-      api.parts = { svg: svg, me: me, people: people, width: L.W };
+      api.parts = { svg: svg, me: me, people: people, width: L.W, top: vbY, height: vbH };
       mark();
     }
 
@@ -204,7 +219,7 @@
         if (on) { s.removeAttribute('inert'); s.removeAttribute('aria-hidden'); } else { s.setAttribute('inert', ''); s.setAttribute('aria-hidden', 'true'); }
         s.querySelector('a').tabIndex = on ? 0 : -1;
       });
-      count_.textContent = (i + 1) + ' / ' + PEOPLE.length;
+      current.innerHTML = '<span><strong>' + p.name + '</strong><span>' + words(p) + '</span></span>';
       if (!first) live.textContent = 'Du & ' + p.name + ', ' + words(p);
       if (!fromScroll) slideTo(i, !first);
     }

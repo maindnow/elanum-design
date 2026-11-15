@@ -239,11 +239,11 @@
   function umfeld() {
     all('[data-anim="umfeld"]').forEach(function (el) {
       var api = el._umfeld; if (!api) return;
-      var stage = el.querySelector('.umfeld__stage');
+      var stage = el.querySelector('.umfeld__scene');
       /* Bis die Szene sichtbar wird, bleibt sie verborgen, statt kurz voll dazustehen
          und dann für den Auftritt wieder zu verschwinden. */
-      var card = el.querySelector('.umfeld__card');
-      var veiled = [stage, card].filter(Boolean);
+      var nav = el.querySelector('.umfeld__nav'), reader = el.querySelector('.umfeld__reader');
+      var veiled = [stage, nav, reader].filter(Boolean);
       hideUntilVisible(veiled);
       finishers.push(function () { gsap.set(veiled, { clearProps: 'opacity' }); });
       whenVisible(stage, function () {
@@ -262,7 +262,9 @@
         });
         /* Die Linien um die Person blenden sanft ein, wo vorher die Verbindung gezeichnet wurde. */
         people.forEach(function (p, i) { if (p.rings.length) tl.from(p.rings, { opacity: 0, duration: 0.9, ease: M.ease.reveal, stagger: 0.15, clearProps: 'opacity' }, 1.4 + i * 0.15); });
-        if (card) tl.from(card, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 1.4);
+        /* Zeile und Lesebereich früh: die Bedienung steht da, bevor die Kreise ankommen. */
+        if (nav) tl.from(nav, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 0.4);
+        if (reader) tl.from(reader, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 0.6);
       }, 0.3);
     });
   }
