@@ -105,7 +105,7 @@ Die weiteren Entscheide zu Zeichen, Bewegung und App (zum Beispiel: Farbatem ver
 ## Arbeitsweise
 
 - **Sprache:** Deutsch, Schweizer Schreibweise („ss“ statt „ß“). Begriffe genau wie im Glossar.
-- **Ablauf:** Claude arbeitet auf einem Branch `claude/…` und eröffnet einen PR als Entwurf. Chris prüft lokal mit dem Block aus `CLAUDE.md` und mergt selbst. Danach den Block für `main` und, bei neuer Paketversion, den Block für den Tag.
+- **Ablauf:** Claude arbeitet auf einem Branch `claude/…` und eröffnet einen PR als Entwurf mit einem Abschnitt «Für Tris». Chris prüft lokal mit dem Block aus `CLAUDE.md`. **Mergen darf nur Tris** (Chris, 15.11.2026), weder Chris noch Claude mergen. Nach dem Merge den Block für `main` und, bei neuer Paketversion, den Block für den Tag. PR #18 und #21 hat Claude am 15.11.2026 noch auf Chris' Wort gemergt, bevor diese Regel feststand.
 - **Glossar ändern:** nur mit Freigabe von Chris und mit neuer Atlas-Version. Immer `assets/glossar.js` bearbeiten, dann `node tools/glossar-md.js`. `GLOSSAR.md` nie von Hand.
 - **Versionen und Tags:** Regeln in `CLAUDE.md`, „Versionen“. Die App verlässt sich auf die Tags: nie verschieben oder löschen.
 - **Vor jedem Push:** die Prüfungen aus `CLAUDE.md`, dazu der Atlas im Browser (Desktop, Tablet, Telefon, ohne Konsolenfehler).

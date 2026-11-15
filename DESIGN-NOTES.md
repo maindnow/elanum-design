@@ -57,6 +57,8 @@ Zusammengeführt: Sechs fast gleiche Papiertöne sind `--paper` und `--paper-lig
 
 **Abgelehnt.** Die Hauptfläche trägt weiter den Schleier ihres Bereichs, nicht dessen volle Fläche.
 
+**Bestätigt von Chris am 15.11.2026:** der Seitentitel in der Stufe Überschrift, die Begrenzung der Dauerschleifen samt Rangfolge des Atemtakts, die sichtbaren Folgen der Namen (Radien, Papiertöne, Schatten im Atlas) und `--motion-reveal` mit 700 ms.
+
 **Offen nach 4.12.**
 
 - Die grösste Schrift steht noch mehrfach auf Ich (Rad-Zentrum und Name des gewählten Elements) und auf Aktivitäten (Datum im Kreis und Titel des Erlebnisses), am Desktop auch auf Weg und Ankommen. Freigegeben war nur der Schritt am Seitentitel.

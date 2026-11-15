@@ -2,6 +2,10 @@
 
 Zuerst [UEBERGABE.md](UEBERGABE.md) lesen: Stand, offene Punkte, Entscheide zur Benennung und die Arbeitsweise mit Chris.
 
+## Mergen
+
+Mergen darf nur Tris (Chris Beyeler, 15.11.2026). Weder Chris noch Claude mergen einen PR, auch nicht auf Zuruf. Jede Änderung geht als Entwurfs-PR an Tris, mit einem Abschnitt «Für Tris»: Aufgabe, nötige Inputs, offene Fragen.
+
 ## Befehle für Chris
 
 Chris testet lokal auf einem Mac (zsh). Jede Anleitung muss idiotensicher sein:
