@@ -252,6 +252,7 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 - Zentren x = 172 + 0,4 × Nähe und x = 720 − erstes Zentrum, y = 200.
 - Öffnung symmetrisch um den unteren Kreispunkt. Die Verbindung trifft beide Konturen exakt.
 - Namen sind HTML-Text und atmen nicht mit. Werte sind Gestaltungsparameter, keine Messung.
+- Seit 4.11.2 wird der Seitentitel der Bausteinseiten (`.page-intro h1`) unter 400 px Fensterbreite mit dem Fenster kleiner (13vw, bei 320 px sind das 41,6 px). Vorher war «Beziehungsraum» in 52 px 325 px breit, Platz waren 272 px: Bei reduzierter Bewegung lief die Seite 29 px über, mit Bewegung schnitt die Maske des Titelauftritts das Wort ab. Die Geometrie des Beziehungsraums ist unverändert.
 
 **Weg und Tageslinie** (`components/weg/`, Baustein `.track` in `base.css`): Stationen erledigt (gefüllter Punkt), jetzt (Ring) und offen (Kontur mit Öffnung unten). Bis „jetzt“ führt die Spur, danach eine Unterbrechung. Labels stehen in einer eigenen Spalte und kreuzen die Linie nie. Waagrecht ab 900 px, darunter senkrecht.
 

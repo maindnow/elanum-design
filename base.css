@@ -131,6 +131,8 @@ body[data-motion=off] .track__marker{animation-play-state:paused}
 .page{max-width:calc(var(--content) + 2 * var(--gutter));margin:0 auto;padding:clamp(40px,8vw,96px) var(--gutter) var(--section)}
 .page-intro{max-width:var(--measure);margin-bottom:clamp(48px,7vw,96px)}
 .page-intro h1{font:var(--type-display);letter-spacing:-.025em}
+/* Unter 400 px passt ein langes Wort wie «Beziehungsraum» in 52 px nicht in die Spalte. Der Titel wird dort mit dem Fenster kleiner. */
+@media(max-width:399px){.page-intro h1{font-size:13vw}}
 .page-intro p{margin-top:24px;color:var(--ink-2)}
 
 /* ---------- Glührand ----------
