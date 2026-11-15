@@ -2,39 +2,24 @@
    ELANUM Beziehungsraum · Darstellung
    ============================================================ */
 .relationship-frame{position:relative;width:100%;max-width:1040px;margin:0 auto;container-type:inline-size}
-.relationship-frame svg{width:100%;height:auto;overflow:visible}
-/* Die Mitte des SVG-Raums (y = 200 von 720 Breite), unabhängig von der Skala darunter. */
-.relationship-label{position:absolute;top:27.778cqw;transform:translate(-50%,-50%);font:var(--type-title);line-height:1;text-align:center;white-space:nowrap;pointer-events:none}
-.relationship-label span:not([data-name]){display:block;margin-top:10px;font:var(--type-label);color:var(--ink-2)}
+.relationship-frame svg{display:block;width:100%;height:auto;overflow:visible}
+/* Die Namen stehen unter den Personen (y = 338 von 720 Breite). */
+.relationship-label{position:absolute;top:46.944cqw;transform:translateX(-50%);font:var(--type-heading);text-align:center;white-space:nowrap;pointer-events:none}
+.relationship-label span:not([data-name]){display:block;font:var(--type-label);color:var(--ink-2)}
 .relief-disc{filter:drop-shadow(6px 8px 6px #958B773B) drop-shadow(-5px -5px 5px #FFFFFFC0)}
 [data-dark] .relief-disc{filter:drop-shadow(6px 8px 7px #09252C99) drop-shadow(-4px -4px 5px #78949125)}
-[data-dark] [data-contour]{filter:drop-shadow(0 2px 1px #071D23AA)}
+[data-beziehung] .relief-disc{filter:drop-shadow(3px 4px 4px #958B7740)}
+[data-beziehung][data-dark] .relief-disc{filter:drop-shadow(3px 4px 5px #09252C99)}
 [data-dark] .relationship-label span:not([data-name]){color:#CBD9D6}
+[data-dark] [data-contour]{filter:drop-shadow(0 2px 1px #071D23AA)}
 [data-contour]{stroke-linejoin:round;opacity:.8}
-[data-bridge]{transition:stroke-width var(--motion-ui) ease}
-[data-bridge][data-level="3"]{filter:drop-shadow(0 0 7px #9466DFCC) drop-shadow(0 0 2px #D85BA9AA)}
-/* Skala: alle Stufen stehen da, die geltende ist hervorgehoben. */
-.relationship-scale{display:grid;gap:16px;margin:8px 0 16px;padding:0 8px;font:var(--type-label)}
-.relationship-scale div{display:grid;gap:4px;justify-items:center}
+[data-field][data-on]{filter:drop-shadow(0 0 3px #9466DFAA)}
+/* Die drei Werte als Wort: Name leise oben, Wert kräftig darunter. */
+.relationship-scale{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:520px;margin:12px auto 16px;font:var(--type-label);text-align:center}
 .relationship-scale dt{color:var(--ink-2)}
-.relationship-scale dd{display:flex;gap:6px;margin:0}
-.relationship-scale span{padding:3px 10px;border-radius:14px;color:var(--ink-2);white-space:nowrap}
-.relationship-scale span[data-on]{background:var(--ink);color:var(--canvas);font-weight:600}
-[data-dark] .relationship-scale :is(dt,span){color:#CBD9D6}
-[data-dark] .relationship-scale span[data-on]{background:#E8EEEA;color:#16363B}
-/* Schmal: eine Zeile je Wert, Name links, Stufen rechts in einer Flucht. Das braucht 278 px.
-   Unter 280 px Rahmenbreite steht der Name über den Stufen. */
-@container(max-width:699.98px){
-  .relationship-scale{gap:8px;padding:0}
-  .relationship-scale dd{gap:0}
-  .relationship-scale span{padding:3px 6px}
-}
-@container(min-width:280px) and (max-width:699.98px){
-  .relationship-scale{grid-template-columns:max-content max-content;justify-content:center;align-items:center}
-  .relationship-scale div{display:contents}
-}
-@container(min-width:700px){.relationship-scale{grid-template-columns:repeat(3,auto);justify-content:center;gap:48px}}
+.relationship-scale dd{margin:0;font-weight:600;color:var(--ink)}
+[data-dark] .relationship-scale dt{color:#CBD9D6}
+[data-dark] .relationship-scale dd{color:#fff}
 @media(max-width:560px){
   .relationship-frame{margin-left:-8px;margin-right:-8px;width:calc(100% + 16px)}
-  .relationship-label span:not([data-name]){margin-top:6px}
 }

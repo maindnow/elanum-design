@@ -1,15 +1,15 @@
 /* ============================================================
    ELANUM Beziehungsraum
-   Zwei runde, offene Konturen und eine kurze Verbindung. Eine Uhr
-   bewegt alle Darstellungen gemeinsam: 3,4 s Raum geben, 4,4 s zur Ruhe
-   kommen, maximal 7,5 % Radiusänderung. Kreise bleiben immer rund, die
-   Verbindung trifft beide Konturen exakt.
-
-   Lesbar ohne Regler: Bei «weit» stehen die Kreise aussen, bei «sehr nah»
-   berühren sie sich im Atem, sie überlappen nie. Resonanz hat vier Stufen
-   (keine Linie, fein, kräftig, kräftig mit Glühen). Unter dem Bild steht die
-   Skala: alle Stufen von Nähe, Resonanz und Freiraum, die geltende ist
-   hervorgehoben. Ohne Skala: data-skala="aus".
+   Zwei Menschen, jeder Wert mit eigenem Zeichen:
+   - Nähe ist der Abstand der zwei Personenkreise. Sie überlappen nie.
+   - Freiraum ist die helle Fläche um jede Person. Eine feine Linie zeigt,
+     wie gross sie höchstens wird. In der Mitte endet der eigene Platz dort,
+     wo der des anderen beginnt.
+   - Resonanz ist das Feld um beide: null bis drei leuchtende Linien, die
+     übrigen stehen gepunktet da.
+   Unter dem Bild stehen die drei Werte als Wort. Ohne: data-skala="aus".
+   Eine Uhr bewegt alle Darstellungen gemeinsam: 3,4 s Raum geben, 4,4 s zur
+   Ruhe kommen. Es atmet nur der Freiraum (höchstens 5 %) und das Leuchten.
 
    Markup:  <div data-beziehung [data-dark]><svg viewBox="0 0 720 400"></svg>
               <div class="relationship-label" data-person="a">…</div>
@@ -34,7 +34,8 @@
     openness: { label: 'Freiraum', steps: [['klein', 30], ['offen', 60], ['weit offen', Infinity]] }
   };
   var KEYS = ['proximity', 'resonance', 'openness'];
-  var BRIDGE = [[0, 0], [1.6, .6], [2.8, 1], [4.4, 1]];
+  /* Masse im SVG-Raum 720 × 400. */
+  var CY = 170, PERSON = 50, ROOM = [66, 112], ROOM_MAX = 118, FIELD = [132, 146, 160], GAP = [190, 10];
   function level(key, value) {
     var steps = SCALE[key].steps, i = 0;
     while (i < steps.length - 1 && value >= steps[i][1]) i++;
@@ -51,10 +52,7 @@
     dl.className = 'relationship-scale'; dl.setAttribute('aria-hidden', 'true');
     KEYS.forEach(function (k) {
       var row = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
-      dt.textContent = SCALE[k].label;
-      items[k] = SCALE[k].steps.map(function (step) {
-        var span = document.createElement('span'); span.textContent = step[0]; dd.appendChild(span); return span;
-      });
+      dt.textContent = SCALE[k].label; items[k] = dd;
       row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
     });
     container.appendChild(dl);
@@ -66,10 +64,7 @@
     if (key === f.scaleKey && label === f.label) return;
     f.scaleKey = key;
     var w = words(f.target);
-    if (f.scale) KEYS.forEach(function (k) {
-      var on = level(k, f.target[k]);
-      f.scale[k].forEach(function (span, i) { if (i === on) span.setAttribute('data-on', ''); else span.removeAttribute('data-on'); });
-    });
+    if (f.scale) KEYS.forEach(function (k) { f.scale[k].textContent = w[k]; });
     if (!f.img) return;
     /* Die Stufen hängen am Text der Einbettung. Setzt sie ihn neu, gilt der neue. */
     if (label !== f.label) f.base = label;
@@ -90,58 +85,88 @@
   function mount(container) {
     if (container._beziehung) return container._beziehung;
     var svg = container.querySelector('svg'), dark = container.hasAttribute('data-dark');
-    var id = frames.length, ink = dark ? '#E8EEEA' : '#16363B';
+    var id = frames.length, ink = dark ? '#E8EEEA' : '#16363B', quiet = dark ? '#CBD9D6' : '#3D5055';
     var defs = svgEl('defs', {});
-    var gradient = svgEl('linearGradient', { id: 'bz-gradient-' + id, gradientUnits: 'userSpaceOnUse', x1: 320, y1: 200, x2: 400, y2: 200 });
+    var gradient = svgEl('linearGradient', { id: 'bz-gradient-' + id, gradientUnits: 'userSpaceOnUse', x1: 0, y1: CY, x2: 720, y2: CY });
     var colors = dark ? ['#B4A4FF', '#8DBBFF', '#D7B0F1', '#F4A5C7', '#F9B8CD'] : ['#6756D9', '#4D7FE8', '#9466DF', '#D85BA9', '#F0719A'];
     [0, .28, .53, .77, 1].forEach(function (o, i) { gradient.appendChild(svgEl('stop', { offset: o, 'stop-color': colors[i] })); });
     var relief = svgEl('linearGradient', { id: 'bz-relief-' + id, x1: '0%', y1: '0%', x2: '100%', y2: '100%' });
-    relief.appendChild(svgEl('stop', { offset: 0, 'stop-color': dark ? '#365359' : '#FCF9F0' }));
-    relief.appendChild(svgEl('stop', { offset: 1, 'stop-color': dark ? '#1A343A' : '#E2DBCD' }));
-    defs.appendChild(gradient); defs.appendChild(relief); svg.appendChild(defs);
-    var discA = svgEl('circle', { fill: 'url(#bz-relief-' + id + ')', class: 'relief-disc' }), discB = discA.cloneNode();
-    var contour = function () { return svgEl('path', { fill: 'none', stroke: ink, 'stroke-width': 1.6, 'stroke-linecap': 'round', 'vector-effect': 'non-scaling-stroke', 'data-contour': '' }); };
+    relief.appendChild(svgEl('stop', { offset: 0, 'stop-color': dark ? '#4A686E' : '#FCF9F0' }));
+    relief.appendChild(svgEl('stop', { offset: 1, 'stop-color': dark ? '#2A474D' : '#E2DBCD' }));
+    /* Der eigene Platz endet in der Mitte, wo der des anderen beginnt. */
+    var clipA = svgEl('clipPath', { id: 'bz-left-' + id }), clipB = svgEl('clipPath', { id: 'bz-right-' + id });
+    clipA.appendChild(svgEl('rect', { x: 0, y: 0, width: 358.5, height: 400 }));
+    clipB.appendChild(svgEl('rect', { x: 361.5, y: 0, width: 358.5, height: 400 }));
+    [gradient, relief, clipA, clipB].forEach(function (n) { defs.appendChild(n); });
+    svg.appendChild(defs);
+    var field = FIELD.map(function () {
+      var n = svgEl('path', { fill: 'none', 'stroke-linecap': 'round', 'vector-effect': 'non-scaling-stroke', 'data-field': '' });
+      svg.appendChild(n); return n;
+    });
+    var side = function (clip) {
+      var g = svgEl('g', { 'clip-path': 'url(#' + clip + id + ')' });
+      var limit = svgEl('circle', { cy: CY, r: ROOM_MAX, fill: 'none', stroke: quiet, 'stroke-width': 1, opacity: dark ? .3 : .4, 'vector-effect': 'non-scaling-stroke', 'data-room-limit': '' });
+      var room = svgEl('circle', { cy: CY, fill: dark ? '#DCE8E4' : '#16363B', opacity: dark ? .2 : .1, 'data-room': '' });
+      g.appendChild(limit); g.appendChild(room); svg.appendChild(g);
+      return { limit: limit, room: room };
+    };
+    var roomA = side('bz-left-'), roomB = side('bz-right-');
+    var disc = function () { var n = svgEl('circle', { cy: CY, r: PERSON, fill: 'url(#bz-relief-' + id + ')', class: 'relief-disc' }); svg.appendChild(n); return n; };
+    var discA = disc(), discB = disc();
+    var contour = function () { var n = svgEl('circle', { cy: CY, r: PERSON, fill: 'none', stroke: ink, 'stroke-width': 1.6, 'vector-effect': 'non-scaling-stroke', 'data-contour': '' }); svg.appendChild(n); return n; };
     var a = contour(), b = contour();
-    var bridge = svgEl('path', { fill: 'none', stroke: 'url(#bz-gradient-' + id + ')', 'stroke-width': 2.8, 'stroke-linecap': 'round', 'vector-effect': 'non-scaling-stroke', 'data-bridge': '' });
-    var nodeA = svgEl('circle', { r: 3.3, fill: ink, 'data-node': '' }), nodeB = nodeA.cloneNode();
-    [discA, discB, a, b, bridge, nodeA, nodeB].forEach(function (n) { svg.appendChild(n); });
     var start = {
       proximity: +(container.getAttribute('data-proximity') || 58),
       resonance: +(container.getAttribute('data-resonance') || 72),
       openness: +(container.getAttribute('data-openness') || 34)
     };
     var frame = {
-      container: container, gradient: gradient, discA: discA, discB: discB, a: a, b: b, bridge: bridge, nodeA: nodeA, nodeB: nodeB,
-      ink: ink, id: id, mode: 'spectrum', visible: false, target: Object.assign({}, start), current: Object.assign({}, start),
-      labelA: container.querySelector('[data-person=a]'), labelB: container.querySelector('[data-person=b]'),
+      container: container, svg: svg, gradient: gradient, field: field, roomA: roomA, roomB: roomB, discA: discA, discB: discB, a: a, b: b,
+      ink: ink, quiet: quiet, id: id, mode: 'spectrum', visible: false, target: Object.assign({}, start), current: Object.assign({}, start),
+      labelA: container.querySelector('[data-person=a]'), labelB: container.querySelector('[data-person=b]'), width: 0, wide: 0,
       scale: buildScale(container), scaleKey: '', img: container.getAttribute('role') === 'img', base: '', label: null
     };
     frames.push(frame);
     container._beziehung = frame;
+    measure(frame);
     draw(frame, 0);
     observer.observe(container);
+    if (sizes) sizes.observe(container);
     return frame;
   }
 
+  /* Die Namen stehen unter den Personen. Stehen zwei Menschen sehr nah, rücken
+     die Namen so weit auseinander, dass sie sich nicht berühren. */
+  function measure(f) {
+    f.width = f.svg.getBoundingClientRect().width;
+    f.wide = ((f.labelA ? f.labelA.offsetWidth : 0) + (f.labelB ? f.labelB.offsetWidth : 0)) / 2 + 16;
+    var tall = Math.max(f.labelA ? f.labelA.offsetHeight : 0, f.labelB ? f.labelB.offsetHeight : 0);
+    f.svg.style.marginBottom = Math.max(0, Math.ceil(tall - f.width * 54 / 720)) + 'px';
+  }
+
   function draw(f, breath) {
-    var s = f.current, radius = 128 * (1 + .075 * breath), cy = 200;
-    var cxA = 142 + s.proximity * .8, cxB = 720 - cxA;
-    [[f.discA, cxA], [f.discB, cxB]].forEach(function (d) { d[0].setAttribute('cx', d[1]); d[0].setAttribute('cy', cy); d[0].setAttribute('r', radius - 5); });
-    var half = (6 + s.openness * .54) * Math.PI / 180, dx = radius * Math.sin(half), dy = radius * Math.cos(half);
-    var path = function (cx) { return 'M' + (cx - dx) + ' ' + (cy + dy) + ' A' + radius + ' ' + radius + ' 0 1 1 ' + (cx + dx) + ' ' + (cy + dy); };
-    f.a.setAttribute('d', path(cxA)); f.b.setAttribute('d', path(cxB));
-    var xA = cxA + radius, xB = cxB - radius, distance = xB - xA;
-    var bend = Math.min(28, distance * .3) * (1 - .65 * breath);
-    f.bridge.setAttribute('d', 'M' + xA + ' ' + cy + ' C' + (xA + distance * .32) + ' ' + (cy + bend) + ' ' + (xB - distance * .32) + ' ' + (cy + bend) + ' ' + xB + ' ' + cy);
+    var s = f.current;
+    var gap = GAP[0] + (GAP[1] - GAP[0]) * s.proximity / 100;
+    var cxA = 360 - gap / 2 - PERSON, cxB = 720 - cxA;
+    var room = (ROOM[0] + (ROOM[1] - ROOM[0]) * Math.max(0, Math.min(100, s.openness)) / 100) * (1 + .05 * breath);
+    [[f.roomA, cxA], [f.roomB, cxB]].forEach(function (r) {
+      r[0].limit.setAttribute('cx', r[1]); r[0].room.setAttribute('cx', r[1]); r[0].room.setAttribute('r', room);
+    });
+    [[f.discA, cxA], [f.discB, cxB], [f.a, cxA], [f.b, cxB]].forEach(function (d) { d[0].setAttribute('cx', d[1]); });
     var lvl = level('resonance', s.resonance);
-    f.bridge.setAttribute('opacity', BRIDGE[lvl][1] * (.82 + .18 * breath));
-    f.bridge.setAttribute('stroke-width', BRIDGE[lvl][0]);
-    f.bridge.setAttribute('data-level', lvl);
-    f.bridge.setAttribute('stroke', f.mode === 'ink' ? f.ink : 'url(#bz-gradient-' + f.id + ')');
-    f.gradient.setAttribute('x1', xA); f.gradient.setAttribute('x2', xB);
-    [[f.nodeA, xA], [f.nodeB, xB]].forEach(function (n) { n[0].setAttribute('cx', n[1]); n[0].setAttribute('cy', cy); n[0].setAttribute('opacity', lvl ? 1 : 0); });
-    if (f.labelA) f.labelA.style.left = cxA / 720 * 100 + '%';
-    if (f.labelB) f.labelB.style.left = cxB / 720 * 100 + '%';
+    f.field.forEach(function (n, i) {
+      var R = FIELD[i], on = i < lvl;
+      n.setAttribute('d', 'M' + cxA + ' ' + (CY - R) + 'L' + cxB + ' ' + (CY - R) + 'A' + R + ' ' + R + ' 0 0 1 ' + cxB + ' ' + (CY + R) + 'L' + cxA + ' ' + (CY + R) + 'A' + R + ' ' + R + ' 0 0 1 ' + cxA + ' ' + (CY - R) + 'Z');
+      n.setAttribute('stroke', on ? (f.mode === 'ink' ? f.ink : 'url(#bz-gradient-' + f.id + ')') : f.quiet);
+      n.setAttribute('stroke-width', on ? 1.8 : 1);
+      n.setAttribute('stroke-dasharray', on ? 'none' : '1 5');
+      n.setAttribute('opacity', on ? .86 + .14 * breath : .5);
+      if (on) n.setAttribute('data-on', ''); else n.removeAttribute('data-on');
+    });
+    f.gradient.setAttribute('x1', cxA - FIELD[2]); f.gradient.setAttribute('x2', cxB + FIELD[2]);
+    var push = f.width ? Math.max(0, (f.wide - (cxB - cxA) / 720 * f.width) / 2) : 0;
+    if (f.labelA) f.labelA.style.left = 'calc(' + cxA / 720 * 100 + '% - ' + push + 'px)';
+    if (f.labelB) f.labelB.style.left = 'calc(' + cxB / 720 * 100 + '% + ' + push + 'px)';
     readScale(f);
   }
 
@@ -180,6 +205,10 @@
     });
     request();
   }, { threshold: .05 });
+  var sizes = window.ResizeObserver ? new ResizeObserver(function (entries) {
+    entries.forEach(function (e) { var f = e.target._beziehung; if (f) { measure(f); draw(f, reduced.matches ? 0 : breathAt(elapsed)); } });
+  }) : null;
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { frames.forEach(function (f) { measure(f); draw(f, reduced.matches ? 0 : breathAt(elapsed)); }); });
   document.addEventListener('visibilitychange', function () { lastTime = 0; request(); });
   reduced.addEventListener('change', function () { frames.forEach(function (f) { draw(f, 0); }); request(); });
 

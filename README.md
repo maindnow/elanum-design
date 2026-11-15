@@ -214,10 +214,10 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 - `set(el, { proximity, resonance, openness }, immediate)`: Nähe, Resonanz und Freiraum, je 0 bis 100.
 - `setMode(el, 'spectrum' | 'ink')`, `setPaused(bool)`, `isPaused()`, `onPhase(fn)` für die Atmung, `redraw()`.
 - `words({ proximity, resonance, openness })` gibt die Stufen als Wörter zurück (`nah`, `spürbar`, `offen`), `SCALE` die Stufen mit ihren Grenzen.
-- Unter dem Bild steht von selbst die Skala mit allen Stufen, die geltende ist hervorgehoben. `data-skala="aus"` lässt sie weg.
+- Nähe ist der Abstand der Personenkreise, Freiraum die helle Fläche um jeden, Resonanz das Feld um beide (null bis drei Linien). Unter dem Bild stehen die drei Werte als Wort. `data-skala="aus"` lässt sie weg. Die Namen stehen unter den Personen.
 
 ```html
-<div class="relationship-frame" data-beziehung data-anim="beziehung" role="img" aria-label="Zwei runde, offene Konturen, verbunden durch eine kurze gebogene Linie.">
+<div class="relationship-frame" data-beziehung data-anim="beziehung" role="img" aria-label="Zwei Menschen als Kreise, um jeden sein Freiraum, um beide das Feld der Resonanz.">
   <svg viewBox="0 0 720 400" aria-hidden="true"></svg>
   <div class="relationship-label" data-person="a">Du<span>dein Raum</span></div>
   <div class="relationship-label" data-person="b"><span data-name>Mara</span><span>ihr Raum</span></div>

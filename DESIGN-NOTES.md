@@ -247,15 +247,16 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 
 **Umfeld** (`components/umfeld/`): Ich in der Mitte, Menschen als eigene, offene Kreise. Abstand zeigt Nähe, die Stärke der Linie die Resonanz, ohne aktive Resonanz gibt es keine Linie. Eine Liste ist die Bedienung, der gewählte Mensch öffnet den Beziehungsraum mit seinen Werten. So trägt das Umfeld mehr als eine einzelne Beziehung. Unter 560 px Breite gilt ein Hochformat mit grösseren Kreisen, damit die Namen in echten 15 px hineinpassen.
 
-**Beziehungsraum** (`components/beziehungsraum/`):
-- SVG-Raum 720 × 400, Kreisradius 128, in der Atmung höchstens 137,6, horizontal und vertikal immer gleich.
-- Zentren x = 142 + 0,8 × Nähe und x = 720 − erstes Zentrum, y = 200. Bei «weit» stehen die Kreise aussen (Lücke 180), bei «sehr nah» bleibt in Ruhe eine Lücke von 20, im Atem berühren sie sich fast. Sie überlappen nie. Vorher 172 + 0,4 × Nähe (Lücke 120 bis 40): Der Unterschied war zu klein, um ihn zu lesen.
-- Öffnung symmetrisch um den unteren Kreispunkt, halber Winkel 6° + 0,54° × Freiraum (vorher 8° + 0,4°). Die Verbindung trifft beide Konturen exakt.
-- Resonanz in vier Stufen statt stufenlos: keine Linie, fein (1,6 px, 60 %), kräftig (2,8 px), kräftig mit Glühen (4,4 px).
-- Skala unter dem Bild (`.relationship-scale`, vom Skript erzeugt): alle Stufen von Nähe, Resonanz und Freiraum stehen da, die geltende ist hervorgehoben. So ist ohne Regler lesbar, wo zwei Menschen stehen und was Minimum und Maximum wären. Ab 700 px Rahmenbreite drei Spalten, darunter eine Zeile je Wert (Name links, Stufen rechts, zusammen 97 px hoch). Unter 280 px Rahmenbreite passt das nicht, dort steht der Name über den Stufen. Abschalten mit `data-skala="aus"` (Match-Moment in der App, Bewegungsbeispiel im Atlas). Der Vorlesetext des Bilds nennt die drei Stufen.
-- Die drei Punkte oben sind ein **Entwurf vom 15.11.2026, noch ohne Freigabe** von Chris.
-- Namen sind HTML-Text und atmen nicht mit. Werte sind Gestaltungsparameter, keine Messung.
-- Seit 4.11.2 wird der Seitentitel der Bausteinseiten (`.page-intro h1`) unter 400 px Fensterbreite mit dem Fenster kleiner (13vw, bei 320 px sind das 41,6 px). Vorher war «Beziehungsraum» in 52 px 325 px breit, Platz waren 272 px: Bei reduzierter Bewegung lief die Seite 29 px über, mit Bewegung schnitt die Maske des Titelauftritts das Wort ab. Die Geometrie des Beziehungsraums ist unverändert.
+**Beziehungsraum** (`components/beziehungsraum/`), neue Darstellung vom 15.11.2026 (Entwurf, PR 24). Der Baustein wird in der App ohne Regler gezeigt, darum muss das Bild allein lesbar sein. Jeder Wert hat ein eigenes Zeichen mit eigener Referenz:
+- SVG-Raum 720 × 400, Mitte y = 170. Die Person ist ein Kreis mit Radius 50, immer gleich gross.
+- **Nähe** ist der Abstand der zwei Personenkreise: Lücke 190 bei «weit» bis 10 bei «sehr nah» (190 − 1,8 × Nähe). Sie überlappen nie.
+- **Freiraum** ist die helle Fläche um jede Person, Radius 66 bis 112 (in der Atmung höchstens 117,6). Eine feine Linie bei Radius 118 zeigt, wie gross sie höchstens wird. In der Mitte endet der eigene Platz dort, wo der des anderen beginnt.
+- **Resonanz** ist das Feld um beide: drei Linien im Abstand 132, 146 und 160 um beide Personen. Null bis drei leuchten im Spektrum, die übrigen stehen gepunktet da. So liest man «zwei von drei», bei jedem Abstand gleich gut.
+- Unter dem Bild stehen die drei Werte als Wort (`.relationship-scale`, vom Skript erzeugt): Name leise oben, Wert kräftig darunter. Abschalten mit `data-skala="aus"` (Match-Moment in der App, Bewegungsbeispiel im Atlas). Der Vorlesetext des Bilds nennt die drei Stufen.
+- Namen sind HTML-Text unter den Personen. Stehen zwei Menschen sehr nah, rücken die Namen so weit auseinander, dass sie sich nicht berühren. Werte sind Gestaltungsparameter, keine Messung.
+- Es atmet nur der Freiraum (5 %) und das Leuchten des Felds.
+- Verworfen: die frühere Form mit zwei grossen Kreisen (Radius 128), Verbindungslinie und Öffnung unten. Bei grosser Nähe war die Resonanz nicht lesbar, die Öffnung sagte nichts über Freiraum, und es fehlte jede Referenz für Minimum und Maximum. Ebenfalls verworfen: Wortreihen mit allen Stufen, Messlinien, Beschriftung im Bild, Freiraum als Grösse des Personenkreises.
+- Seit 4.11.2 wird der Seitentitel der Bausteinseiten (`.page-intro h1`) unter 400 px Fensterbreite mit dem Fenster kleiner (13vw, bei 320 px sind das 41,6 px). Vorher war «Beziehungsraum» in 52 px 325 px breit, Platz waren 272 px.
 
 **Weg und Tageslinie** (`components/weg/`, Baustein `.track` in `base.css`): Stationen erledigt (gefüllter Punkt), jetzt (Ring) und offen (Kontur mit Öffnung unten). Bis „jetzt“ führt die Spur, danach eine Unterbrechung. Labels stehen in einer eigenen Spalte und kreuzen die Linie nie. Waagrecht ab 900 px, darunter senkrecht.
 
