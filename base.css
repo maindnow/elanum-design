@@ -22,7 +22,7 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
 :focus-visible{outline:3px solid var(--sterne-tief);outline-offset:4px}
 
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.skip-link{position:fixed;top:10px;left:10px;z-index:60;padding:12px 18px;border-radius:var(--radius-control);background:var(--ink);color:#fff;font:var(--type-label);transform:translateY(-200%)}
+.skip-link{position:fixed;top:10px;left:10px;z-index:60;padding:12px 18px;border-radius:var(--radius-control);background:var(--ink);color:var(--white);font:var(--type-label);transform:translateY(-200%)}
 .skip-link:focus{transform:none}
 
 /* Fünf Stufen. Mehr gibt es nicht. */
@@ -39,13 +39,13 @@ html.motion-pending:not(.motion-ready):not(.motion-timeout) [data-anim]{opacity:
 .button{
   position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:10px;
   min-height:52px;padding:14px 24px;border:0;border-radius:var(--radius-button);
-  background:#16363B linear-gradient(135deg,#34565A,#16363B);color:#fff;
+  background:var(--ink) linear-gradient(135deg,var(--ink-soft),var(--ink));color:var(--white);
   font:var(--type-label);font-weight:600;text-decoration:none;
-  box-shadow:5px 5px 11px #C4BDAF,-4px -4px 10px #FFFFFF99;
+  box-shadow:var(--raised-sm);
   transition:transform var(--motion-ui) var(--ease-out),box-shadow var(--motion-ui) var(--ease-out);
 }
-.button::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:#fff;opacity:0;transition:opacity var(--motion-ui) var(--ease-out)}
-.button:active{transform:translateY(1px) scale(.98);box-shadow:inset 0 2px 5px #0003}
+.button::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--white);opacity:0;transition:opacity var(--motion-ui) var(--ease-out)}
+.button:active{transform:translateY(1px) scale(.98);box-shadow:var(--pressed-ink)}
 .button--secondary{background:var(--canvas);color:var(--ink);box-shadow:var(--raised-sm)}
 .button--secondary::before{background:var(--ink)}
 .button--secondary:active{box-shadow:var(--pressed)}
@@ -66,7 +66,7 @@ body[data-motion=off] .button__sign--busy{animation:none}
   body:not([data-motion=off]) .button:not([aria-disabled=true]):hover{transform:translateY(-2px);box-shadow:var(--glow)}
   body:not([data-motion=off]) .button--secondary:not([aria-disabled=true]):hover{box-shadow:var(--raised-sm),var(--glow)}
   .button:active{transform:translateY(1px) scale(.98)}
-  .segmented button:not([aria-pressed=true]):not([aria-selected=true]):hover{background:#FFFFFF8C;color:var(--ink);box-shadow:var(--raised-sm)}
+  .segmented button:not([aria-pressed=true]):not([aria-selected=true]):hover{background:color-mix(in srgb,var(--white) 55%,transparent);color:var(--ink);box-shadow:var(--raised-sm)}
   .back-link:hover,.brand:hover{color:var(--sterne-tief)}
   .back-link:hover{background:var(--paper);text-decoration-thickness:2px}
 }
@@ -77,8 +77,8 @@ body[data-motion=off] .button__sign--busy{animation:none}
 
 /* ---------- Status ----------
    Kräftige Rollenfarbe, Balken, gefülltes Zeichen und Text. */
-.status{display:grid;grid-template-columns:28px 1fr;gap:14px;align-items:start;padding:18px 20px;border-left:4px solid var(--role);border-radius:4px var(--radius-control) var(--radius-control) 4px;background:var(--role-bg);color:var(--ink)}
-.status__sign{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--role);color:#fff;font:var(--type-label);font-weight:600;line-height:1}
+.status{display:grid;grid-template-columns:28px 1fr;gap:14px;align-items:start;padding:18px 20px;border-left:4px solid var(--role);border-radius:calc(var(--radius-control) / 3) var(--radius-control) var(--radius-control) calc(var(--radius-control) / 3);background:var(--role-bg);color:var(--ink)}
+.status__sign{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--role);color:var(--white);font:var(--type-label);font-weight:600;line-height:1}
 .status__title{display:block;font:var(--type-label);font-weight:600;color:var(--role)}
 .status__text{font:var(--type-body);margin-top:2px}
 .status,[data-role=info]{--role:var(--info);--role-bg:var(--info-bg)}
@@ -93,7 +93,7 @@ body[data-motion=off] .button__sign--busy{animation:none}
 .chip{display:inline-flex;align-items:center;gap:10px;font:var(--type-label);font-weight:600;color:var(--tone)}
 .chip::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--tone)}
 /* Element-Chip: Icon des Elements im Kreis, Name daneben, Grund im Hauch des Bereichs. */
-.element-chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:4px 14px 4px 5px;border-radius:18px;background:var(--tint);font:var(--type-label);font-weight:600;color:var(--ink)}
+.element-chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:4px 14px 4px 5px;border-radius:var(--radius-round);background:var(--tint);font:var(--type-label);font-weight:600;color:var(--ink)}
 .element-chip>.icon{width:28px;height:28px;padding:3px;border-radius:50%;background:var(--paper);color:var(--tone)}
 .element-chips{display:flex;flex-wrap:wrap;gap:8px}
 
@@ -110,11 +110,11 @@ body[data-motion=off] .button__sign--busy{animation:none}
 .track__station[data-state=done] .track__marker{background:var(--ink);transform:scale(.72)}
 .track__station[data-state=now] .track__marker{background:var(--canvas);box-shadow:0 0 0 var(--trace) var(--sterne-tief),0 0 0 6px var(--sterne-hauch)}
 /* Glühen von «jetzt»: eine eigene Ebene. Im Atemtakt bewegt sich nur ihre Deckkraft (siehe Atemtakt). */
-.track__station[data-state=now] .track__marker::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 22px 8px #D85BA955;opacity:.6;pointer-events:none}
-.track__station[data-state=open] .track__marker{border:var(--trace) solid var(--ink-2);-webkit-mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0);mask:conic-gradient(from 155deg,transparent 0 50deg,#000 0)}
+.track__station[data-state=now] .track__marker::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:var(--glow-now);opacity:.6;pointer-events:none}
+.track__station[data-state=open] .track__marker{border:var(--trace) solid var(--ink-2);-webkit-mask:conic-gradient(from 155deg,transparent 0 50deg,var(--black) 0);mask:conic-gradient(from 155deg,transparent 0 50deg,var(--black) 0)}
 .track__seg{position:absolute;left:calc(var(--marker) / 2 - .8px);top:calc(6px + var(--marker) / 2);bottom:calc(-6px - var(--marker) / 2);width:var(--trace);background:var(--ink);transform-origin:top}
 .track__station:last-child .track__seg{display:none}
-.track__station[data-state=done]:has(+ [data-state=now]) .track__seg{width:var(--bridge);left:calc(var(--marker) / 2 - 1.4px);background:linear-gradient(180deg,#6756D9,#D85BA9)}
+.track__station[data-state=done]:has(+ [data-state=now]) .track__seg{width:var(--bridge);left:calc(var(--marker) / 2 - 1.4px);background:linear-gradient(180deg,var(--violet),var(--rose))}
 .track__station[data-state=now] .track__seg,.track__station[data-state=open] .track__seg{top:calc(6px + var(--marker) + 10px);background:repeating-linear-gradient(180deg,var(--ink-2) 0 6px,transparent 6px 12px)}
 .track__when{display:block;font:var(--type-label);color:var(--ink-2)}
 .track__title{font:var(--type-heading)}
@@ -127,7 +127,7 @@ body[data-motion=off] .button__sign--busy{animation:none}
   .track--horizontal .track__station{grid-template-columns:1fr;grid-template-rows:var(--marker) auto;row-gap:22px;padding:0 24px 0 0}
   .track--horizontal .track__marker{margin-top:0}
   .track--horizontal .track__seg{left:calc(var(--marker) / 2);right:calc(-1 * var(--marker) / 2);top:calc(var(--marker) / 2 - .8px);bottom:auto;width:auto;height:var(--trace);transform-origin:left}
-  .track--horizontal .track__station[data-state=done]:has(+ [data-state=now]) .track__seg{left:calc(var(--marker) / 2);width:auto;height:var(--bridge);top:calc(var(--marker) / 2 - 1.4px);background:linear-gradient(90deg,#6756D9,#D85BA9)}
+  .track--horizontal .track__station[data-state=done]:has(+ [data-state=now]) .track__seg{left:calc(var(--marker) / 2);width:auto;height:var(--bridge);top:calc(var(--marker) / 2 - 1.4px);background:linear-gradient(90deg,var(--violet),var(--rose))}
   .track--horizontal .track__station[data-state=now] .track__seg,.track--horizontal .track__station[data-state=open] .track__seg{left:calc(var(--marker) + 10px);top:calc(var(--marker) / 2 - .8px);background:repeating-linear-gradient(90deg,var(--ink-2) 0 6px,transparent 6px 12px)}
 }
 
@@ -154,7 +154,7 @@ body[data-motion=off] .button__sign--busy{animation:none}
 .glow-edge,.button{position:relative;isolation:isolate}
 .glow-edge::after,.button::after{content:"";position:absolute;inset:0;z-index:2;padding:2px;border-radius:inherit;pointer-events:none;
   background:conic-gradient(from var(--edge-angle),var(--edge-stops));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  -webkit-mask:linear-gradient(var(--black) 0 0) content-box,linear-gradient(var(--black) 0 0);-webkit-mask-composite:xor;mask:linear-gradient(var(--black) 0 0) content-box exclude,linear-gradient(var(--black) 0 0);
   opacity:0;transition:opacity var(--motion-ui) var(--ease-out);animation:edge-turn 6s linear infinite paused}
 .glow-edge:is(.is-glowing,[aria-pressed=true],[aria-selected=true])::after,:is(.glow-edge,.button):focus-visible::after,.glow-edge:has(:focus-visible)::after{opacity:1}
 :is(.glow-edge,.button):focus-visible::after,.glow-edge:has(:focus-visible)::after{animation-play-state:running}
@@ -188,11 +188,11 @@ body[data-motion=off] :is(.day-arc__halo,.rad__halo),body[data-motion=off] .trac
    und ein weiches Glühen. Der Thumb ist ein Pseudo-Element ohne eigene Animation,
    darum steht der Verlauf hier still (Violett aussen, Rosé als Glühen). */
 input[type=range]:focus-visible{outline:none}
-input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
-input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:var(--glow-thumb)}
+input[type=range]:focus-visible::-moz-range-thumb{box-shadow:var(--glow-thumb)}
 @media(hover:hover) and (pointer:fine){
-  input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
-  input[type=range]:hover::-moz-range-thumb{box-shadow:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999}
+  input[type=range]:hover::-webkit-slider-thumb{box-shadow:var(--glow-thumb)}
+  input[type=range]:hover::-moz-range-thumb{box-shadow:var(--glow-thumb)}
 }
 
 @media(prefers-reduced-motion:reduce){

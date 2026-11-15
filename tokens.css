@@ -13,8 +13,15 @@
   --paper:#F6F1E7;
   --ink:#16363B;
   --ink-2:#3D5055;          /* Sekundärtext, 7,2:1 auf Canvas */
+  --ink-soft:#2E4B50;       /* Ink, eine Stufe heller: Verläufe und Flächen auf Dunkel */
   --line:#D3CDC0;
   --offen:#E5E0D6;          /* Offene Elemente im Rad: grau, --ink-2 darauf 6,4:1 */
+  --paper-light:#FFFDF8;    /* hellstes Papier: Lichtkante der Hauptfläche, Scheibe im Tagesbogen */
+  --sand:#F0D9BF;           /* warmer Schleier für Flächen ohne Bereich */
+  --sand-deep:#CDB79C;      /* tieferer warmer Ton: Bildplatz, solange kein Foto da ist */
+  --on-dark:#CBD9D6;        /* Sekundärtext auf Ink, 9,3:1 */
+  --white:#FFFFFF;          /* Licht. Stufen der Deckkraft entstehen mit color-mix */
+  --black:#000000;          /* Masken und der tiefste Schatten */
 
   /* Drei Bereiche des Resonanzrads, ausgeglichen: gleiche Helligkeit
      (OKLCH L 0.46 / 0.864 / 0.94), Sättigung pro Farbton angeglichen.
@@ -28,6 +35,7 @@
 
   /* Verläufe. Die Farbstopps stehen als kommaseparierte Liste darunter,
      so lassen sie sich in jedes Werkzeug kopieren. */
+  --violet:#6756D9; --blue:#4D7FE8; --orchid:#9466DF; --rose:#D85BA9; --pink:#F0719A;   /* die fünf Stopps einzeln */
   --spectrum-stops:#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A;          /* Markenspektrum: Zeichen, Verbindung */
   --spectrum:linear-gradient(110deg,var(--spectrum-stops));
   --bridge-stops:#6756D9, #D85BA9;                                         /* Verbindung zwischen zwei Menschen */
@@ -59,10 +67,39 @@
   --radius-control:12px;
   --radius-button:16px;
   --radius-surface:28px;
+  --radius-round:999px;      /* rund: Chips, Griffe, Marken */
   --raised:9px 9px 22px #C9C3B680,-9px -9px 22px #FFFFFFC9;
   --paper-shadow:6px 8px 22px #C4BDAF80,-3px -3px 8px #FFFFFFB3;     /* Papier: ruhiger als --raised */
   --raised-sm:4px 4px 10px #C4BDAF99,-4px -4px 10px #FFFFFFD9;
   --pressed:inset 5px 5px 12px #C8C1B580,inset -5px -5px 12px #FFFFFFE0;
+  --pressed-ink:inset 0 2px 5px #00000033;                               /* gedrückter Button in Ink */
+  --lifted:12px 16px 30px -18px #A39B8A,-10px -10px 26px #FFFFFFC0;      /* schwebende Fläche: Hauptfläche, Gerätevorschau */
+  --lifted-deep:14px 18px 36px -16px #7F776A,-10px -10px 26px #FFFFFFC0; /* dunkle Hauptfläche */
+  --lifted-dark:0 10px 24px -10px #000000AA;                             /* Button auf der dunklen Hauptfläche */
+  --sheen:inset 0 1px 0 #FFFFFFE6,inset 0 0 0 1px #FFFFFF8C;             /* Lichtkante einer schwebenden Fläche */
+  --under:0 22px 44px -28px;                                             /* Glühen unter einer Fläche: nur das Mass, die Farbe kommt aus dem Bereich */
+  --under-far:0 36px 72px -34px;
+  --sheet-shadow:0 -18px 44px -18px #16363B59;                           /* Sheet und Quellenkarte von unten */
+  --float-shadow:0 30px 60px -30px #16363B80;                            /* schwebende Karte ab 600 px */
+  --bar-shadow:0 -14px 30px -20px #A39B8A;                               /* Leiste unten */
+  --text-lift:0 6px 24px #8F877966;                                      /* Initiale auf einem Bildplatz */
+  --raised-dark:3px 3px 7px #0B242B,-2px -2px 6px #3D5C61;               /* Relief auf Ink */
+  --pressed-dark:inset 3px 3px 7px #0B242B,inset -3px -3px 7px #355358;
+
+  /* Relief für runde Formen, als filter */
+  --relief-disc:drop-shadow(4px 5px 6px #B9B0A0A6) drop-shadow(-4px -4px 5px #FFFFFF);
+  --relief-disc-sm:drop-shadow(3px 4px 5px #C4BDAF80) drop-shadow(-2px -2px 4px #FFFFFFB3);
+  --relief-disc-dark:drop-shadow(6px 8px 7px #09252C99) drop-shadow(-4px -4px 5px #78949125);
+  --relief-zeichen:drop-shadow(6px 9px 6px #79726830) drop-shadow(-3px -3px 3px #FFFFFF88);
+  --relief-line-dark:drop-shadow(0 2px 1px #071D23AA);
+  --drop-soft:drop-shadow(3px 5px 3px #16363B22);
+
+  /* Glühen: immer im Markenspektrum */
+  --glow-line:drop-shadow(0 0 5px #9466DF99);                            /* Verbindung, Spur bis jetzt */
+  --glow-rose:drop-shadow(0 0 5px #D85BA9AA);                            /* das Stück, das wartet */
+  --glow-now:0 0 22px 8px #D85BA955;                                     /* «jetzt» auf der Spur */
+  --glow-dot:0 0 10px #9466DFAA;                                         /* Punkt für Neues */
+  --glow-thumb:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999;  /* Griff des Schiebereglers */
 
   /* Linien: ein System für Rad, Umfeld, Weg und Tageslinie */
   --trace:1.6px;

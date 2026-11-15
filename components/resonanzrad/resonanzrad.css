@@ -10,7 +10,7 @@
 .rad__track,.rad__plate,.rad__center{position:absolute;border-radius:50%}
 .rad__track{background:var(--canvas);box-shadow:var(--pressed)}
 .rad__plate{background:var(--canvas);box-shadow:var(--raised)}
-.rad__center{display:grid;place-items:center;z-index:1;background:linear-gradient(135deg,#FAF6ED,#EBE4D7);box-shadow:var(--raised-sm);font:var(--type-title);font-size:32px;pointer-events:none}
+.rad__center{display:grid;place-items:center;z-index:1;background:linear-gradient(135deg,var(--paper),var(--offen));box-shadow:var(--raised-sm);font:var(--type-title);font-size:32px;pointer-events:none}
 .rad__svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .rad__rotor{transform-box:view-box;transform-origin:160px 160px;transition:transform var(--turn) var(--ease-out)}
 .rad__icon{transform-box:view-box;transition:transform var(--turn) var(--ease-out)}
@@ -33,7 +33,7 @@
 .rad__icon.is-open .rad__name-in{fill:var(--ink-2)}
 /* Plus: eine Farbe (Ink), weisses Kreuz, nie über Name oder Icon (eigene Zeile). */
 .rad__plus circle{fill:var(--ink);stroke:none}
-.rad__plus path{fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.rad__plus path{fill:none;stroke:var(--white);stroke-width:1.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
 .rad:not(.is-compact) .rad__glyph,.rad.is-compact .rad__name-in,.rad.is-compact .rad__result-in,.rad.is-tiny .rad__plus{display:none}
 /* Auswahlbogen: Farbe des Bereichs. Dahinter liegt eine Glüh-Ebene in derselben Farbe,
    im Atemtakt bewegt sich nur ihre Deckkraft (base.css, Atemtakt). */
@@ -77,7 +77,7 @@
 .rad__item-state{color:var(--ink-2);white-space:nowrap}
 .rad__item.is-open .rad__item-name,.rad__item.is-open .icon{color:var(--ink-2)}
 .rad__fill-cta{color:var(--ink);font-weight:600;padding:4px 10px;margin:-4px -10px -4px 0;border-radius:var(--radius-control);transition:background var(--motion-ui) var(--ease-out)}
-@media(hover:hover) and (pointer:fine){.rad__item:hover .rad__fill-cta{background:#FFFFFFA6;text-decoration:underline;text-underline-offset:4px}}
+@media(hover:hover) and (pointer:fine){.rad__item:hover .rad__fill-cta{background:color-mix(in srgb,var(--white) 65%,transparent);text-decoration:underline;text-underline-offset:4px}}
 .rad__swatch{width:18px;height:18px;border-radius:50%;background:var(--offen);border:var(--trace) dashed var(--ink-2)}
 .rad__swatch.is-done{background:var(--swatch);border:0}
 .rad__item[aria-selected=true]{background:var(--tint);box-shadow:var(--raised-sm)}
@@ -95,8 +95,8 @@
 }
 
 /* Kleines Rad für Karten (ElanumResonanzrad.mini): ohne Schrift, ohne Bedienung */
-.rad-mini{display:block;width:100%;height:auto;aspect-ratio:1;filter:drop-shadow(3px 4px 5px #C4BDAF80) drop-shadow(-2px -2px 4px #FFFFFFB3)}
+.rad-mini{display:block;width:100%;height:auto;aspect-ratio:1;filter:var(--relief-disc-sm)}
 /* Das Stück, das als Nächstes wartet (opts.focus), hebt sich ab und glüht ruhig */
 .rad-mini__face{transform-box:view-box;transform-origin:160px 160px}
-.rad-mini__face.is-focus{filter:drop-shadow(0 0 5px #D85BA9AA)}
+.rad-mini__face.is-focus{filter:var(--glow-rose)}
 body[data-motion=off] .rad-mini__face{animation-play-state:paused}

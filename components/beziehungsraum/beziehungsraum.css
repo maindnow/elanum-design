@@ -5,12 +5,12 @@
 .relationship-frame svg{width:100%;height:auto;overflow:visible}
 .relationship-label{position:absolute;top:50%;transform:translate(-50%,-50%);font:var(--type-title);line-height:1;text-align:center;white-space:nowrap;pointer-events:none}
 .relationship-label span:not([data-name]){display:block;margin-top:10px;font:var(--type-label);color:var(--ink-2)}
-.relief-disc{filter:drop-shadow(6px 8px 6px #958B773B) drop-shadow(-5px -5px 5px #FFFFFFC0)}
-[data-dark] .relief-disc{filter:drop-shadow(6px 8px 7px #09252C99) drop-shadow(-4px -4px 5px #78949125)}
-[data-dark] [data-contour]{filter:drop-shadow(0 2px 1px #071D23AA)}
-[data-dark] .relationship-label span:not([data-name]){color:#CBD9D6}
+.relief-disc{filter:var(--relief-disc)}
+[data-dark] .relief-disc{filter:var(--relief-disc-dark)}
+[data-dark] [data-contour]{filter:var(--relief-line-dark)}
+[data-dark] .relationship-label span:not([data-name]){color:var(--on-dark)}
 [data-contour]{stroke-linejoin:round;opacity:.8}
-[data-bridge]{filter:drop-shadow(0 0 5px #9466DF80) drop-shadow(0 2px 2px #16363B33)}
+[data-bridge]{filter:var(--glow-line) var(--drop-soft)}
 @media(max-width:560px){
   .relationship-frame{margin-left:-8px;margin-right:-8px;width:calc(100% + 16px)}
   .relationship-label span:not([data-name]){margin-top:6px}
