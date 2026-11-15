@@ -16,9 +16,10 @@
 (function () {
   'use strict';
   var NS = 'http://www.w3.org/2000/svg';
+  /* ring: Abstand der Linien um die Person. Im Hochformat enger, damit sie im Bild bleiben. */
   var LAYOUTS = {
-    wide: { W: 720, H: 600, CX: 360, CY: 300, ME: 62, R: 46, base: 150, k: 1.1, edge: 330 },
-    tall: { W: 400, H: 560, CX: 200, CY: 280, ME: 52, R: 44, base: 120, k: 0.85, edge: 260 }
+    wide: { W: 720, H: 600, CX: 360, CY: 300, ME: 62, R: 46, base: 150, k: 1.1, edge: 330, ring: 8 },
+    tall: { W: 400, H: 560, CX: 200, CY: 280, ME: 52, R: 44, base: 120, k: 0.8, edge: 260, ring: 6 }
   };
   var PEOPLE = [
     { name: 'Mara', angle: -58, proximity: 84, resonance: 86, note: 'Ihr teilt viel, ohne dasselbe zu brauchen.' },
@@ -84,7 +85,7 @@
           defs.appendChild(stroke);
         }
         for (var k = 1; k <= level; k++) {
-          var ring = el('circle', { cx: x, cy: y, r: L.R + 8 * k, class: 'umfeld__ring', stroke: 'url(#' + uid + '-g' + i + ')', 'stroke-width': 1.8, 'data-ring': '' });
+          var ring = el('circle', { cx: x, cy: y, r: L.R + L.ring * k, class: 'umfeld__ring', stroke: 'url(#' + uid + '-g' + i + ')', 'stroke-width': 1.8, 'data-ring': '' });
           rings.appendChild(ring); ringList.push(ring);
         }
         var disc = el('circle', { cx: x, cy: y, r: L.R - 4, fill: 'url(#' + uid + '-relief)', class: 'relief-disc' });
