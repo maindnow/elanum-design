@@ -199,7 +199,7 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 **Umfeld** · `components/umfeld/`, dazu `beziehungsraum.css` · `window.ElanumUmfeld`
 
 - `mount(root, { link, heading })` zeichnet Ich und die Menschen darum und gibt `{ select(i), parts }` zurück. `link` führt zum Beziehungsraum, ergänzt um `?person=…&proximity=…&resonance=…`.
-- Bedienung: Die Kreise im Bild sind Knöpfe (Pfeiltasten wechseln den Menschen). Aufbau wie beim Resonanzrad: das Bild, darunter `.umfeld__nav` mit Pfeilen und dem gewählten Menschen, darunter der Lesebereich `.umfeld__reader` ohne Karte (Pillen für Nähe und Resonanz, Überschrift, Notiz, Knopf), zum Ziehen mit Finger oder Maus. Das Bild ist senkrecht auf den Inhalt beschnitten. Eine Liste gibt es nicht. Grund: Rückmeldung Chris vom 15.11.2026, Design wie die Ich-Übersicht.
+- Bedienung: Die Kreise im Bild sind Knöpfe (Pfeiltasten wechseln den Menschen). Aufbau: das Bild, darunter (ab 900 px daneben) ein Panel `.umfeld__panel` (erhöhte Karte). Oben im Panel `.umfeld__nav` mit den Pfeilen und dem Namen des gewählten Menschen (`.umfeld__current`, als Überschrift im mit `heading` gewählten Level), darunter der Lesebereich `.umfeld__reader` mit Pillen für Nähe und Resonanz, Notiz und Knopf, zentriert, zum Ziehen mit Finger oder Maus. Jede Angabe steht nur einmal. Das Bild ist senkrecht auf den Inhalt beschnitten. Eine Liste gibt es nicht. Grund: Rückmeldungen Chris vom 15.11. und 16.11.2026, Design wie die Ich-Übersicht, eine Einheit.
 - `people`: die Menschen der Vorschau.
 
 ```html

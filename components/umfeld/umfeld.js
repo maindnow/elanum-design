@@ -5,14 +5,16 @@
    die Resonanz (wie im Beziehungsraum), keine Linie führt zur Mitte. Ohne
    aktive Resonanz bleibt nur der Abstand. Der Freiraum fehlt, das Umfeld
    kennt den Wert nicht.
-   Aufbau und Bedienung wie beim Resonanzrad (Screen „Ich“): Bild, darunter
-   eine Zeile mit Pfeilen und dem gewählten Menschen, darunter der Lesebereich
-   ohne Karte. Dort stehen Nähe und Resonanz als Pillen, die Überschrift, die
-   Notiz und der Knopf. Die Kreise im Bild sind Knöpfe, der Lesebereich lässt
-   sich ziehen (Finger oder Maus), Kreis, Zeile und Lesebereich bleiben im
-   Gleichschritt. Eine Liste gibt es nicht.
+   Aufbau: das Bild, darunter oder daneben ein einziges Panel (erhöhte Karte).
+   Oben im Panel stehen die Pfeile mit dem Namen des gewählten Menschen (als
+   Überschrift), direkt darunter im Lesebereich die Pillen für Nähe und
+   Resonanz, die Notiz und der Knopf, alles zentriert. Jede Angabe steht nur
+   einmal. Die Kreise im Bild sind Knöpfe, der Lesebereich lässt sich ziehen
+   (Finger oder Maus), Kreis, Name und Lesebereich bleiben im Gleichschritt.
+   Eine Liste gibt es nicht. Für Vorleser trägt das Panel die Rolle Karussell,
+   und eine Live-Zeile sagt «Du & Name, Nähe, Resonanz» an.
    Das Bild ist senkrecht auf seinen Inhalt beschnitten (Rand 16 Einheiten),
-   damit Zeile und Lesebereich früh im Sichtfeld stehen.
+   damit das Panel früh im Sichtfeld steht.
 
    Mobile-first: Unter 560 px Breite gilt ein Hochformat mit grösseren
    Kreisen, damit Namen in echten 15 px in ihren Kreis passen. Wird das
@@ -47,16 +49,16 @@
     root.classList.add('umfeld');
     var ARROW_PREV = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg>';
     var ARROW_NEXT = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg>';
-    root.innerHTML = '<div class="umfeld__stage">' +
-        '<div class="umfeld__scene"></div>' +
+    root.innerHTML = '<div class="umfeld__stage"><div class="umfeld__scene"></div></div>' +
+      '<div class="umfeld__panel" role="group" aria-roledescription="Karussell" aria-label="Menschen in deinem Umfeld">' +
         '<div class="umfeld__nav">' +
           '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="prev" aria-label="Vorheriger Mensch">' + ARROW_PREV + '</button>' +
-          '<p class="umfeld__current" aria-hidden="true"></p>' +
+          '<' + heading + ' class="umfeld__current"></' + heading + '>' +
           '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="next" aria-label="Nächster Mensch">' + ARROW_NEXT + '</button>' +
         '</div>' +
-      '</div>' +
-      '<div class="umfeld__reader" role="group" aria-roledescription="Karussell" aria-label="Menschen in deinem Umfeld">' +
-        '<div class="umfeld__slides"></div>' +
+        '<div class="umfeld__reader">' +
+          '<div class="umfeld__slides"></div>' +
+        '</div>' +
         '<p class="umfeld__live" aria-live="polite"></p>' +
       '</div>';
     var stage = root.querySelector('.umfeld__scene'), slider = root.querySelector('.umfeld__slides');
@@ -70,7 +72,6 @@
       s.className = 'umfeld__slide'; s.setAttribute('role', 'group'); s.setAttribute('aria-roledescription', 'Folie');
       s.innerHTML = '<div class="umfeld__pills"><span class="element-chip umfeld__pill">' + near(p) + '</span>' +
         '<span class="element-chip area umfeld__pill">' + res(p) + '</span></div>' +
-        '<' + heading + ' class="umfeld__title t-title">Du &amp; ' + p.name + '</' + heading + '>' +
         '<p class="secondary">' + p.note + '</p>' +
         '<a class="button button--secondary glow-edge" href="' + href + '">Beziehungsraum öffnen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></svg></a>';
       slider.appendChild(s);
@@ -219,7 +220,7 @@
         if (on) { s.removeAttribute('inert'); s.removeAttribute('aria-hidden'); } else { s.setAttribute('inert', ''); s.setAttribute('aria-hidden', 'true'); }
         s.querySelector('a').tabIndex = on ? 0 : -1;
       });
-      current.innerHTML = '<span><strong>' + p.name + '</strong><span>' + words(p) + '</span></span>';
+      current.textContent = p.name;
       if (!first) live.textContent = 'Du & ' + p.name + ', ' + words(p);
       if (!fromScroll) slideTo(i, !first);
     }

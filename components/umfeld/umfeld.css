@@ -16,18 +16,16 @@
 .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
 .umfeld__name.is-active{color:var(--sterne-tief)}
 
-/* Zeile wie .rad__nav und .rad__current */
-.umfeld__nav{display:flex;align-items:center;justify-content:space-between;gap:16px;width:min(100%,520px)}
-.umfeld__current{display:flex;align-items:center;justify-content:center;gap:12px;min-width:0;text-align:left}
-.umfeld__current strong{display:block;font:var(--type-label);font-weight:600}
-.umfeld__current span span{display:block;font:var(--type-label);color:var(--ink-2)}
-/* Lesebereich wie .rad__reader, ohne Karte */
-.umfeld__reader{position:relative;min-width:0;max-width:var(--measure)}
+/* Panel: eine erhöhte Karte (Muster .app-card) mit Pfeilzeile und Lesebereich, ohne Trennstrich */
+.umfeld__panel{position:relative;display:grid;gap:14px;min-width:0;max-width:var(--measure);box-sizing:border-box;padding:24px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm);color:var(--ink)}
+/* Pfeilzeile wie .rad__nav, in der Mitte nur der Name */
+.umfeld__nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}
+.umfeld__current{flex:1;min-width:0;margin:0;font:var(--type-heading);text-align:center;overflow-wrap:anywhere}
+.umfeld__reader{min-width:0}
 .umfeld__slides{position:relative;display:flex;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;margin:-8px}
 .umfeld__slides::-webkit-scrollbar{display:none}
-.umfeld__slide{flex:0 0 100%;box-sizing:border-box;min-width:0;padding:8px;scroll-snap-align:start;scroll-snap-stop:always;display:grid;gap:18px;justify-items:start;align-content:start}
-.umfeld__title{margin-top:4px}
-.umfeld__pills{display:flex;flex-wrap:wrap;gap:8px}
+.umfeld__slide{flex:0 0 100%;box-sizing:border-box;min-width:0;padding:8px;scroll-snap-align:start;scroll-snap-stop:always;display:grid;gap:18px;justify-items:center;text-align:center;align-content:start}
+.umfeld__pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
 /* Pillen: .element-chip ohne Icon. Nähe neutral, Resonanz im Hauch von Sterne wie der gewählte Name im Bild. */
 .umfeld__pill{padding:4px 14px;--tint:var(--offen)}
 .umfeld__pill.area{--tint:var(--sterne-hauch)}
@@ -38,4 +36,4 @@
 .umfeld__scene[data-layout=tall]{width:min(100%,440px)}
 .umfeld__scene[data-layout=tall] .umfeld__name{font:var(--type-label);font-weight:600}
 .umfeld__scene[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
-@media(min-width:900px){.umfeld{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);column-gap:clamp(48px,6vw,96px)}}
+@media(min-width:900px){.umfeld{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);column-gap:clamp(48px,6vw,96px);align-items:center}}
