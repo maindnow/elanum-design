@@ -20,12 +20,12 @@
    Das Bild ist auf seinen Inhalt beschnitten (Rand 16 Einheiten),
    damit das Panel früh im Sichtfeld steht.
 
-   Mobile-first: Unter 560 px Breite gilt das Hochformat. Neun Menschen waren dort bei 390 px zu eng
+   Mobile-first: Unter 520 px Bühnenbreite gilt das Hochformat. Neun Menschen waren dort bei 390 px zu eng
    (gemessen), darum steht über dem Bild eine Filterzeile: «Alle» ist die Übersicht, die Menschen
    stehen als kleine Punkte ohne Namen in ihren Gruppen (je Gruppe ein transparenter Knopf, Tipp wählt
    die Art). Eine Art zeigt nur ihre Menschen, gross und mit Namen, gleichmässig rund um «Ich», ohne
    Bögen. Der Filter folgt der Auswahl: Pfeile und Slider laufen durch alle Menschen, und wechselt man
-   in eine andere Art, springt der Filter mit. Ab 560 px (wide) gibt es keinen Filter, das Bild zeigt
+   in eine andere Art, springt der Filter mit. Ab 520 px (wide) gibt es keinen Filter, das Bild zeigt
    alle mit Namen. Wird das Element breiter oder schmaler, baut sich das Bild neu auf, die Auswahl bleibt.
 
    API: ElanumUmfeld.mount(root, { link: 'pfad/zum/beziehungsraum/', heading: 'h3' })
@@ -377,7 +377,7 @@
     }
     /* Die Breite der Bühne (Spalte), nicht der Szene: im Hochformat ist die Szene höchstens 440 px breit und käme sonst nie mehr zurück auf wide. */
     var column = root.querySelector('.umfeld__stage');
-    var pickLayout = function () { var w = column.getBoundingClientRect().width || root.getBoundingClientRect().width; return w && w < 560 ? 'tall' : 'wide'; };
+    var pickLayout = function () { var w = column.getBoundingClientRect().width || root.getBoundingClientRect().width; return w && w < 520 ? 'tall' : 'wide'; };
     draw(pickLayout());
     select(0);
     api.ready = true;
