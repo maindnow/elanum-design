@@ -50,7 +50,7 @@
   </nav>
   <div class="rail-bottom">
     <button class="motion-toggle glow-edge" data-motion-toggle aria-pressed="false">Bewegung pausieren</button>
-    <p>Gestaltungsatlas 5.0</p>
+    <p>Gestaltungsatlas&nbsp;5.0</p>
   </div>
 </aside>
 
@@ -266,12 +266,17 @@
       <p class="secondary">Primär und sekundär unterscheiden sich durch Gewicht. Beim Zeigen hellt sich die Fläche auf, beim Drücken gibt sie nach.</p>
     </div>
     <div class="component">
+      <h3>Klein und endgültig</h3>
+      <div class="actions"><button class="button button--secondary button--compact glow-edge" type="button">Bearbeiten</button><button class="button button--danger button--compact glow-edge" type="button">Notiz löschen</button></div>
+      <p class="secondary">Kompakt für Zeilen und Leisten, nie kleiner als 44 px. Was sich nicht zurücknehmen lässt, steht in der Fehlerfarbe und heisst beim Namen.</p>
+    </div>
+    <div class="component">
       <h3>Ein Gedanke</h3>
       <form class="demo-form" id="demoForm">
         <label for="demoInput">Was beschäftigt dich?</label>
         <span class="field glow-edge"><input id="demoInput" placeholder="Ein Gedanke für diesen Moment" maxlength="140" aria-describedby="formNote demoResult"></span>
-        <button class="button" type="submit">Vorschau übernehmen</button>
-        <p class="secondary" id="formNote">Nur diese Vorschau. Kein Versand, keine Speicherung.</p>
+        <button class="button" type="submit" data-commit data-busy="Wird übernommen" data-done="Übernommen">Vorschau übernehmen</button>
+        <p class="secondary" id="formNote">Nur diese Vorschau. Kein Versand, keine Speicherung. Der Knopf antwortet am Ort der Handlung: Ruhe, läuft, bestätigt.</p>
         <p class="demo-result" id="demoResult" role="status"></p>
       </form>
     </div>
@@ -332,7 +337,7 @@
 
   <div class="block-head" data-anim="reveal">
     <h3 class="block-title">Eine Navigation, drei Formen</h3>
-    <p class="secondary">Dieselben Ziele in jeder Breite. Die Form richtet sich nach dem Platz, nicht nach dem Gerät. Wo du bist, trägt den Glührand im Atemtakt; beim Wechsel gleitet er zum neuen Ziel. Oben links steht immer das ELANUM-Zeichen in Spektrum, mit Lichtlauf; beim ersten Start baut es sich auf.</p>
+    <p class="secondary">Dieselben Ziele in jeder Breite. Die Form richtet sich nach dem Platz, nicht nach dem Gerät. Wo du bist, trägt den Glührand; beim Wechsel gleitet er zum neuen Ziel. Oben links steht immer das ELANUM-Zeichen in Spektrum, mit Lichtlauf; beim ersten Start baut es sich auf.</p>
   </div>
   <ol class="nav-forms" data-anim="stagger">
     <li>
@@ -446,8 +451,12 @@
     </div>
     <dl class="motion__spec" data-anim="stagger">
       <div><dt>Atmung</dt><dd>3,4 s Raum geben · 4,4 s zur Ruhe · max. 7,5 %</dd></div>
-      <div><dt>Bedienfeedback</dt><dd>160–220 ms</dd></div>
-      <div><dt>Auftritt</dt><dd>900 ms · einmal · ab 88 % Fensterhöhe</dd></div>
+      <div><dt>Zwei Kurven</dt><dd>auslaufend für Erscheinen und Antworten · an- und auslaufend für Ortswechsel</dd></div>
+      <div><dt>Fünf Dauern</dt><dd>90 · 180 · 360 · 520 · 700 ms · Versatz 90 ms</dd></div>
+      <div><dt>Bedienfeedback</dt><dd>180 ms · Drücken 90 ms</dd></div>
+      <div><dt>Schliessen</dt><dd>derselbe Weg zurück · zwei Drittel der Zeit</dd></div>
+      <div><dt>Atemtakt</dt><dd>ein Ort je Screen · der Glührand wandert nur bei Hover und Fokus</dd></div>
+      <div><dt>Auftritt im Atlas</dt><dd>900 ms · einmal · ab 88 % Fensterhöhe</dd></div>
       <div><dt>Titelzeilen</dt><dd>maskiert · 140 ms Versatz</dd></div>
       <div><dt>Linien</dt><dd>zeichnen sich · 1–1,8 s</dd></div>
       <div><dt>Resonanzrad</dt><dd>baut sich beim Scrollen in vier Schritten auf</dd></div>
@@ -525,14 +534,14 @@
     </div>
     <div class="code-panel" data-anim="reveal">
       <div class="code-panel__top"><span class="t-label">tokens.css</span><button class="button button--secondary glow-edge" id="copyTokens">Kopieren</button></div>
-      <pre id="tokenCode"></pre>
+      <pre id="tokenCode" tabindex="0" role="region" aria-label="Tokens zum Kopieren"></pre>
     </div>
   </div>
 </section>
 
 <footer class="footer">
   <p class="footer__line" data-anim="title">Das Eigene hinterlässt eine Spur. Resonanz verändert sie.</p>
-  <p class="secondary">ELANUM · Gestaltungsatlas 5.0 · Oktober 2026</p>
+  <p class="secondary">ELANUM · Gestaltungsatlas 5.0 · November 2026</p>
 </footer>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -545,6 +554,7 @@
 <script src="components/app/app.js"></script>
 <script src="components/app/vorschau.js"></script>
 <script src="assets/glossar.js"></script>
+<script src="assets/button.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

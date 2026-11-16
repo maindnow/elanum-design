@@ -20,13 +20,24 @@
      Hier fehlt noch etwas, hier kannst du ausfüllen.
    - Im Rad stehen ab 500 px Name und Ergebnis (oder Plus), darunter nur
      Icons. Das gewählte Element steht direkt unter dem Rad, Namen und
-     Ergebnisse in der Liste und im Lesebereich, nie kleiner als 15 px.
+     Ergebnisse in der Liste und im Blatt, nie kleiner als 15 px.
    - Der Ring zeigt die drei Bereiche gleich stark; er hebt nichts hervor.
    - Auswahl nie nur über Farbe: Bogen, Relief, Liste, Text und
-     aria-selected tragen dieselbe Information.
+     aria-current tragen dieselbe Information.
 
-   API:  ElanumResonanzrad.mount(root, { heading: 'h2'|'h3' })
-         gibt { select(i), parts } zurück; parts dient motion.js.
+   BEDIENUNG (4.13, wie in der App seit 15.11.2026)
+   - Das Rad steht. Beim Öffnen ist nichts gewählt.
+   - Ein Tipp ins Rad oder auf die Pfeile wählt nur. Unter dem Rad steht
+     das gewählte Element: Name mit den Pfeilen daneben, das eigene Wort
+     gross, ein Satz, darunter «Lesen» oder «Ausfüllen».
+   - «Lesen» und die Liste öffnen das Detail als Blatt (dialog): Telefon
+     von unten, ab 600 px in der Mitte. Schliessen, Esc und ein Tipp
+     daneben schliessen, der Fokus kehrt zum Öffner zurück.
+   - Im Blatt: Name klein, Wort gross, Fachzeile, Kernsatz, Text.
+
+   API:  ElanumResonanzrad.mount(root, { heading: 'h2'|'h3', select: id })
+         gibt { select(i), open(), close(), parts } zurück; parts dient
+         motion.js. select wählt beim Start ein Element vor (sonst keines).
          ElanumResonanzrad.mini(root, { done: [ids], focus: id, label })
          zeichnet ein kleines Rad für Karten, gibt { done, total } zurück.
    Klassisches Skript, damit es auch unter file:// lädt.
@@ -108,6 +119,13 @@
     'conflict': '<path d="M8.4 5.6A7.4 7.4 0 0 0 8.4 18.4M15.6 5.6a7.4 7.4 0 0 1 0 12.8"/><path d="M12.8 6.6l-2 4.8 2.6 1.4-2 4.6"/>'
   };
 
+  /* Wörter der Bedienung, im Wortlaut der App. */
+  var WORTE = {
+    auswahl: 'Element wählen', leer: 'Tippe auf ein Element im Rad oder in der Liste.',
+    lesen: 'Lesen', ausfuellen: 'Ausfüllen', offen: 'Noch offen', schliessen: 'Schliessen', liste: 'Deine neun Elemente',
+    z_ausgefuellt: 'Ergebnis ansehen', z_offen: 'Noch offen, ausfüllen'
+  };
+
   var NS = 'http://www.w3.org/2000/svg', RAD = Math.PI / 180;
   function r2(n) { return Math.round(n * 100) / 100; }
   function pt(r, a) { return [r2(CFG.cx + r * Math.sin(a * RAD)), r2(CFG.cy - r * Math.cos(a * RAD))]; }
@@ -137,7 +155,7 @@
     var half = CFG.segmentDeg / 2;
 
     /* ---------- Gerüst ---------- */
-    root.classList.add('rad');
+    root.classList.add('rad', 'rad--blatt');
     root.innerHTML =
       '<div class="rad__stage">' +
         '<div class="rad__wheel" data-rad-wheel>' +
@@ -146,27 +164,43 @@
           '<svg class="rad__svg" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><defs></defs>' +
             '<g class="rad__rotor"><g class="rad__ring"></g><g class="rad__ring-labels"></g><g class="rad__faces"></g></g>' +
             '<path class="rad__lift"></path>' +
-            '<g class="rad__rotor"><g class="rad__contours"></g><g class="rad__icons"></g><path class="rad__active"></path></g>' +
+            '<g class="rad__rotor"><g class="rad__contours"></g><g class="rad__icons"></g><path data-rad-halo></path><path class="rad__active"></path></g>' +
           '</svg>' +
           '<div class="rad__center" aria-hidden="true"><span>Ich</span></div>' +
         '</div>' +
-        '<div class="rad__nav">' +
-          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="prev" aria-label="Vorheriges Element"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg></button>' +
-          '<p class="rad__current" data-current aria-hidden="true"></p>' +
-          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="next" aria-label="Nächstes Element"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>' +
-        '</div>' +
       '</div>' +
-      '<section class="rad__reader" role="tabpanel" id="' + uid + '-panel" aria-live="polite"></section>' +
-      '<div class="rad__overview"><p class="rad__progress t-label" data-progress></p>' +
-      '<div class="rad__list" role="tablist" aria-label="Elemente im Resonanzrad"></div></div>';
+      /* Das gewählte Element: Pfeile neben dem Namen, das Wort gross, ein Satz, die Handlung. */
+      '<div class="rad-karte rad-karte--leer" data-rad-karte>' +
+        '<div class="rad-karte__kopf">' +
+          '<button class="rad-karte__pfeil" type="button" data-nav="prev" aria-label="Vorheriges Element"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg></button>' +
+          '<p class="rad-karte__name" aria-hidden="true"></p>' +
+          '<button class="rad-karte__pfeil" type="button" data-nav="next" aria-label="Nächstes Element"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>' +
+        '</div>' +
+        '<p class="rad-karte__wort" aria-live="polite">' + WORTE.auswahl + '</p>' +
+        '<p class="rad-karte__satz">' + WORTE.leer + '</p>' +
+        '<button class="button rad-karte__knopf" type="button" data-rad-lesen aria-haspopup="dialog" hidden>' + WORTE.lesen + '</button>' +
+      '</div>' +
+      /* Das Detail als Blatt. Der Inhalt entsteht beim Öffnen. */
+      '<dialog class="rad-blatt" aria-label="Resonanzrad">' +
+        '<div class="rad-blatt__inhalt rad__reader" id="' + uid + '-panel">' +
+          '<div class="rad-blatt__griff" aria-hidden="true"></div>' +
+          '<div class="rad-blatt__kopf"><p class="rad-karte__name rad-blatt__name" aria-hidden="true"></p>' +
+            '<button class="rad-blatt__zu" type="button" aria-label="' + WORTE.schliessen + '"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button></div>' +
+          '<div data-rad-detail></div>' +
+        '</div>' +
+      '</dialog>' +
+      '<div class="rad__overview"><' + heading + ' class="rad-liste-titel">' + WORTE.liste + '</' + heading + '>' +
+      '<p class="rad__progress t-label" data-progress></p>' +
+      '<div class="rad__list"></div></div>';
 
     var svg = root.querySelector('.rad__svg'), defs = svg.querySelector('defs');
     var rotors = root.querySelectorAll('.rad__rotor');
     var ring = root.querySelector('.rad__ring'), ringLabels = root.querySelector('.rad__ring-labels');
     var faces = root.querySelector('.rad__faces'), contours = root.querySelector('.rad__contours');
-    var icons = root.querySelector('.rad__icons'), active = root.querySelector('.rad__active'), lift = root.querySelector('.rad__lift');
-    var wheel = root.querySelector('[data-rad-wheel]'), reader = root.querySelector('.rad__reader'), list = root.querySelector('.rad__list');
-    var current = root.querySelector('[data-current]');
+    var icons = root.querySelector('.rad__icons'), active = root.querySelector('.rad__active'), halo = root.querySelector('[data-rad-halo]'), lift = root.querySelector('.rad__lift');
+    var wheel = root.querySelector('[data-rad-wheel]'), list = root.querySelector('.rad__list');
+    var karte = root.querySelector('[data-rad-karte]'), blatt = root.querySelector('.rad-blatt'), detail = root.querySelector('[data-rad-detail]');
+    var karteName = karte.querySelector('.rad-karte__name'), wort = karte.querySelector('.rad-karte__wort'), satz = karte.querySelector('.rad-karte__satz'), knopf = karte.querySelector('[data-rad-lesen]');
 
     [[root.querySelector('.rad__track'), CFG.groupOuter + 6], [root.querySelector('.rad__plate'), CFG.segmentRadius], [root.querySelector('.rad__center'), CFG.centerRadius]].forEach(function (p) {
       p[0].style.left = p[0].style.top = (CFG.cx - p[1]) / CFG.size * 100 + '%';
@@ -177,7 +211,6 @@
     filter.appendChild(el('feDropShadow', { dx: 3.6, dy: 3.6, stdDeviation: 4.2, 'flood-color': '#a39b8a', 'flood-opacity': 0.8 }));
     filter.appendChild(el('feDropShadow', { dx: -2.6, dy: -2.6, stdDeviation: 3, 'flood-color': '#ffffff', 'flood-opacity': 0.95 }));
     defs.appendChild(filter);
-    lift.setAttribute('d', sectorPath(-half, half, CFG.segmentRadius));
     lift.setAttribute('filter', 'url(#' + uid + '-lift)');
 
     /* ---------- Ring: drei Bereiche ---------- */
@@ -237,24 +270,22 @@
       icon.appendChild(glyph); icon.appendChild(name); icon.appendChild(result); icons.appendChild(icon);
       upright.push(icon);
 
+      /* Ein Eintrag der Liste wählt das Element und öffnet sein Blatt. Der vorgelesene Name beginnt mit dem,
+         was man sieht (Name, dann das eigene Wort), danach folgt unsichtbar, was der Eintrag tut. */
       var tab = html('button', 'rad__item glow-edge'); tab.type = 'button';
-      tab.setAttribute('role', 'tab'); tab.id = uid + '-tab-' + item.id;
-      tab.setAttribute('aria-controls', uid + '-panel'); tab.setAttribute('aria-selected', 'false'); tab.tabIndex = -1;
+      tab.id = uid + '-tab-' + item.id; tab.setAttribute('aria-haspopup', 'dialog');
       tab.dataset.index = i;
       if (!item.done) tab.classList.add('is-open');
-      tab.innerHTML = '<span class="rad__swatch' + (item.done ? ' is-done' : '') + '" style="--swatch:' + tone(item, 'flaeche') + '"></span>' +
-        iconSvg(item.id) + '<span class="rad__item-name">' + item.label + '</span>' +
+      tab.innerHTML = iconSvg(item.id) + '<span class="rad__item-name">' + item.label + '</span> ' +
         (item.done ? '<span class="rad__item-state">' + item.result + '</span>'
-                   : '<span class="rad__item-state rad__fill-cta" aria-hidden="true">+ Ausfüllen</span>');
-      tab.setAttribute('aria-label', item.label + ', ' + (item.done ? 'ausgefüllt: ' + item.result : 'noch offen'));
+                   : '<span class="rad__item-state rad__fill-cta" aria-hidden="true">+ Ausfüllen</span>') +
+        '<span class="visually-hidden"> ' + (item.done ? WORTE.z_ausgefuellt : WORTE.z_offen) + '</span>';
       groupLists[item.group].appendChild(tab);
       return { face: face, contour: contour, icon: icon, glyph: glyph, name: name, lines: lines, result: result, tab: tab, angle: a };
     });
     var doneCount = ITEMS.filter(function (it) { return it.done; }).length, openCount = ITEMS.length - doneCount;
     root.querySelector('[data-progress]').innerHTML = '<span>' + doneCount + ' von ' + ITEMS.length + ' ausgefüllt' +
-      (openCount ? ' · ' + openCount + (openCount === 1 ? ' wartet' : ' warten') + ' auf dich' : '') + '</span>' +
-      '<span class="rad__legend" aria-hidden="true"><span><i class="rad__swatch is-done" style="--swatch:var(--sterne-flaeche)"></i>ausgefüllt</span>' +
-      '<span><i class="rad__swatch"></i>offen</span></span>';
+      (openCount ? ' · ' + openCount + (openCount === 1 ? ' wartet' : ' warten') + ' auf dich' : '') + '</span>';
 
     /* Beschriftung im Stück, gemessen so gesetzt, dass nichts überlappt und
        nichts über das Stück hinausragt (2 px Rand, geprüft für jede Auswahl):
@@ -293,90 +324,122 @@
       t.path.setAttribute('href', '#' + uid + '-t-' + t.id + (onScreen > 90 && onScreen < 270 ? '-flip' : ''));
     });
 
-    function renderReader(item) {
+    function punktName(text) { return '<i class="rad-karte__punkt"></i><span>' + text + '</span>'; }
+
+    /* Das Detail im Blatt: Name klein, Wort gross, Fachzeile, dann der Kernsatz und der Text.
+       Ein offenes Element trägt statt Wort und Fachzeile seine Einleitung und den Weg zum Ausfüllen. */
+    function renderDetail(item) {
       var g = GROUPS.filter(function (x) { return x.id === item.group; })[0];
-      var body = '<p class="chip area" data-area="' + item.group + '">' + g.label + '</p>' +
-        '<' + heading + ' class="rad__name t-title">' + item.label + '</' + heading + '>' +
-        '<p class="rad__lead t-heading">' + item.lead + '</p>' +
-        '<p class="rad__text secondary">' + item.text + '</p>';
+      blatt.setAttribute('aria-label', item.label);
+      blatt.querySelector('.rad-blatt__name').innerHTML = punktName(g.label);
+      blatt.querySelector('.rad-blatt__kopf').style.setProperty('--tone', tone(item, 'tief'));
+      var body = '<section class="rad-detail" aria-labelledby="' + uid + '-detail-titel"><div class="rad-detail-kopf">' +
+        '<h2 class="rad-detail-titel" id="' + uid + '-detail-titel" tabindex="-1">' + item.label + '</h2>';
       if (item.done) {
-        body += '<div class="rad__result area" data-area="' + item.group + '"><p class="t-label">Dein Ergebnis</p><dl>' +
-          item.rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') + '</dl></div>';
+        body += '<p class="rad-detail-ergebnis">' + item.result + '</p><dl class="rad-detail-fach">' +
+          item.rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') + '</dl></div>' +
+          '<p class="rad__text rad-detail-kern">' + item.lead + '</p><p class="rad__text secondary">' + item.text + '</p>';
       } else {
-        body += '<div class="rad__open"><div class="status" data-role="info"><span class="status__sign" aria-hidden="true">i</span><div><strong class="status__title">Noch offen</strong><p class="status__text">Dieser Bereich bleibt leer, bis du ihn ausfüllst.</p></div></div>' +
-          '<button class="button" type="button" data-fill>Jetzt ausfüllen</button><p class="rad__note secondary" data-fill-note aria-live="polite"></p></div>';
+        body += '</div><p class="rad__lead t-heading rad-detail-einleitung">' + item.lead + '</p><p class="rad__text secondary">' + item.text + '</p>' +
+          '<div class="rad__open"><button class="button" type="button" data-fill>Jetzt ausfüllen</button><p class="rad__note secondary" data-fill-note aria-live="polite"></p></div>';
       }
-      reader.innerHTML = body;
-      var fillButton = reader.querySelector('[data-fill]');
+      detail.innerHTML = body + '</section>';
+      var fillButton = detail.querySelector('[data-fill]');
       if (fillButton) fillButton.addEventListener('click', function () {
-        reader.querySelector('[data-fill-note]').textContent = 'Nur diese Vorschau. Kein Versand, keine Speicherung.';
+        detail.querySelector('[data-fill-note]').textContent = 'Nur diese Vorschau. Kein Versand, keine Speicherung.';
       });
     }
 
-    var viaKeyboard = false;
-    root.addEventListener('keydown', function () { viaKeyboard = true; }, true);
-    root.addEventListener('pointerdown', function () { viaKeyboard = false; }, true);
-
-    function select(i, animate) {
+    /* Wählen: Das Stück hebt sich an seinem Platz, darunter steht das Element. Nichts öffnet sich. */
+    function select(i) {
       i = ((i % ITEMS.length) + ITEMS.length) % ITEMS.length;
-      var item = ITEMS[i], a = segAngle(i), first = index < 0;
-      if (i !== index) {
-        index = i;
-        active.setAttribute('d', arcPath(CFG.activeRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
-        lift.setAttribute('d', sectorPath(a - half, a + half, CFG.segmentRadius));
-        lift.style.fill = fill(item);
-        /* Auswahlbogen in der Farbe seines Bereichs, nicht im Markenspektrum */
-        root.style.setProperty('--arc', tone(item, 'tief'));
-        segs.forEach(function (s, k) {
-          var on = k === i;
-          s.tab.setAttribute('aria-selected', String(on)); s.tab.tabIndex = on ? 0 : -1;
-          s.face.classList.toggle('is-active', on);
-        });
-        reader.setAttribute('aria-labelledby', segs[i].tab.id);
-        current.innerHTML = iconSvg(item.id) + '<span><strong>' + item.label + '</strong><span>' + (item.done ? item.result : '+ Ausfüllen') + '</span></span>';
-        current.style.setProperty('--tone', tone(item, 'tief'));
-        renderReader(item);
-        if (!first && animate !== false && !reduced.matches && !viaKeyboard && reader.animate) {
-          reader.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.23,1,.32,1)' });
-        }
-      }
+      if (i === index) return;
+      var item = ITEMS[i], a = segAngle(i);
+      index = i;
+      active.setAttribute('d', arcPath(CFG.activeRadius, a - half + CFG.activeInsetDeg, a + half - CFG.activeInsetDeg));
+      /* Die Glüh-Ebene gibt es erst mit einer Auswahl: Vorher atmet im Rad nichts (base.css, Atemtakt). */
+      halo.setAttribute('class', 'rad__halo'); halo.setAttribute('d', active.getAttribute('d'));
+      lift.setAttribute('d', sectorPath(a - half, a + half, CFG.segmentRadius));
+      lift.style.fill = fill(item);
+      /* Auswahlbogen in der Farbe seines Bereichs, nicht im Markenspektrum */
+      root.style.setProperty('--arc', tone(item, 'tief'));
+      segs.forEach(function (s, k) {
+        var on = k === i;
+        if (on) s.tab.setAttribute('aria-current', 'true'); else s.tab.removeAttribute('aria-current');
+        s.face.classList.toggle('is-active', on);
+      });
+      karte.classList.remove('rad-karte--leer');
+      karte.style.setProperty('--tone', tone(item, 'tief'));
+      karteName.innerHTML = punktName(item.label);
+      wort.textContent = item.done ? item.result : WORTE.offen;
+      satz.textContent = item.lead;
+      knopf.textContent = item.done ? WORTE.lesen : WORTE.ausfuellen;
+      knopf.hidden = false;
     }
 
-    /* Ein Tipp wählt das Stück. Kein Ziehen, kein Drehen. */
+    /* Blatt: öffnen, schliessen, Fokus zurück zum Öffner. */
+    var opener = null;
+    function open(from) {
+      if (index < 0) return;
+      opener = from || document.activeElement;
+      renderDetail(ITEMS[index]);
+      blatt.classList.remove('is-schliesst');
+      if (!blatt.open) { if (blatt.showModal) blatt.showModal(); else blatt.setAttribute('open', ''); }
+      blatt.scrollTop = 0;
+      var titel = detail.querySelector('.rad-detail-titel'); if (titel) titel.focus({ preventScroll: true });
+    }
+    /* Was kommt, geht auch: Das Blatt läuft denselben Weg zurück (CSS .is-schliesst), erst danach schliesst
+       der Dialog. Ohne Bewegung schliesst es sofort. */
+    function close() {
+      if (!blatt.open || blatt.classList.contains('is-schliesst')) return;
+      var ruhig = reduced.matches || (document.body.getAttribute('data-motion') === 'off');
+      var zu = function () { blatt.classList.remove('is-schliesst'); if (blatt.open) { if (blatt.close) blatt.close(); else blatt.removeAttribute('open'); } };
+      if (ruhig) { zu(); return; }
+      var fertig = false, ende = function () { if (fertig) return; fertig = true; blatt.removeEventListener('animationend', ende); zu(); };
+      blatt.classList.add('is-schliesst');
+      blatt.addEventListener('animationend', ende);
+      setTimeout(ende, 600);   /* Sicherung: Der Dialog schliesst auch, wenn keine Animation läuft. */
+    }
+    blatt.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
+    blatt.addEventListener('close', function () {
+      var ziel = opener && opener.isConnected ? opener : knopf; opener = null;
+      if (ziel && ziel.focus) ziel.focus({ preventScroll: true });
+    });
+    blatt.addEventListener('click', function (e) { if (e.target === blatt) close(); });
+    blatt.querySelector('.rad-blatt__zu').addEventListener('click', close);
+
+    /* Ein Tipp ins Rad wählt das Stück. Kein Ziehen, kein Drehen, kein Öffnen. */
     wheel.addEventListener('click', function (e) {
       var t = e.target.closest ? e.target.closest('.rad__face') : null;
       if (t) select(Number(t.getAttribute('data-index')));
     });
-
+    /* Die Liste wählt und öffnet. */
     list.addEventListener('click', function (e) {
       var t = e.target.closest('.rad__item'); if (!t) return;
-      select(Number(t.dataset.index));
-      /* „+ Ausfüllen“ führt direkt zum Knopf im Lesebereich. */
-      if (e.target.closest('.rad__fill-cta')) { var f = reader.querySelector('[data-fill]'); if (f) f.focus(); }
+      select(Number(t.dataset.index)); open(t);
     });
-    list.addEventListener('keydown', function (e) {
-      var k = e.key, next = null;
-      if (k === 'ArrowRight' || k === 'ArrowDown') next = index + 1;
-      else if (k === 'ArrowLeft' || k === 'ArrowUp') next = index - 1;
-      else if (k === 'Home') next = 0;
-      else if (k === 'End') next = ITEMS.length - 1;
-      if (next === null) return;
-      e.preventDefault(); select(next); segs[index].tab.focus();
-    });
+    /* Die Pfeile wählen nur. Ohne Auswahl beginnt «weiter» beim ersten, «zurück» beim letzten Element. */
     root.querySelectorAll('[data-nav]').forEach(function (b) {
-      b.addEventListener('click', function () { select(index + (b.getAttribute('data-nav') === 'next' ? 1 : -1)); });
+      b.addEventListener('click', function () {
+        var vor = b.getAttribute('data-nav') === 'next';
+        select(index < 0 ? (vor ? 0 : ITEMS.length - 1) : index + (vor ? 1 : -1));
+      });
     });
-    select(0, false);
+    knopf.addEventListener('click', function () { open(knopf); });
+    if (opts.select != null) {
+      var start = typeof opts.select === 'number' ? opts.select : ITEMS.map(function (it) { return it.id; }).indexOf(opts.select);
+      if (start >= 0) select(start);
+    }
     root.classList.add('is-ready');
 
     var api = {
-      select: select,
+      select: select, open: open, close: close,
       parts: {
         wheel: wheel, plate: root.querySelector('.rad__plate'), track: root.querySelector('.rad__track'), center: root.querySelector('.rad__center'),
         bands: bands, ringLabels: tracks.map(function (t) { return t.text; }),
         faces: segs.map(function (s) { return s.face; }), contours: segs.map(function (s) { return s.contour; }).filter(Boolean),
         icons: segs.map(function (s) { return s.icon; }), lift: lift, active: active,
-        groups: GROUPS.map(function (g) { return g.id; }), items: ITEMS, list: root.querySelector('.rad__overview'), reader: reader, nav: root.querySelector('.rad__nav')
+        groups: GROUPS.map(function (g) { return g.id; }), items: ITEMS, list: root.querySelector('.rad__overview'), reader: karte, nav: null, sheet: blatt
       }
     };
     root._resonanzrad = api;

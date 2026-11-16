@@ -191,8 +191,8 @@ const statusInner = (key, text) => `<span class="status__sign" aria-hidden="true
 Object.entries(STATUS).forEach(([key, item]) => {
   const hex = css(item.token), button = document.createElement('button');
   button.type = 'button'; button.className = 'status glow-edge'; button.dataset.role = key;
-  button.setAttribute('aria-label', `${item.name} ${hex} kopieren`);
-  button.innerHTML = statusInner(key, item.role).replace('</p></div>', `<span class="status__hex">${hex}</span></p></div>`);
+  /* Der vorgelesene Name entsteht aus dem sichtbaren Text, am Ende steht, was der Knopf tut. */
+  button.innerHTML = statusInner(key, item.role).replace('</p></div>', `<span class="status__hex">${hex}</span></p> <span class="visually-hidden">kopieren</span></div>`);
   button.addEventListener('click', () => copyText(hex, hex + ' kopiert'));
   $('#statusPalette').append(button);
 });
@@ -204,8 +204,14 @@ $('#choiceButton').addEventListener('click', event => { const b = event.currentT
 $('#demoForm').addEventListener('submit', event => {
   event.preventDefault();
   const value = $('#demoInput').value.trim();
-  $('#demoResult').textContent = value ? 'Deine Vorschau: «' + value + '»' : 'Schreibe zuerst einen Gedanken.';
   $('#demoInput').setAttribute('aria-invalid', String(!value));
+  if (!value) { $('#demoResult').textContent = 'Schreibe zuerst einen Gedanken.'; return; }
+  const button = event.currentTarget.querySelector('[data-commit]');
+  if (button.getAttribute('aria-disabled') === 'true') return;
+  $('#demoResult').textContent = '';
+  /* Antwort am Ort der Handlung (assets/button.js). Die Vorschau wartet nicht wirklich, darum eine kurze Frist. */
+  window.ElanumButton.commit(button, () => new Promise(done => setTimeout(done, 900)))
+    .then(() => { $('#demoResult').textContent = 'Deine Vorschau: «' + value + '»'; });
 });
 $$('[data-status-pick]').forEach(button => button.addEventListener('click', () => {
   const key = button.dataset.statusPick, demo = $('#statusDemo');
@@ -324,12 +330,18 @@ filterGlossar();
 
 /* ---------- 16 Tokens: der Block liest die Werte aus tokens.css ---------- */
 const TOKEN_GROUPS = [
-  ['Fläche und Schrift', ['--canvas', '--paper', '--ink', '--ink-2', '--line']],
+  ['Fläche und Schrift', ['--canvas', '--paper', '--paper-light', '--sand', '--sand-deep', '--ink', '--ink-2', '--ink-soft', '--on-dark', '--line', '--line-control', '--white', '--black']],
   ['Bereiche: tief · Fläche · Hauch, offen', ['--sterne-tief', '--sterne-flaeche', '--sterne-hauch', '--ich-tief', '--ich-flaeche', '--ich-hauch', '--bezug-tief', '--bezug-flaeche', '--bezug-hauch', '--offen']],
   ['Status', ['--info', '--info-bg', '--hint', '--hint-bg', '--error', '--error-bg', '--success', '--success-bg']],
-  ['Typografie', ['--type-display', '--type-title', '--type-heading', '--type-body', '--type-label']],
-  ['Raum und Form', ['--gutter', '--section', '--content', '--radius-control', '--radius-button', '--radius-surface', '--raised', '--pressed']],
-  ['Linien und Bewegung', ['--trace', '--bridge', '--ease', '--motion-ui', '--motion-reveal', '--motion-breath']]
+  ['Typografie: Grösse und Zeilenhöhe je Stufe, in rem', ['--size-display', '--leading-display', '--size-title', '--leading-title', '--size-heading', '--leading-heading', '--size-body', '--leading-body', '--size-label', '--leading-label']],
+  ['Typografie: die fünf Stufen als Ganzes', ['--type-display', '--type-title', '--type-heading', '--type-body', '--type-label']],
+  ['Markenspektrum, einzelne Stopps', ['--violet', '--blue', '--orchid', '--rose', '--pink']],
+  ['Raum und Form', ['--gutter', '--section', '--content', '--measure', '--radius-control', '--radius-button', '--radius-surface', '--radius-round']],
+  ['Abstände im 4er-Raster', ['--space-1', '--space-2', '--space-3', '--space-4', '--space-5', '--space-6', '--space-8', '--space-10', '--space-12', '--space-16']],
+  ['Bedienung und Ebenen', ['--target', '--button-height', '--focus-width', '--focus-offset', '--focus-color', '--focus-color-dark', '--layer-float', '--layer-head', '--layer-nav', '--layer-toast', '--layer-skip']],
+  ['Relief', ['--raised', '--raised-sm', '--pressed', '--paper-shadow', '--lifted', '--lifted-deep', '--sheen', '--sheet-shadow', '--float-shadow', '--bar-shadow']],
+  ['Glühen', ['--glow', '--glow-line', '--glow-rose', '--glow-now', '--glow-dot']],
+  ['Linien und Bewegung', ['--trace', '--bridge', '--ease-out', '--ease-in-out', '--motion-press', '--motion-ui', '--motion-enter', '--motion-move', '--motion-reveal', '--motion-stagger', '--motion-breath']]
 ];
 $('#tokenCode').textContent = ':root {\n' + TOKEN_GROUPS.map(([title, names]) =>
   `  /* ${title} */\n` + names.map(name => `  ${name}: ${css(name)};`).join('\n')).join('\n\n') + '\n}';

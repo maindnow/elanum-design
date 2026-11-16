@@ -2,6 +2,8 @@
 
 5.0 fasst Beziehungsraum und Umfeld neu, damit sie ohne Regler lesbar sind. Im Beziehungsraum ist Nähe der Abstand zweier Kreise, Freiraum die helle Fläche um jeden und Resonanz das Feld um beide. Im Umfeld stehen Menschen derselben Art beieinander, der Abstand zeigt die Nähe, Linien um den Kreis die Resonanz. Verbindungslinien und Öffnungen entfallen, darum eine neue Hauptversion.
 
+4.12 gibt der Bewegung ein Vokabular und jedem Wert einen Namen. Zwei Kurven und fünf Dauern stehen als Tokens. Farben, Schatten und Radien stehen als Wert nur noch in `tokens.css`, `tools/token-check.js` prüft das. Je Screen atmet ein Ort, der Glührand wandert nur noch, wenn man ihn berührt. Sheet und Quellenkarte schliessen mit Übergang, der Button kennt die Zustände «läuft» und «bestätigt», und in der App steht der Seitentitel in der Stufe Überschrift. Grundlage ist ein Vergleich mit fünf Referenz-Clips, freigegeben von Chris am 15.11.2026.
+
 4.11 bringt den Baustein Fliesstext: ein Text, der zu einem Menschen spricht und bei jeder Kernaussage zeigt, woher sie kommt. Grundlage ist Chris’ Entwurf „Christopher, das bist du.“ (14.10.2026), übersetzt in die Regeln des Atlas. Eigene Seite unter `components/fliesstext/` mit dem ersten Muster als Beispiel, im Atlas im Kapitel Sprache, in der App auf Heute.
 
 4.10 zeigt ELANUM als App. Neuer Baustein App-Rahmen unter `components/app/`, acht Screens als echte, responsive Seiten und im Atlas das Kapitel „In der App“ mit einer Gerätevorschau: Telefon und Desktop nebeneinander oder in freier Breite von 320 bis 1440 px. Grundlage ist die heutige App unter soulresonance.ch. Das Zeichen steht als Marke überall in Spektrum, in Navigation und Kopf der App mit Lichtlauf, beim ersten Start im Zeichenaufbau.
@@ -15,6 +17,131 @@
 4.6 benennt die drei Phasen neu. Sie heissen jetzt Kosmen: Resonanzkosmos, Datingkosmos, Erlebniskosmos. Gestaltung und Werte bleiben wie in 4.5.
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
+
+## Reife (4.13)
+
+Chris wollte am 15.11.2026 mehr Regeln im Design und alles auf dem neusten Stand. Diese Runde hat drei Quellen. Erstens die Lückenliste der App (`docs/elanum-migration.md` in soulresonance.ch, L1 bis L61): Sie nennt, was dem Paket fehlt. Zweitens sieben Kits und Regelwerke als Messlatte: Untitled UI, Magic UI, SmoothUI, RetroUI, die Skills von shadcn/ui, React Bits und `ui-ux-pro-max` mit 120 Regeln. Drittens eine Messung im Browser: jede Seite des Atlas, jeder Baustein und jeder App-Screen in sechs Breiten, 90 Seitenaufrufe, vorher und nachher mit demselben Skript (`tools/regel-messung.js`: 310 Funde vorher, keiner nachher).
+
+| Regel | Was gilt | Gemessen vorher, nachher | Wo |
+|---|---|---|---|
+| Die Schrift wächst mit | Jede Schriftgrösse steht in rem. Stellt ein Mensch im Browser oder in der App eine grössere Schrift ein, wächst jede Stufe mit. Jede Stufe gibt es als Ganzes (`--type-…`) und einzeln (`--size-…`, `--leading-…`). Bei 100 % bleibt jede Grösse gleich. | Schrift in px: 12 Stellen, 0 | `tokens.css`, `node tools/token-check.js` |
+| Ein Titel verteilt sich | Titel und Stimme verteilen sich gleichmässig auf ihre Zeilen (`text-wrap: balance`). Lauftext endet nicht mit einem einsamen Wort (`text-wrap: pretty`). Zeiten und Plätze, die untereinander stehen, tragen Tabellenziffern. | Titel ohne Ausgleich: 141, 0. Einsame Wörter: 73, 0 | `base.css`, Titelklassen der Bausteine |
+| Alles ist treffbar, nichts berührt sich | Jedes Bedienelement trifft man auf 44 × 44 px (`--target`). In der Liste des Resonanzrads stiessen Name und Stand aneinander; ohne Farbfeld haben beide Platz. | Ziele unter 44 px: 87, 0. Berührungen: 8, 0. Überlauf: 1, 0 | `base.css`, `components/resonanzrad/resonanzrad.css` |
+| Ein Feld hat eine Kante | Die Vertiefung allein hebt ein Feld nur mit etwa 1,5:1 vom Grund ab. Darum trägt es eine feine Kante (`--line-control`, 3,6:1 auf Canvas). Fokus bleibt das Glühen, ein Fehler der Ring in der Fehlerfarbe. | Kontrast der Feldgrenze: 1,5:1, 3,6:1 | `.field` in `base.css` |
+| Fokus und Ebenen haben Namen | Der Fokusring steht als `--focus-width`, `--focus-offset`, `--focus-color`. Was über was liegt, steht als `--layer-…`. | Feste Ebenen: 10, 0. Fester Fokusring: 2, 0 | `tokens.css`, `node tools/token-check.js` |
+| Drücken antwortet sofort | Jedes Bedienelement gibt beim Drücken in 90 ms nach (`--motion-press`), auch die leisen: Zeichen-Knopf, Link mit Pfeil, Rückweg, Quelle im Fliesstext, Zeile im Rad und im Umfeld, Karte zum Umdrehen. Der Haken im Zustand «bestätigt» zeichnet sich in einem Zug. | Arten von Bedienelementen ohne Antwort auf Druck: 16, 0 (282 geprüft) | `base.css`, `components/app/app.css`, `assets/button.js` |
+| Das System hat das letzte Wort | ELANUM sagt dem Browser, dass es hell ist (`color-scheme`). Im Kontrastmodus des Systems bekommt jede Fläche eine Kontur und jede Auswahl die Auswahlfarbe, kein Satz verschwindet. Verlangt das System mehr Kontrast, wird Sekundärtext zu Ink und jede Linie kräftiger. Verlangt es weniger Durchsicht, stehen die Leisten ohne Schleier. | Im Kontrastmodus unsichtbar: Aussagen im Fliesstext, Stationen, Auswahl, Feldgrenzen. Jetzt sichtbar | `@media` in `tokens.css`, `base.css`, `components/app/app.css`, `components/fliesstext/fliesstext.css`, `components/resonanzrad/resonanzrad.css` |
+| Der Name kommt aus dem sichtbaren Text | Was ein Vorleser sagt, beginnt mit dem, was man sieht. Zusätze stehen unsichtbar im Text, nicht in einem abweichenden `aria-label`. | axe: 2 Arten von Verstössen, 0 | `components/resonanzrad/resonanzrad.js`, `components/app/app.js` |
+| Ein Seitenwechsel ohne Fahrt | Navigation und Kopf bleiben stehen. Der alte Inhalt blendet in 180 ms aus, der neue in 360 ms ein, der aktive Ort gleitet. Der getippte Ort ist sofort markiert. Die neue Seite steht oben, sie rollt nicht von der alten Stelle herauf. Die App setzt keine eigenen Regeln daneben. | In der App gemessen (15.11.2026): 1,3 bis 1,5 s Fahrt über 6812 px, mit der Regel keine | `components/app/app.css`, `html[data-seitenwechsel]` in `base.css` |
+
+**Neue Namen in `tokens.css`.**
+
+- Schrift: `--size-display`, `--size-title`, `--size-heading`, `--size-body`, `--size-label` und dazu `--leading-…`. Die fünf `--type-…` setzen sich daraus zusammen.
+- Abstände: `--space-1` bis `--space-16`, zehn Stufen im 4er-Raster in rem. Die Zahl im Namen mal 4 ergibt Pixel.
+- Bedienung: `--target` (44 px), `--button-height` (52 px), `--focus-width`, `--focus-offset`, `--focus-color`, `--focus-color-dark`.
+- Ebenen: `--layer-float`, `--layer-head`, `--layer-nav`, `--layer-toast`, `--layer-skip`. Sheets und Karten brauchen keine Ebene, sie liegen als `dialog` zuoberst.
+- Linie: `--line-control`, die Kante eines Bedienelements.
+
+**Neu am Rahmen der App.** `data-kopf-titel-sofort` am Seitenkopf zeigt den Seitentitel am Telefon sofort im Kopf der App, die `h1` bleibt für Vorleser. So gebaut in der App für das Resonanzrad.
+
+**Neue Varianten.** `.button--compact` für Zeilen und Leisten (44 px hoch). `.button--danger` für Löschen und Auflösen: ruhig wie die zweite Handlung, das Wort in der Fehlerfarbe. `.app-row--danger` für dieselbe Handlung als Zeile.
+
+**Neu im Paket.** `tokens.json` listet jedes Token mit Name, Wert, Gruppe und Notiz, erzeugt aus `tokens.css` (`node tools/tokens-json.js`). Werkzeuge und Agenten lesen die Werte, ohne CSS zu zerlegen.
+
+**Zwei Prüfungen.** `tools/token-check.js` prüft neu auch Schrift in px, Ebenen und den Fokusring. `tools/regel-messung.js` misst im Browser, was sich im CSS nicht ablesen lässt: Bedienziel, Berührung, einsames Wort, Titel ohne Ausgleich, Überlauf oder abgeschnittener Text, ein Wort auf zwei Zeilen. Es lädt 17 Seiten in sieben Breiten (119 Seitenaufrufe). Mit `SCHRIFT=125` misst es dieselben Regeln bei grösserer Schrift.
+
+**Aus der App zurück in den Atlas.** Chris hat am 15.11.2026 den Seitenwechsel der App freigegeben (Zweig `claude/focused-bell-gs6h2s` in soulresonance.ch, Punkte E1 bis E8). Die App hat ihre eigenen Übergänge entfernt und nutzt die des Pakets. Zwei Dinge daraus stehen jetzt im Paket, damit beide gleich bleiben: Während eines Seitenwechsels setzt die App `data-seitenwechsel` auf `<html>`, dann rollt nichts (das weiche Rollen des Pakets gilt nur für Sprünge innerhalb einer Seite). Und das Detail im Umfeld blendet in 180 ms ein, bei jedem Wechsel des Menschen, weil der Inhalt bewegt wird und nicht der Rahmen. Die Fahrt hat die App gemessen, nicht dieser Atlas.
+
+**Sichtbar anders.** Eingabefelder haben eine feine Kante. Der Datumskreis der Erlebnisse misst auf jeder Karte 5 rem (80 px) statt 72 px. Titel brechen ausgeglichen um («Abendessen / zu sechst» statt «Abendessen zu / sechst»). Das Resonanzrad hat den Aufbau der App: nichts gewählt beim Öffnen, das gewählte Element unter dem Rad, das Detail als Blatt, die Liste ohne Farbfeld (Abschnitt Bausteine). Auf dem Screen Ich steht der Seitentitel am Telefon im Kopf der App (`data-kopf-titel-sofort`). Der Beziehungsraum ist ohne Regler lesbar (Zweig `claude/beziehungsraum-lesbar`, zusammengeführt): Abstand, Platz um jeden, Feld um beide, darunter die drei Werte als Wort. Die Karte eines Erlebnisses zeigt bis 19 rem Inhaltsbreite den Datumskreis mittig und den Titel darunter, wie in der App (Lücke L43). Die Seitenleiste des Atlas ist 68 px länger, weil ihre Links 44 statt 40 px hoch sind. Auf Telefonen unter 400 px wird der Seitentitel der Bausteinseiten mit dem Fenster kleiner, damit «Beziehungsraum» ganz bleibt (dieselbe Zeile wie in PR #23). Die Regler im Beziehungsraum sind 44 statt 36 px hoch.
+
+**Lücken der App, die damit schliessen.** L7 (Schrift in rem), L8 (Abstandsskala, die breite Lesespalte fehlt weiter), L9 (Trefferfläche und Fokus), L11 (Knopfhöhe als Token, kompakt, Löschen), L35 (Kante der Felder), L41 (Datumskreis), L43 (schmale Karte eines Erlebnisses), L53 (Zeile für gefährliche Handlungen), L55 (Masse des Rahmens gelten ausserhalb von `.app`). Schon mit 4.12 geschlossen: L10, L31, L33, L46, L54.
+
+**Aus den Kits übernommen.**
+
+- Untitled UI: Grösse und Zeilenhöhe als Paar je Stufe. Abstände als benannte Skala im 4er-Raster. Der Fokusring als Teil des Systems. Die Prüfung des Kontrasts an jeder Farbe gab es im Atlas schon.
+- SmoothUI: Die Kurve fürs Erscheinen ist dieselbe wie bei ELANUM (`cubic-bezier(.23,1,.32,1)`). Übernommen ist die Liste je Baustein: Tastatur, Namen für Vorleser, reduzierte Bewegung. Sie ist hier als Messung gebaut, nicht als Tabelle.
+- shadcn/ui Skills und React Bits: Ein Paket beschreibt sich so, dass ein Agent es lesen kann. Daraus ist `tokens.json` entstanden.
+- `ui-ux-pro-max`: die Regeln zu Trefferfläche, Umbruch, Tabellenziffern, Antwort auf Druck, Systemeinstellungen und zum Namen aus dem sichtbaren Text.
+
+**Bewusst nicht übernommen.**
+
+- Schmuckbewegung aus Magic UI und React Bits: Laufbänder, Zahlen, die hochzählen, wandernde Hintergründe, Textzerfall, Zeiger-Effekte. Bei ELANUM hat jede Bewegung einen Grund.
+- Federn mit Überschwingen (SmoothUI). ELANUM läuft aus, es federt nicht.
+- Die Pixel-Ästhetik von RetroUI. Sie zeigt, wie stark ein System wirkt, das eine Idee durchzieht. Die Idee von ELANUM ist das warme Relief.
+- Eine Schatten-Skala von klein bis gross (Untitled UI). ELANUM benennt Schatten nach ihrer Aufgabe (erhaben, vertieft, schwebend), nicht nach ihrer Grösse.
+- Eine dunkle Darstellung. Chris hat am 15.10.2026 für die App entschieden, dass es keinen dunklen Hintergrund mehr gibt (Entscheid 35 in `docs/elanum-migration.md`).
+- Eigene Formen für Kästchen und Auswahlfelder. Das Kästchen des Browsers in Ink ist bedienbar, bekannt und im Kontrastmodus sicher.
+
+**Offen nach 4.13.**
+
+- Abstände in den Bausteinen: 415 von 585 liegen im 4er-Raster, 170 auf Zwischenwerten (6, 10, 14, 18, 22 px). Die Skala steht in `tokens.css`, die Bausteine nutzen sie noch nicht. Angleichen würde an 170 Stellen 2 px verschieben.
+- Die Lesespalte `--measure` (62ch) ergibt gemessen 83 bis 88 Zeichen je Zeile. Als gut lesbar gelten 60 bis 75. Mit 56ch wären es rund 75.
+- Die Karte «Wo es schwingt» ist im Screen Entdecken dunkel. In der App ist sie hell gebaut (Lücke L36).
+- Das Sheet steht ab 1024 px am rechten Rand. In der App steht es in der Mitte (Lücke L52).
+- `screens.css` liegt nicht im Paket (Lücke L25). Ein eigener Baustein für Meldung, Auswahlfeld, Tabelle und Fortschritt fehlt (Lücke L16).
+- Die Schrift im Resonanzrad und im Umfeld ist Teil der Zeichnung und wächst nicht mit (Lücke L60).
+- Resonanzrad auf dem Screen Ich, gemessen am Telefon: «Lesen» ist ohne Scrollen sichtbar ab 360 × 780 px (14 px Luft zur Leiste), bei 375 × 667 und 390 × 844 px mit 41 px. Bei 320 × 640 px liegt der Knopf 2 px unter der Kante der Leiste, das Rad hat dort schon sein Minimum von 10 rem.
+- Das Detail im Blatt zeigt im Atlas Beispieltext. Die Wege der App (Einzelbefund, Profil der Lehre, «Alle Details») und der Fragebogen sind nicht nachgebaut.
+- Die Wörter der Bedienung im Resonanzrad kommen aus der App («Element wählen», «Lesen», «Ausfüllen», «Noch offen», «Deine neun Elemente») und stehen noch nicht im Glossar.
+- Bei 125 % Schrift bleiben im Atlas selbst 7 Funde (gemessen): 8 px Überlauf auf der Bausteinseite Fliesstext bei 320 px, 25 px Überlauf im Atlas und auf der Übersicht der App bei 360 px, und die Titel der drei Kosmen brechen bei 320 und 360 px mitten im Wort. In den App-Screens bleibt keiner.
+- Die zweite Prüfung hat Lücken der Werkzeuge benannt, die offen sind: `tools/token-check.js` übersieht Schrift in einer eigenen Variablen und einzelne `outline`-Angaben. `tools/regel-messung.js` misst keine Zustände und nichts in geschlossenen Dialogen.
+- Der Kontrastmodus ist in Chromium nachgestellt geprüft (hell und dunkel), nicht auf einem Gerät mit Windows.
+- Silbentrennung ist nicht eingeschaltet. Lange Wörter brechen nur im Notfall, dann ohne Trennstrich.
+- `tools/regel-messung.js` braucht Playwright und läuft darum nicht mit den Prüfbefehlen vor jedem Push.
+
+## Feinschliff (4.12)
+
+Chris hat am 15.11.2026 fünf Clips eines Studios und ein Markenbrett als Messlatte geschickt. Sie wurden Bild für Bild vermessen, ELANUM mit denselben Massen. Ergebnis: Zurückhaltung, Zeiten und Staffelung von ELANUM lagen schon auf der Höhe der Referenz (Auftritt 700 ms gegen 700–770 ms, Staffelung 90 ms gegen rund 100 ms), bei der Lesbarkeit ist ELANUM strenger. Es fehlte an Entschiedenheit im Einzelnen. Acht Regeln standen zur Freigabe, sieben sind gebaut.
+
+| Regel | Was gilt | Wo |
+|---|---|---|
+| Ein Moment, eine Grösse | Der Seitentitel der App steht in der Stufe Überschrift. Die grösste Schrift gehört dem einen Moment des Screens. | `.app-title` in `components/app/app.css` |
+| Zwei Kurven mit Namen | `--ease-out` für alles, was erscheint oder antwortet. `--ease-in-out` für alles, was den Ort wechselt (der Wert, den der Zeichenaufbau schon nutzte). `linear` nur in Dauerschleifen. `--ease` bleibt als zweiter Name von `--ease-out`. | `tokens.css` |
+| Fünf Dauern mit Namen | `--motion-press` 90 ms, `--motion-ui` 180 ms, `--motion-enter` 360 ms, `--motion-move` 520 ms, `--motion-reveal` 700 ms, dazu `--motion-stagger` 90 ms als Versatz. Längere Abläufe sind ein Vielfaches (`calc`). Verzögerungen dürfen Zahlen sein. | `tokens.css` |
+| Was kommt, geht auch | Sheet und Quellenkarte laufen beim Schliessen denselben Weg zurück, in zwei Dritteln der Zeit. Erst danach schliesst der Dialog, auch mit Esc. Ohne Bewegung schliesst er sofort. | `components/app/app.js`, `components/fliesstext/fliesstext.js` |
+| Antwort am Ort der Handlung | Wer speichert oder sendet, sieht am selben Knopf Ruhe, läuft, bestätigt. «läuft» erscheint erst nach 300 ms und trägt `aria-busy`, «bestätigt» zeigt Haken und Wort. Beides wird angesagt. | `assets/button.js`, `.button__sign` in `base.css` |
+| Dauerschleifen sind die Ausnahme | Der Glührand wandert nur bei Hover und Fokus, in der Auswahl steht er. Je Screen atmet ein Ort, neben dem ELANUM-Zeichen im Lichtlauf. Schleifen bewegen nur Deckkraft und Lage. | `base.css`, Abschnitte Glührand und Atemtakt |
+| Jeder Wert hat einen Namen | Farben, Schatten und Radien stehen als Wert nur in `tokens.css`. | `node tools/token-check.js` |
+
+**Ein Ort im Atemtakt.** Rangfolge je Screen: «jetzt» im Tagesbogen, der Auswahlbogen im Resonanzrad, «jetzt» auf der Spur, sonst der aktive Ort der Navigation. Wo der Beziehungsraum atmet, atmet die Navigation nicht. Solange eine Spur noch verdeckt ist, atmet ihr «jetzt» nicht, und ausserhalb des Fensters ruht jede Schleife. Jeder dieser Orte hat eine eigene Glüh-Ebene, im Atemtakt bewegt sich nur ihre Deckkraft. Alle anderen Orte glühen ruhig: die Auswahl, das wartende Stück im kleinen Rad, der Kreis des Tagesbogens. Gemessen auf Heute bei vierfach gedrosseltem Prozessor: vorher 21 Dauerschleifen, davon 14 unsichtbar, und 63 % Last auf dem Hauptfaden. Nachher 2 Schleifen und 9 %.
+
+**Neue Namen in `tokens.css`.**
+
+- Farben: `--paper-light`, `--sand`, `--sand-deep`, `--ink-soft`, `--on-dark`, `--white`, `--black` und die fünf Stopps des Markenspektrums einzeln als `--violet`, `--blue`, `--orchid`, `--rose`, `--pink`. Stufen der Deckkraft entstehen mit `color-mix(in srgb, <Name> <Anteil>, transparent)`.
+- Relief: `--raised-button`, `--cast`, `--lifted`, `--lifted-deep`, `--lifted-dark`, `--sheen`, `--under`, `--under-far`, `--sheet-shadow`, `--float-shadow`, `--bar-shadow`, `--pressed-ink`, `--raised-dark`, `--pressed-dark`, `--text-lift`.
+- Runde Formen (als `filter`): `--relief-disc`, `--relief-disc-sm`, `--relief-disc-soft`, `--relief-disc-dark`, `--relief-zeichen`, `--relief-line-dark`, `--drop-soft`, `--drop-line`.
+- Glühen: `--glow-line`, `--glow-rose`, `--glow-now`, `--glow-dot`, `--glow-thumb`.
+- Form: `--radius-round`.
+
+Zusammengeführt: Sechs fast gleiche Papiertöne sind `--paper` und `--paper-light`, sieben Beigetöne sind `--offen`, zehn Radien stehen auf Control, Button, Fläche oder rund. Eine Kontur oder Linie ohne Weichzeichnung (`0 0 0 2px Farbe`) gilt nicht als Schatten und darf im CSS stehen, wenn ihre Farbe einen Namen hat. Ein abgeleiteter Radius steht als `calc()` aus einem Token: ein Drittel von Control (4 px) am Status und an der Aussage, zwei Drittel (8 px) an der Ecke der Sprechblase.
+
+**Geänderter Wert.** `--motion-reveal` steht neu auf 700 ms statt 900 ms. Im Paket nutzte bisher keine Regel das Token, die App nutzt es nicht (gemessen im Klon der App). Die Auftritte im Atlas laufen weiter mit 900 ms, sie kommen aus `assets/motion.js`.
+
+**Sichtbar anders durch die Namen.** Die Hauptfläche hat 28 statt 32 px Radius, Sprechblasen und Gesprächsideen 28 statt 22 px, Composer und Handlungsleiste 28 statt 26 px, das Ziel der Leiste 16 statt 18 px. Im Atlas haben das dunkle Kapitel und die Gerätevorschau 28 px Radius und einen leichteren Schatten. Notiz, Papierkarte, Rad-Zentrum und Bühnen sind einen Hauch dunkler (`--paper` und `--offen` statt eigener Töne). Der Bildplatz auf Entdecken ist aus benannten Farben gemischt.
+
+**Bewusst nicht übernommen.** Die Clips sind Werbung für erfundene Produkte. Diese sechs Dinge machen dort Eindruck und würden ELANUM schaden:
+
+- Kleine Schrift in Versalien. ELANUM bleibt bei 15 px als Minimum.
+- Dunkles Glas über Foto. ELANUM gehört das warme Relief.
+- Kursiv als Betonung. Kursiv gibt es nicht mehr.
+- Kamerafahrt, animierte Unschärfe und Ton.
+- Zahlen, die hochzählen. ELANUM zeigt keine Zähler und keine Scores.
+- Die Zeiten der Clips für direkte Rückmeldung. Was am Finger antwortet, bleibt bei 180 ms.
+
+**Abgelehnt.** Die Hauptfläche trägt weiter den Schleier ihres Bereichs, nicht dessen volle Fläche.
+
+**Bestätigt von Chris am 15.11.2026:** der Seitentitel in der Stufe Überschrift, die Begrenzung der Dauerschleifen samt Rangfolge des Atemtakts, die sichtbaren Folgen der Namen (Radien, Papiertöne, Schatten im Atlas) und `--motion-reveal` mit 700 ms.
+
+**Offen nach 4.12.**
+
+- Die grösste Schrift steht noch mehrfach auf Ich (Rad-Zentrum und Name des gewählten Elements) und auf Aktivitäten (Datum im Kreis und Titel des Erlebnisses), am Desktop auch auf Weg und Ankommen. Freigegeben war nur der Schritt am Seitentitel.
+- Die Skripte der Bausteine zeichnen SVG noch mit festen Farben (Beziehungsraum, Umfeld, Zeichen, Tagesbogen, Resonanzrad, 38 Stellen). `tools/token-check.js` prüft nur das CSS.
+- Die Szenen in `assets/motion.js` haben eigene Zeiten und Kurven. Sie sind Erzählung, nicht Bedienung. Einzelne Skripte nennen Kurven noch beim Schlüsselwort (`app.js` des Atlas, `components/zeichen/zeichen.js`).
+- Zweimal Esc kurz hintereinander schliesst ein Sheet ohne Übergang, das macht der Browser. Der Fokus kehrt trotzdem zurück.
+- Ausserhalb des Fensters ruhen Lichtlauf und Atemtakt nur, wenn `assets/motion.js` geladen ist. Ohne das Skript laufen sie dort weiter.
+- Im Beziehungsraum rücken die Kreise über eine eigene Näherung zusammen, dort gibt es keine Kurve zum Tauschen.
+- Die Zusage im Sheet (Dabei, Vielleicht, Nicht dabei) ist eine Auswahl mit Status darunter und hat die Zustände des Buttons nicht.
+- Wörter am Button ohne Freigabe im Glossar: «Einen Moment» und «Erledigt» als Vorgabe, in den Screens «Wird gesendet», «Gesendet», «Speichert», «Gespeichert», «Wird behalten», «Behalten», «Wird übernommen», «Übernommen».
 
 ## Fliesstext (4.11)
 
@@ -70,8 +197,8 @@ Rückmeldung nach dem ersten Stand (14.10.2026): Das Zeichen darf nicht Ink sein
 - **Zeichen in Spektrum** in Navigation, Kopf, Favicon und im Atlas. Ink bleibt für Einfarbiges. Seit dem Zusammenführen mit 4.9 bewegt es sich mit dem Baustein Zeichen: in Navigation und Kopf der App sanft und dauernd im Lichtlauf, beim ersten Start (Ankommen) einmal im Zeichenaufbau. Die Form steht.
 - **Ein Moment pro Screen:** die Hauptfläche `.app-hero`. Heute: der Satz des Tages mit Tagesbogen. Weg: das aktuelle Kapitel. Entdecken: „Wo es schwingt“ mit dem Beziehungsraum. Aktivitäten: das eine Erlebnis der Woche. Ankommen: die Frage des Schritts.
 - **Ein nächster Schritt:** Heute führt direkt unter dem Tag zum nächsten offenen Element, mit kleinem Resonanzrad und einer primären Handlung.
-- **Tagesbogen:** Der Tag als offener Kreis, die Öffnung unten ist die Nacht. Bis „jetzt“ führt die Verbindung im Markenspektrum (wie die Spur der Tageslinie bis „jetzt“), danach bleibt der Bogen gestrichelt offen. Stationen sind Knoten, „jetzt“ ist ein Ring, der im Atemtakt glüht. Der Kreis atmet höchstens 3 %.
-- **Wo du bist, glüht:** Der aktive Ort in der Navigation trägt den Glührand im Atemtakt. Beim Wechsel gleitet er zum neuen Ziel (View Transitions zwischen Seiten), Navigation und Kopf bleiben stehen, der Inhalt steigt weich auf.
+- **Tagesbogen:** Der Tag als offener Kreis, die Öffnung unten ist die Nacht. Bis „jetzt“ führt die Verbindung im Markenspektrum (wie die Spur der Tageslinie bis „jetzt“), danach bleibt der Bogen gestrichelt offen. Stationen sind Knoten, „jetzt“ ist ein Ring, der im Atemtakt glüht. Der Kreis steht seit 4.12 still.
+- **Wo du bist, glüht:** Der aktive Ort in der Navigation trägt den Glührand. Seit 4.12 steht der Rand, und der Ort atmet nur, wenn der Screen keinen eigenen Ort im Atemtakt hat. Beim Wechsel gleitet er zum neuen Ziel (View Transitions zwischen Seiten), Navigation und Kopf bleiben stehen, der Inhalt steigt weich auf.
 - **Licht von links oben** auch auf der Grundfläche: eine warme Aufhellung oben links, ein Hauch Schatten unten rechts.
 - **Drücken gibt nach:** Karten, Zeilen und Ziele der Leiste geben beim Tippen kurz nach (90 ms).
 - **Resonanz ist Verbindung:** Die Nachricht „zeigt Resonanz auf“ im Chat trägt den Rand im Markenspektrum, neue Nachrichten einen Punkt im Spektrum.
@@ -140,6 +267,8 @@ In einer App ist die meiste Schrift klein, schnell und bedienbar: Buttons, Liste
 | Text | Albert Sans 400 | 17 / 18 px | Fliesstext |
 | Label | Albert Sans 500, betont 600 | 15 px | Beschriftung, Tabs, Buttons. Das Minimum. |
 
+In der App steht der Seitentitel seit 4.12 in der Stufe Überschrift, damit die grösste Schrift dem einen Moment des Screens gehört.
+
 Sekundärtext ist `#3D5055` (7,2:1 auf Canvas). Im Rad werden Ringschrift und Icons auf echte 15 bzw. 30 px umgerechnet, egal wie gross das Rad gezeigt wird.
 
 ## Farbe: drei Rollen
@@ -179,7 +308,7 @@ Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe au
 
 Warme Reliefoberfläche, Licht von links oben. Was man bedienen kann, hebt sich an (`--raised`), Eingaben liegen vertieft (`--pressed`). Radien: Control 12 px, Button 16 px, Fläche 28 px. Schatten tragen nie allein eine Funktion; Auswahl hat immer auch Text, Fokus oder ein Zeichen.
 
-**Glührand und Hover:** Bedienbare Flächen zeigen bei Hover, Fokus und Auswahl einen Rand, dessen Farbe dem Markenspektrum entlang im Kreis wandert (6 s pro Umlauf), dazu ein weiches Glühen. Ausgewählte Flächen (gewähltes Element, gewählte Person, aktiver Tab, bewusste Auswahl) glühen im Atemtakt. Jeder Hover ist gut sichtbar: Karten heben sich und glühen, Listen und Navigation bekommen eine Fläche, Links werden violett mit kräftigerer Unterstreichung, Buttons hellen auf und heben sich. Ohne Bewegung steht der Verlauf still.
+**Glührand und Hover:** Bedienbare Flächen zeigen bei Hover, Fokus und Auswahl einen Rand im Markenspektrum, dazu ein weiches Glühen. Bei Hover und Fokus wandert die Farbe im Kreis (6 s pro Umlauf). In der Auswahl (gewähltes Element, gewählte Person, aktiver Tab, bewusste Auswahl) steht der Rand seit 4.12, und die Fläche glüht ruhig. Jeder Hover ist gut sichtbar: Karten heben sich und glühen, Listen und Navigation bekommen eine Fläche, Links werden violett mit kräftigerer Unterstreichung, Buttons hellen auf und heben sich. Ohne Bewegung steht der Verlauf still.
 
 Der Glührand gilt durchgängig für alles, was man bedienen kann: Buttons (über `.button` automatisch), Segmente, Tabs, Listen, Navigation, Links mit Klasse, Farbstufen, Kopieren-Knöpfe, Checkbox-Zeilen und Pause-Schalter. Eingabefelder und Textfelder liegen in einer Hülle `.field.glow-edge`, die Vertiefung und Rand trägt; sie leuchtet bei Hover und sobald das Feld den Fokus hat. Schieberegler zeigen den wandernden Rand als Ring um den Griff. Ausnahmen: das ELANUM-Zeichen als Link, Textlinks im Fliesstext und der Sprunglink (Fokusring).
 
@@ -242,10 +371,10 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 
 **Resonanzrad** (`components/resonanzrad/`), wiederhergestellt aus dem persönlichen Rad (Repo-Stand `8995945`) und überarbeitet:
 - Geometrie unverändert verbindlich: exakter Kreis, neun Stücke à 40°, drei Bereiche à 120°, ein gemeinsamer Mittelpunkt.
-- Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt die Fläche seines Bereichs, alle drei Elemente eines Bereichs gleich. Ein offenes Stück ist grau, gestrichelt umrandet und trägt ein Plus in Ink. In der Liste steht „+ Ausfüllen“; ein Tipp darauf wählt das Element und setzt den Fokus auf „Jetzt ausfüllen“. Das Plus hat eine eigene Zeile mit Abstand und überlappt nie Icon oder Name.
+- Farbe heisst ausgefüllt: Ein ausgefülltes Stück trägt die Fläche seines Bereichs, alle drei Elemente eines Bereichs gleich. Ein offenes Stück ist grau, gestrichelt umrandet und trägt ein Plus in Ink. In der Liste steht „+ Ausfüllen“; ein Tipp darauf wählt das Element und öffnet sein Blatt mit „Jetzt ausfüllen“. Das Plus hat eine eigene Zeile mit Abstand und überlappt nie Icon oder Name.
 - Beschriftung im Rad, gemessen so gesetzt, dass nichts überlappt und nichts über sein Stück hinausragt (2 px Rand, für jede der neun Auswahlen geprüft): Ab 500 px Raddurchmesser stehen Name und darunter Ergebnis oder Plus, in echten 15 px. Darunter zeigt jedes Stück nur sein Icon, offene Stücke zusätzlich das Plus (ab 300 px). Name und Ergebnis stehen dann in der Zeile direkt unter dem Rad. Im Atlas bekommt das Rad ab 1280 px Fensterbreite seine vollen 520 px, damit Name und Ergebnis auf üblichen Laptops im Stück stehen. Icon, Name und Ergebnis zusammen sind für ein 40°-Stück zu gross; frühere Stände überlappten deshalb an den Rändern. Der Auswahlbogen steht in der Farbe seines Bereichs und glüht im Atemtakt. Namen, Ergebnisse und Status stehen in der Liste und im Lesebereich. Die Liste ist die Tastaturbedienung (Pfeile, Home, End).
 - Der Ring zeigt die drei Bereiche gleich stark und hebt nichts hervor. Icons, Konturen und Auswahlbogen sind Ink.
-- Seit 4.11.1 steht das Rad still: Ein Tipp wählt das Stück an seinem Platz, nichts dreht und nichts lässt sich ziehen. In der App wählen Rad und Pfeile nur, «Lesen» und die Liste öffnen das Element als Fenster (Telefon von unten, Computer Mitte); dieser Aufbau ist im Baustein noch nicht nachgebaut.
+- Seit 4.11.1 steht das Rad still: Ein Tipp wählt das Stück an seinem Platz, nichts dreht und nichts lässt sich ziehen. Seit 4.13 hat der Baustein den Aufbau der App (dort live seit dem 15.11.2026): Beim Öffnen ist nichts gewählt. Rad und Pfeile wählen nur. Unter dem Rad steht das gewählte Element mit den Pfeilen neben dem Namen, dem eigenen Wort in der Stufe Titel, einem Satz und «Lesen» oder «Ausfüllen». «Lesen» und die Liste öffnen das Detail als Blatt (`dialog`, Telefon von unten, ab 600 px in der Mitte). Im Blatt stehen Name klein, Wort gross, Fachzeile, Kernsatz und Text. Am Telefon steht das Element ohne Rahmen, und das Rad richtet sich nach der Höhe des Fensters (`--rad-rest`), damit «Lesen» ohne Scrollen sichtbar ist. Die Liste trägt kein Farbfeld und keine Legende mehr, das Zeichen in der Bereichsfarbe genügt. Die Regeln der früheren Form (`.rad__nav`, `.rad__current`, `.rad__swatch`, `.rad__legend`, `.rad__result`) bleiben im Stylesheet gültig.
 
 **Umfeld** (`components/umfeld/`): Ich in der Mitte, Menschen als eigene, geschlossene Kreise. Der Abstand zeigt die Nähe. Null bis drei Linien im Verlauf um die Person zeigen die Resonanz, wie im Beziehungsraum; ohne aktive Resonanz gibt es keine Linie. Keine Linie führt zur Mitte, und einen Freiraum gibt es nicht, weil das Umfeld den Wert nicht kennt. Die Kreise sind Knöpfe: Ein Klick auf Kreis oder Name wählt den Menschen. Aufbau: das Bild, darunter ein einziges Panel (erhöhte Karte, ohne Trennstrich). Oben im Panel stehen die Pfeile (wie beim Resonanzrad) mit dem Namen des gewählten Menschen, direkt darunter Nähe und Resonanz als Pillen, die Notiz und der Knopf, alles zentriert. Jede Angabe steht nur einmal: kein „Du & Name“ und keine zweite Zustandszeile. Der Lesebereich lässt sich mit Finger oder Maus ziehen, Kreis, Name und Lesebereich bleiben im Gleichschritt. Die Liste entfällt, und die Karte mit Zähler ebenso (Rückmeldung Chris vom 15.11.2026: Design wie Ich-Übersicht, gleiche Pfeile, Pillen, mehr Raum und früher sichtbar; Rückmeldung Chris vom 16.11.2026: eine Einheit, jede Angabe einmal). Das Bild ist senkrecht auf den Inhalt beschnitten, damit das Panel früh im Sichtfeld steht, und im Auftritt erscheint es als Ganzes nach 0,4 Sekunden. Ab 900 px steht das Panel rechts neben dem Bild, zur Bildmitte ausgerichtet. Der Lesebereich öffnet den Beziehungsraum mit den Werten des Menschen. So trägt das Umfeld mehr als eine einzelne Beziehung. Unter 520 px Bühnenbreite Breite der Bühne gilt das Hochformat (Telefon): Über dem Bild steht eine Filterzeile nach Art («Alle», Partnerschaft, Familie, Freundschaft, Innerer Weg, Arbeit). «Alle» ist die Übersicht, die Menschen stehen als kleine Punkte ohne Namen in ihren Gruppen, über jeder Gruppe liegt ein einziger Knopf (Tipp wählt die Art und den ersten Menschen). Eine Art zeigt nur ihre Menschen, gross und mit Namen in echten 15 px, gleichmässig rund um «Ich», ohne Bögen. Pfeile und Slider laufen weiter durch alle Menschen, der Filter folgt der Auswahl. Grund: Neun Menschen waren bei 390 px zu eng, gemessen (Ringe überlappten um 4 bis 6 px, bei 320 px ragte «Jonas» aus dem Kreis). Entscheid Chris vom 16.11.2026. Ab 520 px Bühnenbreite gibt es keinen Filter, das Bild zeigt alle mit Namen. Entwurf vom 15.11.2026, die Version ist noch nicht freigegeben. Cluster nach Art: Der Winkel ist die Art, der Abstand die Nähe, die Linien sind die Resonanz. Wer zusammengehört, steht beieinander. Ein feiner Bogen mit dem Wort der Art fasst jede Gruppe, wie die Bereiche des Resonanzrads (Wort mindestens 15 px, in der unteren Hälfte andersherum, damit es nicht auf dem Kopf steht). Arten ohne Menschen bekommen keinen Platz, zwischen den Gruppen liegen 16°, die erste Gruppe steht oben. Die Art steht als erste Pille beim Menschen. Die Liste Partnerschaft, Familie, Freundschaft, Innerer Weg, Arbeit hat Chris am 16.11.2026 freigegeben. Der Glossar-Eintrag dazu steht noch aus. Der Filter nach Art auf dem Telefon ist umgesetzt (siehe oben).
 
@@ -261,6 +390,8 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 - Seit 4.11.2 wird der Seitentitel der Bausteinseiten (`.page-intro h1`) unter 400 px Fensterbreite mit dem Fenster kleiner (13vw, bei 320 px sind das 41,6 px). Vorher war «Beziehungsraum» in 52 px 325 px breit, Platz waren 272 px.
 
 - Die fünf Arten sind die der App (`partner`, `family`, `friend`, `spiritual`, `work`), mit ihren Wörtern: Partnerschaft, Familie, Freundschaft, Innerer Weg, Arbeit (Entscheid Chris, 16.11.2026). Eine erste Fassung hatte vier eigene Wörter (Partner, Familie, Freunde, Arbeit). Der Baustein nimmt jede Liste an (`opts.kinds`).
+
+- Zwei Spalten (Bild neben Karte) gelten, sobald der Baustein selbst 52rem breit ist. Das Skript misst ihn und setzt `data-cols`. Vorher schaltete die Breite des Fensters (900 px): Im App-Rahmen mit Seitenleiste und bei 125 % Schrift wurde die Karte so schmal, dass der Name umbrach (gemessen bei 1024 px).
 
 **Weg und Tageslinie** (`components/weg/`, Baustein `.track` in `base.css`): Stationen erledigt (gefüllter Punkt), jetzt (Ring) und offen (Kontur mit Öffnung unten). Bis „jetzt“ führt die Spur, danach eine Unterbrechung. Labels stehen in einer eigenen Spalte und kreuzen die Linie nie. Waagrecht ab 900 px, darunter senkrecht.
 
@@ -285,8 +416,10 @@ Bewegung erklärt: Kreise rücken zusammen, das Rad baut sich Bereich für Berei
 | Umfeld | Menschen rücken aus dem Rand auf ihre Nähe, danach blenden die Linien um die Person ein. |
 | Weg und Tageslinie | Die Spur wächst, Stationen erscheinen beim Erreichen. Auf der Element-Seite an den Scroll gekoppelt. |
 | Status | Das Zeichen federt beim Wechsel kurz ein. |
-| Glühen | Die Station „jetzt“, der Auswahlbogen im Rad und ausgewählte Flächen glühen im Atemtakt; Verbindungslinien leuchten weich. |
-| Bedienung | 160–220 ms, ohne Blitz. |
+| Glühen | Je Screen atmet ein Ort (Feinschliff 4.12), alle anderen glühen ruhig; Verbindungslinien leuchten weich. |
+| Bedienung | 180 ms (`--motion-ui`), Drücken 90 ms (`--motion-press`), ohne Blitz. |
+| Schliessen | Sheet und Quellenkarte laufen denselben Weg zurück, in zwei Dritteln der Zeit. |
+| Antwort | Der Button zeigt «läuft» und «bestätigt» am Ort der Handlung. |
 | Zeichen | Zeichenaufbau einmal, sobald das Zeichen zu sehen ist. Lichtlauf dauernd, wo er gesetzt ist. Die Form steht. |
 | Immer | Nur die Atmung: 3,4 s Raum geben, 4,4 s zur Ruhe, höchstens 7,5 % Radius. Im Zeichen dazu der Lichtlauf, wo gesetzt. |
 

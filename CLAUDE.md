@@ -2,6 +2,12 @@
 
 Zuerst [UEBERGABE.md](UEBERGABE.md) lesen: Stand, offene Punkte, Entscheide zur Benennung und die Arbeitsweise mit Chris.
 
+## Mergen
+
+Mergen darf nur Tris (Chris Beyeler, 15.11.2026). Weder Chris noch Claude mergen einen PR, auch nicht auf Zuruf. Jede Änderung geht als Entwurfs-PR an Tris, mit einem Abschnitt «Für Tris»: Aufgabe, nötige Inputs, offene Fragen.
+
+Commit ist nicht Merge: Auf dem eigenen Branch `claude/…` darf Claude alles, committen und pushen eingeschlossen. Von `main` lässt Claude die Finger: kein Merge, kein Push (Chris Beyeler, 15.11.2026).
+
 ## Befehle für Chris
 
 Chris testet lokal auf einem Mac (zsh). Jede Anleitung muss idiotensicher sein:
@@ -40,7 +46,18 @@ git log --oneline -1
 for f in app.js assets/*.js components/*/*.js; do node --check "$f"; done
 python3 tools/build_logo_circles.py
 node tools/glossar-md.js
+node tools/tokens-json.js
+node tools/token-check.js
 git diff --check
+```
+
+`tools/token-check.js` meldet jede Farbe, jeden Schatten, jeden Radius, jede Kurve, jede Dauer, jede Schriftgrösse in px, jede Ebene und jeden Fokusring, die im CSS als Wert statt als Token stehen. Ein neuer Wert kommt zuerst mit Namen nach `tokens.css`. `tools/tokens-json.js` schreibt `tokens.json` daraus neu.
+
+Nach jeder Änderung an Layout, Schrift oder Bedienelementen zusätzlich messen (Server auf Port 4173, braucht Playwright). Beide Läufe müssen ohne Fund enden, bis auf die Punkte, die in `DESIGN-NOTES.md` unter „Offen nach 4.13“ stehen:
+
+```bash
+node tools/regel-messung.js
+SCHRIFT=125 node tools/regel-messung.js
 ```
 
 ## Versionen

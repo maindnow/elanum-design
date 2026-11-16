@@ -1,6 +1,6 @@
 # Übergabe: ELANUM Gestaltungsatlas
 
-Stand 16. November 2026. Mit PR #24 kommt **Atlas 5.0** (Paket `@elanum/design` 5.0.0) auf `main`; der Tag `v5.0.0` folgt nach dem Merge. Beziehungsraum und Umfeld sind neu gefasst, das ist eine Hauptversion: Die App muss ihre zwei Bausteine nachbauen (Abschnitt «Atlas 5.0 in die App holen»). Auf `main` liegt 4.11.1 (Fliesstext, Rad steht still). Die Tags `v4.11.0` und `v4.11.1` wurden nie gesetzt, der letzte Tag ist `v4.10.0`. Diese Datei fasst alles zusammen, was es zum Weiterarbeiten braucht, auch Entscheide, die bisher nur in Gesprächen mit Claude standen.
+Stand 16. November 2026. Auf `main` steht **Atlas 4.13** (PR #22 «Feinschliff» und PR #23 sind gemergt, Paket `@elanum/design` 4.13.0). Mit PR #24 kommt **Atlas 5.0** (Paket 5.0.0): Beziehungsraum und Umfeld sind neu gefasst, das ist eine Hauptversion, und die App muss ihre zwei Bausteine nachbauen (Abschnitt «Atlas 5.0 in die App holen»). Die Tags `v4.11.0`, `v4.11.1` und `v4.13.0` fehlen noch, der letzte Tag ist `v4.10.0`; `v4.12.0` gibt es als eigenen Stand auf `main` nicht. Die App nutzt `v4.10.0`. Mergen darf nur Tris (`CLAUDE.md`, «Mergen»). Diese Datei fasst alles zusammen, was es zum Weiterarbeiten braucht, auch Entscheide, die bisher nur in Gesprächen mit Claude standen.
 
 ## In zwei Minuten
 
@@ -30,7 +30,10 @@ git log --oneline -1
 
 ## Offen
 
-1. **PR #24 mergen und Tag `v5.0.0` setzen:** mit der Vorlage in `CLAUDE.md`. PR #23 (Seitentitel bei 320 px, 4.11.2) ist in #24 enthalten und kann danach geschlossen werden. Die Tags `v4.11.0` und `v4.11.1` fehlen; sie lassen sich bei Bedarf nachträglich auf die Merge-Commits von PR #18 und PR #21 setzen. Die App springt von `v4.10.0` direkt auf `v5.0.0`.
+1. **Tags setzen:** `v4.11.0` auf den Merge von PR #18 (`2f6776f`), `v4.11.1` auf den Merge von PR #21 (`b2e2114`), `v4.13.0` nach dem Merge des PR «Feinschliff», je mit der Vorlage in `CLAUDE.md`. Danach die App auf den neuesten Tag anheben (Abschnitt „In der App“).
+1b. **Reife 4.13, offene Entscheide:** Abstände der Bausteine ins 4er-Raster (170 Stellen), Lesespalte 62ch oder 56ch, Karte «Wo es schwingt» hell wie in der App (L36), Sheet am Computer in der Mitte wie in der App (L52). Liste in `DESIGN-NOTES.md`, „Reife (4.13)“.
+1a. **Feinschliff 4.12, offene Punkte:** grösste Schrift noch mehrfach auf Ich und Aktivitäten, feste Farben in den Skripten der Bausteine, Wörter am Button ohne Glossar-Freigabe. Liste in `DESIGN-NOTES.md`, „Feinschliff (4.12)“.
+1. **PR #24 (Atlas 5.0):** Tris prüft und mergt, danach der Tag `v5.0.0` mit der Vorlage in `CLAUDE.md`. Die App springt von `v4.10.0` direkt auf `v5.0.0`, sofern sie 4.13 nicht vorher einzeln holt.
 1. **Freigaben von Chris zu 5.0, noch offen:** der Wortlaut der Glossar-Einträge Umfeld, Art, Beziehungsraum, Feld, «Nähe · Resonanz · Freiraum» und Atmung (in `assets/glossar.js` eingetragen, «Verbindung» ist gestrichen); die neuen Masse in `DESIGN-NOTES.md`, Abschnitt Bausteine.
 1. **Nähe in der App braucht einen eigenen Wert je Mensch.** Heute leitet die App die Nähe fest aus der Art ab (`NAEHE_JE_KATEGORIE` in `src/lib/components/elanum/umfeldGeometrie.js`: Partnerschaft 100, Familie 70, Freundschaft und Innerer Weg 40, Arbeit 10). Im Umfeld 5.0 sagt schon der Winkel die Art. Mit der festen Ableitung stünden alle Menschen einer Gruppe gleich weit weg, und der Abstand sagte nichts Eigenes mehr. Entscheid Chris und Tris: Woher kommt die Nähe (vom Menschen selbst gesetzt, oder aus der Rechnung)?
 1. **Freiraum in der App:** Der Beziehungsraum zeigt ihn als helle Fläche um jede Person. Die App führt den Wert nicht und setzt den Startwert 34. Entweder liefert die App einen Wert, oder sie blendet das Wort «Freiraum» aus (`data-skala="aus"` und eigene Zeile).
@@ -100,7 +103,10 @@ Gelesen im App-Repo am 16. November 2026 (`main`, Commit `4f9662fc`). Die App ba
 | 4.8 | „Sterne & Ursprung“ statt „Grundtöne“ (Code `sterne`), Resonanz ohne „Das Leitthema:“, Server ohne Cache. Paket 4.8.0, Tag `v4.8.0` |
 | 4.9 | Das Zeichen bewegt sich, seine Form steht: Zeichenaufbau und Lichtlauf, Baustein `components/zeichen/`. Tag `v4.9.0` |
 | 4.10 | ELANUM als App, mobile zuerst: App-Rahmen `components/app/`, acht Screens, Kapitel „In der App“. Tag `v4.10.0` |
-| 4.11 | Fliesstext: Aussagen mit ihrer Quelle, Quellenkarte „Woher kommt diese Aussage?“, Baustein `components/fliesstext/`, im Atlas und auf Heute. PR #18. 4.11.1: Resonanzrad steht still (PR #21). Kein Tag gesetzt |
+| 4.11 | Fliesstext: Aussagen mit ihrer Quelle, Quellenkarte „Woher kommt diese Aussage?“, Baustein `components/fliesstext/`, im Atlas und auf Heute. PR #18 gemergt, Tag `v4.11.0` fehlt noch |
+| 4.11.1 | Das Resonanzrad steht still. PR #21 gemergt, Tag `v4.11.1` fehlt noch |
+| 4.12 | Feinschliff: zwei Kurven und fünf Dauern als Tokens, ein Ort im Atemtakt je Screen, Schliessen mit Übergang, Button mit «läuft» und «bestätigt», jeder Wert mit Namen, `tools/token-check.js`. Kein eigener Tag, geht in 4.13 auf |
+| 4.13 | Reife: Schrift in rem, Abstände, Trefferfläche, Fokus und Ebenen als Tokens, Kante der Felder, ausgeglichener Umbruch, Antwort auf Druck überall, Kontrastmodus des Systems, `.button--compact`, `.button--danger`, `tokens.json`, `tools/regel-messung.js`. Schliesst die Lücken L7, L8, L9, L11, L35, L41, L53, L55 der App. Tag `v4.13.0` nach dem Merge |
 | 5.0 | Beziehungsraum und Umfeld neu, ohne Regler lesbar: Abstand, Platz um jeden, Feld um beide; Umfeld in Gruppen nach Art, Linien um den Kreis, Karte mit Pfeilen, Filter auf dem Telefon. Enthält 4.11.2 (Seitentitel bei 320 px). PR #24, Tag `v5.0.0` nach dem Merge |
 
 Das Glossar trägt die Version 5.0.
@@ -134,7 +140,7 @@ Die weiteren Entscheide zu Zeichen, Bewegung und App (zum Beispiel: Farbatem ver
 ## Arbeitsweise
 
 - **Sprache:** Deutsch, Schweizer Schreibweise („ss“ statt „ß“). Begriffe genau wie im Glossar.
-- **Ablauf:** Claude arbeitet auf einem Branch `claude/…` und eröffnet einen PR als Entwurf. Chris prüft lokal mit dem Block aus `CLAUDE.md` und mergt selbst. Danach den Block für `main` und, bei neuer Paketversion, den Block für den Tag.
+- **Ablauf:** Claude arbeitet auf einem Branch `claude/…` und eröffnet einen PR als Entwurf mit einem Abschnitt «Für Tris». Chris prüft lokal mit dem Block aus `CLAUDE.md`. **Mergen darf nur Tris** (Chris, 15.11.2026), weder Chris noch Claude mergen. Nach dem Merge den Block für `main` und, bei neuer Paketversion, den Block für den Tag. PR #18 und #21 hat Claude am 15.11.2026 noch auf Chris' Wort gemergt, bevor diese Regel feststand.
 - **Glossar ändern:** nur mit Freigabe von Chris und mit neuer Atlas-Version. Immer `assets/glossar.js` bearbeiten, dann `node tools/glossar-md.js`. `GLOSSAR.md` nie von Hand.
 - **Versionen und Tags:** Regeln in `CLAUDE.md`, „Versionen“. Die App verlässt sich auf die Tags: nie verschieben oder löschen.
 - **Vor jedem Push:** die Prüfungen aus `CLAUDE.md`, dazu der Atlas im Browser (Desktop, Tablet, Telefon, ohne Konsolenfehler).

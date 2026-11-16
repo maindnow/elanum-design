@@ -200,7 +200,7 @@
        erscheinen sie am Ende der Erklärung, sonst sind sie sofort da. */
     if (steps) {
       tl.from(parts.reader, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 7.6)
-        .from([parts.nav, parts.list], { opacity: 0, y: M.y, duration: 0.6, stagger: 0.1, clearProps: CLEAR }, 7.7);
+        .from([parts.nav, parts.list].filter(Boolean), { opacity: 0, y: M.y, duration: 0.6, stagger: 0.1, clearProps: CLEAR }, 7.7);
     }
     tl.call(function () { rad.classList.remove('is-entering'); restore(); });
     return tl;
@@ -294,8 +294,12 @@
         ScrollTrigger.create({ trigger: el, start: 'top 75%', end: 'bottom 45%', scrub: 1, animation: tl, invalidateOnRefresh: true });
         return;
       }
+      /* Solange die Spur noch verdeckt ist, atmet «jetzt» nicht (base.css, Atemtakt). */
+      el.classList.add('is-pending');
+      finishers.push(function () { el.classList.remove('is-pending'); });
       hideUntilVisible(all('.track__station', el));
       whenVisible(el, function () {
+        el.classList.remove('is-pending');
         gsap.set(all('.track__station', el), { opacity: 1 });
         trackTimeline(el);
       }, 0.2);
@@ -329,6 +333,23 @@
     for (var n = e.target; n && n !== document.body; n = n.parentElement) if (+getComputedStyle(n).opacity < 1) { stopAll(); return; }
   });
   document.addEventListener('elanum:layout', function () { if (!stopped) ScrollTrigger.refresh(); });
+
+  /* ---------- Dauerschleifen ruhen ausserhalb des Fensters ----------
+     Lichtlauf und Atemtakt laufen nur, solange ihr Baustein zu sehen ist
+     (base.css, .is-away). Bausteine, die später dazukommen, werden nachgetragen. */
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var LOOPS = '.zeichen,.day-arc,.rad,.track__station[data-state=now]';
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { e.target.classList.toggle('is-away', !e.isIntersecting); });
+    });
+    function watch() { all(LOOPS).forEach(function (el) { if (!el._loopWatched) { el._loopWatched = true; io.observe(el); } }); }
+    watch();
+    if ('MutationObserver' in window) {
+      var due = 0;
+      new MutationObserver(function () { if (!due) due = setTimeout(function () { due = 0; watch(); }, 200); }).observe(document.body, { childList: true, subtree: true });
+    }
+  })();
 
   /* Start nach fonts.ready, damit Titel mit der echten Schrift gesplittet werden. */
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () {
