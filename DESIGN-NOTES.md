@@ -393,6 +393,8 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 
 - Zwei Spalten (Bild neben Karte) gelten, sobald der Baustein selbst 52rem breit ist. Das Skript misst ihn und setzt `data-cols`. Vorher schaltete die Breite des Fensters (900 px): Im App-Rahmen mit Seitenleiste und bei 125 % Schrift wurde die Karte so schmal, dass der Name umbrach (gemessen bei 1024 px).
 
+- Lange Namen im Kreis: der volle Name, wenn er passt, sonst der Vorname, sonst gekürzt mit Auslassung. Der volle Name steht in der Pfeilzeile und im Vorlesetext. Die Regel kommt aus der App; mit ihren Daten lief «Imaginärer Solo-Partner» aus dem Kreis (gemessen 16.11.2026, Entscheid Chris).
+
 **Weg und Tageslinie** (`components/weg/`, Baustein `.track` in `base.css`): Stationen erledigt (gefüllter Punkt), jetzt (Ring) und offen (Kontur mit Öffnung unten). Bis „jetzt“ führt die Spur, danach eine Unterbrechung. Labels stehen in einer eigenen Spalte und kreuzen die Linie nie. Waagrecht ab 900 px, darunter senkrecht.
 
 **Zeichen in Bewegung** (`components/zeichen/`): Zeichenaufbau und Lichtlauf, siehe oben beim ELANUM-Zeichen. Markup `<div class="zeichen" data-zeichen="aufbau | lichtlauf">` mit dem Spektrum als `<img>`; ohne Skript steht das Bild.

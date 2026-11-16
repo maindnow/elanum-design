@@ -343,10 +343,24 @@
         var s = document.createElement('span'); s.className = 'umfeld__name' + (cls ? ' ' + cls : ''); s.textContent = text;
         s.style.left = fx(x) + '%'; s.style.top = fy(y) + '%'; stage.appendChild(s); return s;
       };
+      /* Lange Namen: der volle Name, wenn er in den Kreis passt, sonst der Vorname, sonst gekürzt mit Auslassung
+         (dieselbe Regel wie in der App). Der volle Name steht immer in der Pfeilzeile und im aria-label. */
+      var fitName = function (b, label, name) {
+        var room = b.clientWidth - 8;
+        if (room <= 0 || label.offsetWidth <= room) return;
+        var first = name.split(/\s+/)[0];
+        label.textContent = first;
+        if (label.offsetWidth <= room) return;
+        for (var n = first.length - 1; n > 1; n--) {
+          label.textContent = first.slice(0, n) + '…';
+          if (label.offsetWidth <= room) return;
+        }
+      };
       /* Mensch: Knopf über dem ganzen Kreis. Er sitzt über left/top und Grösse genau auf dem Kreis, ohne Verschiebung:
          GSAP schreibt `translate` beim ersten Tween in `transform` um und verlöre die Einmittung. */
       var pick = function (p, i, x, y) {
-        var b = document.createElement('button'); b.type = 'button'; b.className = 'umfeld__name umfeld__pick'; b.textContent = p.name;
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'umfeld__name umfeld__pick';
+        var label = document.createElement('span'); label.textContent = p.name; b.appendChild(label);
         b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', p.name + ', ' + words(p));
         b.style.left = fx(x - L.R) + '%'; b.style.top = fy(y - L.R) + '%';
         b.style.width = 2 * L.R / vbW * 100 + '%'; b.style.height = 2 * L.R / vbH * 100 + '%';
@@ -356,7 +370,7 @@
           if (!d) return;
           e.preventDefault(); select(i + d); focusSelected();
         });
-        stage.appendChild(b); return b;
+        stage.appendChild(b); fitName(b, label, p.name); return b;
       };
       label('Ich', L.CX, L.CY, 'umfeld__name--me');
 
@@ -464,6 +478,8 @@
     draw(pickLayout());
     select(0);
     api.ready = true;
+    /* Die Namen werden gemessen: nach dem Laden der Schrift einmal neu zeichnen. */
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (layoutName) draw(layoutName); });
     if (window.ResizeObserver) new ResizeObserver(function () {
       setCols();
       var n = pickLayout(), w = stage.getBoundingClientRect().width;
