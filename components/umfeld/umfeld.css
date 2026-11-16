@@ -10,9 +10,12 @@
 .umfeld__contour.is-active{stroke-width:2.6}
 .umfeld__ring{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.8;transition:opacity var(--motion-ui) ease}
 .umfeld__ring.is-active{opacity:1}
+.umfeld__arc{fill:none;stroke:var(--ink);stroke-opacity:.22;stroke-width:1.2px;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.umfeld__kind{fill:var(--ink-2);font-family:var(--ui-font);font-weight:600;letter-spacing:.02em;pointer-events:none}
 .umfeld__name{position:absolute;translate:-50% -50%;font:var(--type-heading);white-space:nowrap;pointer-events:none}
-/* Menschen sind Knöpfe über dem ganzen Kreis, per left/top auf den Kreis gesetzt (kein translate: GSAP bewegt sie im Auftritt über transform) */
-.umfeld__pick{translate:none;display:grid;place-items:center;min-width:44px;min-height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent}
+/* Menschen sind Knöpfe über dem ganzen Kreis, per left/top auf den Kreis gesetzt (kein translate: GSAP bewegt sie im Auftritt über transform). Die Trefferfläche wächst über ::after auf mindestens 44 px, ohne den Knopf zu verschieben. */
+.umfeld__pick{translate:none;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent}
+.umfeld__pick::after{content:'';position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);translate:-50% -50%;border-radius:50%}
 .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
 .umfeld__name.is-active{color:var(--sterne-tief)}
 

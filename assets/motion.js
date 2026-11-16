@@ -262,6 +262,8 @@
         });
         /* Die Linien um die Person blenden sanft ein, wo vorher die Verbindung gezeichnet wurde. */
         people.forEach(function (p, i) { if (p.rings.length) tl.from(p.rings, { opacity: 0, duration: 0.9, ease: M.ease.reveal, stagger: 0.15, clearProps: 'opacity' }, 1.4 + i * 0.15); });
+        /* Bögen und Wörter der Arten blenden erst ein, wenn die Kreise stehen. */
+        if (api.parts.arcs && api.parts.arcs.length) tl.from(api.parts.arcs, { opacity: 0, duration: 0.8, ease: M.ease.reveal, stagger: 0.08, clearProps: 'opacity' }, 1.0);
         /* Das Panel als Ganzes früh: die Bedienung steht da, bevor die Kreise ankommen. */
         if (panel) tl.from(panel, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 0.4);
       }, 0.3);
