@@ -243,7 +243,8 @@
       /* Bis die Szene sichtbar wird, bleibt sie verborgen, statt kurz voll dazustehen
          und dann für den Auftritt wieder zu verschwinden. */
       var panel = el.querySelector('.umfeld__panel');
-      var veiled = [stage, panel].filter(Boolean);
+      var filter = el.querySelector('.umfeld__filter');
+      var veiled = [stage, filter, panel].filter(Boolean);
       hideUntilVisible(veiled);
       finishers.push(function () { gsap.set(veiled, { clearProps: 'opacity' }); });
       whenVisible(stage, function () {
@@ -258,7 +259,8 @@
           var dx = p.from.x - p.at.x, dy = p.from.y - p.at.y, at = 0.3 + i * M.stagger.items;
           tl.from([p.disc, p.contour], { x: dx, y: dy, opacity: 0, duration: 1.3 }, at);
           if (p.rings.length) tl.from(p.rings, { x: dx, y: dy, duration: 1.3, clearProps: 'transform' }, at);
-          tl.fromTo(p.name, { x: dx * scale, y: dy * scale, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.3, clearProps: CLEAR }, at);
+          /* In der Übersicht (Telefon) gibt es keine Namen-Knöpfe: nichts zu bewegen. */
+          if (p.name) tl.fromTo(p.name, { x: dx * scale, y: dy * scale, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.3, clearProps: CLEAR }, at);
         });
         /* Die Linien um die Person blenden sanft ein, wo vorher die Verbindung gezeichnet wurde. */
         people.forEach(function (p, i) { if (p.rings.length) tl.from(p.rings, { opacity: 0, duration: 0.9, ease: M.ease.reveal, stagger: 0.15, clearProps: 'opacity' }, 1.4 + i * 0.15); });
@@ -266,6 +268,8 @@
         if (api.parts.arcs && api.parts.arcs.length) tl.from(api.parts.arcs, { opacity: 0, duration: 0.8, ease: M.ease.reveal, stagger: 0.08, clearProps: 'opacity' }, 1.0);
         /* Das Panel als Ganzes früh: die Bedienung steht da, bevor die Kreise ankommen. */
         if (panel) tl.from(panel, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 0.4);
+        /* Die Filterzeile (nur im Hochformat sichtbar) kommt mit dem Panel. */
+        if (filter && !filter.hidden) tl.from(filter, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 0.4);
       }, 0.3);
     });
   }
