@@ -10,6 +10,17 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var A = window.ElanumApp, R = window.ElanumResonanzrad;
+  /* Antwort am Ort der Handlung: Der Knopf des Formulars zeigt «läuft» und «bestätigt»
+     (assets/button.js). In der Vorschau wartet nichts wirklich, darum eine kurze Frist. */
+  function commit(form, after, still) {
+    var button = form.querySelector('[data-commit]');
+    if (!button || !window.ElanumButton) { after(); return; }
+    if (button.getAttribute('aria-disabled') === 'true') return;
+    /* still() sagt, ob die Handlung noch gilt. Wer das Sheet schliesst, während der Knopf läuft, bricht ab: Der Knopf kehrt zur Ruhe zurück. */
+    window.ElanumButton.commit(button, function () {
+      return new Promise(function (done, stop) { setTimeout(function () { if (still && !still()) stop(new Error('abgebrochen')); else done(); }, 900); });
+    }).then(after, function () {});
+  }
   var screen = document.body.dataset.screen;
   var reduced = matchMedia('(prefers-reduced-motion: reduce)');
   var calm = function () { return reduced.matches || document.body.dataset.motion === 'off'; };
@@ -49,7 +60,8 @@
     $('[data-note]').addEventListener('submit', function (e) {
       e.preventDefault();
       var v = $('#noteField').value.trim();
-      $('[data-note-state]').textContent = v ? 'Behalten für heute. Nur in dieser Vorschau.' : 'Schreibe zuerst einen Satz.';
+      if (!v) { $('[data-note-state]').textContent = 'Schreibe zuerst einen Satz.'; return; }
+      commit(e.currentTarget, function () { $('[data-note-state]').textContent = 'Behalten für heute. Nur in dieser Vorschau.'; });
     });
   }
 
@@ -160,7 +172,7 @@
         }
         $('[data-space]', host).replaceWith(frame);
         frame.setAttribute('role', 'img');
-        frame.setAttribute('aria-label', 'Du und ' + p.name + ': ' + p.words + '. Zwei eigene Kreise, die Verbindung dazwischen.');
+        frame.setAttribute('aria-label', 'Du und ' + p.name + ': ' + p.words + '. Zwei eigene Kreise, um beide das Feld der Resonanz.');
         $('[data-name]', frame).textContent = p.name;
         window.ElanumBeziehung.mount(frame);
         window.ElanumBeziehung.set(frame, p.space, true);
@@ -170,7 +182,7 @@
     };
     var go = function (i, focus) {
       at = i; renderProgress(); renderProfile();
-      if (!calm() && host.animate) host.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(.23,1,.32,1)' });
+      if (!calm() && host.animate) host.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--motion-ui')) || 180, easing: getComputedStyle(document.documentElement).getPropertyValue('--ease-out').trim() || 'cubic-bezier(.23,1,.32,1)' });
       if (focus) { var h = $('#profileName') || $('.app-end h2', host); if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } }
       scrollTo({ top: 0, behavior: calm() ? 'auto' : 'smooth' });
     };
@@ -194,13 +206,16 @@
     var finish = function () { if (!pending) return; pending = false; form.hidden = false; moment.hidden = true; go(at + 1, true); };
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      commit(form, sent, function () { var s = $('#resonateSheet'); return s.open && !s.classList.contains('is-closing'); });
+    });
+    function sent() {
       var p = PEOPLE[at], next = PEOPLE[at + 1];
       resonated[p.id] = resonateOn == null ? -1 : resonateOn;
       $('#resonateText').value = '';
       var on = resonateOn == null ? 'dein Profil' : '«' + p.prompts[resonateOn][0] + '»';
       moment.innerHTML =
         '<div class="app-hero app-hero--dark resonate-moment">' +
-          '<div class="relationship-frame" data-beziehung data-dark role="img" aria-label="Du und ' + esc(p.name) + ', zwei eigene Kreise, die Verbindung entsteht."><svg viewBox="0 0 720 400" aria-hidden="true"></svg>' +
+          '<div class="relationship-frame" data-beziehung data-dark data-skala="aus" role="img" aria-label="Du und ' + esc(p.name) + ', zwei eigene Kreise, die Resonanz entsteht."><svg viewBox="0 0 720 400" aria-hidden="true"></svg>' +
           '<div class="relationship-label" data-person="a">Du</div><div class="relationship-label" data-person="b">' + esc(p.name) + '</div></div>' +
           '<h2 class="app-hero__voice" id="momentTitle" tabindex="-1">Deine Resonanz ist bei ' + esc(p.name) + '.</h2>' +
           '<p class="app-card__text">' + esc(p.name) + ' sieht, worauf du reagiert hast: ' + esc(on) + '. Wenn es auch bei ' + esc(p.name) + ' schwingt, öffnet sich ein Chat.</p>' +
@@ -215,7 +230,7 @@
       }
       $('#momentTitle').focus();
       $('[data-moment-next]', moment).addEventListener('click', function () { sheetApi.close(); });
-    });
+    }
     /* Wie auch immer das Sheet schliesst, nach dem Senden geht es zum nächsten Menschen. */
     $('#resonateSheet').addEventListener('close', finish);
     go(0, false);
@@ -270,8 +285,11 @@
     $('[data-composer]').addEventListener('submit', function (e) {
       e.preventDefault();
       var v = $('#message').value.trim(); if (!v) return;
-      CHATS[active].messages.push(['me', v, 'Jetzt']); CHATS[active].ideas = []; CHATS[active].preview = 'Du: ' + v; CHATS[active].when = 'Jetzt';
-      $('#message').value = ''; renderThread(); renderList();
+      var to = active;
+      commit(e.currentTarget, function () {
+        CHATS[to].messages.push(['me', v, 'Jetzt']); CHATS[to].ideas = []; CHATS[to].preview = 'Du: ' + v; CHATS[to].when = 'Jetzt';
+        $('#message').value = ''; renderThread(); renderList();
+      });
     });
     desktop.addEventListener('change', function () { renderList(); });
     var start = CHATS.map(function (c) { return '#' + c.id; }).indexOf(location.hash);
@@ -356,8 +374,9 @@
       e.preventDefault();
       var place = $('#birthPlace'), ok = !!place.value.trim();
       place.setAttribute('aria-invalid', String(!ok));
-      $('[data-flow-note]').textContent = ok ? 'Gespeichert für diese Vorschau. Als Nächstes: dein Konto.' : 'Bitte gib deinen Geburtsort an.';
-      if (!ok) place.focus();
+      if (!ok) { $('[data-flow-note]').textContent = 'Bitte gib deinen Geburtsort an.'; place.focus(); return; }
+      $('[data-flow-note]').textContent = '';
+      commit(e.currentTarget, function () { $('[data-flow-note]').textContent = 'Gespeichert für diese Vorschau. Als Nächstes: dein Konto.'; });
     });
   }
 

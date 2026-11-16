@@ -88,7 +88,7 @@
         <form class="note-paper" data-note>
           <label for="noteField" class="app-card__kicker">Was hat dich heute berührt?</label>
           <span class="field field--area glow-edge"><textarea id="noteField" rows="3" placeholder="Ein Satz genügt"></textarea></span>
-          <div class="app-card__foot"><button class="button button--secondary glow-edge" type="submit">Notiz behalten</button><p class="secondary" data-note-state role="status">Nur du siehst deine Notizen.</p></div>
+          <div class="app-card__foot"><button class="button button--secondary glow-edge" type="submit" data-commit data-busy="Wird behalten" data-done="Behalten">Notiz behalten</button><p class="secondary" data-note-state role="status">Nur du siehst deine Notizen.</p></div>
         </form>
       </section>
     </div>
@@ -117,6 +117,7 @@
 <script src="../resonanzrad/resonanzrad.js"></script>
 <script src="../zeichen/zeichen.js"></script>
 <script src="../fliesstext/fliesstext.js"></script>
+<script src="../../assets/button.js"></script>
 <script src="app.js"></script>
 <script src="screens.js"></script>
 </body>

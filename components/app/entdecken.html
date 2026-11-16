@@ -54,7 +54,7 @@
       <span class="field field--area glow-edge"><textarea id="resonateText" rows="3" placeholder="Was hat dich angesprochen?"></textarea></span>
       <p class="app-field__hint">Ein persönlicher Satz macht den Anfang leichter. Er ist freiwillig.</p>
     </div>
-    <button class="button" type="submit" value="send">Senden</button>
+    <button class="button" type="submit" value="send" data-commit data-busy="Wird gesendet" data-done="Gesendet">Senden</button>
   </form>
   <div class="app-sheet__body" data-resonate-moment hidden aria-live="polite"></div>
 </dialog>
@@ -62,6 +62,7 @@
 <script src="../beziehungsraum/beziehungsraum.js"></script>
 <script src="../resonanzrad/resonanzrad.js"></script>
 <script src="../zeichen/zeichen.js"></script>
+<script src="../../assets/button.js"></script>
 <script src="app.js"></script>
 <script src="screens.js"></script>
 </body>

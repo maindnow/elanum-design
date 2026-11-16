@@ -1,5 +1,5 @@
 /* ============================================================
-   ELANUM Tokens 4.5
+   ELANUM Tokens 4.13
    Eine Quelle für Atlas und Elemente. Der kopierbare Tokenblock im
    Atlas (Kapitel Assets & Tokens) zeigt dieselben Werte.
    ============================================================ */
@@ -13,8 +13,16 @@
   --paper:#F6F1E7;
   --ink:#16363B;
   --ink-2:#3D5055;          /* Sekundärtext, 7,2:1 auf Canvas */
+  --ink-soft:#2E4B50;       /* Ink, eine Stufe heller: Verläufe und Flächen auf Dunkel */
   --line:#D3CDC0;
+  --line-control:#6D7F7E;   /* Kante eines Bedienelements: 3,6:1 auf Canvas, 3,7:1 auf Papier */
   --offen:#E5E0D6;          /* Offene Elemente im Rad: grau, --ink-2 darauf 6,4:1 */
+  --paper-light:#FFFDF8;    /* hellstes Papier: Lichtkante der Hauptfläche, Scheibe im Tagesbogen */
+  --sand:#F0D9BF;           /* warmer Schleier für Flächen ohne Bereich */
+  --sand-deep:#CDB79C;      /* tieferer warmer Ton: Bildplatz, solange kein Foto da ist */
+  --on-dark:#CBD9D6;        /* Sekundärtext auf Ink, 9,3:1 */
+  --white:#FFFFFF;          /* Licht. Stufen der Deckkraft entstehen mit color-mix */
+  --black:#000000;          /* Masken und der tiefste Schatten */
 
   /* Drei Bereiche des Resonanzrads, ausgeglichen: gleiche Helligkeit
      (OKLCH L 0.46 / 0.864 / 0.94), Sättigung pro Farbton angeglichen.
@@ -28,6 +36,7 @@
 
   /* Verläufe. Die Farbstopps stehen als kommaseparierte Liste darunter,
      so lassen sie sich in jedes Werkzeug kopieren. */
+  --violet:#6756D9; --blue:#4D7FE8; --orchid:#9466DF; --rose:#D85BA9; --pink:#F0719A;   /* die fünf Stopps einzeln */
   --spectrum-stops:#6756D9, #4D7FE8, #9466DF, #D85BA9, #F0719A;          /* Markenspektrum: Zeichen, Verbindung */
   --spectrum:linear-gradient(110deg,var(--spectrum-stops));
   --bridge-stops:#6756D9, #D85BA9;                                         /* Verbindung zwischen zwei Menschen */
@@ -40,37 +49,119 @@
   --error:#B02A2D;   --error-bg:#FFEAE8;
   --success:#2B7440; --success-bg:#E5F5E7;
 
-  /* Typografie: fünf Stufen. Yrsa nur gross, Albert Sans trägt die Bedienung. */
+  /* Typografie: fünf Stufen. Yrsa nur gross, Albert Sans trägt die Bedienung.
+     Grössen in rem (1 rem = 16 px): Die Schrift wächst mit, wenn ein Mensch
+     im Browser oder in der App eine grössere Schrift einstellt. Jede Stufe
+     gibt es als Ganzes (--type-…) und einzeln als Grösse und Zeilenhöhe. */
   --display-font:Yrsa,Georgia,serif;
   --ui-font:"Albert Sans",system-ui,sans-serif;
-  --type-display:400 clamp(52px,7vw,96px)/1 var(--display-font);
-  --type-title:400 clamp(32px,3.6vw,48px)/1.1 var(--display-font);
-  --type-heading:600 clamp(20px,1.6vw,22px)/1.3 var(--ui-font);
-  --type-body:400 clamp(17px,1.25vw,18px)/1.6 var(--ui-font);
-  --type-label:500 15px/1.4 var(--ui-font);
+  --size-display:clamp(3.25rem,7vw,6rem);        /* 52 bis 96 px */
+  --size-title:clamp(2rem,3.6vw,3rem);           /* 32 bis 48 px */
+  --size-heading:clamp(1.25rem,1.6vw,1.375rem);  /* 20 bis 22 px */
+  --size-body:clamp(1.0625rem,1.25vw,1.125rem);  /* 17 bis 18 px */
+  --size-label:.9375rem;                         /* 15 px, nichts ist kleiner */
+  --leading-display:1;  --leading-title:1.1;  --leading-heading:1.3;  --leading-body:1.6;  --leading-label:1.4;
+  --type-display:400 var(--size-display)/var(--leading-display) var(--display-font);
+  --type-title:400 var(--size-title)/var(--leading-title) var(--display-font);
+  --type-heading:600 var(--size-heading)/var(--leading-heading) var(--ui-font);
+  --type-body:400 var(--size-body)/var(--leading-body) var(--ui-font);
+  --type-label:500 var(--size-label)/var(--leading-label) var(--ui-font);
 
   /* Raum */
   --gutter:clamp(24px,6vw,96px);
   --section:clamp(96px,12vw,160px);
   --content:1120px;
   --measure:62ch;
+  /* Abstände: zehn Stufen im 4er-Raster, in rem. Die Zahl im Namen mal 4 ergibt Pixel. */
+  --space-1:.25rem;  --space-2:.5rem;  --space-3:.75rem;  --space-4:1rem;   --space-5:1.25rem;
+  --space-6:1.5rem;  --space-8:2rem;   --space-10:2.5rem; --space-12:3rem;  --space-16:4rem;
+
+  /* Bedienung: Trefferfläche, Knopfhöhe und Fokus */
+  --target:2.75rem;                 /* kleinste Trefferfläche, 44 px */
+  --button-height:3.25rem;          /* Knopf, 52 px */
+  --focus-width:3px;
+  --focus-offset:4px;
+  --focus-color:var(--sterne-tief); /* 6,4:1 auf Canvas */
+  --focus-color-dark:var(--sterne-flaeche);   /* auf Ink, 8,5:1 */
+
+  /* Ebenen: was über was liegt. Sheets und Karten liegen in der obersten Ebene
+     des Browsers (dialog). Innerhalb eines Bausteins genügen 1 bis 3. */
+  --layer-float:20;                 /* schwebende Leisten: Handlungen, Eingabe */
+  --layer-head:30;                  /* Kopf */
+  --layer-nav:40;                   /* Navigation */
+  --layer-toast:50;                 /* Meldung */
+  --layer-skip:60;                  /* Sprunglink */
 
   /* Form und Relief: Licht von links oben */
   --radius-control:12px;
   --radius-button:16px;
   --radius-surface:28px;
+  --radius-round:999px;      /* rund: Chips, Griffe, Marken */
   --raised:9px 9px 22px #C9C3B680,-9px -9px 22px #FFFFFFC9;
   --paper-shadow:6px 8px 22px #C4BDAF80,-3px -3px 8px #FFFFFFB3;     /* Papier: ruhiger als --raised */
   --raised-sm:4px 4px 10px #C4BDAF99,-4px -4px 10px #FFFFFFD9;
   --pressed:inset 5px 5px 12px #C8C1B580,inset -5px -5px 12px #FFFFFFE0;
+  --raised-button:5px 5px 11px #C4BDAF,-4px -4px 10px #FFFFFF99;         /* Button in Ruhe */
+  --cast:4px 4px 10px #C4BDAF99;                                         /* nur Schatten, ohne Lichtkante: Fläche in Ink */
+  --pressed-ink:inset 0 2px 5px #00000033;                               /* gedrückter Button in Ink */
+  --lifted:12px 16px 30px -18px #A39B8A,-10px -10px 26px #FFFFFFC0;      /* schwebende Fläche: Hauptfläche, Gerätevorschau */
+  --lifted-deep:14px 18px 36px -16px #7F776A,-10px -10px 26px #FFFFFFC0; /* dunkle Hauptfläche */
+  --lifted-dark:0 10px 24px -10px #000000AA;                             /* Button auf der dunklen Hauptfläche */
+  --sheen:inset 0 1px 0 #FFFFFFE6,inset 0 0 0 1px #FFFFFF8C;             /* Lichtkante einer schwebenden Fläche */
+  --under:0 22px 44px -28px;                                             /* Glühen unter einer Fläche: nur das Mass, die Farbe kommt aus dem Bereich */
+  --under-far:0 36px 72px -34px;
+  --sheet-shadow:0 -18px 44px -18px #16363B59;                           /* Sheet und Quellenkarte von unten */
+  --float-shadow:0 30px 60px -30px #16363B80;                            /* schwebende Karte ab 600 px */
+  --bar-shadow:0 -14px 30px -20px #A39B8A;                               /* Leiste unten */
+  --text-lift:0 6px 24px #8F877966;                                      /* Initiale auf einem Bildplatz */
+  --raised-dark:3px 3px 7px #0B242B,-2px -2px 6px #3D5C61;               /* Relief auf Ink */
+  --pressed-dark:inset 3px 3px 7px #0B242B,inset -3px -3px 7px #355358;
+
+  /* Relief für runde Formen, als filter */
+  --relief-disc:drop-shadow(4px 5px 6px #B9B0A0A6) drop-shadow(-4px -4px 5px #FFFFFF);
+  --relief-disc-sm:drop-shadow(3px 4px 5px #C4BDAF80) drop-shadow(-2px -2px 4px #FFFFFFB3);
+  --relief-disc-soft:drop-shadow(6px 8px 6px #958B773B) drop-shadow(-5px -5px 5px #FFFFFFC0);   /* Kreise im Beziehungsraum */
+  --relief-disc-dark:drop-shadow(6px 8px 7px #09252C99) drop-shadow(-4px -4px 5px #78949125);
+  --relief-disc-flat:drop-shadow(3px 4px 4px #958B7740);                 /* Menschen im Beziehungsraum: ein flacher Schatten, ohne Lichtkante */
+  --relief-disc-flat-dark:drop-shadow(3px 4px 5px #09252C99);
+  --relief-zeichen:drop-shadow(6px 9px 6px #79726830) drop-shadow(-3px -3px 3px #FFFFFF88);
+  --relief-line-dark:drop-shadow(0 2px 1px #071D23AA);
+  --drop-soft:drop-shadow(3px 5px 3px #16363B22);
+  --drop-line:drop-shadow(0 2px 2px #16363B33);                          /* Verbindung, direkt darunter */
+
+  /* Glühen: immer im Markenspektrum */
+  --glow-line:drop-shadow(0 0 5px #9466DF99);                            /* Verbindung, Spur bis jetzt */
+  --glow-rose:drop-shadow(0 0 5px #D85BA9AA);                            /* das Stück, das wartet */
+  --glow-now:0 0 22px 8px #D85BA955;                                     /* «jetzt» auf der Spur */
+  --glow-dot:0 0 10px #9466DFAA;                                         /* Punkt für Neues */
+  --glow-thumb:0 0 0 2.5px #9466DF,0 0 0 5px #6756D955,0 0 18px 4px #D85BA999;  /* Griff des Schiebereglers */
 
   /* Linien: ein System für Rad, Umfeld, Weg und Tageslinie */
   --trace:1.6px;
   --bridge:2.8px;
 
-  /* Bewegung */
-  --ease:cubic-bezier(.23,1,.32,1);
-  --motion-ui:180ms;
-  --motion-reveal:900ms;
-  --motion-breath:7800ms;
+  /* Bewegung: zwei Kurven, fünf Dauern, ein Versatz.
+     Was erscheint oder antwortet, läuft aus. Was den Ort wechselt, läuft an,
+     wird schnell und läuft aus. Gleichmässig läuft nur, was nie endet. */
+  --ease-out:cubic-bezier(.23,1,.32,1);      /* erscheinen, antworten */
+  --ease-in-out:cubic-bezier(.45,0,.2,1);    /* den Ort wechseln */
+  --ease:var(--ease-out);                     /* früherer Name von --ease-out, bleibt gültig */
+  --motion-press:90ms;                        /* Drücken gibt nach */
+  --motion-ui:180ms;                          /* Hover, Fokus, Farbe */
+  --motion-enter:360ms;                       /* Sheet, Karte, Seitenwechsel */
+  --motion-move:520ms;                        /* ein Stück rückt an seinen Platz */
+  --motion-reveal:700ms;                      /* Auftritt eines Screens */
+  --motion-stagger:90ms;                      /* Versatz in einer Gruppe */
+  --motion-breath:7800ms;                     /* Atemtakt, Dauerschleife */
+}
+
+/* Im Kontrastmodus des Systems trägt der Fokusring die Auswahlfarbe des Systems, auch dort,
+   wo ein Baustein seine eigenen Farben behält. */
+@media(forced-colors:active){
+  :root{--focus-color:Highlight;--focus-color-dark:Highlight}
+}
+
+/* Mehr Kontrast, wenn das System es verlangt: Sekundärtext in Ink, Linien kräftiger. */
+@media(prefers-contrast:more){
+  :root{--ink-2:var(--ink);--line:#6D7F7E;--line-control:var(--ink)}
 }

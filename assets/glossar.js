@@ -44,7 +44,7 @@ window.ELANUM_GLOSSAR = {
       { term: 'Umfeld', meaning: 'Ich in der Mitte, Menschen als eigene Kreise nach Nähe und Resonanz.', code: 'components/umfeld' },
       { term: 'Beziehungsraum', meaning: 'Zwei eigene Räume und die Verbindung dazwischen.', code: 'components/beziehungsraum' },
       { term: 'Verbindung', meaning: 'Die Linie zwischen zwei Kreisen. Sie trifft beide Konturen exakt.' },
-      { term: 'Nähe · Resonanz · Freiraum', meaning: 'Die drei Werte einer Beziehung: Abstand der Kreise, Stärke der Verbindung, Grösse der Öffnung. Gestaltungswerte, keine Messung.', code: 'proximity · resonance · openness' },
+      { term: 'Nähe · Resonanz · Freiraum', meaning: 'Die drei Werte einer Beziehung: Abstand der zwei Kreise, Feld um beide, Platz um jeden. Gestaltungswerte, keine Messung.', code: 'proximity · resonance · openness' },
       { term: 'Atmung', meaning: 'Der gemeinsame Bewegungstakt der Kreise: 3,4 s Raum geben, 4,4 s zur Ruhe kommen.' }
     ] },
     { title: 'Farbe und Material', terms: [

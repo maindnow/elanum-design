@@ -90,6 +90,19 @@
   }
 
   /* ---------- Quellenkarte: ein <dialog> für die ganze Seite ---------- */
+  /* Was kommt, geht auch: Die Karte läuft denselben Weg zurück (CSS .is-schliesst),
+     erst danach schliesst der Dialog. Ohne Bewegung schliesst er sofort. */
+  function schliesse(d) {
+    if (!d.open || d.classList.contains('is-schliesst')) return;
+    var ruhig = document.body.getAttribute('data-motion') === 'off' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (ruhig) { d.close(); return; }
+    var fertig = false;
+    function ende() { if (fertig) return; fertig = true; d.removeEventListener('animationend', vorbei); var zu = d.classList.contains('is-schliesst'); d.classList.remove('is-schliesst'); if (zu && d.open) d.close(); }
+    function vorbei(e) { if (e.target === d && !e.pseudoElement) ende(); }
+    d.addEventListener('animationend', vorbei);
+    d.classList.add('is-schliesst');
+    setTimeout(ende, 700);                                            /* Sicherung, falls keine Animation läuft */
+  }
   function baueKarte() {
     var d = document.createElement('dialog');
     d.className = 'fliesstext-karte';
@@ -111,12 +124,13 @@
       '</div>';
     document.body.appendChild(d);
     d.addEventListener('click', function (e) {
-      if (e.target === d) { d.close(); return; }                      /* Tipp auf den Hintergrund */
+      if (e.target === d) { schliesse(d); return; }                   /* Tipp auf den Hintergrund */
       var t = e.target.closest ? e.target : e.target.parentNode;
-      if (t.closest('[data-schliessen]')) { d.close(); return; }
+      if (t.closest('[data-schliessen]')) { schliesse(d); return; }
       var w = t.closest('[data-wahl-quelle]');
       if (w) zeige(w.getAttribute('data-wahl-quelle'));
     });
+    d.addEventListener('cancel', function (e) { e.preventDefault(); schliesse(d); });   /* Esc */
     d.addEventListener('close', function () {
       if (offen) offen.mark.classList.remove('is-offen');
       offen = null;
@@ -147,6 +161,7 @@
   function oeffne(mark, id, opts, trigger) {
     if (!mark || !mark._fliesstext) return;
     karte = karte || baueKarte();
+    karte.classList.remove('is-schliesst');                             /* neu geöffnet, während sie schliesst: offen lassen */
     if (offen) offen.mark.classList.remove('is-offen');
     var ids = mark._fliesstext.ids;
     offen = { mark: mark, opts: opts || {} };
@@ -206,7 +221,7 @@
     }
     return {
       open: function (mark, id) { oeffne(mark, id, root._fliesstextOpts, null); },
-      close: function () { if (karte && karte.open) karte.close(); }
+      close: function () { if (karte) schliesse(karte); }
     };
   }
 
