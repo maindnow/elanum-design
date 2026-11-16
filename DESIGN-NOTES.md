@@ -1,4 +1,6 @@
-# ELANUM — Gestaltungsatlas 4.11
+# ELANUM — Gestaltungsatlas 5.0
+
+5.0 fasst Beziehungsraum und Umfeld neu, damit sie ohne Regler lesbar sind. Im Beziehungsraum ist Nähe der Abstand zweier Kreise, Freiraum die helle Fläche um jeden und Resonanz das Feld um beide. Im Umfeld stehen Menschen derselben Art beieinander, der Abstand zeigt die Nähe, Linien um den Kreis die Resonanz. Verbindungslinien und Öffnungen entfallen, darum eine neue Hauptversion.
 
 4.11 bringt den Baustein Fliesstext: ein Text, der zu einem Menschen spricht und bei jeder Kernaussage zeigt, woher sie kommt. Grundlage ist Chris’ Entwurf „Christopher, das bist du.“ (14.10.2026), übersetzt in die Regeln des Atlas. Eigene Seite unter `components/fliesstext/` mit dem ersten Muster als Beispiel, im Atlas im Kapitel Sprache, in der App auf Heute.
 

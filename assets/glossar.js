@@ -5,7 +5,7 @@
    Begriffe nur mit Freigabe und neuer Atlas-Version ändern.
    ============================================================ */
 window.ELANUM_GLOSSAR = {
-  version: '4.9',
+  version: '5.0',
   rule: 'Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und Code, genau in dieser Schreibweise, inklusive Gross- und Kleinschreibung und „&“. Neue Begriffe oder Änderungen nur mit Freigabe und einer neuen Atlas-Version.',
   sentence: 'Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg.',
   groups: [

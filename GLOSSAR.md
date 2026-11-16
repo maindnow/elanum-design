@@ -1,4 +1,4 @@
-# ELANUM Glossar 4.9
+# ELANUM Glossar 5.0
 
 <!-- Automatisch erzeugt aus assets/glossar.js mit `node tools/glossar-md.js`. Nicht von Hand bearbeiten. -->
 
