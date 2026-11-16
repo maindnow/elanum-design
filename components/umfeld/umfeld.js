@@ -468,10 +468,10 @@
     /* Die Breite der Bühne (Spalte), nicht der Szene: im Hochformat ist die Szene höchstens 440 px breit und käme sonst nie mehr zurück auf wide. */
     var column = root.querySelector('.umfeld__stage');
     var pickLayout = function () { var w = column.getBoundingClientRect().width || root.getBoundingClientRect().width; return w && w < 520 ? 'tall' : 'wide'; };
-    /* Zwei Spalten ab 52rem Breite des Bausteins, gemessen an ihm selbst. */
+    /* Zwei Spalten ab 61rem Breite des Bausteins: erst dann ist die Bildspalte mindestens 520 px breit und zeigt die volle Darstellung, gemessen an ihm selbst. */
     var setCols = function () {
       var rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-      var two = root.getBoundingClientRect().width >= 52 * rem;
+      var two = root.getBoundingClientRect().width >= 61 * rem;
       if (two !== (root.getAttribute('data-cols') === '2')) { if (two) root.setAttribute('data-cols', '2'); else root.removeAttribute('data-cols'); }
     };
     setCols();

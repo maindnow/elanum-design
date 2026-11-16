@@ -39,7 +39,7 @@
 .umfeld__scene[data-layout=tall]{width:min(100%,440px)}
 .umfeld__scene[data-layout=tall] .umfeld__name{font:var(--type-label);font-weight:600}
 .umfeld__scene[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:2rem;line-height:1}
-/* Zwei Spalten, sobald der Baustein selbst mindestens 52rem breit ist (das Skript setzt data-cols). Die Breite des Fensters sagt das nicht: Im App-Rahmen steht daneben die Seitenleiste, und mit grosser Schrift braucht die Karte mehr Platz. */
+/* Zwei Spalten, sobald der Baustein selbst mindestens 61rem breit ist (das Skript setzt data-cols). Die Breite des Fensters sagt das nicht: Im App-Rahmen steht daneben die Seitenleiste, und mit grosser Schrift braucht die Karte mehr Platz. */
 .umfeld[data-cols="2"]{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);column-gap:clamp(48px,6vw,96px);align-items:center}
 /* Filterzeile im Hochformat: Pillen wie .segmented (base.css), immer eine Zeile und waagrecht wischbar. Passt alles hinein, steht sie mittig (die Bühne zentriert sie), sonst beginnt sie links.
    Der Innenabstand von 6 px lässt dem Fokusrahmen (3 px plus 2 px Abstand) Platz. Ein weicher Rand (Maske, --fade-l und --fade-r setzt das Skript) zeigt, dass es weitergeht. */

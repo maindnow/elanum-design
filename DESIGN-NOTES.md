@@ -391,7 +391,7 @@ Im Zentrum steht das Resonanzrad mit neun Elementen: den Grundlagen, aus denen R
 
 - Die fünf Arten sind die der App (`partner`, `family`, `friend`, `spiritual`, `work`), mit ihren Wörtern: Partnerschaft, Familie, Freundschaft, Innerer Weg, Arbeit (Entscheid Chris, 16.11.2026). Eine erste Fassung hatte vier eigene Wörter (Partner, Familie, Freunde, Arbeit). Der Baustein nimmt jede Liste an (`opts.kinds`).
 
-- Zwei Spalten (Bild neben Karte) gelten, sobald der Baustein selbst 52rem breit ist. Das Skript misst ihn und setzt `data-cols`. Vorher schaltete die Breite des Fensters (900 px): Im App-Rahmen mit Seitenleiste und bei 125 % Schrift wurde die Karte so schmal, dass der Name umbrach (gemessen bei 1024 px).
+- Zwei Spalten (Bild neben Karte) gelten, sobald der Baustein selbst 61rem breit ist. Zuerst waren es 52rem: Dann war die Bildspalte aber unter 520 px breit und zeigte neben der Karte die Telefon-Ansicht (gemessen in der App bei 1280 px, 16.11.2026). Das Skript misst ihn und setzt `data-cols`. Vorher schaltete die Breite des Fensters (900 px): Im App-Rahmen mit Seitenleiste und bei 125 % Schrift wurde die Karte so schmal, dass der Name umbrach (gemessen bei 1024 px).
 
 - Lange Namen im Kreis: der volle Name, wenn er passt, sonst der Vorname, sonst gekürzt mit Auslassung. Der volle Name steht in der Pfeilzeile und im Vorlesetext. Die Regel kommt aus der App; mit ihren Daten lief «Imaginärer Solo-Partner» aus dem Kreis (gemessen 16.11.2026, Entscheid Chris).
 
