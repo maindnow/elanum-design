@@ -5,7 +5,7 @@
    die Resonanz (wie im Beziehungsraum), keine Linie führt zur Mitte. Ohne
    aktive Resonanz bleibt nur der Abstand. Der Freiraum fehlt, das Umfeld
    kennt den Wert nicht.
-   Der Winkel sagt die Art (opts.kinds, Vorgabe Partner, Familie, Freunde, Arbeit, im Uhrzeigersinn,
+   Der Winkel sagt die Art (opts.kinds, Vorgabe Partnerschaft, Familie, Freundschaft, Innerer Weg, Arbeit: die fünf Arten der App, im Uhrzeigersinn,
    die erste oben). Wer zusammengehört, steht beieinander. Ein feiner Bogen mit dem Wort
    der Art fasst jede Gruppe, wie die Bereiche des Resonanzrads. Das Wort misst am
    Bildschirm mindestens 15 px, das Bild baut sich bei Breitenwechsel neu auf.
@@ -56,16 +56,16 @@
   };
   /* Der Winkel sagt die Art. Die Reihenfolge der Arten läuft im Uhrzeigersinn, die erste steht oben.
      Vorgabe, wenn die App keine eigenen Arten (opts.kinds) und Menschen (opts.people) mitgibt. */
-  var DEFAULT_KINDS = ['Partner', 'Familie', 'Freunde', 'Arbeit'];
-  var GAP = 16, MIN_WORD = 15;
+  var DEFAULT_KINDS = ['Partnerschaft', 'Familie', 'Freundschaft', 'Innerer Weg', 'Arbeit'];
+  var GAP = 10, MIN_WORD = 15;
   var SAMPLE = [
-    { name: 'Mara', kind: 'Partner', proximity: 84, resonance: 86, note: 'Ihr teilt viel, ohne dasselbe zu brauchen.' },
+    { name: 'Mara', kind: 'Partnerschaft', proximity: 84, resonance: 86, note: 'Ihr teilt viel, ohne dasselbe zu brauchen.' },
     { name: 'Lea', kind: 'Familie', proximity: 24, resonance: 64, note: 'Weit weg im Alltag, trotzdem spürbar verbunden.' },
     { name: 'Tom', kind: 'Familie', proximity: 62, resonance: 30, note: 'Ihr seht euch oft. Die Verbindung ist leise.' },
     { name: 'Ana', kind: 'Familie', proximity: 80, resonance: 72, note: 'Sehr nah, und es schwingt spürbar.' },
-    { name: 'Jonas', kind: 'Freunde', proximity: 52, resonance: 34, note: 'Ein ruhiger Kontakt. Die Verbindung ist leise, aber da.' },
-    { name: 'Sam', kind: 'Freunde', proximity: 72, resonance: 0, note: 'Oft nah, im Moment ohne aktive Resonanz.' },
-    { name: 'Nia', kind: 'Freunde', proximity: 38, resonance: 88, note: 'Selten da, und doch die stärkste Resonanz.' },
+    { name: 'Jonas', kind: 'Freundschaft', proximity: 52, resonance: 34, note: 'Ein ruhiger Kontakt. Die Verbindung ist leise, aber da.' },
+    { name: 'Sam', kind: 'Freundschaft', proximity: 72, resonance: 0, note: 'Oft nah, im Moment ohne aktive Resonanz.' },
+    { name: 'Nia', kind: 'Innerer Weg', proximity: 38, resonance: 88, note: 'Selten da, und doch die stärkste Resonanz.' },
     { name: 'Ben', kind: 'Arbeit', proximity: 28, resonance: 20, note: 'Ihr arbeitet zusammen. Mehr ist es im Moment nicht.' },
     { name: 'Ida', kind: 'Arbeit', proximity: 58, resonance: 0, note: 'Nah im Alltag, ohne aktive Resonanz.' }
   ].sort(function (a, b) { return DEFAULT_KINDS.indexOf(a.kind) - DEFAULT_KINDS.indexOf(b.kind); });
