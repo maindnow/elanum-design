@@ -30,7 +30,7 @@ git log --oneline -1
 
 ## Offen
 
-1. **Tags setzen:** `v4.11.0` auf den Merge von PR #18 (`2f6776f`), `v4.11.1` auf den Merge von PR #21 (`b2e2114`), `v4.13.0` nach dem Merge des PR «Feinschliff», je mit der Vorlage in `CLAUDE.md`. Danach die App auf den neuesten Tag anheben (Abschnitt „In der App“).
+1. **Tags setzen:** `v4.11.0` auf den Merge von PR #18 (`2f6776f`), `v4.11.1` auf den Merge von PR #21 (`b2e2114`), `v4.13.1` nach dem Merge des PR «Überzählige Klammer» (4.13.0 trägt in `components/resonanzrad/resonanzrad.css` eine überzählige Klammer, an der der Bau der App scheitert; darum bekommt 4.13.0 keinen Tag), je mit der Vorlage in `CLAUDE.md`. Danach die App auf den neuesten Tag anheben (Abschnitt „In der App“).
 1b. **Reife 4.13, offene Entscheide:** Abstände der Bausteine ins 4er-Raster (170 Stellen), Lesespalte 62ch oder 56ch, Karte «Wo es schwingt» hell wie in der App (L36), Sheet am Computer in der Mitte wie in der App (L52). Liste in `DESIGN-NOTES.md`, „Reife (4.13)“.
 1a. **Feinschliff 4.12, offene Punkte:** grösste Schrift noch mehrfach auf Ich und Aktivitäten, feste Farben in den Skripten der Bausteine, Wörter am Button ohne Glossar-Freigabe. Liste in `DESIGN-NOTES.md`, „Feinschliff (4.12)“.
 2. **Glossar, Namen aus dem Fliesstext (4.11):** Fliesstext, Aussage, Quelle, Quellenkarte. Noch ohne Freigabe.

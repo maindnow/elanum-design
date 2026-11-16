@@ -110,7 +110,7 @@ In der `package.json` der App:
 
 ```json
 "dependencies": {
-  "@elanum/design": "github:maindnow/elanum-design#v4.13.0"
+  "@elanum/design": "github:maindnow/elanum-design#v4.13.1"
 }
 ```
 
