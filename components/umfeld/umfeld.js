@@ -5,7 +5,7 @@
    die Resonanz (wie im Beziehungsraum), keine Linie führt zur Mitte. Ohne
    aktive Resonanz bleibt nur der Abstand. Der Freiraum fehlt, das Umfeld
    kennt den Wert nicht.
-   Der Winkel sagt die Art (KINDS: Partner, Familie, Freunde, Arbeit, im Uhrzeigersinn,
+   Der Winkel sagt die Art (opts.kinds, Vorgabe Partner, Familie, Freunde, Arbeit, im Uhrzeigersinn,
    die erste oben). Wer zusammengehört, steht beieinander. Ein feiner Bogen mit dem Wort
    der Art fasst jede Gruppe, wie die Bereiche des Resonanzrads. Das Wort misst am
    Bildschirm mindestens 15 px, das Bild baut sich bei Breitenwechsel neu auf.
@@ -28,7 +28,16 @@
    in eine andere Art, springt der Filter mit. Ab 520 px (wide) gibt es keinen Filter, das Bild zeigt
    alle mit Namen. Wird das Element breiter oder schmaler, baut sich das Bild neu auf, die Auswahl bleibt.
 
-   API: ElanumUmfeld.mount(root, { link: 'pfad/zum/beziehungsraum/', heading: 'h3' })
+   Die Filterzeile bleibt einzeilig und lässt sich waagrecht wischen (die Zeile scrollt, nicht die Seite). Passt alles hinein,
+   steht sie mittig. Die gewählte Pille rollt in den sichtbaren Bereich, ein weicher Rand zeigt, dass es weitergeht.
+
+   API: ElanumUmfeld.mount(root, { link: 'pfad/zum/beziehungsraum/', heading: 'h3', people: [...], kinds: [...] })
+        people: Array { name, kind, proximity (0 bis 100), resonance (0 bis 100), note }. Fehlt es, gelten die Beispielmenschen
+        (window.ElanumUmfeld.people). Namen und Notizen werden als Text gesetzt, nie als HTML.
+        kinds: Reihenfolge der Arten als Array von Strings (Vorgabe window.ElanumUmfeld.kinds). Arten, die nur in people vorkommen,
+        hängen hinten an (Reihenfolge des ersten Auftretens), Arten ohne Menschen entfallen. Gibt es weniger als zwei Arten, gibt es
+        keine Bögen, Wörter und keinen Filter, und die Menschen stehen gleichmässig verteilt. Wer in einem Umfeld mit mehreren Arten
+        keine hat, steht in der Gruppe «Weitere». Null Menschen: nur «Ich», kein Panel. Ein Mensch: keine Pfeile.
         gibt { select(i), parts } zurück. select(i) wählt den Menschen i (läuft um).
         parts.people: je sichtbarem Menschen { index, person, disc, contour, rings, name (nur mit Namen), from, at, width },
         parts.groups: die Gruppen-Knöpfe der Übersicht, parts.view: 'wide', 'all' oder 'kind'.
@@ -45,10 +54,11 @@
     /* Eine Art auf dem Telefon: gross, mit Namen, gleichmässig rund um «Ich», keine Bögen. */
     kind: { W: 400, H: 400, CX: 200, CY: 200, ME: 52, R: 44, base: 120, k: 0.8, edge: 200, ring: 6, out: 172, fs0: 15, px0: 358 }
   };
-  /* Der Winkel sagt die Art. Die Reihenfolge der Arten läuft im Uhrzeigersinn, die erste steht oben. */
-  var KINDS = ['Partner', 'Familie', 'Freunde', 'Arbeit'];
+  /* Der Winkel sagt die Art. Die Reihenfolge der Arten läuft im Uhrzeigersinn, die erste steht oben.
+     Vorgabe, wenn die App keine eigenen Arten (opts.kinds) und Menschen (opts.people) mitgibt. */
+  var DEFAULT_KINDS = ['Partner', 'Familie', 'Freunde', 'Arbeit'];
   var GAP = 16, MIN_WORD = 15;
-  var PEOPLE = [
+  var SAMPLE = [
     { name: 'Mara', kind: 'Partner', proximity: 84, resonance: 86, note: 'Ihr teilt viel, ohne dasselbe zu brauchen.' },
     { name: 'Lea', kind: 'Familie', proximity: 24, resonance: 64, note: 'Weit weg im Alltag, trotzdem spürbar verbunden.' },
     { name: 'Tom', kind: 'Familie', proximity: 62, resonance: 30, note: 'Ihr seht euch oft. Die Verbindung ist leise.' },
@@ -58,16 +68,48 @@
     { name: 'Nia', kind: 'Freunde', proximity: 38, resonance: 88, note: 'Selten da, und doch die stärkste Resonanz.' },
     { name: 'Ben', kind: 'Arbeit', proximity: 28, resonance: 20, note: 'Ihr arbeitet zusammen. Mehr ist es im Moment nicht.' },
     { name: 'Ida', kind: 'Arbeit', proximity: 58, resonance: 0, note: 'Nah im Alltag, ohne aktive Resonanz.' }
-  ].sort(function (a, b) { return KINDS.indexOf(a.kind) - KINDS.indexOf(b.kind); });
+  ].sort(function (a, b) { return DEFAULT_KINDS.indexOf(a.kind) - DEFAULT_KINDS.indexOf(b.kind); });
+  function num(v, fallback) { v = Number(v); return isFinite(v) ? Math.max(0, Math.min(100, v)) : fallback; }
+  /* Menschen und Arten der App ordnen: Werte säubern, Arten in die Reihenfolge von opts.kinds bringen.
+     Arten, die nur in den Menschen vorkommen, hängen hinten (Reihenfolge ihres ersten Auftretens), Arten ohne Menschen entfallen.
+     Gibt es weniger als zwei Arten, gibt es keine Gruppen: grouped ist false und das Bild verteilt die Menschen gleichmässig. */
+  function prepare(opts) {
+    var raw = opts.people === undefined ? SAMPLE : Array.isArray(opts.people) ? opts.people : [];
+    var list = [];
+    raw.forEach(function (src) {
+      if (!src || typeof src !== 'object') return;
+      var p = {}, k;
+      for (k in src) p[k] = src[k];
+      p.name = src.name == null ? '' : String(src.name);
+      p.kind = src.kind == null ? '' : String(src.kind).trim();
+      p.proximity = num(src.proximity, 50); p.resonance = num(src.resonance, 0);
+      p.note = src.note == null ? '' : String(src.note);
+      list.push(p);
+    });
+    var order = [];
+    (Array.isArray(opts.kinds) ? opts.kinds : DEFAULT_KINDS).concat(list.map(function (p) { return p.kind; })).forEach(function (k) {
+      k = k == null ? '' : String(k).trim();
+      if (k && order.indexOf(k) < 0) order.push(k);
+    });
+    var present = order.filter(function (k) { return list.some(function (p) { return p.kind === k; }); });
+    var grouped = present.length >= 2;
+    if (grouped) {
+      /* Wer keine Art hat, steht in einer letzten Gruppe «Weitere». */
+      if (list.some(function (p) { return !p.kind; })) { list.forEach(function (p) { if (!p.kind) p.kind = 'Weitere'; }); if (present.indexOf('Weitere') < 0) present.push('Weitere'); }
+      list = list.map(function (p, i) { return { p: p, i: i }; }).sort(function (a, b) { return (present.indexOf(a.p.kind) - present.indexOf(b.p.kind)) || (a.i - b.i); }).map(function (e) { return e.p; });
+    }
+    return { people: list, kinds: grouped ? present : [], grouped: grouped };
+  }
   function near(p) { return p.proximity < 34 ? 'weit' : p.proximity < 75 ? 'nah' : 'sehr nah'; }
   function res(p) { return p.resonance === 0 ? 'keine Resonanz' : p.resonance < 40 ? 'leise Resonanz' : p.resonance < 80 ? 'spürbare Resonanz' : 'starke Resonanz'; }
-  function words(p) { return p.kind + ', ' + near(p) + ', ' + res(p); }
+  function words(p) { return (p.kind ? p.kind + ', ' : '') + near(p) + ', ' + res(p); }
   function el(name, attrs) { var n = document.createElementNS(NS, name); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
 
   var count = 0;
   function mount(root, opts) {
     opts = opts || {};
-    var uid = 'uf' + (++count), heading = opts.heading || 'h2', link = opts.link || '../beziehungsraum/';
+    var uid = 'uf' + (++count), heading = /^h[1-6]$/.test(opts.heading) ? opts.heading : 'h2', link = opts.link || '../beziehungsraum/';
+    var data = prepare(opts), PEOPLE = data.people, KINDS_IN = data.kinds, GROUPED = data.grouped;
     root.classList.add('umfeld');
     var ARROW_PREV = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg>';
     var ARROW_NEXT = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg>';
@@ -88,25 +130,36 @@
     var selected = 0, layoutName = '', filter = 'all', api = { parts: {} };
     var calm = function () { return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; };
 
+    /* Namen und Notizen gelangen nur als Text ins Dokument (textContent), nie als HTML. */
+    var chip = function (text, cls) { var c = document.createElement('span'); c.className = 'element-chip ' + (cls || '') + 'umfeld__pill'; c.textContent = text; return c; };
     var slides = PEOPLE.map(function (p) {
       var href = link + '?person=' + encodeURIComponent(p.name) + '&proximity=' + p.proximity + '&resonance=' + p.resonance;
       var s = document.createElement('div');
       s.className = 'umfeld__slide'; s.setAttribute('role', 'group'); s.setAttribute('aria-roledescription', 'Folie');
-      s.innerHTML = '<div class="umfeld__pills"><span class="element-chip umfeld__pill">' + p.kind + '</span>' +
-        '<span class="element-chip umfeld__pill">' + near(p) + '</span>' +
-        '<span class="element-chip area umfeld__pill">' + res(p) + '</span></div>' +
-        '<p class="secondary">' + p.note + '</p>' +
-        '<a class="button button--secondary glow-edge" href="' + href + '">Beziehungsraum öffnen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></svg></a>';
+      var pills = document.createElement('div'); pills.className = 'umfeld__pills';
+      if (p.kind) pills.appendChild(chip(p.kind));
+      pills.appendChild(chip(near(p))); pills.appendChild(chip(res(p), 'area '));
+      s.appendChild(pills);
+      if (p.note) { var note = document.createElement('p'); note.className = 'secondary'; note.textContent = p.note; s.appendChild(note); }
+      var a = document.createElement('a'); a.className = 'button button--secondary glow-edge'; a.href = href;
+      a.appendChild(document.createTextNode('Beziehungsraum öffnen '));
+      var svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'icon'); svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('aria-hidden', 'true');
+      svg.appendChild(el('path', { d: 'M5 12h13M13 6.5l5.5 5.5-5.5 5.5' })); a.appendChild(svg);
+      s.appendChild(a);
       slider.appendChild(s);
       return s;
     });
     slides.forEach(function (s, i) { s.setAttribute('aria-label', (i + 1) + ' von ' + PEOPLE.length); });
+    /* Ohne Menschen gibt es kein Panel, mit einem Menschen keine Pfeile. */
+    var panel = root.querySelector('.umfeld__panel');
+    panel.hidden = !PEOPLE.length;
     root.querySelectorAll('[data-nav]').forEach(function (b) {
+      b.hidden = PEOPLE.length < 2;
       b.addEventListener('click', function () { select(selected + (b.getAttribute('data-nav') === 'next' ? 1 : -1)); });
     });
 
     /* Abstand von Slide zu Slide (Breite eines Slides). */
-    function pitch() { return slides[0].offsetWidth || slider.clientWidth; }
+    function pitch() { return slides[0] ? slides[0].offsetWidth || slider.clientWidth : 0; }
     function slideTo(i, smooth) {
       var left = i * pitch();
       if (Math.abs(slider.scrollLeft - left) < 1) return;
@@ -152,23 +205,41 @@
     slider.addEventListener('click', function (e) { if (suppress) { e.preventDefault(); e.stopPropagation(); } }, true);
     slider.addEventListener('dragstart', function (e) { e.preventDefault(); });
 
-    /* Filterzeile (nur im Hochformat): «Alle» und je eine vorhandene Art. */
-    var KINDS_IN = KINDS.filter(function (k) { return PEOPLE.some(function (p) { return p.kind === k; }); });
-    var filterButtons = ['Alle'].concat(KINDS_IN).map(function (label) {
+    /* Filterzeile (nur im Hochformat und nur mit mindestens zwei Arten): «Alle» und je eine vorhandene Art.
+       Sie bleibt einzeilig und lässt sich wischen. Passt alles hinein, steht sie mittig. */
+    var filterButtons = (GROUPED ? ['Alle'].concat(KINDS_IN) : []).map(function (label) {
       var b = document.createElement('button'); b.type = 'button'; b.textContent = label;
       b.setAttribute('aria-pressed', 'false'); b.setAttribute('data-filter', label === 'Alle' ? 'all' : label);
       b.addEventListener('click', function () { setFilter(label === 'Alle' ? 'all' : label); });
       filterBar.appendChild(b); return b;
     });
+    /* Weicher Rand als Hinweis, dass die Zeile weitergeht (Maske, keine Farbe). */
+    function fadeFilter() {
+      var max = filterBar.scrollWidth - filterBar.clientWidth, left = filterBar.scrollLeft;
+      filterBar.style.setProperty('--fade-l', left > 1 ? '28px' : '0px');
+      filterBar.style.setProperty('--fade-r', left < max - 1 ? '28px' : '0px');
+    }
+    filterBar.addEventListener('scroll', fadeFilter, { passive: true });
+    /* Die gewählte Pille rollt in den sichtbaren Bereich der Zeile. Nur die Zeile scrollt (scrollLeft), nie die Seite. */
+    function showFilter(smooth) {
+      var b = filterButtons.filter(function (x) { return x.getAttribute('aria-pressed') === 'true'; })[0];
+      if (b && !filterBar.hidden) {
+        var pad = 12, l = b.offsetLeft, r = l + b.offsetWidth, v0 = filterBar.scrollLeft, w = filterBar.clientWidth, to = v0;
+        if (l - pad < v0) to = Math.max(0, l - pad); else if (r + pad > v0 + w) to = r + pad - w;
+        if (Math.abs(to - v0) >= 1) { if (smooth && !calm()) filterBar.scrollTo({ left: to, behavior: 'smooth' }); else filterBar.scrollLeft = to; }
+      }
+      fadeFilter();
+    }
     function markFilter() {
-      filterBar.hidden = layoutName === 'wide';
+      filterBar.hidden = layoutName === 'wide' || !GROUPED;
       filterButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === filter)); });
+      showFilter(api.ready);
     }
     function firstOf(kind) { for (var i = 0; i < PEOPLE.length; i++) if (PEOPLE[i].kind === kind) return i; return 0; }
     function setFilter(f) {
       if (f === filter) return;
       filter = f;
-      if (f !== 'all' && PEOPLE[selected].kind !== f) select(firstOf(f));
+      if (f !== 'all' && PEOPLE[selected] && PEOPLE[selected].kind !== f) select(firstOf(f));
       render(true);
     }
 
@@ -181,18 +252,19 @@
     }
     function draw(name) {
       /* Der Filter folgt der Auswahl: nach einem Wechsel von wide auf tall passt er sich an. */
-      if (name === 'tall' && filter !== 'all' && PEOPLE[selected].kind !== filter) filter = PEOPLE[selected].kind;
-      var mode = name === 'wide' ? 'wide' : filter === 'all' ? 'all' : 'kind';
+      if (name === 'tall' && filter !== 'all' && PEOPLE[selected] && PEOPLE[selected].kind !== filter) filter = PEOPLE[selected].kind;
+      /* Ohne Gruppen gibt es auf dem Telefon keine Übersicht aus Punkten: alle stehen gross mit Namen. */
+      var mode = name === 'wide' ? 'wide' : !GROUPED || filter !== 'all' ? 'kind' : 'all';
       var L = LAYOUTS[mode];
       var hadFocus = stage.contains(document.activeElement);
       layoutName = name;
       var px = stage.getBoundingClientRect().width; lastW = px;
       /* Wer wird gezeichnet: alle, oder nur die gewählte Art. */
       var list = [];
-      PEOPLE.forEach(function (p, i) { if (mode !== 'kind' || p.kind === filter) list.push({ p: p, i: i }); });
+      PEOPLE.forEach(function (p, i) { if (mode !== 'kind' || !GROUPED || p.kind === filter) list.push({ p: p, i: i }); });
       /* Gruppen: Arten ohne Menschen bekommen keinen Platz. Jede Gruppe hat ihren Platz (slot), die Menschen stehen darin gleichmässig. */
       var kinds = mode === 'kind' ? [] : KINDS_IN;
-      var per = (360 - GAP * kinds.length) / PEOPLE.length, at = 0;
+      var per = (360 - GAP * kinds.length) / Math.max(1, PEOPLE.length), at = 0;
       var groups = kinds.map(function (k, gi) {
         var n = PEOPLE.filter(function (p) { return p.kind === k; }).length;
         if (gi === 0) at = -per * n / 2;
@@ -202,11 +274,14 @@
       var pos = function (a, d) { var r = a * Math.PI / 180; return [L.CX + d * Math.sin(r), L.CY - d * Math.cos(r)]; };
       var first = {};
       /* Lage aller Menschen zuerst: daraus wird das Bild auf den Inhalt beschnitten. */
+      /* Gleichmässig verteilt (eine Art oder keine Gruppen): Bei vielen Menschen rückt der ganze Ring nach aussen, damit die Kreise sich nicht berühren. */
+      var even = mode === 'kind' || !GROUPED, extra = 0;
+      if (even && list.length > 1) extra = Math.max(0, list.length * (2 * (L.R + L.ring * 3) + 10) / (2 * Math.PI) - L.base);
       var geo = list.map(function (e, n) {
         var p = e.p, ang;
-        if (mode === 'kind') ang = 360 / list.length * n;
+        if (even) ang = 360 / list.length * n;
         else { var gr = groups[kinds.indexOf(p.kind)], idx = first[p.kind] = (first[p.kind] === undefined ? 0 : first[p.kind] + 1); ang = gr.a0 + per * (idx + 0.5); }
-        var dist = L.base + (100 - p.proximity) * L.k, xy = pos(ang, dist);
+        var dist = L.base + extra + (100 - p.proximity) * L.k, xy = pos(ang, dist);
         var level = p.resonance === 0 ? 0 : p.resonance < 40 ? 1 : p.resonance < 80 ? 2 : 3;
         return { dist: dist, level: level, x: xy[0], y: xy[1] };
       });
@@ -347,7 +422,7 @@
     function focusSelected() {
       var q = (api.parts.people || []).filter(function (x) { return x.index === selected; })[0];
       if (q && q.name) { q.name.focus(); return; }
-      var g = (api.parts.groups || []).filter(function (x) { return x.getAttribute('data-kind') === PEOPLE[selected].kind; })[0];
+      var g = PEOPLE[selected] && (api.parts.groups || []).filter(function (x) { return x.getAttribute('data-kind') === PEOPLE[selected].kind; })[0];
       if (g) g.focus();
     }
 
@@ -360,6 +435,7 @@
       });
     }
     function select(i, fromScroll) {
+      if (!PEOPLE.length) return;
       i = ((i % PEOPLE.length) + PEOPLE.length) % PEOPLE.length;
       var first = !api.ready;
       selected = i;
@@ -391,5 +467,5 @@
     root._umfeld = api;
     return api;
   }
-  window.ElanumUmfeld = { mount: mount, people: PEOPLE };
+  window.ElanumUmfeld = { mount: mount, people: SAMPLE, kinds: DEFAULT_KINDS };
 })();

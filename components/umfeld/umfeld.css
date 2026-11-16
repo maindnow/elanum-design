@@ -3,7 +3,7 @@
    ============================================================ */
 /* Aufbau und Masse wie .rad (Resonanzrad): Bühne mit Bild und Zeile, daneben oder darunter der Lesebereich */
 .umfeld{display:grid;gap:clamp(40px,6vw,72px);align-items:start}
-.umfeld__stage{display:grid;gap:24px;justify-items:center}
+.umfeld__stage{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;justify-items:center}
 .umfeld__scene{position:relative;width:min(100%,640px)}
 .umfeld__svg{width:100%;height:auto;overflow:visible}
 .umfeld__contour{fill:none;stroke:var(--ink);stroke-width:var(--trace);stroke-linecap:round;vector-effect:non-scaling-stroke;transition:stroke-width var(--motion-ui) ease}
@@ -40,8 +40,13 @@
 .umfeld__scene[data-layout=tall] .umfeld__name{font:var(--type-label);font-weight:600}
 .umfeld__scene[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:32px;line-height:1}
 @media(min-width:900px){.umfeld{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);column-gap:clamp(48px,6vw,96px);align-items:center}}
-/* Filterzeile im Hochformat: Pillen wie .segmented (base.css), mittig umbrechend. Im breiten Layout verborgen. */
-.umfeld__filter{justify-content:center;max-width:100%;box-sizing:border-box}
+/* Filterzeile im Hochformat: Pillen wie .segmented (base.css), immer eine Zeile und waagrecht wischbar. Passt alles hinein, steht sie mittig (die Bühne zentriert sie), sonst beginnt sie links.
+   Der Innenabstand von 6 px lässt dem Fokusrahmen (3 px plus 2 px Abstand) Platz. Ein weicher Rand (Maske, --fade-l und --fade-r setzt das Skript) zeigt, dass es weitergeht. */
+.umfeld__filter{position:relative;justify-content:flex-start;flex-wrap:nowrap;max-width:100%;min-width:0;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:6px;scrollbar-width:none;
+  --fade-l:0px;--fade-r:0px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fade-l),#000 calc(100% - var(--fade-r)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fade-l),#000 calc(100% - var(--fade-r)),transparent 100%)}
+.umfeld__filter::-webkit-scrollbar{display:none}
+.umfeld__filter button{flex:0 0 auto;white-space:nowrap;scroll-snap-align:start}
+.umfeld__filter button:focus-visible{outline-offset:2px}
 .umfeld__filter[hidden]{display:none}
 /* Übersicht: Menschen sind Punkte, die gewählte hat eine kräftigere Kontur. Je Gruppe liegt ein transparenter Knopf darüber. */
 .umfeld__scene[data-view=all] .umfeld__contour.is-active:not(.umfeld__me){stroke:var(--sterne-tief);stroke-width:3.2}
