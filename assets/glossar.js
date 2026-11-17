@@ -5,7 +5,7 @@
    Begriffe nur mit Freigabe und neuer Atlas-Version ändern.
    ============================================================ */
 window.ELANUM_GLOSSAR = {
-  version: '4.9',
+  version: '5.0',
   rule: 'Diese Begriffe sind verbindlich. Sie gelten in Produkt, Texten, Gestaltung und Code, genau in dieser Schreibweise, inklusive Gross- und Kleinschreibung und „&“. Neue Begriffe oder Änderungen nur mit Freigabe und einer neuen Atlas-Version.',
   sentence: 'Mit ELANUM findest du zu dir, zueinander und miteinander. Resonanz zeigt den Weg.',
   groups: [
@@ -41,11 +41,12 @@ window.ELANUM_GLOSSAR = {
       { term: 'Tageslinie', meaning: 'Momente eines Tages als Stationen, ohne Feed.', code: '.track' },
       { term: 'Weg', meaning: 'Deine Entwicklung als Stationen bis jetzt, danach eine Unterbrechung.', code: 'components/weg' },
       { term: 'Station', meaning: 'Ein Punkt auf Weg oder Tageslinie: erledigt (gefüllt), jetzt (Ring), offen (Kontur mit Öffnung).', code: 'data-state="done · now · open"' },
-      { term: 'Umfeld', meaning: 'Ich in der Mitte, Menschen als eigene Kreise nach Nähe und Resonanz.', code: 'components/umfeld' },
-      { term: 'Beziehungsraum', meaning: 'Zwei eigene Räume und die Verbindung dazwischen.', code: 'components/beziehungsraum' },
-      { term: 'Verbindung', meaning: 'Die Linie zwischen zwei Kreisen. Sie trifft beide Konturen exakt.' },
+      { term: 'Umfeld', meaning: 'Ich in der Mitte, Menschen als eigene Kreise. Wer zusammengehört, steht beieinander. Der Abstand zeigt die Nähe, Linien um den Kreis die Resonanz.', code: 'components/umfeld' },
+      { term: 'Art', meaning: 'Wie ein Mensch zu dir steht: Partnerschaft, Familie, Freundschaft, Innerer Weg oder Arbeit. Im Umfeld stehen Menschen derselben Art beieinander.', code: 'kind' },
+      { term: 'Beziehungsraum', meaning: 'Zwei Menschen: der Abstand zwischen ihnen, der Platz um jeden und das Feld um beide.', code: 'components/beziehungsraum' },
+      { term: 'Feld', meaning: 'Die Linien im Spektrum um zwei Menschen im Beziehungsraum und um einen Menschen im Umfeld. Null bis drei zeigen die Resonanz.' },
       { term: 'Nähe · Resonanz · Freiraum', meaning: 'Die drei Werte einer Beziehung: Abstand der zwei Kreise, Feld um beide, Platz um jeden. Gestaltungswerte, keine Messung.', code: 'proximity · resonance · openness' },
-      { term: 'Atmung', meaning: 'Der gemeinsame Bewegungstakt der Kreise: 3,4 s Raum geben, 4,4 s zur Ruhe kommen.' }
+      { term: 'Atmung', meaning: 'Der gemeinsame Bewegungstakt im Beziehungsraum: 3,4 s Raum geben, 4,4 s zur Ruhe kommen. Es atmet der Freiraum.' }
     ] },
     { title: 'Farbe und Material', terms: [
       { term: 'Canvas · Papier · Ink', meaning: 'Grundfläche, warme Fläche für Persönliches, Schriftfarbe.', code: '--canvas · --paper · --ink' },

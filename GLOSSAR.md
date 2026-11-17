@@ -1,4 +1,4 @@
-# ELANUM Glossar 4.9
+# ELANUM Glossar 5.0
 
 <!-- Automatisch erzeugt aus assets/glossar.js mit `node tools/glossar-md.js`. Nicht von Hand bearbeiten. -->
 
@@ -54,11 +54,12 @@ Gestaltete Darstellungen mit eigener Seite und gleichem Code im Atlas.
 | **Tageslinie** | Momente eines Tages als Stationen, ohne Feed. | `.track` |
 | **Weg** | Deine Entwicklung als Stationen bis jetzt, danach eine Unterbrechung. | `components/weg` |
 | **Station** | Ein Punkt auf Weg oder Tageslinie: erledigt (gefüllt), jetzt (Ring), offen (Kontur mit Öffnung). | `data-state="done · now · open"` |
-| **Umfeld** | Ich in der Mitte, Menschen als eigene Kreise nach Nähe und Resonanz. | `components/umfeld` |
-| **Beziehungsraum** | Zwei eigene Räume und die Verbindung dazwischen. | `components/beziehungsraum` |
-| **Verbindung** | Die Linie zwischen zwei Kreisen. Sie trifft beide Konturen exakt. |  |
+| **Umfeld** | Ich in der Mitte, Menschen als eigene Kreise. Wer zusammengehört, steht beieinander. Der Abstand zeigt die Nähe, Linien um den Kreis die Resonanz. | `components/umfeld` |
+| **Art** | Wie ein Mensch zu dir steht: Partnerschaft, Familie, Freundschaft, Innerer Weg oder Arbeit. Im Umfeld stehen Menschen derselben Art beieinander. | `kind` |
+| **Beziehungsraum** | Zwei Menschen: der Abstand zwischen ihnen, der Platz um jeden und das Feld um beide. | `components/beziehungsraum` |
+| **Feld** | Die Linien im Spektrum um zwei Menschen im Beziehungsraum und um einen Menschen im Umfeld. Null bis drei zeigen die Resonanz. |  |
 | **Nähe · Resonanz · Freiraum** | Die drei Werte einer Beziehung: Abstand der zwei Kreise, Feld um beide, Platz um jeden. Gestaltungswerte, keine Messung. | `proximity · resonance · openness` |
-| **Atmung** | Der gemeinsame Bewegungstakt der Kreise: 3,4 s Raum geben, 4,4 s zur Ruhe kommen. |  |
+| **Atmung** | Der gemeinsame Bewegungstakt im Beziehungsraum: 3,4 s Raum geben, 4,4 s zur Ruhe kommen. Es atmet der Freiraum. |  |
 
 ## Farbe und Material
 

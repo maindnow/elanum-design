@@ -1,35 +1,59 @@
 /* ============================================================
    ELANUM Umfeld · Darstellung
    ============================================================ */
-.umfeld{display:grid;gap:clamp(32px,5vw,64px);align-items:center}
-.umfeld__stage{position:relative;width:min(100%,640px);margin:0 auto}
+/* Aufbau und Masse wie .rad (Resonanzrad): Bühne mit Bild und Zeile, daneben oder darunter der Lesebereich */
+.umfeld{display:grid;gap:clamp(40px,6vw,72px);align-items:start}
+.umfeld__stage{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;justify-items:center}
+.umfeld__scene{position:relative;width:min(100%,640px)}
 .umfeld__svg{width:100%;height:auto;overflow:visible}
 .umfeld__contour{fill:none;stroke:var(--ink);stroke-width:var(--trace);stroke-linecap:round;vector-effect:non-scaling-stroke;transition:stroke-width var(--motion-ui) var(--ease-out)}
 .umfeld__contour.is-active{stroke-width:2.6}
-.umfeld__bridge{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.75;transition:opacity var(--motion-ui) var(--ease-out)}
-.umfeld__bridge.is-active{opacity:1;filter:var(--glow-line)}
-.umfeld__nodes circle{fill:var(--ink)}
-.umfeld__name{position:absolute;transform:translate(-50%,-50%);font:var(--type-heading);white-space:nowrap;pointer-events:none}
+.umfeld__ring{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.8;transition:opacity var(--motion-ui) var(--ease-out)}
+.umfeld__ring.is-active{opacity:1}
+.umfeld__arc{fill:none;stroke:var(--ink);stroke-opacity:.22;stroke-width:1.2px;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.umfeld__kind{fill:var(--ink-2);font-family:var(--ui-font);font-weight:600;letter-spacing:.02em;pointer-events:none}
+.umfeld__name{position:absolute;translate:-50% -50%;font:var(--type-heading);white-space:nowrap;pointer-events:none}
+/* Menschen sind Knöpfe über dem ganzen Kreis, per left/top auf den Kreis gesetzt (kein translate: GSAP bewegt sie im Auftritt über transform). Die Trefferfläche wächst über ::after auf mindestens 44 px, ohne den Knopf zu verschieben. */
+.umfeld__pick{translate:none;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent}
+.umfeld__pick::after{content:'';position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);translate:-50% -50%;border-radius:50%}
 .umfeld__name--me{font:var(--type-title);font-size:2rem;line-height:1}
 .umfeld__name.is-active{color:var(--sterne-tief)}
 
-.umfeld__side{display:grid;gap:32px;align-content:start}
-.umfeld__list{display:grid;gap:6px}
-.umfeld__person{display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;min-height:52px;padding:10px 16px;border:0;border-radius:var(--radius-control);background:transparent;text-align:left;font:var(--type-label);transition:background var(--motion-ui) var(--ease-out),box-shadow var(--motion-ui) var(--ease-out)}
-.umfeld__person-name{font-weight:600}
-.umfeld__person-state{color:var(--ink-2)}
-.umfeld__person[aria-pressed=true]{background:var(--paper);box-shadow:var(--raised-sm)}
-@media(hover:hover) and (pointer:fine){.umfeld__person:hover{background:var(--paper)}}
-.umfeld__person:active{background:var(--paper);transform:scale(.985);transition-duration:var(--motion-press)}
-.umfeld__detail{display:grid;gap:14px;justify-items:start}
-/* Das Detail blendet ein, beim Erscheinen und bei jedem Wechsel des Menschen: Bewegt wird der Inhalt,
-   nicht der Rahmen, darum spielt es jedes Mal. Nur Deckkraft, 180 ms. */
-.umfeld__detail>*{animation:umfeld-detail-ein var(--motion-ui) var(--ease-out) both}
-@keyframes umfeld-detail-ein{from{opacity:0}}
-body[data-motion=off] .umfeld__detail>*{animation:none}
-.umfeld__state{color:var(--sterne-tief)}
+/* Panel: eine erhöhte Karte (Muster .app-card) mit Pfeilzeile und Lesebereich, ohne Trennstrich */
+.umfeld__panel{position:relative;display:grid;gap:14px;min-width:0;max-width:var(--measure);box-sizing:border-box;padding:24px;border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm);color:var(--ink)}
+/* Pfeilzeile wie .rad__nav, in der Mitte nur der Name */
+.umfeld__nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}
+.umfeld__current{flex:1;min-width:0;margin:0;font:var(--type-heading);text-align:center;overflow-wrap:anywhere}
+.umfeld__reader{min-width:0}
+.umfeld__slides{position:relative;display:flex;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;margin:-8px}
+.umfeld__slides::-webkit-scrollbar{display:none}
+.umfeld__slide{flex:0 0 100%;box-sizing:border-box;min-width:0;padding:8px;scroll-snap-align:start;scroll-snap-stop:always;display:grid;gap:18px;justify-items:center;text-align:center;align-content:start}
+.umfeld__pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+/* Pillen: .element-chip ohne Icon. Nähe neutral, Resonanz im Hauch von Sterne wie der gewählte Name im Bild. */
+.umfeld__pill{padding:4px 14px;--tint:var(--offen)}
+.umfeld__pill.area{--tint:var(--sterne-hauch)}
+.umfeld__slides.is-dragging{scroll-snap-type:none;scroll-behavior:auto;user-select:none}
+@media(hover:hover) and (pointer:fine){.umfeld__slides{cursor:grab}.umfeld__slides.is-dragging{cursor:grabbing}}
+.umfeld__live{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 /* Hochformat für schmale Schirme: Namen in echten 15 px, passend in ihren Kreis */
-.umfeld__stage[data-layout=tall]{width:min(100%,440px)}
-.umfeld__stage[data-layout=tall] .umfeld__name{font:var(--type-label);font-weight:600}
-.umfeld__stage[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:2rem;line-height:1}
-@media(min-width:900px){.umfeld{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}}
+.umfeld__scene[data-layout=tall]{width:min(100%,440px)}
+.umfeld__scene[data-layout=tall] .umfeld__name{font:var(--type-label);font-weight:600}
+.umfeld__scene[data-layout=tall] .umfeld__name--me{font:var(--type-title);font-size:2rem;line-height:1}
+/* Zwei Spalten, sobald der Baustein selbst mindestens 61rem breit ist (das Skript setzt data-cols). Die Breite des Fensters sagt das nicht: Im App-Rahmen steht daneben die Seitenleiste, und mit grosser Schrift braucht die Karte mehr Platz. */
+.umfeld[data-cols="2"]{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);column-gap:clamp(48px,6vw,96px);align-items:center}
+/* Filterzeile im Hochformat: Pillen wie .segmented (base.css), immer eine Zeile und waagrecht wischbar. Passt alles hinein, steht sie mittig (die Bühne zentriert sie), sonst beginnt sie links.
+   Der Innenabstand von 6 px lässt dem Fokusrahmen (3 px plus 2 px Abstand) Platz. Ein weicher Rand (Maske, --fade-l und --fade-r setzt das Skript) zeigt, dass es weitergeht. */
+.umfeld__filter{position:relative;justify-content:flex-start;flex-wrap:nowrap;max-width:100%;min-width:0;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:6px;scrollbar-width:none;
+  --fade-l:0px;--fade-r:0px;-webkit-mask-image:linear-gradient(90deg,transparent 0,var(--ink) var(--fade-l),var(--ink) calc(100% - var(--fade-r)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,var(--ink) var(--fade-l),var(--ink) calc(100% - var(--fade-r)),transparent 100%)}
+.umfeld__filter::-webkit-scrollbar{display:none}
+.umfeld__filter button{flex:0 0 auto;white-space:nowrap;scroll-snap-align:start}
+.umfeld__filter button:focus-visible{outline-offset:2px}
+.umfeld__filter[hidden]{display:none}
+/* Übersicht: Menschen sind Punkte, die gewählte hat eine kräftigere Kontur. Je Gruppe liegt ein transparenter Knopf darüber. */
+.umfeld__scene[data-view=all] .umfeld__contour.is-active:not(.umfeld__me){stroke:var(--sterne-tief);stroke-width:3.2}
+.umfeld__group{position:absolute;display:block;padding:0;border:0;border-radius:var(--radius-control);background:transparent;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.umfeld__group:focus-visible{outline-offset:-3px}
+/* Ein Wechsel des Filters blendet das neue Bild weich ein (nur Deckkraft). */
+@keyframes umfeld-fresh{from{opacity:0}to{opacity:1}}
+.umfeld__scene.is-fresh{animation:umfeld-fresh var(--motion-ui) var(--ease-out)}
+@media(prefers-reduced-motion:reduce){.umfeld__scene.is-fresh{animation:none}}

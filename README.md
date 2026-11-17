@@ -1,4 +1,4 @@
-# ELANUM Gestaltungsatlas 4.13
+# ELANUM Gestaltungsatlas 5.0
 
 ![Gestaltungsatlas: Einstieg mit dem ELANUM-Zeichen im Goldenen Schnitt](docs/screenshots/atlas-desktop.png)
 
@@ -102,7 +102,7 @@ Die Stylesheets laden in der Reihenfolge `tokens.css`, `base.css`, Element-Style
 
 ## In der App verwenden
 
-Dieses Repository ist die einzige Designquelle der App ELANUM. Die App installiert es als Paket `@elanum/design` direkt von GitHub, fixiert auf einen Tag. Die Paketversion ist die Atlas-Version: Atlas 4.11 ist `4.11.0`, der Tag dazu `v4.11.0`.
+Dieses Repository ist die einzige Designquelle der App ELANUM. Die App installiert es als Paket `@elanum/design` direkt von GitHub, fixiert auf einen Tag. Die Paketversion ist die Atlas-Version: Atlas 5.0 ist `5.0.0`, der Tag dazu `v5.0.0`.
 
 ### Installation
 
@@ -110,7 +110,7 @@ In der `package.json` der App:
 
 ```json
 "dependencies": {
-  "@elanum/design": "github:maindnow/elanum-design#v4.13.0"
+  "@elanum/design": "github:maindnow/elanum-design#v5.0.0"
 }
 ```
 
@@ -218,14 +218,29 @@ Jeder Baustein ist ein klassisches Skript und legt ein Objekt auf `window`. Mit 
 
 **Umfeld** · `components/umfeld/`, dazu `beziehungsraum.css` · `window.ElanumUmfeld`
 
-- `mount(root, { link, heading })` zeichnet Ich und die Menschen darum und gibt `{ select(i), parts }` zurück. `link` führt zum Beziehungsraum, ergänzt um `?person=…&proximity=…&resonance=…`.
-- `people`: die Menschen der Vorschau.
+- `mount(root, { link, heading, people, kinds })` zeichnet Ich und die Menschen darum und gibt `{ select(i), parts }` zurück. `link` führt zum Beziehungsraum, ergänzt um `?person=…&proximity=…&resonance=…`. `people` ist ein Array `{ name, kind, proximity, resonance, note }` (0 bis 100, Vorgabe: die Beispielmenschen), `kinds` die Reihenfolge der Arten als Array von Strings (Vorgabe `['Partner','Familie','Freunde','Arbeit']`). Arten, die nur in `people` vorkommen, hängen hinten an (Reihenfolge des ersten Auftretens), Arten ohne Menschen bekommen weder Platz noch Pille. Gibt es weniger als zwei Arten (oder fehlt `kind` überall), entfallen Bögen, Wörter und Filter, und die Menschen stehen gleichmässig verteilt. Wer bei mehreren Arten keine hat, steht in der Gruppe «Weitere». Null Menschen zeigen nur «Ich» ohne Panel, ein Mensch hat keine Pfeile. Namen und Notizen werden als Text gesetzt, nie als HTML.
+- Bedienung: Die Kreise im Bild sind Knöpfe (Pfeiltasten wechseln den Menschen). Aufbau: das Bild, darunter (daneben, sobald der Baustein selbst 61rem breit ist) ein Panel `.umfeld__panel` (erhöhte Karte). Oben im Panel `.umfeld__nav` mit den Pfeilen und dem Namen des gewählten Menschen (`.umfeld__current`, als Überschrift im mit `heading` gewählten Level), darunter der Lesebereich `.umfeld__reader` mit Pillen für Nähe und Resonanz, Notiz und Knopf, zentriert, zum Ziehen mit Finger oder Maus. Jede Angabe steht nur einmal. Das Bild ist senkrecht auf den Inhalt beschnitten. Eine Liste gibt es nicht. Unter 520 px Bühnenbreite (Telefon) steht über dem Bild die Filterzeile `.umfeld__filter` («Alle» und je eine Art, immer eine Zeile, waagrecht wischbar, die gewählte Pille rollt ins Bild): «Alle» zeigt die Menschen als Punkte ohne Namen mit einem Knopf `.umfeld__group` je Gruppe, eine Art zeigt ihre Menschen gross mit Namen. Pfeile und Slider laufen durch alle, der Filter folgt der Auswahl. `parts.view` ist `wide`, `all` oder `kind`. Grund: Rückmeldungen Chris vom 15.11. und 16.11.2026, Design wie die Ich-Übersicht, eine Einheit.
+- `ElanumUmfeld.people` und `ElanumUmfeld.kinds`: die Beispieldaten und die Vorgabe der Arten. Die Menschen haben je `kind` (Art), `proximity` und `resonance`. Der Winkel sagt die Art (Partnerschaft, Familie, Freundschaft, Innerer Weg, Arbeit, im Uhrzeigersinn, die erste oben), der Abstand die Nähe, die Linien die Resonanz. Ein feiner Bogen mit dem Wort der Art fasst jede Gruppe (`parts.arcs`), das Wort misst am Bildschirm mindestens 15 px. Die Art steht als erste Pille. Auf dem Telefon wird es ab etwa acht Menschen eng, dann braucht es einen Filter nach Art.
 
 ```html
 <div data-umfeld data-anim="umfeld"></div>
 <script>
   ElanumUmfeld.mount(document.querySelector('[data-umfeld]'), { link: '/beziehungsraum/', heading: 'h3' });
 </script>
+```
+
+Mit eigenen Daten:
+
+```js
+ElanumUmfeld.mount(document.querySelector('[data-umfeld]'), {
+  link: '/beziehungsraum/',
+  heading: 'h3',
+  kinds: ['Familie', 'Freundschaft'],
+  people: [
+    { name: 'Noa', kind: 'Familie', proximity: 80, resonance: 70, note: 'Sehr nah.' },
+    { name: 'Eli', kind: 'Freundschaft', proximity: 35, resonance: 0, note: 'Selten, ohne aktive Resonanz.' }
+  ]
+});
 ```
 
 **Beziehungsraum** · `components/beziehungsraum/` · `window.ElanumBeziehung`
@@ -423,6 +438,8 @@ Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 - Assets: keine fehlenden Dateien oder Konsolenfehler, auch unter `file://`.
 
 ## Stand und Historie
+
+5.0 fasst Beziehungsraum und Umfeld neu, damit sie ohne Regler lesbar sind. Im Beziehungsraum ist Nähe der Abstand zweier Kreise, Freiraum die helle Fläche um jeden und Resonanz das Feld um beide. Im Umfeld stehen Menschen derselben Art beieinander, der Abstand zeigt die Nähe, Linien um den Kreis die Resonanz. Verbindungslinien und Öffnungen entfallen, darum eine neue Hauptversion. Der Umfeld-Baustein nimmt eigene Menschen und Arten entgegen (`people`, `kinds`), seine Filterzeile bleibt auf dem Telefon einzeilig und lässt sich wischen.
 
 4.13 bringt die Regeln aus sieben Kits und Regelwerken, übernimmt den freigegebenen Seitenwechsel der App (kein Rollen beim Wechsel, `html[data-seitenwechsel]`) und schliesst acht Lücken aus der Liste der App: Die Schrift steht in rem und wächst mit, Titel brechen ausgeglichen um, jedes Bedienelement ist auf 44 px treffbar und antwortet auf Druck, Eingabefelder tragen eine Kante mit 3,6:1, Fokus, Ebenen und Abstände haben Namen, und ELANUM folgt den Einstellungen des Systems (Kontrastmodus, mehr Kontrast, weniger Durchsicht). Neu sind `.button--compact`, `.button--danger`, `tokens.json` und die Messung im Browser (`tools/regel-messung.js`). Alles dazu in [DESIGN-NOTES.md](DESIGN-NOTES.md), Abschnitt «Reife (4.13)».
 

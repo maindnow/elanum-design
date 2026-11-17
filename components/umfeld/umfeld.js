@@ -1,130 +1,495 @@
 /* ============================================================
    ELANUM Umfeld
-   "Ich" in der Mitte, Menschen als eigene, offene Kreise darum.
-   Abstand zeigt Nähe, Stärke der Verbindung zeigt Resonanz. Ohne aktive
-   Resonanz bleibt nur der Abstand, keine Linie. Kreise bleiben rund,
-   Öffnungen unten, Verbindungen treffen beide Konturen exakt.
-   Die Liste darunter ist die Bedienung; das Bild zeigt dasselbe.
+   "Ich" in der Mitte, Menschen als eigene, geschlossene Kreise darum.
+   Abstand zeigt Nähe. Null bis drei Linien im Verlauf um die Person zeigen
+   die Resonanz (wie im Beziehungsraum), keine Linie führt zur Mitte. Ohne
+   aktive Resonanz bleibt nur der Abstand. Der Freiraum fehlt, das Umfeld
+   kennt den Wert nicht.
+   Der Winkel sagt die Art (opts.kinds, Vorgabe Partnerschaft, Familie, Freundschaft, Innerer Weg, Arbeit: die fünf Arten der App, im Uhrzeigersinn,
+   die erste oben). Wer zusammengehört, steht beieinander. Ein feiner Bogen mit dem Wort
+   der Art fasst jede Gruppe, wie die Bereiche des Resonanzrads. Das Wort misst am
+   Bildschirm mindestens 15 px, das Bild baut sich bei Breitenwechsel neu auf.
+   Aufbau: das Bild, darunter oder daneben ein einziges Panel (erhöhte Karte).
+   Oben im Panel stehen die Pfeile mit dem Namen des gewählten Menschen (als
+   Überschrift), direkt darunter im Lesebereich die Pillen für Nähe und
+   Resonanz (die Art steht als erste Pille), die Notiz und der Knopf, alles zentriert. Jede Angabe steht nur
+   einmal. Die Kreise im Bild sind Knöpfe, der Lesebereich lässt sich ziehen
+   (Finger oder Maus), Kreis, Name und Lesebereich bleiben im Gleichschritt.
+   Eine Liste gibt es nicht. Für Vorleser trägt das Panel die Rolle Karussell,
+   und eine Live-Zeile sagt «Du & Name, Art, Nähe, Resonanz» an.
+   Das Bild ist auf seinen Inhalt beschnitten (Rand 16 Einheiten),
+   damit das Panel früh im Sichtfeld steht.
 
-   Mobile-first: Unter 560 px Breite gilt ein Hochformat mit grösseren
-   Kreisen, damit Namen in echten 15 px in ihren Kreis passen. Wird das
-   Element breiter oder schmaler, baut sich das Bild neu auf.
+   Mobile-first: Unter 520 px Bühnenbreite gilt das Hochformat. Neun Menschen waren dort bei 390 px zu eng
+   (gemessen), darum steht über dem Bild eine Filterzeile: «Alle» ist die Übersicht, die Menschen
+   stehen als kleine Punkte ohne Namen in ihren Gruppen (je Gruppe ein transparenter Knopf, Tipp wählt
+   die Art). Eine Art zeigt nur ihre Menschen, gross und mit Namen, gleichmässig rund um «Ich», ohne
+   Bögen. Der Filter folgt der Auswahl: Pfeile und Slider laufen durch alle Menschen, und wechselt man
+   in eine andere Art, springt der Filter mit. Ab 520 px (wide) gibt es keinen Filter, das Bild zeigt
+   alle mit Namen. Wird das Element breiter oder schmaler, baut sich das Bild neu auf, die Auswahl bleibt.
 
-   API: ElanumUmfeld.mount(root, { link: 'pfad/zum/beziehungsraum/', heading: 'h3' })
+   Die Filterzeile bleibt einzeilig und lässt sich waagrecht wischen (die Zeile scrollt, nicht die Seite). Passt alles hinein,
+   steht sie mittig. Die gewählte Pille rollt in den sichtbaren Bereich, ein weicher Rand zeigt, dass es weitergeht.
+
+   API: ElanumUmfeld.mount(root, { link: 'pfad/zum/beziehungsraum/', heading: 'h3', people: [...], kinds: [...] })
+        people: Array { name, kind, proximity (0 bis 100), resonance (0 bis 100), note }. Fehlt es, gelten die Beispielmenschen
+        (window.ElanumUmfeld.people). Namen und Notizen werden als Text gesetzt, nie als HTML.
+        kinds: Reihenfolge der Arten als Array von Strings (Vorgabe window.ElanumUmfeld.kinds). Arten, die nur in people vorkommen,
+        hängen hinten an (Reihenfolge des ersten Auftretens), Arten ohne Menschen entfallen. Gibt es weniger als zwei Arten, gibt es
+        keine Bögen, Wörter und keinen Filter, und die Menschen stehen gleichmässig verteilt. Wer in einem Umfeld mit mehreren Arten
+        keine hat, steht in der Gruppe «Weitere». Null Menschen: nur «Ich», kein Panel. Ein Mensch: keine Pfeile.
+        gibt { select(i), parts } zurück. select(i) wählt den Menschen i (läuft um).
+        parts.people: je sichtbarem Menschen { index, person, disc, contour, rings, name (nur mit Namen), from, at, width },
+        parts.groups: die Gruppen-Knöpfe der Übersicht, parts.view: 'wide', 'all' oder 'kind'.
    ============================================================ */
 (function () {
   'use strict';
   var NS = 'http://www.w3.org/2000/svg';
+  /* ring: Abstand der Linien um die Person. In der Übersicht enger, damit sie im Bild bleiben.
+     out: Radius der Bögen, fs0: Grundgrösse der Bogenwörter in Bildeinheiten, px0: Breite der Bühne, falls noch nicht messbar. */
   var LAYOUTS = {
-    wide: { W: 720, H: 600, CX: 360, CY: 300, ME: 62, R: 46, base: 150, k: 1.1, edge: 330 },
-    tall: { W: 400, H: 560, CX: 200, CY: 280, ME: 52, R: 44, base: 120, k: 0.85, edge: 260 }
+    wide: { W: 760, H: 760, CX: 380, CY: 380, ME: 58, R: 40, base: 150, k: 1.15, edge: 340, ring: 7, out: 345, fs0: 17, px0: 640 },
+    /* Übersicht auf dem Telefon: Menschen als kleine Punkte ohne Namen. */
+    all: { W: 400, H: 400, CX: 200, CY: 200, ME: 38, R: 12, base: 92, k: 0.5, edge: 168, ring: 3, out: 172, fs0: 15, px0: 358 },
+    /* Eine Art auf dem Telefon: gross, mit Namen, gleichmässig rund um «Ich», keine Bögen. */
+    kind: { W: 400, H: 400, CX: 200, CY: 200, ME: 52, R: 44, base: 120, k: 0.8, edge: 200, ring: 6, out: 172, fs0: 15, px0: 358 }
   };
-  var PEOPLE = [
-    { name: 'Mara', angle: -58, proximity: 84, resonance: 86, note: 'Ihr teilt viel, ohne dasselbe zu brauchen.' },
-    { name: 'Jonas', angle: 38, proximity: 52, resonance: 34, note: 'Ein ruhiger Kontakt. Die Verbindung ist leise, aber da.' },
-    { name: 'Lea', angle: 128, proximity: 24, resonance: 64, note: 'Weit weg im Alltag, trotzdem spürbar verbunden.' },
-    { name: 'Sam', angle: 214, proximity: 70, resonance: 0, note: 'Oft nah, im Moment ohne aktive Resonanz.' }
-  ];
-  function words(p) {
-    var near = p.proximity < 34 ? 'weit' : p.proximity < 75 ? 'nah' : 'sehr nah';
-    var res = p.resonance === 0 ? 'keine Resonanz' : p.resonance < 40 ? 'leise Resonanz' : p.resonance < 80 ? 'spürbare Resonanz' : 'starke Resonanz';
-    return near + ' · ' + res;
+  /* Der Winkel sagt die Art. Die Reihenfolge der Arten läuft im Uhrzeigersinn, die erste steht oben.
+     Vorgabe, wenn die App keine eigenen Arten (opts.kinds) und Menschen (opts.people) mitgibt. */
+  var DEFAULT_KINDS = ['Partnerschaft', 'Familie', 'Freundschaft', 'Innerer Weg', 'Arbeit'];
+  var GAP = 10, MIN_WORD = 15;
+  var SAMPLE = [
+    { name: 'Mara', kind: 'Partnerschaft', proximity: 84, resonance: 86, note: 'Ihr teilt viel, ohne dasselbe zu brauchen.' },
+    { name: 'Lea', kind: 'Familie', proximity: 24, resonance: 64, note: 'Weit weg im Alltag, trotzdem spürbar verbunden.' },
+    { name: 'Tom', kind: 'Familie', proximity: 62, resonance: 30, note: 'Ihr seht euch oft. Die Verbindung ist leise.' },
+    { name: 'Ana', kind: 'Familie', proximity: 80, resonance: 72, note: 'Sehr nah, und es schwingt spürbar.' },
+    { name: 'Jonas', kind: 'Freundschaft', proximity: 52, resonance: 34, note: 'Ein ruhiger Kontakt. Die Verbindung ist leise, aber da.' },
+    { name: 'Sam', kind: 'Freundschaft', proximity: 72, resonance: 0, note: 'Oft nah, im Moment ohne aktive Resonanz.' },
+    { name: 'Nia', kind: 'Innerer Weg', proximity: 38, resonance: 88, note: 'Selten da, und doch die stärkste Resonanz.' },
+    { name: 'Ben', kind: 'Arbeit', proximity: 28, resonance: 20, note: 'Ihr arbeitet zusammen. Mehr ist es im Moment nicht.' },
+    { name: 'Ida', kind: 'Arbeit', proximity: 58, resonance: 0, note: 'Nah im Alltag, ohne aktive Resonanz.' }
+  ].sort(function (a, b) { return DEFAULT_KINDS.indexOf(a.kind) - DEFAULT_KINDS.indexOf(b.kind); });
+  function num(v, fallback) { v = Number(v); return isFinite(v) ? Math.max(0, Math.min(100, v)) : fallback; }
+  /* Menschen und Arten der App ordnen: Werte säubern, Arten in die Reihenfolge von opts.kinds bringen.
+     Arten, die nur in den Menschen vorkommen, hängen hinten (Reihenfolge ihres ersten Auftretens), Arten ohne Menschen entfallen.
+     Gibt es weniger als zwei Arten, gibt es keine Gruppen: grouped ist false und das Bild verteilt die Menschen gleichmässig. */
+  function prepare(opts) {
+    var raw = opts.people === undefined ? SAMPLE : Array.isArray(opts.people) ? opts.people : [];
+    var list = [];
+    raw.forEach(function (src) {
+      if (!src || typeof src !== 'object') return;
+      var p = {}, k;
+      for (k in src) p[k] = src[k];
+      p.name = src.name == null ? '' : String(src.name);
+      p.kind = src.kind == null ? '' : String(src.kind).trim();
+      p.proximity = num(src.proximity, 50); p.resonance = num(src.resonance, 0);
+      p.note = src.note == null ? '' : String(src.note);
+      list.push(p);
+    });
+    var order = [];
+    (Array.isArray(opts.kinds) ? opts.kinds : DEFAULT_KINDS).concat(list.map(function (p) { return p.kind; })).forEach(function (k) {
+      k = k == null ? '' : String(k).trim();
+      if (k && order.indexOf(k) < 0) order.push(k);
+    });
+    var present = order.filter(function (k) { return list.some(function (p) { return p.kind === k; }); });
+    var grouped = present.length >= 2;
+    if (grouped) {
+      /* Wer keine Art hat, steht in einer letzten Gruppe «Weitere». */
+      if (list.some(function (p) { return !p.kind; })) { list.forEach(function (p) { if (!p.kind) p.kind = 'Weitere'; }); if (present.indexOf('Weitere') < 0) present.push('Weitere'); }
+      list = list.map(function (p, i) { return { p: p, i: i }; }).sort(function (a, b) { return (present.indexOf(a.p.kind) - present.indexOf(b.p.kind)) || (a.i - b.i); }).map(function (e) { return e.p; });
+    }
+    return { people: list, kinds: grouped ? present : [], grouped: grouped };
   }
+  function near(p) { return p.proximity < 34 ? 'weit' : p.proximity < 75 ? 'nah' : 'sehr nah'; }
+  function res(p) { return p.resonance === 0 ? 'keine Resonanz' : p.resonance < 40 ? 'leise Resonanz' : p.resonance < 80 ? 'spürbare Resonanz' : 'starke Resonanz'; }
+  function words(p) { return (p.kind ? p.kind + ', ' : '') + near(p) + ', ' + res(p); }
   function el(name, attrs) { var n = document.createElementNS(NS, name); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
-  function openCircle(cx, cy, r) {
-    var half = 16 * Math.PI / 180, dx = r * Math.sin(half), dy = r * Math.cos(half);
-    return 'M' + (cx - dx) + ' ' + (cy + dy) + ' A' + r + ' ' + r + ' 0 1 1 ' + (cx + dx) + ' ' + (cy + dy);
-  }
 
   var count = 0;
   function mount(root, opts) {
     opts = opts || {};
-    var uid = 'uf' + (++count), heading = opts.heading || 'h2', link = opts.link || '../beziehungsraum/';
+    var uid = 'uf' + (++count), heading = /^h[1-6]$/.test(opts.heading) ? opts.heading : 'h2', link = opts.link || '../beziehungsraum/';
+    var data = prepare(opts), PEOPLE = data.people, KINDS_IN = data.kinds, GROUPED = data.grouped;
     root.classList.add('umfeld');
-    root.innerHTML = '<div class="umfeld__stage"></div>' +
-      '<div class="umfeld__side"><ul class="umfeld__list" aria-label="Menschen in deinem Umfeld"></ul><div class="umfeld__detail" aria-live="polite"></div></div>';
-    var stage = root.querySelector('.umfeld__stage'), list = root.querySelector('.umfeld__list'), detail = root.querySelector('.umfeld__detail');
-    var selected = 0, layoutName = '', api = { parts: {} };
+    var ARROW_PREV = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg>';
+    var ARROW_NEXT = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg>';
+    root.innerHTML = '<div class="umfeld__stage"><div class="umfeld__filter segmented" role="group" aria-label="Gruppe wählen" hidden></div><div class="umfeld__scene"></div></div>' +
+      '<div class="umfeld__panel" role="group" aria-roledescription="Karussell" aria-label="Menschen in deinem Umfeld">' +
+        '<div class="umfeld__nav">' +
+          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="prev" aria-label="Vorheriger Mensch">' + ARROW_PREV + '</button>' +
+          '<' + heading + ' class="umfeld__current"></' + heading + '>' +
+          '<button class="button button--secondary button--icon glow-edge" type="button" data-nav="next" aria-label="Nächster Mensch">' + ARROW_NEXT + '</button>' +
+        '</div>' +
+        '<div class="umfeld__reader">' +
+          '<div class="umfeld__slides"></div>' +
+        '</div>' +
+        '<p class="umfeld__live" aria-live="polite"></p>' +
+      '</div>';
+    var stage = root.querySelector('.umfeld__scene'), filterBar = root.querySelector('.umfeld__filter'), slider = root.querySelector('.umfeld__slides');
+    var current = root.querySelector('.umfeld__current'), live = root.querySelector('.umfeld__live');
+    var selected = 0, layoutName = '', filter = 'all', api = { parts: {} };
+    var calm = function () { return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; };
 
-    var buttons = PEOPLE.map(function (p, i) {
-      var li = document.createElement('li');
-      li.innerHTML = '<button type="button" class="umfeld__person glow-edge" aria-pressed="false"><span class="umfeld__person-name">' + p.name + '</span><span class="umfeld__person-state">' + words(p) + '</span></button>';
-      list.appendChild(li);
-      li.firstChild.addEventListener('click', function () { select(i); });
-      return li.firstChild;
+    /* Namen und Notizen gelangen nur als Text ins Dokument (textContent), nie als HTML. */
+    var chip = function (text, cls) { var c = document.createElement('span'); c.className = 'element-chip ' + (cls || '') + 'umfeld__pill'; c.textContent = text; return c; };
+    var slides = PEOPLE.map(function (p) {
+      var href = link + '?person=' + encodeURIComponent(p.name) + '&proximity=' + p.proximity + '&resonance=' + p.resonance;
+      var s = document.createElement('div');
+      s.className = 'umfeld__slide'; s.setAttribute('role', 'group'); s.setAttribute('aria-roledescription', 'Folie');
+      var pills = document.createElement('div'); pills.className = 'umfeld__pills';
+      if (p.kind) pills.appendChild(chip(p.kind));
+      pills.appendChild(chip(near(p))); pills.appendChild(chip(res(p), 'area '));
+      s.appendChild(pills);
+      if (p.note) { var note = document.createElement('p'); note.className = 'secondary'; note.textContent = p.note; s.appendChild(note); }
+      var a = document.createElement('a'); a.className = 'button button--secondary glow-edge'; a.href = href;
+      a.appendChild(document.createTextNode('Beziehungsraum öffnen '));
+      var svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'icon'); svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('aria-hidden', 'true');
+      svg.appendChild(el('path', { d: 'M5 12h13M13 6.5l5.5 5.5-5.5 5.5' })); a.appendChild(svg);
+      s.appendChild(a);
+      slider.appendChild(s);
+      return s;
+    });
+    slides.forEach(function (s, i) { s.setAttribute('aria-label', (i + 1) + ' von ' + PEOPLE.length); });
+    /* Ohne Menschen gibt es kein Panel, mit einem Menschen keine Pfeile. */
+    var panel = root.querySelector('.umfeld__panel');
+    panel.hidden = !PEOPLE.length;
+    root.querySelectorAll('[data-nav]').forEach(function (b) {
+      b.hidden = PEOPLE.length < 2;
+      b.addEventListener('click', function () { select(selected + (b.getAttribute('data-nav') === 'next' ? 1 : -1)); });
     });
 
-    /* Das Bild: aus einem Layout berechnet, bei Bedarf neu gezeichnet. */
+    /* Abstand von Slide zu Slide (Breite eines Slides). */
+    function pitch() { return slides[0] ? slides[0].offsetWidth || slider.clientWidth : 0; }
+    function slideTo(i, smooth) {
+      var left = i * pitch();
+      if (Math.abs(slider.scrollLeft - left) < 1) return;
+      slider.scrollTo({ left: left, behavior: smooth && !calm() ? 'smooth' : 'auto' });
+    }
+    /* Von Hand gescrollt: nach dem Einrasten den passenden Menschen wählen. */
+    var settleTimer = 0, dragging = false;
+    function settle() {
+      clearTimeout(settleTimer);
+      if (dragging) return;
+      var w = pitch(); if (!w) return;
+      var i = Math.max(0, Math.min(PEOPLE.length - 1, Math.round(slider.scrollLeft / w)));
+      if (i !== selected) select(i, true);
+    }
+    slider.addEventListener('scroll', function () { clearTimeout(settleTimer); settleTimer = setTimeout(settle, 140); });
+    slider.addEventListener('scrollend', settle);
+
+    /* Ziehen mit der Maus. Berührung scrollt von selbst. */
+    var drag = null, suppress = false;
+    slider.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      drag = { x: e.clientX, left: slider.scrollLeft, moved: 0 };
+    });
+    document.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      drag.moved = Math.max(drag.moved, Math.abs(dx));
+      if (!dragging && drag.moved > 6) { dragging = true; slider.classList.add('is-dragging'); }
+      if (dragging) slider.scrollLeft = drag.left - dx;
+    });
+    function release() {
+      if (!drag) return;
+      var was = dragging; drag = null; dragging = false;
+      slider.classList.remove('is-dragging');
+      if (was) {
+        suppress = true; setTimeout(function () { suppress = false; }, 0);
+        var i = Math.max(0, Math.min(PEOPLE.length - 1, Math.round(slider.scrollLeft / pitch())));
+        if (i !== selected) select(i); else slideTo(i, true);
+      }
+    }
+    document.addEventListener('pointerup', release);
+    document.addEventListener('pointercancel', release);
+    slider.addEventListener('click', function (e) { if (suppress) { e.preventDefault(); e.stopPropagation(); } }, true);
+    slider.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+    /* Filterzeile (nur im Hochformat und nur mit mindestens zwei Arten): «Alle» und je eine vorhandene Art.
+       Sie bleibt einzeilig und lässt sich wischen. Passt alles hinein, steht sie mittig. */
+    var filterButtons = (GROUPED ? ['Alle'].concat(KINDS_IN) : []).map(function (label) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = label;
+      b.setAttribute('aria-pressed', 'false'); b.setAttribute('data-filter', label === 'Alle' ? 'all' : label);
+      b.addEventListener('click', function () { setFilter(label === 'Alle' ? 'all' : label); });
+      filterBar.appendChild(b); return b;
+    });
+    /* Weicher Rand als Hinweis, dass die Zeile weitergeht (Maske, keine Farbe). */
+    function fadeFilter() {
+      var max = filterBar.scrollWidth - filterBar.clientWidth, left = filterBar.scrollLeft;
+      filterBar.style.setProperty('--fade-l', left > 1 ? '28px' : '0px');
+      filterBar.style.setProperty('--fade-r', left < max - 1 ? '28px' : '0px');
+    }
+    filterBar.addEventListener('scroll', fadeFilter, { passive: true });
+    /* Die gewählte Pille rollt in den sichtbaren Bereich der Zeile. Nur die Zeile scrollt (scrollLeft), nie die Seite. */
+    function showFilter(smooth) {
+      var b = filterButtons.filter(function (x) { return x.getAttribute('aria-pressed') === 'true'; })[0];
+      if (b && !filterBar.hidden) {
+        var pad = 12, l = b.offsetLeft, r = l + b.offsetWidth, v0 = filterBar.scrollLeft, w = filterBar.clientWidth, to = v0;
+        if (l - pad < v0) to = Math.max(0, l - pad); else if (r + pad > v0 + w) to = r + pad - w;
+        if (Math.abs(to - v0) >= 1) { if (smooth && !calm()) filterBar.scrollTo({ left: to, behavior: 'smooth' }); else filterBar.scrollLeft = to; }
+      }
+      fadeFilter();
+    }
+    function markFilter() {
+      filterBar.hidden = layoutName === 'wide' || !GROUPED;
+      filterButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === filter)); });
+      showFilter(api.ready);
+    }
+    function firstOf(kind) { for (var i = 0; i < PEOPLE.length; i++) if (PEOPLE[i].kind === kind) return i; return 0; }
+    function setFilter(f) {
+      if (f === filter) return;
+      filter = f;
+      if (f !== 'all' && PEOPLE[selected] && PEOPLE[selected].kind !== f) select(firstOf(f));
+      render(true);
+    }
+
+    /* Das Bild: aus einem Layout berechnet, bei Bedarf neu gezeichnet.
+       name: 'wide' oder 'tall'. Im Hochformat gilt je nach Filter die Übersicht ('all') oder eine Art ('kind'). */
+    var lastW = -1;
+    function render(fade) {
+      draw(layoutName);
+      if (fade && !calm()) { stage.classList.remove('is-fresh'); void stage.offsetWidth; stage.classList.add('is-fresh'); }
+    }
     function draw(name) {
-      var L = LAYOUTS[name];
+      /* Der Filter folgt der Auswahl: nach einem Wechsel von wide auf tall passt er sich an. */
+      if (name === 'tall' && filter !== 'all' && PEOPLE[selected] && PEOPLE[selected].kind !== filter) filter = PEOPLE[selected].kind;
+      /* Ohne Gruppen gibt es auf dem Telefon keine Übersicht aus Punkten: alle stehen gross mit Namen. */
+      var mode = name === 'wide' ? 'wide' : !GROUPED || filter !== 'all' ? 'kind' : 'all';
+      var L = LAYOUTS[mode];
+      var hadFocus = stage.contains(document.activeElement);
       layoutName = name;
-      stage.innerHTML = '<svg class="umfeld__svg" viewBox="0 0 ' + L.W + ' ' + L.H + '" aria-hidden="true"><defs></defs></svg>';
-      stage.dataset.layout = name;
+      var px = stage.getBoundingClientRect().width; lastW = px;
+      /* Wer wird gezeichnet: alle, oder nur die gewählte Art. */
+      var list = [];
+      PEOPLE.forEach(function (p, i) { if (mode !== 'kind' || !GROUPED || p.kind === filter) list.push({ p: p, i: i }); });
+      /* Gruppen: Arten ohne Menschen bekommen keinen Platz. Jede Gruppe hat ihren Platz (slot), die Menschen stehen darin gleichmässig. */
+      var kinds = mode === 'kind' ? [] : KINDS_IN;
+      var per = (360 - GAP * kinds.length) / Math.max(1, PEOPLE.length), at = 0;
+      var groups = kinds.map(function (k, gi) {
+        var n = PEOPLE.filter(function (p) { return p.kind === k; }).length;
+        if (gi === 0) at = -per * n / 2;
+        var g = { kind: k, a0: at, a1: at + per * n, mid: at + per * n / 2, n: n };
+        at = g.a1 + GAP; return g;
+      });
+      var pos = function (a, d) { var r = a * Math.PI / 180; return [L.CX + d * Math.sin(r), L.CY - d * Math.cos(r)]; };
+      var first = {};
+      /* Lage aller Menschen zuerst: daraus wird das Bild auf den Inhalt beschnitten. */
+      /* Gleichmässig verteilt (eine Art oder keine Gruppen): Bei vielen Menschen rückt der ganze Ring nach aussen, damit die Kreise sich nicht berühren. */
+      var even = mode === 'kind' || !GROUPED, extra = 0;
+      if (even && list.length > 1) extra = Math.max(0, list.length * (2 * (L.R + L.ring * 3) + 10) / (2 * Math.PI) - L.base);
+      var geo = list.map(function (e, n) {
+        var p = e.p, ang;
+        if (even) ang = 360 / list.length * n;
+        else { var gr = groups[kinds.indexOf(p.kind)], idx = first[p.kind] = (first[p.kind] === undefined ? 0 : first[p.kind] + 1); ang = gr.a0 + per * (idx + 0.5); }
+        var dist = L.base + extra + (100 - p.proximity) * L.k, xy = pos(ang, dist);
+        var level = p.resonance === 0 ? 0 : p.resonance < 40 ? 1 : p.resonance < 80 ? 2 : 3;
+        return { dist: dist, level: level, x: xy[0], y: xy[1] };
+      });
+      /* Wörter: Schriftgrösse so, dass sie am Bildschirm mindestens MIN_WORD px misst. Sie hängt an der Breite des Bildes,
+         und die Breite an den Wörtern: wenige Durchgänge genügen. */
+      var vbX = 0, vbW = L.W, fs = L.fs0, vbY = 0, vbH = L.H, items = [];
+      for (var pass = 0; pass < 4; pass++) {
+        fs = Math.max(L.fs0, MIN_WORD * vbW / (px || L.px0));
+        var minX = L.CX - L.ME, maxX = L.CX + L.ME, minY = L.CY - L.ME, maxY = L.CY + L.ME;
+        var grow = function (x, y) { minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y); };
+        geo.forEach(function (g) { var r = L.R + L.ring * g.level; grow(g.x - r, g.y - r); grow(g.x + r, g.y + r); });
+        items = groups.map(function (gr) {
+          var m = ((gr.mid % 360) + 360) % 360, bottom = m > 100 && m < 260;
+          var tr = L.out + (bottom ? fs + 4 : 8), outer = bottom ? tr : tr + fs * 0.8;
+          var b0 = gr.a0 + 4, b1 = gr.a1 - 4;
+          var half = Math.min(40, (gr.kind.length * fs * 0.62 / 2 / tr) * 180 / Math.PI);
+          [[b0, L.out], [gr.mid, L.out], [b1, L.out], [gr.mid - half, outer], [gr.mid, outer], [gr.mid + half, outer]].forEach(function (q) { var c = pos(q[0], q[1]); grow(c[0], c[1]); });
+          /* Die Bögen dicht abtasten, damit auch die Achsenpunkte (oben, rechts, unten, links) zählen. */
+          [[b0, b1, L.out], [gr.mid - half, gr.mid + half, outer]].forEach(function (r) {
+            for (var a = r[0]; a <= r[1]; a += 1) { var c = pos(a, r[2]); grow(c[0], c[1]); }
+          });
+          /* Rechteck des Wortes (für den Gruppen-Knopf der Übersicht). */
+          var lo = bottom ? tr - fs * 0.8 : tr, hi = bottom ? tr : tr + fs * 0.8, wx0 = 1e9, wx1 = -1e9, wy0 = 1e9, wy1 = -1e9;
+          for (var wa = gr.mid - half; wa <= gr.mid + half; wa += 1) [lo, hi].forEach(function (d) { var c = pos(wa, d); wx0 = Math.min(wx0, c[0]); wx1 = Math.max(wx1, c[0]); wy0 = Math.min(wy0, c[1]); wy1 = Math.max(wy1, c[1]); });
+          return { gr: gr, bottom: bottom, tr: tr, b0: b0, b1: b1, word: [wx0, wy0, wx1, wy1] };
+        });
+        var halfW = Math.max(L.W / 2, L.CX - minX + 8, maxX - L.CX + 8);
+        vbX = L.CX - halfW; vbW = 2 * halfW;
+        vbY = Math.floor(minY - 16); vbH = Math.ceil(maxY + 16) - vbY;
+      }
+      vbX = Math.floor(vbX * 10) / 10; vbW = Math.ceil(vbW * 10) / 10;
+      var fx = function (x) { return (x - vbX) / vbW * 100; };
+      var fy = function (y) { return (y - vbY) / vbH * 100; };
+      stage.innerHTML = '<svg class="umfeld__svg" viewBox="' + vbX + ' ' + vbY + ' ' + vbW + ' ' + vbH + '" aria-hidden="true"><defs></defs></svg>';
+      stage.dataset.layout = name; stage.dataset.view = mode;
       var svg = stage.firstChild, defs = svg.firstChild;
       var relief = el('linearGradient', { id: uid + '-relief', x1: '0%', y1: '0%', x2: '100%', y2: '100%' });
       relief.appendChild(el('stop', { offset: 0, 'stop-color': '#FCF9F0' })); relief.appendChild(el('stop', { offset: 1, 'stop-color': '#E2DBCD' }));
       defs.appendChild(relief);
-      var bridges = el('g', { class: 'umfeld__bridges' }), discs = el('g', {}), lines = el('g', { class: 'umfeld__contours' });
-      svg.appendChild(bridges); svg.appendChild(discs); svg.appendChild(lines);
+      /* Bögen mit dem Wort der Art: unter allem anderen. Das Wort läuft in der unteren Hälfte andersherum, damit es nicht auf dem Kopf steht. */
+      var arcG = el('g', { class: 'umfeld__arcs' }), arcs = [];
+      svg.appendChild(arcG);
+      items.forEach(function (it, gi) {
+        var gr = it.gr, p0 = pos(it.b0, L.out), p1 = pos(it.b1, L.out);
+        var arc = el('path', { class: 'umfeld__arc', d: 'M' + p0[0] + ' ' + p0[1] + 'A' + L.out + ' ' + L.out + ' 0 ' + (it.b1 - it.b0 > 180 ? 1 : 0) + ' 1 ' + p1[0] + ' ' + p1[1] });
+        var w0 = pos(gr.mid - 40, it.tr), w1 = pos(gr.mid + 40, it.tr), id = uid + '-k' + gi;
+        defs.appendChild(el('path', { id: id, d: it.bottom ? 'M' + w1[0] + ' ' + w1[1] + 'A' + it.tr + ' ' + it.tr + ' 0 0 0 ' + w0[0] + ' ' + w0[1] : 'M' + w0[0] + ' ' + w0[1] + 'A' + it.tr + ' ' + it.tr + ' 0 0 1 ' + w1[0] + ' ' + w1[1] }));
+        var word = el('text', { class: 'umfeld__kind', 'font-size': fs });
+        var tp = el('textPath', { href: '#' + id, startOffset: '50%', 'text-anchor': 'middle' }); tp.textContent = gr.kind;
+        word.appendChild(tp); arcG.appendChild(arc); arcG.appendChild(word); arcs.push(arc, word);
+      });
+      var rings = el('g', { class: 'umfeld__rings' }), discs = el('g', {}), lines = el('g', { class: 'umfeld__contours' });
+      svg.appendChild(rings); svg.appendChild(discs); svg.appendChild(lines);
       discs.appendChild(el('circle', { cx: L.CX, cy: L.CY, r: L.ME - 5, fill: 'url(#' + uid + '-relief)', class: 'relief-disc' }));
-      var me = el('path', { d: openCircle(L.CX, L.CY, L.ME), class: 'umfeld__contour umfeld__me', 'data-contour': '' });
+      var me = el('circle', { cx: L.CX, cy: L.CY, r: L.ME, class: 'umfeld__contour umfeld__me', 'data-contour': '' });
       lines.appendChild(me);
+      /* Name im Bild („Ich“, ruht): eingemittet über `translate`. */
       var label = function (text, x, y, cls) {
         var s = document.createElement('span'); s.className = 'umfeld__name' + (cls ? ' ' + cls : ''); s.textContent = text;
-        s.style.left = x / L.W * 100 + '%'; s.style.top = y / L.H * 100 + '%'; stage.appendChild(s); return s;
+        s.style.left = fx(x) + '%'; s.style.top = fy(y) + '%'; stage.appendChild(s); return s;
+      };
+      /* Lange Namen: der volle Name, wenn er in den Kreis passt, sonst der Vorname, sonst gekürzt mit Auslassung
+         (dieselbe Regel wie in der App). Der volle Name steht immer in der Pfeilzeile und im aria-label. */
+      var fitName = function (b, label, name) {
+        var room = b.clientWidth - 8;
+        if (room <= 0 || label.offsetWidth <= room) return;
+        var first = name.split(/\s+/)[0];
+        label.textContent = first;
+        if (label.offsetWidth <= room) return;
+        for (var n = first.length - 1; n > 1; n--) {
+          label.textContent = first.slice(0, n) + '…';
+          if (label.offsetWidth <= room) return;
+        }
+      };
+      /* Mensch: Knopf über dem ganzen Kreis. Er sitzt über left/top und Grösse genau auf dem Kreis, ohne Verschiebung:
+         GSAP schreibt `translate` beim ersten Tween in `transform` um und verlöre die Einmittung. */
+      var pick = function (p, i, x, y) {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'umfeld__name umfeld__pick';
+        var label = document.createElement('span'); label.textContent = p.name; b.appendChild(label);
+        b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', p.name + ', ' + words(p));
+        b.style.left = fx(x - L.R) + '%'; b.style.top = fy(y - L.R) + '%';
+        b.style.width = 2 * L.R / vbW * 100 + '%'; b.style.height = 2 * L.R / vbH * 100 + '%';
+        b.addEventListener('click', function () { select(i); });
+        b.addEventListener('keydown', function (e) {
+          var d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+          if (!d) return;
+          e.preventDefault(); select(i + d); focusSelected();
+        });
+        stage.appendChild(b); fitName(b, label, p.name); return b;
       };
       label('Ich', L.CX, L.CY, 'umfeld__name--me');
 
-      var people = PEOPLE.map(function (p, i) {
-        var dist = L.base + (100 - p.proximity) * L.k;
-        var a = p.angle * Math.PI / 180, x = L.CX + dist * Math.sin(a), y = L.CY - dist * Math.cos(a);
+      var people = list.map(function (e, n) {
+        var p = e.p, i = e.i, g = geo[n], dist = g.dist, x = g.x, y = g.y, level = g.level;
         var ux = (x - L.CX) / dist, uy = (y - L.CY) / dist;
-        var x0 = L.CX + ux * L.ME, y0 = L.CY + uy * L.ME, x1 = x - ux * L.R, y1 = y - uy * L.R;
-        var mx = (x0 + x1) / 2 - uy * 12, my = (y0 + y1) / 2 + ux * 12;
-        var grad = el('linearGradient', { id: uid + '-g' + i, gradientUnits: 'userSpaceOnUse', x1: x0, y1: y0, x2: x1, y2: y1 });
-        grad.appendChild(el('stop', { offset: 0, 'stop-color': '#6756D9' })); grad.appendChild(el('stop', { offset: 1, 'stop-color': '#D85BA9' }));
-        defs.appendChild(grad);
-        var bridge = el('path', { d: 'M' + x0 + ' ' + y0 + ' Q' + mx + ' ' + my + ' ' + x1 + ' ' + y1, class: 'umfeld__bridge', stroke: 'url(#' + uid + '-g' + i + ')', 'stroke-width': (1.4 + p.resonance * .022).toFixed(2), 'data-bridge': '' });
-        if (p.resonance === 0) bridge.style.display = 'none';   /* ohne aktive Resonanz keine Linie, nur Abstand */
-        bridges.appendChild(bridge);
-        var disc = el('circle', { cx: x, cy: y, r: L.R - 4, fill: 'url(#' + uid + '-relief)', class: 'relief-disc' });
+        var stroke = null, ringList = [];
+        if (level) {
+          stroke = el('linearGradient', { id: uid + '-g' + i, gradientUnits: 'userSpaceOnUse', x1: x - (L.R + 24), y1: y, x2: x + (L.R + 24), y2: y });
+          [[0, '#6756D9'], [.3, '#4D7FE8'], [.55, '#9466DF'], [1, '#F0719A']].forEach(function (st) { stroke.appendChild(el('stop', { offset: st[0], 'stop-color': st[1] })); });
+          defs.appendChild(stroke);
+        }
+        for (var k = 1; k <= level; k++) {
+          var ring = el('circle', { cx: x, cy: y, r: L.R + L.ring * k, class: 'umfeld__ring', stroke: 'url(#' + uid + '-g' + i + ')', 'stroke-width': 1.8, 'data-ring': '' });
+          rings.appendChild(ring); ringList.push(ring);
+        }
+        var disc = el('circle', { cx: x, cy: y, r: L.R - (mode === 'all' ? 2 : 4), fill: 'url(#' + uid + '-relief)', class: 'relief-disc' });
         discs.appendChild(disc);
-        var contour = el('path', { d: openCircle(x, y, L.R), class: 'umfeld__contour', 'data-contour': '' });
+        var contour = el('circle', { cx: x, cy: y, r: L.R, class: 'umfeld__contour', 'data-contour': '' });
         lines.appendChild(contour);
-        var nodes = el('g', { class: 'umfeld__nodes' });
-        if (p.resonance > 0) { nodes.appendChild(el('circle', { cx: x0, cy: y0, r: 3.3 })); nodes.appendChild(el('circle', { cx: x1, cy: y1, r: 3.3 })); }
-        lines.appendChild(nodes);
-        return { person: p, bridge: bridge, disc: disc, contour: contour, nodes: nodes, name: label(p.name, x, y),
-          from: { x: L.CX + ux * L.edge, y: L.CY + uy * L.edge }, at: { x: x, y: y }, width: L.W };
+        return { index: i, person: p, rings: ringList, disc: disc, contour: contour, name: mode === 'all' ? null : pick(p, i, x, y),
+          from: { x: L.CX + ux * L.edge, y: L.CY + uy * L.edge }, at: { x: x, y: y }, width: vbW, r: L.R + L.ring * level };
       });
-      api.parts = { svg: svg, me: me, people: people, width: L.W };
-      mark();
+
+      /* Übersicht: über jeder Gruppe ein transparenter Knopf. Fläche = Punkte samt Ringen plus Wort, mindestens 44 px.
+         Schneiden sich zwei Flächen, gilt für diese nur die Fläche der Punkte samt Ringen. */
+      var groupBtns = [];
+      if (mode === 'all') {
+        var minU = 44 / ((px || L.px0) / vbW), minV = 44 / ((px || L.px0) / vbH);
+        var boxes = items.map(function (it) {
+          var d = [1e9, 1e9, -1e9, -1e9];
+          people.forEach(function (q) {
+            if (q.person.kind !== it.gr.kind) return;
+            d = [Math.min(d[0], q.at.x - q.r), Math.min(d[1], q.at.y - q.r), Math.max(d[2], q.at.x + q.r), Math.max(d[3], q.at.y + q.r)];
+          });
+          return { dots: d, full: [Math.min(d[0], it.word[0]), Math.min(d[1], it.word[1]), Math.max(d[2], it.word[2]), Math.max(d[3], it.word[3])] };
+        });
+        var atLeast = function (b) {
+          var cx = (b[0] + b[2]) / 2, cy = (b[1] + b[3]) / 2, w = Math.max(b[2] - b[0], minU), h = Math.max(b[3] - b[1], minV);
+          return [cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2];
+        };
+        var cut = function (a, b) { return a[0] < b[2] && b[0] < a[2] && a[1] < b[3] && b[1] < a[3]; };
+        var rect = boxes.map(function (b) { return atLeast(b.full); }), mode2 = rect.map(function () { return 'wort'; });
+        rect.forEach(function (a, x) { rect.forEach(function (b, y) { if (x < y && cut(a, b)) mode2[x] = mode2[y] = 'punkte'; }); });
+        rect = boxes.map(function (b, x) { return atLeast(mode2[x] === 'wort' ? b.full : b.dots); });
+        items.forEach(function (it, gi) {
+          var r = rect[gi], b = document.createElement('button'), n = it.gr.n;
+          b.type = 'button'; b.className = 'umfeld__group'; b.setAttribute('data-kind', it.gr.kind); b.setAttribute('data-fit', mode2[gi]);
+          b.setAttribute('aria-label', it.gr.kind + ', ' + n + (n === 1 ? ' Mensch' : ' Menschen') + ', öffnen');
+          b.style.left = fx(r[0]) + '%'; b.style.top = fy(r[1]) + '%';
+          b.style.width = (r[2] - r[0]) / vbW * 100 + '%'; b.style.height = (r[3] - r[1]) / vbH * 100 + '%';
+          b.addEventListener('click', function () { setFilter(it.gr.kind); });
+          stage.appendChild(b); groupBtns.push(b);
+        });
+      }
+      api.parts = { svg: svg, me: me, people: people, arcs: arcs, groups: groupBtns, view: mode, width: vbW, top: vbY, height: vbH };
+      mark(); markFilter();
+      /* Fokus geht beim Neuzeichnen nicht verloren. */
+      if (hadFocus) focusSelected();
+    }
+
+    /* Fokus auf den Knopf des gewählten Menschen, in der Übersicht auf den Knopf seiner Gruppe. */
+    function focusSelected() {
+      var q = (api.parts.people || []).filter(function (x) { return x.index === selected; })[0];
+      if (q && q.name) { q.name.focus(); return; }
+      var g = PEOPLE[selected] && (api.parts.groups || []).filter(function (x) { return x.getAttribute('data-kind') === PEOPLE[selected].kind; })[0];
+      if (g) g.focus();
     }
 
     function mark() {
-      (api.parts.people || []).forEach(function (q, k) {
-        var on = k === selected;
+      (api.parts.people || []).forEach(function (q) {
+        var on = q.index === selected;
         q.contour.classList.toggle('is-active', on);
-        q.name.classList.toggle('is-active', on);
-        q.bridge.classList.toggle('is-active', on);
+        q.rings.forEach(function (r) { r.classList.toggle('is-active', on); });
+        if (q.name) { q.name.classList.toggle('is-active', on); q.name.setAttribute('aria-pressed', String(on)); }
       });
-      buttons.forEach(function (b, k) { b.setAttribute('aria-pressed', String(k === selected)); });
     }
-    function select(i) {
-      selected = i; mark();
+    function select(i, fromScroll) {
+      if (!PEOPLE.length) return;
+      i = ((i % PEOPLE.length) + PEOPLE.length) % PEOPLE.length;
+      var first = !api.ready;
+      selected = i;
       var p = PEOPLE[i];
-      var href = link + '?person=' + encodeURIComponent(p.name) + '&proximity=' + p.proximity + '&resonance=' + p.resonance;
-      detail.innerHTML = '<' + heading + ' class="t-title">Du &amp; ' + p.name + '</' + heading + '>' +
-        '<p class="umfeld__state t-label">' + words(p) + '</p><p class="secondary">' + p.note + '</p>' +
-        '<a class="button button--secondary glow-edge" href="' + href + '">Beziehungsraum öffnen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></svg></a>';
+      /* Gehört der Mensch zu einer anderen Art, wechselt der Filter mit (nur im Hochformat). */
+      if (layoutName === 'tall' && filter !== 'all' && p.kind !== filter) { filter = p.kind; render(true); } else mark();
+      slides.forEach(function (s, k) {
+        var on = k === i;
+        if (on) { s.removeAttribute('inert'); s.removeAttribute('aria-hidden'); } else { s.setAttribute('inert', ''); s.setAttribute('aria-hidden', 'true'); }
+        s.querySelector('a').tabIndex = on ? 0 : -1;
+      });
+      current.textContent = p.name;
+      if (!first) live.textContent = 'Du & ' + p.name + ', ' + words(p);
+      if (!fromScroll) slideTo(i, !first);
     }
-    var pick = function () { var w = stage.getBoundingClientRect().width || root.getBoundingClientRect().width; return w && w < 560 ? 'tall' : 'wide'; };
-    draw(pick());
+    /* Die Breite der Bühne (Spalte), nicht der Szene: im Hochformat ist die Szene höchstens 440 px breit und käme sonst nie mehr zurück auf wide. */
+    var column = root.querySelector('.umfeld__stage');
+    var pickLayout = function () { var w = column.getBoundingClientRect().width || root.getBoundingClientRect().width; return w && w < 520 ? 'tall' : 'wide'; };
+    /* Zwei Spalten ab 61rem Breite des Bausteins: erst dann ist die Bildspalte mindestens 520 px breit und zeigt die volle Darstellung, gemessen an ihm selbst. */
+    var setCols = function () {
+      var rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      var two = root.getBoundingClientRect().width >= 61 * rem;
+      if (two !== (root.getAttribute('data-cols') === '2')) { if (two) root.setAttribute('data-cols', '2'); else root.removeAttribute('data-cols'); }
+    };
+    setCols();
+    draw(pickLayout());
     select(0);
-    if (window.ResizeObserver) new ResizeObserver(function () { var n = pick(); if (n !== layoutName) draw(n); }).observe(root);
+    api.ready = true;
+    /* Die Namen werden gemessen: nach dem Laden der Schrift einmal neu zeichnen. */
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (layoutName) draw(layoutName); });
+    if (window.ResizeObserver) new ResizeObserver(function () {
+      setCols();
+      var n = pickLayout(), w = stage.getBoundingClientRect().width;
+      /* Neu zeichnen, wenn das Layout wechselt oder die Bühne ihre Breite ändert: die Wörter bleiben so mindestens 15 px gross. */
+      if (n !== layoutName || Math.abs(w - lastW) > 0.5) draw(n);
+      slideTo(selected, false);
+    }).observe(root);
     api.select = select;
     root._umfeld = api;
     return api;
   }
-  window.ElanumUmfeld = { mount: mount, people: PEOPLE };
+  window.ElanumUmfeld = { mount: mount, people: SAMPLE, kinds: DEFAULT_KINDS };
 })();

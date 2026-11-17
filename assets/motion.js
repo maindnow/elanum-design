@@ -239,10 +239,12 @@
   function umfeld() {
     all('[data-anim="umfeld"]').forEach(function (el) {
       var api = el._umfeld; if (!api) return;
-      var stage = el.querySelector('.umfeld__stage');
+      var stage = el.querySelector('.umfeld__scene');
       /* Bis die Szene sichtbar wird, bleibt sie verborgen, statt kurz voll dazustehen
          und dann für den Auftritt wieder zu verschwinden. */
-      var veiled = [stage].concat(all('.umfeld__list, .umfeld__detail', el));
+      var panel = el.querySelector('.umfeld__panel');
+      var filter = el.querySelector('.umfeld__filter');
+      var veiled = [stage, filter, panel].filter(Boolean);
       hideUntilVisible(veiled);
       finishers.push(function () { gsap.set(veiled, { clearProps: 'opacity' }); });
       whenVisible(stage, function () {
@@ -255,12 +257,19 @@
           .from(api.parts.me, { drawSVG: '0%', duration: 1, ease: M.ease.line }, 0);
         people.forEach(function (p, i) {
           var dx = p.from.x - p.at.x, dy = p.from.y - p.at.y, at = 0.3 + i * M.stagger.items;
-          tl.from([p.disc, p.contour, p.nodes], { x: dx, y: dy, opacity: 0, duration: 1.3 }, at)
-            .fromTo(p.name, { x: dx * scale, y: dy * scale, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.3, clearProps: CLEAR }, at);
+          tl.from([p.disc, p.contour], { x: dx, y: dy, opacity: 0, duration: 1.3 }, at);
+          if (p.rings.length) tl.from(p.rings, { x: dx, y: dy, duration: 1.3, clearProps: 'transform' }, at);
+          /* In der Übersicht (Telefon) gibt es keine Namen-Knöpfe: nichts zu bewegen. */
+          if (p.name) tl.fromTo(p.name, { x: dx * scale, y: dy * scale, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.3, clearProps: CLEAR }, at);
         });
-        tl.from(people.filter(function (p) { return p.person.resonance > 0; }).map(function (p) { return p.bridge; }), { drawSVG: '0%', duration: 0.9, ease: M.ease.line, stagger: 0.15 }, 1.4)
-          .from(all('.umfeld__person', el), { opacity: 0, y: 16, duration: 0.5, stagger: 0.08, clearProps: CLEAR }, 1.2)
-          .from(el.querySelector('.umfeld__detail'), { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 1.6);
+        /* Die Linien um die Person blenden sanft ein, wo vorher die Verbindung gezeichnet wurde. */
+        people.forEach(function (p, i) { if (p.rings.length) tl.from(p.rings, { opacity: 0, duration: 0.9, ease: M.ease.reveal, stagger: 0.15, clearProps: 'opacity' }, 1.4 + i * 0.15); });
+        /* Bögen und Wörter der Arten blenden erst ein, wenn die Kreise stehen. */
+        if (api.parts.arcs && api.parts.arcs.length) tl.from(api.parts.arcs, { opacity: 0, duration: 0.8, ease: M.ease.reveal, stagger: 0.08, clearProps: 'opacity' }, 1.0);
+        /* Das Panel als Ganzes früh: die Bedienung steht da, bevor die Kreise ankommen. */
+        if (panel) tl.from(panel, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 0.4);
+        /* Die Filterzeile (nur im Hochformat sichtbar) kommt mit dem Panel. */
+        if (filter && !filter.hidden) tl.from(filter, { opacity: 0, y: M.y, duration: 0.6, clearProps: CLEAR }, 0.4);
       }, 0.3);
     });
   }

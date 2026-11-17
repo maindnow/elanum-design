@@ -1,6 +1,6 @@
 # Übergabe: ELANUM Gestaltungsatlas
 
-Stand 15. November 2026. Auf `main` steht **Atlas 4.11.1** (PR #18 und #21 sind gemergt). Die Tags `v4.11.0` und `v4.11.1` setzt Chris, sie fehlen noch. Der PR «Feinschliff» bringt **Atlas 4.12** und im selben Zug **Atlas 4.13** (Paket `@elanum/design` 4.13.0). Der Tag `v4.13.0` folgt nach dem Merge; `v4.12.0` gibt es als eigenen Stand auf `main` nicht. Die App nutzt `v4.10.0`. Diese Datei fasst alles zusammen, was es zum Weiterarbeiten braucht, auch Entscheide, die bisher nur in Gesprächen mit Claude standen.
+Stand 16. November 2026. Auf `main` steht **Atlas 4.13** (PR #22 «Feinschliff» und PR #23 sind gemergt, Paket `@elanum/design` 4.13.0). Mit PR #24 kommt **Atlas 5.0** (Paket 5.0.0): Beziehungsraum und Umfeld sind neu gefasst, das ist eine Hauptversion, und die App muss ihre zwei Bausteine nachbauen (Abschnitt «Atlas 5.0 in die App holen»). Die Tags `v4.11.0`, `v4.11.1` und `v4.13.0` fehlen noch, der letzte Tag ist `v4.10.0`; `v4.12.0` gibt es als eigenen Stand auf `main` nicht. Die App nutzt `v4.10.0`. Mergen darf nur Tris (`CLAUDE.md`, «Mergen»). Diese Datei fasst alles zusammen, was es zum Weiterarbeiten braucht, auch Entscheide, die bisher nur in Gesprächen mit Claude standen.
 
 ## In zwei Minuten
 
@@ -33,6 +33,11 @@ git log --oneline -1
 1. **Tags setzen:** `v4.11.0` auf den Merge von PR #18 (`2f6776f`), `v4.11.1` auf den Merge von PR #21 (`b2e2114`), `v4.13.0` nach dem Merge des PR «Feinschliff», je mit der Vorlage in `CLAUDE.md`. Danach die App auf den neuesten Tag anheben (Abschnitt „In der App“).
 1b. **Reife 4.13, offene Entscheide:** Abstände der Bausteine ins 4er-Raster (170 Stellen), Lesespalte 62ch oder 56ch, Karte «Wo es schwingt» hell wie in der App (L36), Sheet am Computer in der Mitte wie in der App (L52). Liste in `DESIGN-NOTES.md`, „Reife (4.13)“.
 1a. **Feinschliff 4.12, offene Punkte:** grösste Schrift noch mehrfach auf Ich und Aktivitäten, feste Farben in den Skripten der Bausteine, Wörter am Button ohne Glossar-Freigabe. Liste in `DESIGN-NOTES.md`, „Feinschliff (4.12)“.
+1. **PR #24 (Atlas 5.0):** Tris prüft und mergt, danach der Tag `v5.0.0` mit der Vorlage in `CLAUDE.md`. Die App springt von `v4.10.0` direkt auf `v5.0.0`, sofern sie 4.13 nicht vorher einzeln holt.
+1. **Freigaben von Chris zu 5.0, noch offen:** der Wortlaut der Glossar-Einträge Umfeld, Art, Beziehungsraum, Feld, «Nähe · Resonanz · Freiraum» und Atmung (in `assets/glossar.js` eingetragen, «Verbindung» ist gestrichen); die neuen Masse in `DESIGN-NOTES.md`, Abschnitt Bausteine.
+1. **Nähe in der App braucht einen eigenen Wert je Mensch.** Heute leitet die App die Nähe fest aus der Art ab (`NAEHE_JE_KATEGORIE` in `src/lib/components/elanum/umfeldGeometrie.js`: Partnerschaft 100, Familie 70, Freundschaft und Innerer Weg 40, Arbeit 10). Im Umfeld 5.0 sagt schon der Winkel die Art. Mit der festen Ableitung stünden alle Menschen einer Gruppe gleich weit weg, und der Abstand sagte nichts Eigenes mehr. Entscheid Chris und Tris: Woher kommt die Nähe (vom Menschen selbst gesetzt, oder aus der Rechnung)?
+1. **Freiraum in der App:** Der Beziehungsraum zeigt ihn als helle Fläche um jede Person. Die App führt den Wert nicht und setzt den Startwert 34. Entweder liefert die App einen Wert, oder sie blendet das Wort «Freiraum» aus (`data-skala="aus"` und eigene Zeile).
+1. **Muster `.person` in `components/app/app.css`:** zeichnet Menschen noch als Kreis mit Öffnung unten. Nicht Teil von 5.0, bei Gelegenheit angleichen.
 2. **Glossar, Namen aus dem Fliesstext (4.11):** Fliesstext, Aussage, Quelle, Quellenkarte. Noch ohne Freigabe.
 3. **Abgleich mit dem Muster M1 „Herkunft je Satz“ der App** (`src/lib/components/signatur/AbsatzMitHerkunft.svelte` in `maindnow/soulresonance.ch`, gelesen am 14.10.2026). Gleich sind das Zeichen am Satzende als Knopf, die Markierung beim Antippen, Esc und Fokus zurück. Anders sind drei Dinge:
    - Im Fliesstext ist die Aussage auch in Ruhe leise unterstrichen, in M1 erst beim Antippen.
@@ -50,7 +55,7 @@ git log --oneline -1
 
 ## In der App (`maindnow/soulresonance.ch`)
 
-- **Stand:** Die App pinnt `github:maindnow/elanum-design#v4.10.0` (gemessen am 4. November 2026 auf `integration` und `main`). ELANUM ist dort seit dem 20. Oktober 2026 live.
+- **Stand:** Die App pinnt `github:maindnow/elanum-design#v4.10.0` (gemessen am 16. November 2026 auf `main`). ELANUM ist dort seit dem 20. Oktober 2026 live.
 - **Zweig von Chris:** `chris-design` (seit 11. November 2026, vorher `chris`). Chris committet nie auf `main`, jede Änderung geht als Entwurfs-PR, das Release macht Tris. Anleitung `docs/INFO-CHRIS.md`, Abläufe `docs/RUNBOOK-LOKAL.md`, dein Stand `.planning/stand/chris.md`.
 - **Design-Lücken:** `docs/elanum-migration.md` führt 75 Lücken L1 bis L75 zwischen App und Paket. Geschlossen werden sie hier im Paket, nie mit lokalen Werten in der App.
 - **Neue Paketversion in die App holen:**
@@ -58,6 +63,33 @@ git log --oneline -1
     2. Im Hauptrepo auf `chris-design` die Zeile `@elanum/design` in `package.json` auf den neuen Tag ändern, dann `npm install`.
     3. `tests/design/elanum-theme.test.js` prüft den Tag, die Ladereihenfolge und dass jedes genannte Token im Paket existiert. Ein entferntes oder umbenanntes Token (Major) fällt dort auf.
     4. Entwurfs-PR mit den angepassten Seiten und Screenshots.
+### Atlas 5.0 in die App holen (für Tris)
+
+Gelesen im App-Repo am 16. November 2026 (`main`, Commit `4f9662fc`). Die App baut Umfeld und Beziehungsraum als Svelte-Bausteine nach und übernimmt vom Paket nur das Stylesheet (Entscheid 16 in `docs/elanum-migration.md`). Darum reicht es nicht, den Tag anzuheben.
+
+**Was bricht, sobald der Tag auf `v5.0.0` steht**
+
+- `tests/design/elanum-umfeld-bausteine.test.js` schlägt absichtlich fehl: Er sucht im Quelltext des Pakets die alten Masse (Layouts 720 × 600 und 400 × 560, Öffnung 16°, Strich `1.4 + p.resonance * .022`, Radius 128, Zentren `172 + 0.4 × Nähe`, Umschalten unter 560 px).
+- `beziehungsraum.css`: `.relationship-label` steht neu unter den Personen (`top:46.944cqw`, `.relationship-frame` ist ein Container), die Regel für `[data-bridge]` gibt es nicht mehr.
+- `umfeld.css`: Entfernt sind `.umfeld__bridge`, `.umfeld__bridges`, `.umfeld__nodes`, `.umfeld__list`, `.umfeld__person`, `.umfeld__person-name`, `.umfeld__person-state`, `.umfeld__detail`, `.umfeld__side`. `Umfeld.svelte` nutzt alle davon.
+
+**Was neu zu bauen ist**
+
+| Datei in der App | Neu |
+|---|---|
+| `src/lib/components/elanum/umfeldGeometrie.js` | Geometrie aus `components/beziehungsraum/beziehungsraum.js` (Konstanten `CY`, `PERSON`, `ROOM`, `FIELD`, `GAP`, Funktion `draw`) und `components/umfeld/umfeld.js` (Layouts `wide`, `all`, `kind`, Gruppen nach Art, Bögen, Ringe). Offene Kontur, Verbindung und Knoten entfallen |
+| `Beziehungsraum.svelte` | Zwei Personenkreise (`.relief-disc`, `[data-contour]`), je eine helle Fläche `[data-room]` mit `clip-path` an der Mitte, drei Feldlinien `[data-field]`, Namen unter den Personen, darunter `.relationship-scale` (`dl` mit Nähe, Resonanz, Freiraum) |
+| `Umfeld.svelte` | Geschlossene Kreise, Ringe `.umfeld__ring` statt Linie zur Mitte, Bögen `.umfeld__arc` mit Wort `.umfeld__kind`, Kreis-Knöpfe `.umfeld__name.umfeld__pick`, Panel `.umfeld__panel` (Pfeile mit Name, Pillen, Notiz, Knopf) statt Liste, auf dem Telefon Filter `.umfeld__filter` und Gruppen-Knöpfe `.umfeld__group` |
+| `tests/design/elanum-umfeld-bausteine.test.js` | Wächter auf die neuen Masse und Klassen umschreiben |
+
+**Wörter und Stufen:** `ElanumBeziehung.SCALE` und `ElanumBeziehung.words()` in `beziehungsraum.js` tragen die Stufen (Nähe: weit, nah, sehr nah; Resonanz: keine, leise, spürbar, stark; Freiraum: klein, offen, weit offen) mit ihren Grenzen. Die Resonanz-Stufen der App (1 bis 5, mal 20) fallen so auf null bis drei Linien: 0 keine, 20 eine, 40 und 60 zwei, 80 und 100 drei.
+
+**Arten:** Das Umfeld nimmt die fünf Arten der App (`partner`, `family`, `friend`, `spiritual`, `work`) mit ihren Wörtern Partnerschaft, Familie, Freundschaft, Innerer Weg, Arbeit, in dieser Reihenfolge im Uhrzeigersinn. Das Skript des Pakets lässt sich jetzt auch mit eigenen Daten montieren: `ElanumUmfeld.mount(root, { link, heading, people, kinds })`, siehe README.
+
+**Regeln der App, die im Paket nicht stehen und beim Nachbau neu zu entscheiden sind** (alle aus `umfeldGeometrie.js`): Foto im Kreis mit Name darunter; gestrichelter Kreis ohne Rechnung; Kinder ohne Stufe mit einheitlicher Linie (neu: Wie viele Linien?); viele Menschen rücken nach aussen; der Kreis als Zeigerziel (Ticket 267) und die Fokusführung über die Liste (die Liste gibt es im Paket nicht mehr, die Kreise sind Knöpfe, die Pfeile im Panel wechseln). Das Panel ist ein neues Bedienmuster: nach `.planning/MUSTER-VERBINDLICH.md` geht es dem Founder vorher als Frage mit Bild zu. Bilder liegen unter `docs/pruefung/` in diesem Repo und im PR #24.
+
+**Geprüft im Atlas:** 320 bis 1440 px, mit und ohne reduzierte Bewegung, kein waagrechter Überlauf, keine Schrift unter 15 px, keine Konsolenfehler. Nicht geprüft: Wischen mit dem Finger auf einem echten Telefon (nur simuliert), Vorleser.
+
 - **Geschichte:** Das Paket entstand am 13. Oktober 2026 mit 4.8.0 (PR #15). Am 14. Oktober folgte Etappe 1 der Umstellung in der App (`maindnow/soulresonance.ch` PR #6, Konzept `.planning/KONZEPT-ELANUM-UMSTELLUNG-2026-10-13.md`). Eine Zusammenfassung für den Owner vom 14. Oktober lag nur als Claude-Docs-Dokument im Konto von Chris; sie ist überholt, die Fakten stehen hier und in `.planning/stand/chris.md`.
 
 ## Versionen bis heute
@@ -75,8 +107,9 @@ git log --oneline -1
 | 4.11.1 | Das Resonanzrad steht still. PR #21 gemergt, Tag `v4.11.1` fehlt noch |
 | 4.12 | Feinschliff: zwei Kurven und fünf Dauern als Tokens, ein Ort im Atemtakt je Screen, Schliessen mit Übergang, Button mit «läuft» und «bestätigt», jeder Wert mit Namen, `tools/token-check.js`. Kein eigener Tag, geht in 4.13 auf |
 | 4.13 | Reife: Schrift in rem, Abstände, Trefferfläche, Fokus und Ebenen als Tokens, Kante der Felder, ausgeglichener Umbruch, Antwort auf Druck überall, Kontrastmodus des Systems, `.button--compact`, `.button--danger`, `tokens.json`, `tools/regel-messung.js`. Schliesst die Lücken L7, L8, L9, L11, L35, L41, L53, L55 der App. Tag `v4.13.0` nach dem Merge |
+| 5.0 | Beziehungsraum und Umfeld neu, ohne Regler lesbar: Abstand, Platz um jeden, Feld um beide; Umfeld in Gruppen nach Art, Linien um den Kreis, Karte mit Pfeilen, Filter auf dem Telefon. Enthält 4.11.2 (Seitentitel bei 320 px). PR #24, Tag `v5.0.0` nach dem Merge |
 
-Das Glossar trägt die Version 4.9, weil es sich in 4.10 nicht geändert hat.
+Das Glossar trägt die Version 5.0.
 
 ## Entscheide zur Benennung (12. Oktober 2026, mit Chris)
 
@@ -114,6 +147,12 @@ Die weiteren Entscheide zu Zeichen, Bewegung und App (zum Beispiel: Farbatem ver
 - **Lehre aus der Arbeit:** Chris sah lange einen alten Stand, weil sein lokaler Ordner nicht nachgezogen war. Deshalb gibt es `tools/serve.py` (ohne Browser-Cache), und nach jedem Merge gehört der Block für `main` in die Antwort.
 
 ## Was gebaut ist
+
+**5.0 Beziehungsraum und Umfeld neu** (PR #24): Beide Bausteine sind ohne Regler lesbar, jeder Wert hat ein eigenes Zeichen.
+- Beziehungsraum (`components/beziehungsraum/`): Nähe ist der Abstand zweier Personenkreise, Freiraum die helle Fläche um jeden, Resonanz das Feld um beide (null bis drei Linien im Spektrum). Namen stehen unter den Personen, darunter die drei Werte als Wort.
+- Umfeld (`components/umfeld/`): Menschen derselben Art stehen beieinander, ein Bogen mit Wort fasst jede Gruppe. Abstand ist die Nähe, Linien um den Kreis sind die Resonanz. Kreise sind Knöpfe; ein Panel zeigt Name, Pillen (Art, Nähe, Resonanz), Notiz und «Beziehungsraum öffnen», mit Pfeilen und zum Ziehen.
+- Auf dem Telefon (unter 520 px Bühnenbreite) wählt man über dem Bild «Alle» oder eine Art: «Alle» zeigt die Gruppen als Punkte, eine Art ihre Menschen gross.
+- Was verworfen wurde und warum, steht in DESIGN-NOTES, Abschnitt Bausteine. Bilder unter `docs/pruefung/`.
 
 **4.11 Fliesstext** (`components/fliesstext/`, PR #18): Ein Text, der zu einem Menschen spricht und bei jeder Kernaussage zeigt, woher sie kommt.
 - Aussage leise unterstrichen in der Bereichsfarbe, am Satzende ein runder Knopf je Element mit dessen Icon, Tippfläche 44 px.
