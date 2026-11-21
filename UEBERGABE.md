@@ -2,6 +2,8 @@
 
 Stand 16. November 2026. Auf `main` steht **Atlas 4.13** (PR #22 «Feinschliff» und PR #23 sind gemergt, Paket `@elanum/design` 4.13.0). Mit PR #24 kommt **Atlas 5.0** (Paket 5.0.0): Beziehungsraum und Umfeld sind neu gefasst, das ist eine Hauptversion, und die App muss ihre zwei Bausteine nachbauen (Abschnitt «Atlas 5.0 in die App holen»). Die Tags `v4.11.0`, `v4.11.1` und `v4.13.0` fehlen noch, der letzte Tag ist `v4.10.0`; `v4.12.0` gibt es als eigenen Stand auf `main` nicht. Die App nutzt `v4.10.0`. Mergen darf nur Tris (`CLAUDE.md`, «Mergen»). Diese Datei fasst alles zusammen, was es zum Weiterarbeiten braucht, auch Entscheide, die bisher nur in Gesprächen mit Claude standen.
 
+**Nachtrag 21. November 2026:** Atlas 5.0 ist auf `main`, der Tag `v5.0.0` steht, die App zeigt in soulresonance.ch PR #81 darauf. Der Entwurfs-PR «Resonanzrad, zweite Runde» bringt **Atlas 5.1** (Paket 5.1.0): Kernsatz am Telefon, «Mehr lesen», zugeklappte Liste, Blatt in zwei Stufen, kleinere Mitte, Tablet hochkant. Nach dem Merge der Tag `v5.1.0`. Offen dazu: `DESIGN-NOTES.md`, „Offen nach 5.1“.
+
 ## In zwei Minuten
 
 - **Was:** der interaktive Gestaltungsatlas der App ELANUM (Stil Soft 3D Relief). Er ist die einzige Designquelle der App: Tokens, Bausteine, Zeichen, Glossar und acht App-Screens.

@@ -25,15 +25,18 @@
    - Auswahl nie nur über Farbe: Bogen, Relief, Liste, Text und
      aria-current tragen dieselbe Information.
 
-   BEDIENUNG (4.13, wie in der App seit 15.11.2026)
+   BEDIENUNG (5.1, wie in der App seit der zweiten Runde vom 16.11.2026)
    - Das Rad steht. Beim Öffnen ist nichts gewählt.
    - Ein Tipp ins Rad oder auf die Pfeile wählt nur. Unter dem Rad steht
      das gewählte Element: Name mit den Pfeilen daneben, das eigene Wort
-     gross, ein Satz, darunter «Lesen» oder «Ausfüllen».
-   - «Lesen» und die Liste öffnen das Detail als Blatt (dialog): Telefon
-     von unten, ab 600 px in der Mitte. Schliessen, Esc und ein Tipp
-     daneben schliessen, der Fokus kehrt zum Öffner zurück.
-   - Im Blatt: Name klein, Wort gross, Fachzeile, Kernsatz, Text.
+     gross, der Kernsatz (auch am Telefon), darunter «Mehr lesen» (hell)
+     oder «Ausfüllen» (dunkel).
+   - Die Liste ist zugeklappt: eine Zeile «Alle neun Elemente».
+   - «Mehr lesen» und die Liste öffnen das Detail als Blatt (dialog):
+     Telefon von unten, ab 600 px in der Mitte. Schliessen, Esc und ein
+     Tipp daneben schliessen, der Fokus kehrt zum Öffner zurück.
+   - Im Blatt zwei Stufen: zuerst Name klein, Wort gross, Kernsatz.
+     «Alle Details» zeigt Fachzeile und Text im selben Blatt.
 
    API:  ElanumResonanzrad.mount(root, { heading: 'h2'|'h3', select: id })
          gibt { select(i), open(), close(), parts } zurück; parts dient
@@ -122,7 +125,7 @@
   /* Wörter der Bedienung, im Wortlaut der App. */
   var WORTE = {
     auswahl: 'Element wählen', leer: 'Tippe auf ein Element im Rad oder in der Liste.',
-    lesen: 'Lesen', ausfuellen: 'Ausfüllen', offen: 'Noch offen', schliessen: 'Schliessen', liste: 'Deine neun Elemente',
+    lesen: 'Mehr lesen', ausfuellen: 'Ausfüllen', offen: 'Noch offen', schliessen: 'Schliessen', liste: 'Alle neun Elemente', alles: 'Alle Details',
     z_ausgefuellt: 'Ergebnis ansehen', z_offen: 'Noch offen, ausfüllen'
   };
 
@@ -189,9 +192,11 @@
           '<div data-rad-detail></div>' +
         '</div>' +
       '</dialog>' +
-      '<div class="rad__overview"><' + heading + ' class="rad-liste-titel">' + WORTE.liste + '</' + heading + '>' +
+      /* Die Liste ist zugeklappt: Rad und Element tragen die Seite, die Liste ist der zweite Weg. */
+      '<details class="rad__overview rad-liste-klappe" data-rad-liste><summary class="rad-liste-kopf"><' + heading + ' class="rad-liste-titel">' + WORTE.liste + '</' + heading + '>' +
+        '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></summary>' +
       '<p class="rad__progress t-label" data-progress></p>' +
-      '<div class="rad__list"></div></div>';
+      '<div class="rad__list"></div></details>';
 
     var svg = root.querySelector('.rad__svg'), defs = svg.querySelector('defs');
     var rotors = root.querySelectorAll('.rad__rotor');
@@ -326,7 +331,8 @@
 
     function punktName(text) { return '<i class="rad-karte__punkt"></i><span>' + text + '</span>'; }
 
-    /* Das Detail im Blatt: Name klein, Wort gross, Fachzeile, dann der Kernsatz und der Text.
+    /* Das Detail im Blatt in zwei Stufen: zuerst Name klein, Wort gross und der Kernsatz. «Alle Details»
+       zeigt Fachzeile und Text im selben Blatt, der Fokus geht auf den neuen Teil.
        Ein offenes Element trägt statt Wort und Fachzeile seine Einleitung und den Weg zum Ausfüllen. */
     function renderDetail(item) {
       var g = GROUPS.filter(function (x) { return x.id === item.group; })[0];
@@ -336,14 +342,23 @@
       var body = '<section class="rad-detail" aria-labelledby="' + uid + '-detail-titel"><div class="rad-detail-kopf">' +
         '<h2 class="rad-detail-titel" id="' + uid + '-detail-titel" tabindex="-1">' + item.label + '</h2>';
       if (item.done) {
-        body += '<p class="rad-detail-ergebnis">' + item.result + '</p><dl class="rad-detail-fach">' +
-          item.rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') + '</dl></div>' +
-          '<p class="rad__text rad-detail-kern">' + item.lead + '</p><p class="rad__text secondary">' + item.text + '</p>';
+        body += '<p class="rad-detail-ergebnis">' + item.result + '</p></div>' +
+          '<p class="rad__text rad-detail-kern">' + item.lead + '</p>' +
+          '<button class="button button--secondary rad-detail-alles" type="button" data-rad-alles aria-expanded="false" aria-controls="' + uid + '-stufe">' + WORTE.alles + '</button>' +
+          '<div class="rad-detail-stufe" id="' + uid + '-stufe" data-rad-stufe tabindex="-1" hidden><dl class="rad-detail-fach">' +
+          item.rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') + '</dl>' +
+          '<p class="rad__text secondary">' + item.text + '</p></div>';
       } else {
         body += '</div><p class="rad__lead t-heading rad-detail-einleitung">' + item.lead + '</p><p class="rad__text secondary">' + item.text + '</p>' +
           '<div class="rad__open"><button class="button" type="button" data-fill>Jetzt ausfüllen</button><p class="rad__note secondary" data-fill-note aria-live="polite"></p></div>';
       }
       detail.innerHTML = body + '</section>';
+      var alles = detail.querySelector('[data-rad-alles]');
+      if (alles) alles.addEventListener('click', function () {
+        var stufe = detail.querySelector('[data-rad-stufe]');
+        stufe.hidden = false; alles.hidden = true;
+        stufe.focus({ preventScroll: true });
+      });
       var fillButton = detail.querySelector('[data-fill]');
       if (fillButton) fillButton.addEventListener('click', function () {
         detail.querySelector('[data-fill-note]').textContent = 'Nur diese Vorschau. Kein Versand, keine Speicherung.';
@@ -374,6 +389,8 @@
       wort.textContent = item.done ? item.result : WORTE.offen;
       satz.textContent = item.lead;
       knopf.textContent = item.done ? WORTE.lesen : WORTE.ausfuellen;
+      /* «Mehr lesen» ist der leise Weg, «Ausfüllen» die Handlung der Seite. */
+      knopf.classList.toggle('button--secondary', !!item.done);
       knopf.hidden = false;
     }
 
