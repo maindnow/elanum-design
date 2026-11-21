@@ -96,7 +96,7 @@
 }
 
 /* ============================================================
-   Karte und Blatt (4.13, wie in der App seit 15.11.2026)
+   Karte und Blatt (4.13, zweite Runde 5.1: wie in der App seit 16.11.2026)
    Das Rad steht. Unter dem Rad steht das gewählte Element, das
    Detail öffnet sich als Blatt. Die Klasse .rad--blatt setzt das
    Skript. Die Regeln davor (.rad__nav, .rad__current, .rad__swatch,
@@ -105,6 +105,8 @@
    ============================================================ */
 .rad--blatt{gap:var(--space-10)}
 .rad--blatt .rad__reader{max-width:none;min-width:0}
+/* Die Mitte tritt zurück: Das gewählte Wort unter dem Rad ist die grösste Schrift im Bild. */
+.rad--blatt .rad__center{font-size:1.25rem}
 
 /* ---------- Das gewählte Element ---------- */
 .rad-karte{display:grid;justify-items:center;justify-self:center;width:100%;max-width:32.5rem;padding:var(--space-4) var(--space-4) var(--space-6);border-radius:var(--radius-surface);background:var(--paper);box-shadow:var(--raised-sm)}
@@ -127,8 +129,16 @@
 /* ---------- Liste ----------
    Ruhigere Zeilen: Das Zeichen in der Bereichsfarbe genügt, offene Elemente erkennt man am Wort
    «+ Ausfüllen». Der Name behält sein längstes Wort, ein langer Stand bricht ausgeglichen um. */
-.rad--blatt .rad__overview{gap:var(--space-6);margin-top:var(--space-6)}
-.rad-liste-titel{font:var(--type-heading);color:var(--ink)}
+/* Zugeklappt: eine Zeile ohne Linien, das Dreieck dreht beim Öffnen. */
+.rad--blatt .rad__overview{display:block;margin-top:var(--space-6)}
+.rad-liste-kopf{display:flex;align-items:center;gap:var(--space-2);min-height:var(--target);border-radius:var(--radius-control);list-style:none;cursor:pointer}
+.rad-liste-kopf::-webkit-details-marker{display:none}
+.rad-liste-kopf .icon{flex:none;width:1.25rem;height:1.25rem;transition:transform var(--motion-ui) var(--ease-out)}
+.rad-liste-klappe[open] .rad-liste-kopf .icon{transform:rotate(90deg)}
+.rad-liste-titel{font:var(--type-body);font-weight:500;color:var(--ink)}
+.rad-liste-klappe .rad__progress{margin-top:var(--space-4)}
+.rad-liste-klappe .rad__list{margin-top:var(--space-6)}
+body[data-motion=off] .rad-liste-kopf .icon{transition:none}
 .rad--blatt .rad__item{grid-template-columns:24px minmax(auto,1fr) auto}
 .rad--blatt .rad__item-state{white-space:normal;text-align:end;text-wrap:balance}
 .rad--blatt .rad__fill-cta{white-space:nowrap}
@@ -156,13 +166,13 @@
 
 /* ---------- Am Telefon passt alles ins Bild ----------
    Das Rad richtet sich nach der Höhe des Fensters: Was Kopf, Element, Abstände und die Leiste unten
-   brauchen (--rad-rest, Vorgabe 24,75 rem wie in der App), geht ab, der Rest gehört dem Rad, mindestens
-   10 rem. Eine Seite mit längerem Kopf setzt --rad-rest an ihrer Hülle. Das gewählte Element steht
-   ohne Rahmen direkt auf dem Grund, die Pfeile links und rechts neben Name und Wort. Der Satz entfällt,
-   er steht im Blatt. */
+   brauchen (--rad-rest, Vorgabe 30 rem wie in der App), geht ab, der Rest gehört dem Rad, mindestens
+   13 rem. Eine Seite mit längerem Kopf setzt --rad-rest an ihrer Hülle. Das gewählte Element steht
+   ohne Rahmen direkt auf dem Grund, die Pfeile links und rechts neben Name und Wort. Der Kernsatz
+   steht darunter, drei Zeilen fest (bis 700 px Höhe zwei), damit beim Durchtippen nichts springt. */
 @media(max-width:599.98px){
   .rad--blatt{gap:var(--space-6)}
-  .rad--blatt .rad__wheel{width:clamp(10rem,calc(100dvh - var(--rad-rest,24.75rem)),100%)}
+  .rad--blatt .rad__wheel{width:clamp(13rem,calc(100dvh - var(--rad-rest,30rem)),100%)}
   .rad--blatt .rad-karte{grid-template-columns:var(--target) minmax(0,1fr) var(--target);column-gap:var(--space-2);align-items:center;padding:0;border-radius:0;background:none;box-shadow:none}
   .rad--blatt .rad-karte__kopf{display:contents}
   .rad--blatt .rad-karte__pfeil{grid-row:1 / span 2;align-self:center}
@@ -170,9 +180,21 @@
   .rad--blatt .rad-karte__pfeil:last-child{grid-column:3}
   .rad--blatt .rad-karte__name{grid-column:2;grid-row:1}
   .rad--blatt .rad-karte__wort{grid-column:2;grid-row:2;height:2.2em;margin:var(--space-1) 0 0;font-size:1.75rem}
-  .rad--blatt .rad-karte:not(.rad-karte--leer) .rad-karte__satz{display:none}
-  .rad--blatt .rad-karte--leer .rad-karte__satz{grid-column:1 / -1}
+  .rad--blatt .rad-karte__satz{grid-column:1 / -1;justify-self:center;max-width:none;height:4.8em;-webkit-line-clamp:3;line-clamp:3}
+  .rad--blatt .rad-karte--leer .rad-karte__satz{display:-webkit-box;height:4.8em}
   .rad--blatt .rad-karte__knopf{grid-column:1 / -1;width:100%;margin-top:var(--space-4)}
+}
+/* Niedrige Telefone: zwei Zeilen Satz, das Rad gibt weniger ab. */
+@media(max-width:599.98px) and (max-height:700px){
+  .rad--blatt{gap:var(--space-4)}
+  .rad--blatt .rad__wheel{width:clamp(13rem,calc(100dvh - var(--rad-rest,26.25rem)),100%)}
+  .rad--blatt .rad-karte__satz,.rad--blatt .rad-karte--leer .rad-karte__satz{height:3.2em;-webkit-line-clamp:2;line-clamp:2}
+  .rad--blatt .rad-karte__knopf{margin-top:var(--space-2)}
+}
+/* Tablet hochkant (eine Spalte): Auch hier richtet sich das Rad nach der Höhe, damit die Handlung
+   ohne Scrollen im Bild steht. Ab 900 px steht das Element neben dem Rad. */
+@media(min-width:600px) and (max-width:899.98px){
+  .rad--blatt .rad__wheel{width:clamp(13rem,calc(100dvh - var(--rad-rest,37.5rem)),min(100%,520px))}
 }
 
 /* ---------- Blatt ----------
@@ -203,7 +225,7 @@
 }
 body[data-motion=off] .rad-blatt[open],body[data-motion=off] .rad-blatt[open]::backdrop{animation:none}
 
-/* ---------- Detail im Blatt: Name klein, Wort gross, Fachzeile, Kernsatz, Text ---------- */
+/* ---------- Detail im Blatt: Name klein, Wort gross, Kernsatz, dann «Alle Details» mit Fachzeile und Text ---------- */
 .rad-detail-kopf{margin-bottom:var(--space-6)}
 .rad-detail-titel{font:var(--type-label);color:var(--ink-2)}
 .rad-detail-ergebnis{margin-top:var(--space-1);font:var(--type-title);letter-spacing:-.015em;color:var(--ink);text-wrap:balance}
@@ -215,6 +237,10 @@ body[data-motion=off] .rad-blatt[open],body[data-motion=off] .rad-blatt[open]::b
 .rad-detail .rad__text+.rad__text{margin-top:var(--space-4)}
 .rad-detail-einleitung{max-width:var(--measure);margin-bottom:var(--space-4)}
 .rad-detail .rad__open{margin-top:var(--space-6)}
+.rad-detail-alles{width:100%;margin-top:var(--space-6)}
+.rad-detail-stufe{margin-top:var(--space-6)}
+.rad-detail-stufe:focus{outline:none}
+.rad-detail-stufe .rad-detail-fach{margin:0 0 var(--space-4)}
 
 /* Kleines Rad für Karten (ElanumResonanzrad.mini): ohne Schrift, ohne Bedienung */
 .rad-mini{display:block;width:100%;height:auto;aspect-ratio:1;filter:var(--relief-disc-sm)}

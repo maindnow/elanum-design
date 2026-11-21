@@ -1,4 +1,4 @@
-# ELANUM Gestaltungsatlas 5.0
+# ELANUM Gestaltungsatlas 5.1
 
 ![Gestaltungsatlas: Einstieg mit dem ELANUM-Zeichen im Goldenen Schnitt](docs/screenshots/atlas-desktop.png)
 
@@ -110,7 +110,7 @@ In der `package.json` der App:
 
 ```json
 "dependencies": {
-  "@elanum/design": "github:maindnow/elanum-design#v5.0.0"
+  "@elanum/design": "github:maindnow/elanum-design#v5.1.0"
 }
 ```
 
@@ -438,6 +438,8 @@ Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 - Assets: keine fehlenden Dateien oder Konsolenfehler, auch unter `file://`.
 
 ## Stand und Historie
+
+5.1 zieht das Resonanzrad auf den Stand der App nach (zweite Runde, Chris Beyeler 16. und 21.11.2026). Unter dem gewählten Wort steht der Kernsatz auch am Telefon und wechselt beim Durchtippen mit. Die Handlung heisst «Mehr lesen» und ist hell, «Ausfüllen» bleibt dunkel. Die Liste ist zugeklappt zu einer Zeile «Alle neun Elemente». Das Blatt hat zwei Stufen: zuerst Name, Wort und Kernsatz, «Alle Details» zeigt Fachzeile und Text im selben Blatt. Die Mitte des Rads ist kleiner (20 px statt 32 px). Auf dem Tablet hochkant richtet sich das Rad nach der Höhe wie am Telefon. Begründung in `DESIGN-NOTES.md`, „Resonanzrad, zweite Runde (5.1)“.
 
 5.0 fasst Beziehungsraum und Umfeld neu, damit sie ohne Regler lesbar sind. Im Beziehungsraum ist Nähe der Abstand zweier Kreise, Freiraum die helle Fläche um jeden und Resonanz das Feld um beide. Im Umfeld stehen Menschen derselben Art beieinander, der Abstand zeigt die Nähe, Linien um den Kreis die Resonanz. Verbindungslinien und Öffnungen entfallen, darum eine neue Hauptversion. Der Umfeld-Baustein nimmt eigene Menschen und Arten entgegen (`people`, `kinds`), seine Filterzeile bleibt auf dem Telefon einzeilig und lässt sich wischen.
 

@@ -33,7 +33,8 @@
 .note-paper textarea{min-height:120px;resize:vertical}
 
 /* ---------- Ich ---------- */
-.ich-rad{margin-bottom:clamp(64px,10vw,112px);--rad-rest:31rem}   /* Kopf der App, Seitenkopf mit Einleitung, Element, «Lesen» und Leiste unten: gemessen 482 px */
+.ich-rad{margin-bottom:clamp(64px,10vw,112px);--rad-rest:34.75rem}   /* Kopf der App, Seitenkopf mit Einleitung, Element mit Kernsatz, «Mehr lesen» und Leiste unten: gemessen 548 px */
+@media(min-width:600px) and (max-width:899.98px){.ich-rad{--rad-rest:39.5rem}}   /* Tablet hochkant: gemessen 624 px */
 .ich-weg .track{margin-top:16px}
 
 /* ---------- Weg ---------- */

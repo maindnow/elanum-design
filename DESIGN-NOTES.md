@@ -18,6 +18,25 @@
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
 
+## Resonanzrad, zweite Runde (5.1)
+
+Anlass war die Rückmeldung von Chris zum Live-Stand der App vom 15.11.2026: «Man tippt durch und erhält keine Information» und «zu unruhig». Die App hat den neuen Aufbau am 16.11.2026 bekommen (soulresonance.ch, PR #81). Dieser Stand zieht das Paket nach, damit es wieder die Quelle ist.
+
+| Regel | Was gilt | Wo |
+|---|---|---|
+| Wer durchtippt, erfährt etwas | Unter dem gewählten Wort steht der Kernsatz, auch am Telefon. Drei Zeilen fest (bis 700 px Höhe zwei), damit beim Durchtippen nichts springt. 4.13 hatte den Satz am Telefon ausgeblendet. | `.rad-karte__satz` |
+| Lesen ist leise, Ausfüllen ist die Handlung | «Mehr lesen» trägt die helle Form (`.button--secondary`), «Ausfüllen» die dunkle. | `resonanzrad.js`, `select` |
+| Die Liste ist der zweite Weg | Zugeklappt zu einer Zeile «Alle neun Elemente», ohne Linien, in normaler Stärke. Rad und Element tragen die Seite. | `.rad-liste-klappe`, natives `details` |
+| Erst das Wesentliche | Das Blatt zeigt zuerst Name, Wort und Kernsatz. «Alle Details» zeigt Fachzeile und Text im selben Blatt, der Fokus geht auf den neuen Teil. | `renderDetail`, `.rad-detail-stufe` |
+| Die Mitte tritt zurück | «Ich» in der Mitte misst 1,25 rem statt 2 rem. Die grösste Schrift im Bild ist das gewählte Wort. | `.rad--blatt .rad__center` |
+| Die Handlung steht im Bild | Das Rad richtet sich nach der Höhe des Fensters, neu auch auf dem Tablet hochkant (600 bis 899 px). Vorgabe für `--rad-rest`: 30 rem am Telefon, 26,25 rem bis 700 px Höhe, 37,5 rem auf dem Tablet. Mindestens 13 rem. | `.rad--blatt .rad__wheel` |
+
+### Offen nach 5.1
+
+- **Satz über dich im Kopf der Seite:** Die App zeigt über dem Rad den ersten Satz des Portraits und den Weg «Dein Portrait lesen». Der App-Screen Ich im Atlas hat kein Portrait, darum steht der Satz hier noch nicht. Entscheid Chris, ob der Screen Ich ein Portrait bekommt.
+- **Wörter ohne Freigabe im Glossar:** «Mehr lesen», «Alle Details», «Alle neun Elemente». Im Wortlaut der App, das Glossar ist nicht angefasst.
+- **Herkunft im Blatt:** Die App zeigt in der ersten Stufe auch das Herkunftszeichen und «Woher das kommt». Der Baustein hier führt keine Herkunft.
+
 ## Reife (4.13)
 
 Chris wollte am 15.11.2026 mehr Regeln im Design und alles auf dem neusten Stand. Diese Runde hat drei Quellen. Erstens die Lückenliste der App (`docs/elanum-migration.md` in soulresonance.ch, L1 bis L61): Sie nennt, was dem Paket fehlt. Zweitens sieben Kits und Regelwerke als Messlatte: Untitled UI, Magic UI, SmoothUI, RetroUI, die Skills von shadcn/ui, React Bits und `ui-ux-pro-max` mit 120 Regeln. Drittens eine Messung im Browser: jede Seite des Atlas, jeder Baustein und jeder App-Screen in sechs Breiten, 90 Seitenaufrufe, vorher und nachher mit demselben Skript (`tools/regel-messung.js`: 310 Funde vorher, keiner nachher).

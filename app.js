@@ -1,6 +1,6 @@
 'use strict';
 /* ============================================================
-   ELANUM Gestaltungsatlas 5.0 · Bedienlogik
+   ELANUM Gestaltungsatlas 5.1 · Bedienlogik
    Elemente (Beziehungsraum, Resonanzrad, Umfeld, Zeichen, App-Rahmen, Fliesstext) liegen
    unter components/ und werden hier nur eingebunden. Bewegung steuert
    assets/motion.js; dieses Skript meldet Pause und Layoutwechsel.
