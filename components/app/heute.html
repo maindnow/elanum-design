@@ -40,11 +40,31 @@
           <div class="day__intro"><p class="app-card__kicker" id="dayTitle">Dein Tag</p><p class="day__phase">Abend, die Zeit zum Nachspüren</p></div>
           <div class="day__arc" data-day-arc></div>
         </div>
-        <p class="app-hero__voice">Heute darf etwas offen bleiben.</p>
-        <div class="fliesstext fliesstext--leise" data-fliesstext data-day-text>
-          <p>Der Mond steht in den Fischen. <mark class="fliesstext__aussage" data-quellen="astrology">Gefühle liegen näher an der Oberfläche als sonst.</mark> Gib ihnen Raum, bevor du entscheidest. <mark class="fliesstext__aussage" data-quellen="numerology">Was sich heute nicht klärt, darf bis morgen warten.</mark></p>
+        <div class="fliesstext" data-fliesstext data-day-voice>
+          <p class="app-hero__voice"><mark class="fliesstext__aussage" data-quellen="astrology">Heute darf etwas offen bleiben.</mark></p>
         </div>
-        <div class="app-card__foot"><a class="app-more glow-edge" href="#">Weiter vertiefen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="pfeil"></svg></a></div>
+        <div class="element-chips" aria-label="Woher dieser Text kommt">
+          <span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="astrology"></svg>Mond in den Fischen</span>
+          <span class="element-chip area" data-area="sterne"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-rad-icon="numerology"></svg>Persönlicher Tag 7</span>
+        </div>
+        <div class="app-card__foot"><a class="app-more glow-edge" href="#">Mehr zu deinem Tag <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="pfeil"></svg></a></div>
+        <p class="secondary day__deutung"><strong>Aus Geburtsdaten gedeutet.</strong> Diese Aussagen stammen aus einem Deutungsmodell. Prüfe an konkreten Situationen, was du wiedererkennst und was nicht. Deine Erfahrung hat Vorrang.</p>
+      </article>
+
+      <article class="app-card area day-lines" data-area="sterne" aria-labelledby="linesTitle">
+        <h2 class="app-card__kicker day-lines__title" id="linesTitle">Für deinen Tag</h2>
+        <div class="day-lines__line">
+          <p class="app-card__kicker">Im Gespräch</p>
+          <div class="fliesstext fliesstext--leise" data-fliesstext data-day-text>
+            <p><mark class="fliesstext__aussage" data-quellen="astrology">Gefühle liegen näher an der Oberfläche als sonst.</mark> Gib ihnen Raum, bevor du entscheidest.</p>
+          </div>
+        </div>
+        <div class="day-lines__line">
+          <p class="app-card__kicker">Dein Fokus</p>
+          <div class="fliesstext fliesstext--leise" data-fliesstext data-day-focus>
+            <p><mark class="fliesstext__aussage" data-quellen="numerology">Was sich heute nicht klärt, darf bis morgen warten.</mark></p>
+          </div>
+        </div>
       </article>
 
       <article class="app-card app-card--tint next area" data-area="ich" aria-labelledby="nextTitle">
@@ -100,6 +120,11 @@
         <div class="fliesstext fliesstext--leise" data-fliesstext data-week-text>
           <p>Saturn steht deinem Mond gegenüber. <mark class="fliesstext__aussage" data-quellen="astrology">Grenzen setzen fällt leichter, wenn du sie früh und freundlich aussprichst.</mark></p>
         </div>
+        <p class="app-card__kicker">Heute aus deiner Woche</p>
+        <div class="fliesstext fliesstext--leise" data-fliesstext data-week-line>
+          <p><mark class="fliesstext__aussage" data-quellen="astrology">Ein kurzes Nein am Morgen schützt den Nachmittag.</mark></p>
+        </div>
+        <div class="app-card__foot"><a class="app-more glow-edge" href="#">Ganze Woche lesen <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="pfeil"></svg></a></div>
       </article>
       <a class="app-card app-card--tint area glow-edge" data-area="bezug" href="umfeld.html">
         <span class="app-card__kicker">Umfeld</span>

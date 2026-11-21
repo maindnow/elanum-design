@@ -18,6 +18,25 @@
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
 
+## Heute, Für deinen Tag (5.1.1)
+
+Nachzug aus der App (soulresonance.ch, Konzept `.planning/KONZEPT-HEUTE-STARTSEITE-2026-11-21.md`, freigegeben von Chris Beyeler am 21.11.2026 im Freigabe-Artefakt, Runden 1 und 2). Nur der App-Screen Heute, keine neuen Werte, darum ein Patch.
+
+| Was | Warum | Wo |
+|---|---|---|
+| Die Hauptfläche trägt nur die Stimme | Chris: «muss optisch besser aufgeteilt sein» (E1), Variante 2 gewählt (L1). Die Stimme ist die Aussage des Tages, mit Quelle wie im Fliesstext. | `heute.html`, `[data-day-voice]`, `.day [data-day-voice] p` |
+| Chips bleiben unter der Stimme | Chris E4 Variante B: «Mond in den Fischen» und «Persönlicher Tag 7» bleiben, zusätzlich zur Quelle am Satz. Das nimmt die Regel aus 4.11 («der Fliesstext ersetzt die Chips») für Heute zurück. | `heute.html`, `.element-chips` |
+| «Mehr zu deinem Tag» statt «Weiter vertiefen» | Wortlaut der App. | `heute.html` |
+| Hinweis «Deutung» am Ende der Hauptfläche | Regel M8 der App: einmal je Fläche, Wortlaut der App. | `.day__deutung` |
+| Karte «Für deinen Tag» auf Papier | Die zwei Zeilen «Im Gespräch» und «Dein Fokus» stehen unter der Hauptfläche, Titel in Ink-2, Etiketten in Tief des Bereichs. | `.day-lines` |
+| «Heute aus deiner Woche» in «Diese Woche» | Chris G1: die Tageszeile aus dem Wochenimpuls zieht in die Wochenkarte, dazu «Ganze Woche lesen». | `heute.html`, Begleitspalte |
+
+### Offen nach 5.1.1
+
+- **Wörter ohne Freigabe im Glossar:** «Für deinen Tag», «Im Gespräch», «Dein Fokus», «Heute aus deiner Woche», «Ganze Woche lesen», «Mehr zu deinem Tag». Im Wortlaut der App, das Glossar ist nicht angefasst.
+- **Hintergrund des Tages:** In der App stehen Werte des Himmels, Mondphase und Tagesmotiv in einem Aufklapper «Hintergrund des Tages». Der Screen hier zeigt ihn nicht.
+- **Begrüssung und Umschalter in der App:** Die App grüsst jetzt wie hier. Den Umschalter Woche und Tag entfernt sie erst nach dem Wort des Founders (soulresonance.ch Issue #85).
+
 ## Resonanzrad, zweite Runde (5.1)
 
 Anlass war die Rückmeldung von Chris zum Live-Stand der App vom 15.11.2026: «Man tippt durch und erhält keine Information» und «zu unruhig». Die App hat den neuen Aufbau am 16.11.2026 bekommen (soulresonance.ch, PR #81). Dieser Stand zieht das Paket nach, damit es wieder die Quelle ist.

@@ -49,13 +49,16 @@
     A.dayArc($('[data-day-arc]'), { now: '19:10', stations: ['07:40', '12:30'] });
     /* Herkunft je Aussage: der Baustein Fliesstext, leise Stufe. */
     if (window.ElanumFliesstext) {
-      ElanumFliesstext.mount($('[data-day-text]'), { quellen: {
+      var tagQuellen = {
         'astrology': { text: 'Mond in den Fischen. Der Mond wechselt etwa alle zweieinhalb Tage das Zeichen. In den Fischen färbt er, wie du Stimmungen wahrnimmst.', href: 'ich.html' },
         'numerology': { text: 'Persönlicher Tag 7, aus deinem Geburtsdatum und dem heutigen Datum. Die 7 steht für Rückzug und Nachdenken.', href: 'ich.html' }
-      } });
-      ElanumFliesstext.mount($('[data-week-text]'), { quellen: {
+      };
+      var wocheQuellen = {
         'astrology': { text: 'Saturn steht diese Woche deinem Mond gegenüber. Saturn steht für Struktur und Grenzen, dein Mond für dein Gefühl.', href: 'ich.html' }
-      } });
+      };
+      /* 5.1.1: Stimme, «Für deinen Tag» (zwei Zeilen) und «Heute aus deiner Woche». */
+      ['[data-day-voice]', '[data-day-text]', '[data-day-focus]'].forEach(function (s) { if ($(s)) ElanumFliesstext.mount($(s), { quellen: tagQuellen }); });
+      ['[data-week-text]', '[data-week-line]'].forEach(function (s) { if ($(s)) ElanumFliesstext.mount($(s), { quellen: wocheQuellen }); });
     }
     $('[data-note]').addEventListener('submit', function (e) {
       e.preventDefault();

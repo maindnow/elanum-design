@@ -10,6 +10,17 @@
 .day__intro{display:grid;gap:4px;padding-top:4px}
 .day__phase{font:var(--type-label);color:var(--ink-2)}
 .day__arc{margin:-6px -6px 0 0}
+/* 5.1.1 (Chris Beyeler 21.11.2026, App soulresonance.ch, L1 Variante 2):
+   die Stimme bleibt in der Stufe Titel, auch als Aussage im Fliesstext;
+   der Hinweis «Deutung» schliesst die Hauptfläche; die Zeilen des Tages
+   stehen auf Papier in «Für deinen Tag», der Titel in Ink-2. */
+.day [data-day-voice] p{margin:0;font:var(--type-title);letter-spacing:-.015em;text-wrap:balance;color:var(--ink)}
+.day__deutung{font:var(--type-label);color:var(--ink-2)}
+.day__deutung strong{display:block;color:var(--ink);font-weight:600}
+.day-lines{gap:12px;cursor:default}
+.day-lines__title{margin:0;color:var(--ink-2)}
+.day-lines__line{display:grid;gap:4px}
+.day-lines__line .app-card__kicker{color:var(--tone)}
 /* Die Hauptspalte ist ein eigener Container: zwei Spalten im Tag erst,
    wenn der Tag selbst breit genug ist, nicht schon das Fenster. */
 .heute-main{container:heute/inline-size}

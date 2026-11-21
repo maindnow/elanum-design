@@ -4,6 +4,8 @@ Stand 16. November 2026. Auf `main` steht **Atlas 4.13** (PR #22 «Feinschliff»
 
 **Nachtrag 21. November 2026:** Atlas 5.0 ist auf `main`, der Tag `v5.0.0` steht, die App zeigt in soulresonance.ch PR #81 darauf. Der Entwurfs-PR «Resonanzrad, zweite Runde» bringt **Atlas 5.1** (Paket 5.1.0): Kernsatz am Telefon, «Mehr lesen», zugeklappte Liste, Blatt in zwei Stufen, kleinere Mitte, Tablet hochkant. Nach dem Merge der Tag `v5.1.0`. Offen dazu: `DESIGN-NOTES.md`, „Offen nach 5.1“.
 
+**Nachtrag 21. November 2026, abends:** Der Entwurfs-PR «Heute, Für deinen Tag» bringt **5.1.1** (Patch): der App-Screen Heute folgt der Überarbeitung in soulresonance.ch (Stimme allein in der Hauptfläche, Chips bleiben, Hinweis «Deutung», Karte «Für deinen Tag», «Heute aus deiner Woche» in der Wochenkarte). Nach dem Merge der Tag `v5.1.1`. Offen dazu: `DESIGN-NOTES.md`, „Offen nach 5.1.1“.
+
 ## In zwei Minuten
 
 - **Was:** der interaktive Gestaltungsatlas der App ELANUM (Stil Soft 3D Relief). Er ist die einzige Designquelle der App: Tokens, Bausteine, Zeichen, Glossar und acht App-Screens.
