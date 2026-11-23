@@ -18,6 +18,36 @@
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
 
+## Profil eines Elements (5.2)
+
+Anlass ist die Prüfung der Seite `/ich/astrologie` der App (soulresonance.ch PR #92, Chris Beyeler 22.11.2026). Gemessen am Telefon: 52 Einträge mit 8074 Wörtern standen offen, die Seite war 57 Bildschirme lang, der erste gedeutete Satz stand bei 2366 px, nach jedem Satz stand dasselbe Zeichen (483 Mal). Der Founder der App hat am 23.11.2026 drei Fragen mit «A, A, A» beantwortet. Dieser Stand gibt der App dafür die Vorlage. Der Screen zeigt die Astrologie, die Regeln gelten gleich für Human Design und Numerologie.
+
+| Regel | Was gilt | Wo |
+|---|---|---|
+| Aussage zuerst | Seitenkopf mit Bereich, Titel und einem Satz Einleitung. Darunter drei Kurztexte (Sonne, Mond, Aszendent) als Hauptfläche. Der erste Kurztext steht am Telefon bei 403 px. | `astrologie.html`, `.vp-kern` |
+| Jeder Kurztext führt zu seinem Eintrag | Die drei Zeilen der Hauptfläche sind Links. So liest niemand denselben Satz zweimal, ohne zu wissen, wo er steht. | `.vp-kern__zeile` |
+| Rad vor Tabelle, Tabelle zugeklappt | Nach dem Rad folgt direkt der Kopf «Alle Stellungen». Die Tabelle bleibt im Dokument und ist der Textweg zum Rad. | `.vp-stellungen`, `.app-table` |
+| Tabelle verschiebt nichts | Ab 760 px Platz stehen Hauptfläche und Rad nebeneinander, «Alle Stellungen» darunter über die ganze Breite. | `@container vp` |
+| Kapitel sind die einzigen Linien | Ein Kapitel beginnt mit einer Linie, sein Titel steht in der Stufe Titel. | `.app-section--chapter` |
+| Eintrag zeigt Titel und Kurztext | Der Titel steht in der Stufe Überschrift, der Kurztext in der Farbe des Bereichs. Der lange Text liegt in «Mehr lesen». Zu beim Laden. | `.app-entry`, `.app-fold` |
+| Kopf des Aufklappers ist ein Wort | Nie eine Überschrift. Für Screenreader folgt der Titel des Eintrags, damit 52 gleiche Köpfe unterscheidbar sind. Pfeil rechts, er dreht beim Öffnen. | `.app-fold__head` |
+| Ein Sprung öffnet den Eintrag | Aus Hauptfläche, Rad, Tabelle und Inhalt. Der Eintrag trägt danach Rand und Hauch des Bereichs, der Fokus steht auf seinem Titel. | `screens.js`, `.app-entry.is-target` |
+| Kein Zeichen je Satz | Die Seite zeigt ein Element und nennt es im Titel. Die Herkunft steht je Eintrag in «Woher das kommt», am Ende des langen Texts. | `.app-facts` |
+| Rückweg bleibt sichtbar | «Zurück zum Rad» steht ausserhalb des Aufklappers. | `.app-entry__back` |
+| Lesespalte | Eintrag und Tabelle messen sich an `--measure`. Rand und Polster der Markierung liegen ausserhalb der Spalte. | `.app-entry` |
+
+Gemessen am Screen (23.11.2026, Beispiel mit 27 von 52 Einträgen): Telefon 390 px 10,9 Bildschirme, Laptop 1280 px 9,5 Bildschirme, kein waagrechter Überlauf.
+
+### Offen nach 5.2
+
+- **Wörter ohne Freigabe im Glossar:** «Alle Stellungen», «Mehr lesen» am Eintrag, «Woher das kommt», «Inhalt», «Nach oben», «Zurück zum Rad», «Allgemein erklärt». «Mehr lesen» und «Woher das kommt» stehen so schon in der App. Das Glossar ist nicht angefasst.
+- **Einleitung und Hinweis am Rad sind Vorschläge:** «Drei Sätze zu deinem Geburtsmoment. Darunter stehen alle Stellungen zum Nachlesen.» und «Tippe ein Zeichen im Rad an. Alle Stellungen stehen darunter.» Den Wortlaut gibt Chris frei.
+- **Fünf Fragen des Founders der App sind offen** (A11y-Vorprüfung der App vom 23.11.2026, F1 bis F5). Der Screen folgt je der Empfehlung: Kopf «Mehr lesen» mit dem Titel für Screenreader (F1), nichts wird gemerkt (F2), kein Einzelknopf je Eintrag (F3), neuer Hinweis am Rad (F4), Kurztexte der Hauptfläche als Links (F5). Entscheidet der Founder anders, zieht der Screen nach.
+- **Ort von «Woher das kommt»:** hier am Ende des langen Texts, also im geöffneten «Mehr lesen». Die App zeigt es heute direkt am Eintrag.
+- **Human Design und Numerologie:** Der Screen zeigt nur die Astrologie. Was dort die Hauptfläche trägt und was «Alle Stellungen» ersetzt (Liste der Zentren, Tafel), ist offen (F5).
+- **Das Rad ist ein Standbild.** Die App zeichnet das Geburtsrad selbst. Ein Baustein dafür fehlt im Paket.
+- **Beispieltexte:** Titel, Kurztexte und der lange Text zu «Sonne im Widder» stammen aus der App (Testkonto). Die übrigen langen Texte sind Platzhalter.
+
 ## Heute, Für deinen Tag (5.1.1)
 
 Nachzug aus der App (soulresonance.ch, Konzept `.planning/KONZEPT-HEUTE-STARTSEITE-2026-11-21.md`, freigegeben von Chris Beyeler am 21.11.2026 im Freigabe-Artefakt, Runden 1 und 2). Nur der App-Screen Heute, keine neuen Werte, darum ein Patch.

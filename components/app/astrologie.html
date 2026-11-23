@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F0ECE3">
+<title>ELANUM · Deine Astrologie</title>
+<link rel="icon" href="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" type="image/svg+xml">
+<script src="../../assets/boot.js" data-base="../../"></script>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../base.css">
+<link rel="stylesheet" href="../resonanzrad/resonanzrad.css">
+<link rel="stylesheet" href="../zeichen/zeichen.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="screens.css">
+</head>
+<body class="app" data-screen="astrologie">
+<a class="skip-link" href="#main">Direkt zum Inhalt</a>
+<nav data-app-nav></nav>
+<header class="app-head">
+  <a class="app-head__brand" href="heute.html" aria-label="ELANUM, Heute"><span class="zeichen" data-zeichen="lichtlauf"><img src="../../assets/ELANUM-Master-Spektrum-Harmonic.svg" alt="" width="32" height="32"></span></a>
+  <p class="app-head__title" aria-hidden="true"></p>
+  <div class="app-head__actions">
+    <button class="app-icon-button glow-edge" type="button" aria-label="Suchen"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="suche"></svg></button>
+  </div>
+</header>
+
+<!-- Vollprofil eines Elements aus Sterne & Ursprung, am Beispiel Astrologie (5.2).
+     Aussage zuerst: Seitenkopf, drei Kurztexte als Hauptfläche, Rad, «Alle Stellungen» zugeklappt.
+     Jeder Eintrag zeigt Titel und Kurztext, der lange Text liegt in «Mehr lesen».
+     Kein Zeichen je Satz: Die Seite zeigt ein Element und nennt es im Titel. -->
+<main class="app-main" id="main" tabindex="-1">
+  <header class="app-pagehead">
+    <a class="app-more glow-edge vp-zurueck" href="ich.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="zurueck"></svg>Ich</a>
+    <p class="app-kicker">Sterne &amp; Ursprung</p>
+    <h1 class="app-title" id="vpTitel" tabindex="-1">Deine Astrologie</h1>
+    <p class="app-lead">Drei Sätze zu deinem Geburtsmoment. Darunter stehen alle Stellungen zum Nachlesen.</p>
+  </header>
+
+  <div class="app-stack vp">
+    <div class="vp-kopf">
+      <article class="app-hero vp-kern" data-area="sterne" aria-labelledby="kernTitel">
+        <h2 class="app-card__kicker" id="kernTitel">Sonne, Mond und Aszendent</h2>
+        <ul class="vp-kern__liste" role="list">
+          <li><a class="vp-kern__zeile glow-edge" href="#sonne-im-widder" data-vp-sprung><span class="app-card__kicker">Sonne im Widder</span><span class="vp-kern__satz">Ein kleiner erster Schritt, den du selbst machst, bringt dich in Bewegung.</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="pfeil"></svg></a></li>
+          <li><a class="vp-kern__zeile glow-edge" href="#mond-im-schuetzen" data-vp-sprung><span class="app-card__kicker">Mond im Schützen</span><span class="vp-kern__satz">In einem Gefühl suchst du den grösseren Zusammenhang, der ihm Sinn gibt.</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="pfeil"></svg></a></li>
+          <li><a class="vp-kern__zeile glow-edge" href="#aszendent-loewe" data-vp-sprung><span class="app-card__kicker">Aszendent Löwe</span><span class="vp-kern__satz">Neu in einer Runde zeigst du deinen Beitrag und holst andere ins Gespräch.</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="pfeil"></svg></a></li>
+        </ul>
+      </article>
+
+      <figure class="vp-rad area" data-area="sterne">
+        <svg viewBox="-6 -6 332 332" width="332" height="332" class="vp-rad__bild" role="group" aria-label="Geburtsrad: Körper in 9 von 12 Zeichen. Alle Stellungen folgen."><g class="deko" aria-hidden="true"><path d="M 137.64654279170512 5.60983531702243 A 156 156 0 0 0 63.446255853719435 37.47092389422586 L 85.72788911824571 65.74686453401989 A 120 120 0 0 1 142.80503291669623 41.23833485924803 Z" class="v-sektor v-sektor-leer gerade"></path><text x="105.55112991236147" y="33.19573924280202" class="zeichen-glyph v-glyph-leer">♊︎</text><path d="M 5.60983531702243 182.35345720829488 A 156 156 0 0 0 37.47092389422585 256.55374414628056 L 65.74686453401988 234.27211088175426 A 120 120 0 0 1 41.23833485924803 177.19496708330377 Z" class="v-sektor v-sektor-leer"></path><text x="33.19573924280198" y="214.44887008763845" class="zeichen-glyph v-glyph-leer">♍︎</text><path d="M 37.47092389422585 256.55374414628056 A 156 156 0 0 0 102.16357946330305 304.88253331406906 L 115.51044574100234 271.44810254928393 A 120 120 0 0 1 65.74686453401988 234.27211088175426 Z" class="v-sektor v-sektor-leer gerade"></path><text x="77.4087239199796" y="270.55623508185255" class="zeichen-glyph v-glyph-leer">♎︎</text><circle cx="160" cy="160" r="156" class="v-ring"></circle><circle cx="160" cy="160" r="120" class="v-ring"></circle><line x1="40" y1="159.99999999999997" x2="280" y2="160.00000000000003" class="v-horizont"></line><circle cx="40" cy="159.99999999999997" r="4" class="asc-punkt"></circle><line x1="213.51500193059456" y1="52.59355434440418" x2="209.9473351352216" y2="59.753984054777234" class="v-tick"></line><text x="203.70391824331892" y="72.28473604793008" class="v-planet-glyph">☉</text><line x1="224.24755335710685" y1="261.3521183183939" x2="219.96438313329972" y2="254.59531043050094" class="v-tick"></line><text x="212.46883524163727" y="242.7708966266883" class="v-planet-glyph">☽</text><line x1="175.14425027328033" y1="40.959453614912164" x2="174.13463358839496" y2="48.89549004058469" class="v-tick"></line><text x="172.3678043898456" y="62.7835537855116" class="v-planet-glyph">☿</text><line x1="274.2494496201954" y1="123.29763956524816" x2="266.6328196455157" y2="125.74446359423162" class="v-tick"></line><text x="253.30371718982622" y="130.02640564495266" class="v-planet-glyph">♀</text><line x1="279.6781006981899" y1="151.21636673842065" x2="271.6995606516439" y2="151.8019422891926" class="v-tick"></line><text x="257.7371155701884" y="152.82669950304353" class="v-planet-glyph">♂</text><line x1="78.48579332366143" y1="71.93505742960392" x2="83.92007376875065" y2="77.80605360096365" class="v-tick"></line><text x="93.43006454765683" y="88.0802969008432" class="v-planet-glyph">♃</text><line x1="267.17473770168317" y1="213.97754717079513" x2="260.02975518823763" y2="210.37904402607546" class="v-tick"></line><text x="247.52603578970792" y="204.08166352281603" class="v-planet-glyph">♄</text><line x1="248.93385164769896" y1="240.56531531065383" x2="243.00492820451902" y2="235.19429428994357" class="v-tick"></line><text x="232.62931217895414" y="225.79500750370065" class="v-planet-glyph">♅</text><line x1="255.5995175282127" y1="232.5309054705162" x2="249.22621635966516" y2="227.69551177248178" class="v-tick"></line><text x="238.072939314707" y="219.23357280092156" class="v-planet-glyph">♆</text><line x1="150.01868361382435" y1="279.58416836353825" x2="150.68410470623607" y2="271.6118904726357" class="v-tick"></line><text x="151.84859161795654" y="257.6604041635562" class="v-planet-glyph">♇</text><line x1="68.7022261778695" y1="82.12371031486474" x2="74.78874443267821" y2="87.31546296054043" class="v-tick"></line><text x="85.44015137859343" y="96.40103009047287" class="v-planet-glyph">⚷</text><line x1="170.44496038232785" y1="279.5445640864176" x2="169.74862969017266" y2="271.5749264806564" class="v-tick"></line><text x="168.53005097890107" y="257.62806067057437" class="v-planet-glyph">•</text><line x1="160.547619586663" y1="279.9987504634457" x2="160.51111161421878" y2="271.99883376588264" class="v-tick"></line><text x="160.44722266244145" y="257.9989795451473" class="v-planet-glyph">•</text><line x1="78.7844425180463" y1="71.6595606593703" x2="84.19881301684322" y2="77.54892328207895" class="v-tick"></line><text x="93.67396138973781" y="87.85530787181908" class="v-planet-glyph">•</text><line x1="179.16405461585154" y1="41.54013755418818" x2="177.88645097479477" y2="49.4374617172423" class="v-tick"></line><text x="175.65064460294542" y="63.257779002587014" class="v-planet-glyph">•</text><line x1="243.06711186601723" y1="73.39829720935863" x2="237.52930440828274" y2="79.17174406206806" class="v-tick"></line><text x="227.8381413572474" y="89.27527605430954" class="v-planet-glyph">•</text><line x1="278.6967583166966" y1="177.63744780595286" x2="270.7836410955835" y2="176.46161795222267" class="v-tick"></line><text x="256.9356859586356" y="174.40391570819483" class="v-planet-glyph">☊</text><line x1="41.3032416833034" y1="142.362552194047" x2="49.216358904416495" y2="143.5383820477772" class="v-tick"></line><text x="63.06431404136444" y="145.59608429180506" class="v-planet-glyph">☋</text></g><g class="links"><a href="#sonne-im-widder" id="rad-widder" class="vp-rad__sektor" data-vp-sprung aria-label="Widder: Sonne, Vesta"><path d="M 160 160 L 282.52907610577415 63.44625585371945 A 156 156 0 0 0 217.836420536697 15.117466685930935 Z" class="v-keil"></path><path d="M 282.52907610577415 63.44625585371945 A 156 156 0 0 0 217.836420536697 15.117466685930935 L 204.48955425899769 48.5518974507161 A 120 120 0 0 1 254.2531354659801 85.72788911824573 Z" class="v-sektor gerade"></path><text x="242.59127608002035" y="49.443764918147394" class="zeichen-glyph" aria-hidden="true">♈︎</text><path d="M 284.8854044924237 61.589453081675586 A 159 159 0 0 0 218.94865939317194 12.331264122198832 L 203.37731540252275 51.3381000144482 A 117 117 0 0 1 251.8968070793306 87.58469189028959 Z" class="fokus-rahmen"></path></a><a href="#merkur-im-stier" id="rad-stier" class="vp-rad__sektor" data-vp-sprung aria-label="Stier: Merkur, Pallas"><path d="M 160 160 L 217.836420536697 15.117466685930935 A 156 156 0 0 0 137.64654279170512 5.60983531702243 Z" class="v-keil"></path><path d="M 217.836420536697 15.117466685930935 A 156 156 0 0 0 137.64654279170512 5.60983531702243 L 142.80503291669623 41.23833485924803 A 120 120 0 0 1 204.48955425899769 48.5518974507161 Z" class="v-sektor"></path><text x="176.24802567534542" y="22.959853832341082" class="zeichen-glyph" aria-hidden="true">♉︎</text><path d="M 218.94865939317194 12.331264122198832 A 159 159 0 0 0 137.2166686146225 2.640793688503635 L 143.23490709377882 44.20737648776684 A 117 117 0 0 1 203.37731540252275 51.3381000144482 Z" class="fokus-rahmen"></path></a><a href="#jupiter-im-krebs" id="rad-krebs" class="vp-rad__sektor" data-vp-sprung aria-label="Krebs: Jupiter, Chiron, Ceres"><path d="M 160 160 L 63.446255853719435 37.47092389422586 A 156 156 0 0 0 15.117466685930935 102.163579463303 Z" class="v-keil"></path><path d="M 63.446255853719435 37.47092389422586 A 156 156 0 0 0 15.117466685930935 102.163579463303 L 48.5518974507161 115.5104457410023 A 120 120 0 0 1 85.72788911824571 65.74686453401989 Z" class="v-sektor"></path><text x="49.44376491814738" y="77.40872391997965" class="zeichen-glyph" aria-hidden="true">♋︎</text><path d="M 61.58945308167557 35.11459550757637 A 159 159 0 0 0 12.331264122198832 101.05134060682805 L 51.3381000144482 116.62268459747725 A 117 117 0 0 1 87.58469189028958 68.1031929206694 Z" class="fokus-rahmen"></path></a><a href="#aszendent-loewe" id="rad-loewe" class="vp-rad__sektor" data-vp-sprung aria-label="Löwe: Aszendent, Südknoten"><path d="M 160 160 L 15.117466685930935 102.163579463303 A 156 156 0 0 0 5.60983531702243 182.35345720829488 Z" class="v-keil"></path><path d="M 15.117466685930935 102.163579463303 A 156 156 0 0 0 5.60983531702243 182.35345720829488 L 41.23833485924803 177.19496708330377 A 120 120 0 0 1 48.5518974507161 115.5104457410023 Z" class="v-sektor gerade"></path><text x="22.959853832341082" y="143.7519743246546" class="zeichen-glyph" aria-hidden="true">♌︎</text><path d="M 12.331264122198832 101.05134060682805 A 159 159 0 0 0 2.640793688503635 182.78333138537747 L 44.20737648776684 176.76509290622116 A 117 117 0 0 1 51.3381000144482 116.62268459747725 Z" class="fokus-rahmen"></path></a><a href="#pluto-im-skorpion" id="rad-skorpion" class="vp-rad__sektor" data-vp-sprung aria-label="Skorpion: Pluto, Lilith, Juno"><path d="M 160 160 L 102.16357946330305 304.88253331406906 A 156 156 0 0 0 182.35345720829486 314.39016468297757 Z" class="v-keil"></path><path d="M 102.16357946330305 304.88253331406906 A 156 156 0 0 0 182.35345720829486 314.39016468297757 L 177.19496708330374 278.761665140752 A 120 120 0 0 1 115.51044574100234 271.44810254928393 Z" class="v-sektor"></path><text x="143.7519743246545" y="297.0401461676589" class="zeichen-glyph" aria-hidden="true">♏︎</text><path d="M 101.0513406068281 307.66873587780117 A 159 159 0 0 0 182.78333138537747 317.35920631149634 L 176.76509290622116 275.79262351223315 A 117 117 0 0 1 116.62268459747729 268.6618999855518 Z" class="fokus-rahmen"></path></a><a href="#mond-im-schuetzen" id="rad-schuetze" class="vp-rad__sektor" data-vp-sprung aria-label="Schütze: Mond"><path d="M 160 160 L 182.35345720829486 314.39016468297757 A 156 156 0 0 0 256.55374414628056 282.52907610577415 Z" class="v-keil"></path><path d="M 182.35345720829486 314.39016468297757 A 156 156 0 0 0 256.55374414628056 282.52907610577415 L 234.27211088175426 254.2531354659801 A 120 120 0 0 1 177.19496708330374 278.761665140752 Z" class="v-sektor gerade"></path><text x="214.44887008763845" y="286.804260757198" class="zeichen-glyph" aria-hidden="true">♐︎</text><path d="M 182.78333138537747 317.35920631149634 A 159 159 0 0 0 258.4105469183244 284.8854044924237 L 232.4153081097104 251.8968070793306 A 117 117 0 0 1 176.76509290622116 275.79262351223315 Z" class="fokus-rahmen"></path></a><a href="#saturn-im-steinbock" id="rad-steinbock" class="vp-rad__sektor" data-vp-sprung aria-label="Steinbock: Saturn, Uranus, Neptun"><path d="M 160 160 L 256.55374414628056 282.52907610577415 A 156 156 0 0 0 304.88253331406906 217.8364205366971 Z" class="v-keil"></path><path d="M 256.55374414628056 282.52907610577415 A 156 156 0 0 0 304.88253331406906 217.8364205366971 L 271.4481025492839 204.48955425899777 A 120 120 0 0 1 234.27211088175426 254.2531354659801 Z" class="v-sektor"></path><text x="270.55623508185255" y="242.5912760800204" class="zeichen-glyph" aria-hidden="true">♑︎</text><path d="M 258.4105469183244 284.8854044924237 A 159 159 0 0 0 307.66873587780117 218.94865939317202 L 268.66189998555177 203.3773154025228 A 117 117 0 0 1 232.4153081097104 251.8968070793306 Z" class="fokus-rahmen"></path></a><a href="#mars-im-wassermann" id="rad-wassermann" class="vp-rad__sektor" data-vp-sprung aria-label="Wassermann: Mars, Nordknoten"><path d="M 160 160 L 304.88253331406906 217.8364205366971 A 156 156 0 0 0 314.39016468297757 137.64654279170514 Z" class="v-keil"></path><path d="M 304.88253331406906 217.8364205366971 A 156 156 0 0 0 314.39016468297757 137.64654279170514 L 278.761665140752 142.80503291669626 A 120 120 0 0 1 271.4481025492839 204.48955425899777 Z" class="v-sektor gerade"></path><text x="297.0401461676589" y="176.24802567534553" class="zeichen-glyph" aria-hidden="true">♒︎</text><path d="M 307.66873587780117 218.94865939317202 A 159 159 0 0 0 317.35920631149634 137.21666861462253 L 275.79262351223315 143.23490709377884 A 117 117 0 0 1 268.66189998555177 203.3773154025228 Z" class="fokus-rahmen"></path></a><a href="#venus-in-den-fischen" id="rad-fische" class="vp-rad__sektor" data-vp-sprung aria-label="Fische: Venus"><path d="M 160 160 L 314.39016468297757 137.64654279170514 A 156 156 0 0 0 282.52907610577427 63.44625585371956 Z" class="v-keil"></path><path d="M 314.39016468297757 137.64654279170514 A 156 156 0 0 0 282.52907610577427 63.44625585371956 L 254.25313546598017 85.72788911824583 A 120 120 0 0 1 278.761665140752 142.80503291669626 Z" class="v-sektor"></path><text x="286.80426075719805" y="105.55112991236155" class="zeichen-glyph" aria-hidden="true">♓︎</text><path d="M 317.35920631149634 137.21666861462253 A 159 159 0 0 0 284.88540449242373 61.589453081675714 L 251.8968070793307 87.58469189028968 A 117 117 0 0 1 275.79262351223315 143.23490709377884 Z" class="fokus-rahmen"></path></a></g></svg>
+        <figcaption class="secondary">Tippe ein Zeichen im Rad an. Alle Stellungen stehen darunter.</figcaption>
+      </figure>
+
+      <details class="app-fold vp-stellungen">
+        <summary class="app-fold__head"><span class="app-fold__title">Alle Stellungen</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+        <div class="app-fold__body">
+          <table class="app-table">
+            <caption class="visually-hidden">Körper mit Zeichen, Grad und Haus</caption>
+            <thead><tr><th scope="col">Körper</th><th scope="col">Zeichen</th><th scope="col">Grad</th><th scope="col">Haus</th></tr></thead>
+            <tbody>
+            <tr><th scope="row"><a href="#aszendent-loewe" data-vp-sprung>Aszendent</a></th><td>Löwe</td><td class="app-table__num">21°</td><td class="app-table__num"></td></tr>
+            <tr><th scope="row"><a href="#sonne-im-widder" data-vp-sprung>Sonne</a></th><td>Widder</td><td class="app-table__num">25°</td><td class="app-table__num">9</td></tr>
+            <tr><th scope="row"><a href="#mond-im-schuetzen" data-vp-sprung>Mond</a></th><td>Schütze</td><td class="app-table__num">24°</td><td class="app-table__num">4</td></tr>
+            <tr><th scope="row"><a href="#merkur-im-stier" data-vp-sprung>Merkur</a></th><td>Stier</td><td class="app-table__num">14°</td><td class="app-table__num">10</td></tr>
+            <tr><th scope="row"><a href="#venus-in-den-fischen" data-vp-sprung>Venus</a></th><td>Fische</td><td class="app-table__num">9°</td><td class="app-table__num">7</td></tr>
+            <tr><th scope="row"><a href="#mars-im-wassermann" data-vp-sprung>Mars</a></th><td>Wassermann</td><td class="app-table__num">25°</td><td class="app-table__num">7</td></tr>
+            <tr><th scope="row"><a href="#jupiter-im-krebs" data-vp-sprung>Jupiter</a></th><td>Krebs</td><td class="app-table__num">4°</td><td class="app-table__num">11</td></tr>
+            <tr><th scope="row"><a href="#saturn-im-steinbock" data-vp-sprung>Saturn</a></th><td>Steinbock</td><td class="app-table__num">25°</td><td class="app-table__num">5</td></tr>
+            <tr><th scope="row"><a href="#uranus-im-steinbock" data-vp-sprung>Uranus</a></th><td>Steinbock</td><td class="app-table__num">9°</td><td class="app-table__num">5</td></tr>
+            <tr><th scope="row"><a href="#neptun-im-steinbock" data-vp-sprung>Neptun</a></th><td>Steinbock</td><td class="app-table__num">14°</td><td class="app-table__num">5</td></tr>
+            <tr><th scope="row"><a href="#pluto-im-skorpion" data-vp-sprung>Pluto</a></th><td>Skorpion</td><td class="app-table__num">16°</td><td class="app-table__num">4</td></tr>
+            <tr><th scope="row"><a href="#chiron-im-krebs" data-vp-sprung>Chiron</a></th><td>Krebs</td><td class="app-table__num">11°</td><td class="app-table__num">11</td></tr>
+            <tr><th scope="row"><a href="#lilith-im-skorpion" data-vp-sprung>Lilith</a></th><td>Skorpion</td><td class="app-table__num">26°</td><td class="app-table__num">4</td></tr>
+            <tr><th scope="row"><a href="#juno-im-skorpion" data-vp-sprung>Juno</a></th><td>Skorpion</td><td class="app-table__num">22°</td><td class="app-table__num">4</td></tr>
+            <tr><th scope="row"><a href="#ceres-im-krebs" data-vp-sprung>Ceres</a></th><td>Krebs</td><td class="app-table__num">4°</td><td class="app-table__num">11</td></tr>
+            <tr><th scope="row"><a href="#pallas-im-stier" data-vp-sprung>Pallas</a></th><td>Stier</td><td class="app-table__num">12°</td><td class="app-table__num">10</td></tr>
+            <tr><th scope="row"><a href="#vesta-im-widder" data-vp-sprung>Vesta</a></th><td>Widder</td><td class="app-table__num">7°</td><td class="app-table__num">8</td></tr>
+            <tr><th scope="row"><a href="#nordknoten-im-wassermann" data-vp-sprung>Nordknoten</a></th><td>Wassermann</td><td class="app-table__num">13°</td><td class="app-table__num">6</td></tr>
+            <tr><th scope="row"><a href="#suedknoten-im-loewen" data-vp-sprung>Südknoten</a></th><td>Löwe</td><td class="app-table__num">13°</td><td class="app-table__num">12</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+
+    <p class="secondary vp-deutung"><strong>Aus Geburtsdaten gedeutet.</strong> Diese Aussagen stammen aus einem Deutungsmodell. Prüfe an konkreten Situationen, was du wiedererkennst und was nicht. Deine Erfahrung hat Vorrang.</p>
+
+    <nav class="app-section vp-inhalt" aria-labelledby="inhaltTitel">
+      <h2 class="app-section__title" id="inhaltTitel">Inhalt</h2>
+      <ol role="list">
+        <li><a href="#k1" data-vp-sprung>1 Sonne, Mond, Aszendent</a></li>
+        <li><a href="#k2" data-vp-sprung>2 Element und persönliche Planeten</a></li>
+        <li><a href="#k3" data-vp-sprung>3 Jupiter, Saturn und die langsamen Planeten</a></li>
+        <li><a href="#k4" data-vp-sprung>4 Chiron, Lilith, Juno</a></li>
+        <li><a href="#k5" data-vp-sprung>5 Mondknoten</a></li>
+        <li><a href="#k6" data-vp-sprung>6 Häuser</a></li>
+        <li><a href="#k7" data-vp-sprung>7 Aspekte</a></li>
+        <li><a href="#k8" data-vp-sprung>8 Muster und besondere Punkte</a></li>
+      </ol>
+    </nav>
+
+    <section class="app-section app-section--chapter">
+      <h2 class="app-section__title" id="k1" tabindex="-1">1 Sonne, Mond, Aszendent</h2>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="sonne-im-widder" tabindex="-1">Sonne im Widder</h3>
+        <p class="app-entry__lead">Ein kleiner erster Schritt, den du selbst machst, bringt dich in Bewegung.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Sonne im Widder</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Du spürst den Impuls, selbst anzufangen. Ein Anfang, der klein genug ist, um ihn wirklich zu wagen, setzt dich in Bewegung.</p>
+            <p>Im Fachbild steht deine Sonne im Widder, verbunden mit Eigeninitiative. Dahinter liegt das Bedürfnis, aus eigener Kraft etwas in Gang zu bringen.</p>
+            <p>Eine offene Aufgabe wird für dich leichter, wenn sie in einen ersten Schritt zerlegt ist und klar ist, wen sie betrifft. Nach einem Versuch zeigt sich oft, was leichter war als erwartet. Mut und Abstimmung können sich ergänzen. Ein erster Versuch darf Erkenntnisse bringen, ohne gleich ein ganzes Vorhaben festzulegen.</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Sonne im Widder</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Bedeutung</dt><dd>Das Sternzeichen, genauer das Sonnenzeichen, ist das Zeichen des Tierkreises, also einer der zwölf Abschnitte entlang der Sonnenbahn, in dem die Sonne bei deiner Geburt stand. Die Astrologie liest daraus deine bewusste Identität, wie du dich als du selbst erlebst und wie deine Lebendigkeit nach aussen spürbar wird.</dd><dt>Herleitung</dt><dd>Bei deiner Geburt stand Sonne auf 25° 16′ im Widder, im 9. Haus. Die Sonne durchläuft in einem Jahr alle zwölf Zeichen des Tierkreises und bleibt rund 30 Tage in jedem. Deshalb folgt das Sonnenzeichen aus dem Geburtsdatum, nur an den Tagen eines Zeichenwechsels entscheidet die Uhrzeit. In der Astrologie beschreibt das Sonnenzeichen deinen bewussten Ausdruck, die Richtung, in der du dich als du selbst erlebst.</dd><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+              <p><a class="app-more glow-edge" href="#">Allgemein erklärt: Sonne im Widder</a></p>
+            </div>
+          </details>
+          </div>
+        </details>
+        <p class="app-entry__back"><a class="app-more glow-edge" href="#rad-widder" data-vp-sprung>Zurück zum Rad<span class="visually-hidden">, Widder</span></a></p>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="mond-im-schuetzen" tabindex="-1">Mond im Schützen</h3>
+        <p class="app-entry__lead">In einem Gefühl suchst du den grösseren Zusammenhang, der ihm Sinn gibt.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Mond im Schützen</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>In der Astrologie beschreibt der Mond Bedürfnisse und den inneren Umgang mit dem, was dich berührt. Im Schützen verbindet sie ihn mit Sinnsuche und neuen Möglichkeiten, ein Blickwinkel, keine Festlegung.</p>
+            <p>Enge kann dich schneller drücken als andere und ein offener Horizont kann dich aufatmen lassen.</p>
+            <p>Es kann guttun, einem Gefühl erst Raum zu geben, bevor du nach seinem Sinn fragst. Ein Erlebnis, das einfach nur schön war, ohne Bedeutung, ist dabei ein schönes Gegenstück.</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Mond im Schützen</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Bedeutung</dt><dd>Das Mondzeichen ist das Zeichen des Tierkreises, in dem der Mond bei deiner Geburt stand. In der Astrologie beschreibt es deine Gefühlswelt und dein Bedürfnis nach Sicherheit. Es zeigt, wie du ohne Nachdenken reagierst und was du brauchst, um dich geborgen zu fühlen.</dd><dt>Herleitung</dt><dd>Bei deiner Geburt stand Mond auf 24° 07′ im Schützen, im 4. Haus. Der Mond umläuft die Erde in rund 27 Tagen und wechselt etwa alle zweieinhalb Tage das Zeichen. Wer an einem Tag mit Zeichenwechsel geboren ist, braucht deshalb die Geburtszeit für ein sicheres Mondzeichen. In der astrologischen Symbolsprache steht der Mond für das, was du brauchst, woran du dich gewöhnst und wie du mit Gefühlen umgehst.</dd><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+              <p><a class="app-more glow-edge" href="#">Allgemein erklärt: Mond im Schützen</a></p>
+            </div>
+          </details>
+          </div>
+        </details>
+        <p class="app-entry__back"><a class="app-more glow-edge" href="#rad-schuetze" data-vp-sprung>Zurück zum Rad<span class="visually-hidden">, Schütze</span></a></p>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="aszendent-loewe" tabindex="-1">Aszendent Löwe</h3>
+        <p class="app-entry__lead">Neu in einer Runde zeigst du deinen Beitrag und holst andere ins Gespräch.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Aszendent Löwe</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Ein ehrliches Echo kann dich spürbar wärmen.</p>
+            <p>Nach der Astrologie zeigt der Aszendent, wie du in eine Lage hineingehst. Ein Löwe-Aszendent wird dort mit Ausdruck und Anerkennung verbunden, ein Bild, das dich nicht festlegt.</p>
+            <p>In einer neuen Runde kann dein Beitrag sichtbar werden und zugleich Raum entstehen, wenn du jemand anderen ausdrücklich ins Gespräch holst.</p>
+            <p>Eine Rückmeldung nach einem Auftritt oder einem Treffen kann zeigen, was andere wirklich wahrgenommen haben. Sie darf anders klingen als diese Beschreibung.</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Aszendent Löwe</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Bedeutung</dt><dd>Der Aszendent ist das Tierkreiszeichen, das bei deiner Geburt am östlichen Horizont aufging, darum braucht er Geburtszeit und Geburtsort. Die Astrologie vergleicht ihn mit einer Brille, die färbt, wie du die Welt siehst und wie andere dich zuerst wahrnehmen. Astrologisch gelesen zeigt er auch, wie du neuen Situationen begegnest, gleichsam der Eingang zu deinem Leben.</dd><dt>Herleitung</dt><dd>Der Aszendent liegt auf 21° 45′ im Löwen. Der Aszendent ist das Zeichen, das zu deiner Geburtszeit am östlichen Horizont stand. Durch die Drehung der Erde geht im Mittel alle zwei Stunden ein neues Zeichen auf, deshalb braucht der Aszendent Geburtszeit und Geburtsort. Astrologisch wird er mit deinem Auftreten in neuen Situationen verbunden.</dd><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+              <p><a class="app-more glow-edge" href="#">Allgemein erklärt: Aszendent Löwe</a></p>
+            </div>
+          </details>
+          </div>
+        </details>
+        <p class="app-entry__back"><a class="app-more glow-edge" href="#rad-loewe" data-vp-sprung>Zurück zum Rad<span class="visually-hidden">, Löwe</span></a></p>
+      </article>
+    </section>
+
+    <section class="app-section app-section--chapter">
+      <h2 class="app-section__title" id="k2" tabindex="-1">2 Element und persönliche Planeten</h2>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="element-feuer" tabindex="-1">Element Feuer</h3>
+        <p class="app-entry__lead">Begeisterung und ein schneller Anfang machen dich lebendig.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Element Feuer</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Element Feuer», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Element Feuer</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="modalitaet-kardinal" tabindex="-1">Modalität kardinal</h3>
+        <p class="app-entry__lead">Bevor das Letzte abgeschlossen ist, meldet sich in dir schon der nächste Anfang.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Modalität kardinal</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Modalität kardinal», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Modalität kardinal</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="merkur-im-stier" tabindex="-1">Merkur im Stier</h3>
+        <p class="app-entry__lead">Eine Meinung, die du dir gebildet hast, gibst du nicht leichtfertig her.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Merkur im Stier</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Merkur im Stier», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Merkur im Stier</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+        <p class="app-entry__back"><a class="app-more glow-edge" href="#rad-stier" data-vp-sprung>Zurück zum Rad<span class="visually-hidden">, Stier</span></a></p>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="venus-in-den-fischen" tabindex="-1">Venus in den Fischen</h3>
+        <p class="app-entry__lead">Mit Mitgefühl und stiller Aufmerksamkeit zeigst du, dass dir jemand wichtig ist.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Venus in den Fischen</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Venus in den Fischen», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Venus in den Fischen</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+        <p class="app-entry__back"><a class="app-more glow-edge" href="#rad-fische" data-vp-sprung>Zurück zum Rad<span class="visually-hidden">, Fische</span></a></p>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="mars-im-wassermann" tabindex="-1">Mars im Wassermann</h3>
+        <p class="app-entry__lead">Am liebsten handelst du auf deine eigene, unerwartete Weise.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Mars im Wassermann</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Mars im Wassermann», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Mars im Wassermann</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+        <p class="app-entry__back"><a class="app-more glow-edge" href="#rad-wassermann" data-vp-sprung>Zurück zum Rad<span class="visually-hidden">, Wassermann</span></a></p>
+      </article>
+    </section>
+
+    <section class="app-section app-section--chapter">
+      <h2 class="app-section__title" id="k3" tabindex="-1">3 Jupiter, Saturn und die langsamen Planeten</h2>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="jupiter-im-krebs" tabindex="-1">Jupiter im Krebs</h3>
+        <p class="app-entry__lead">Wo du dich zugehörig fühlst, traust du dich an Neues.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Jupiter im Krebs</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Jupiter im Krebs», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Jupiter im Krebs</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+        <p class="app-entry__back"><a class="app-more glow-edge" href="#rad-krebs" data-vp-sprung>Zurück zum Rad<span class="visually-hidden">, Krebs</span></a></p>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="saturn-im-steinbock" tabindex="-1">Saturn im Steinbock</h3>
+        <p class="app-entry__lead">Ein klares Ziel gibt dir Halt, auch wenn der Weg lang ist.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Saturn im Steinbock</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Saturn im Steinbock», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Saturn im Steinbock</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+        <p class="app-entry__back"><a class="app-more glow-edge" href="#rad-steinbock" data-vp-sprung>Zurück zum Rad<span class="visually-hidden">, Steinbock</span></a></p>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="uranus-im-steinbock" tabindex="-1">Uranus im Steinbock</h3>
+        <p class="app-entry__lead">Bestehende Ordnungen hinterfragst du, ohne sie gleich ganz umzustossen.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Uranus im Steinbock</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Uranus im Steinbock», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Uranus im Steinbock</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="neptun-im-steinbock" tabindex="-1">Neptun im Steinbock</h3>
+        <p class="app-entry__lead">Träume willst du so umsetzen, dass sie im Alltag halten.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Neptun im Steinbock</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Neptun im Steinbock», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Neptun im Steinbock</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="pluto-im-skorpion" tabindex="-1">Pluto im Skorpion</h3>
+        <p class="app-entry__lead">Was wirklich hinter einer Sache steckt, willst du unbedingt wissen.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Pluto im Skorpion</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Pluto im Skorpion», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Pluto im Skorpion</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+        <p class="app-entry__back"><a class="app-more glow-edge" href="#rad-skorpion" data-vp-sprung>Zurück zum Rad<span class="visually-hidden">, Skorpion</span></a></p>
+      </article>
+    </section>
+
+    <section class="app-section app-section--chapter">
+      <h2 class="app-section__title" id="k4" tabindex="-1">4 Chiron, Lilith, Juno</h2>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="chiron-im-krebs" tabindex="-1">Chiron im Krebs</h3>
+        <p class="app-entry__lead">Willkommen zu sein, bedeutet dir mehr, als du zeigst.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Chiron im Krebs</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Chiron im Krebs», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Chiron im Krebs</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="lilith-im-skorpion" tabindex="-1">Lilith im Skorpion</h3>
+        <p class="app-entry__lead">Was dich im Innersten bewegt, zeigst du nur nach eigener Wahl.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Lilith im Skorpion</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Lilith im Skorpion», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Lilith im Skorpion</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="juno-im-skorpion" tabindex="-1">Juno im Skorpion</h3>
+        <p class="app-entry__lead">Ehrlichkeit zählt für dich in einer engen Verbindung mehr als Leichtigkeit.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Juno im Skorpion</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Juno im Skorpion», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Juno im Skorpion</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="ceres-im-krebs" tabindex="-1">Ceres im Krebs</h3>
+        <p class="app-entry__lead">Umsorgen ist für dich die natürlichste Art, Nähe zu zeigen.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Ceres im Krebs</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Ceres im Krebs», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Ceres im Krebs</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="pallas-im-stier" tabindex="-1">Pallas im Stier</h3>
+        <p class="app-entry__lead">Eine gute Lösung hält für dich lange und bewährt sich im Alltag.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Pallas im Stier</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Pallas im Stier», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Pallas im Stier</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="vesta-im-widder" tabindex="-1">Vesta im Widder</h3>
+        <p class="app-entry__lead">Begeistert dich eine Sache wirklich, gehst du ganz in ihr auf.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Vesta im Widder</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Vesta im Widder», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Vesta im Widder</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+    </section>
+
+    <section class="app-section app-section--chapter">
+      <h2 class="app-section__title" id="k5" tabindex="-1">5 Mondknoten</h2>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="nordknoten-im-wassermann" tabindex="-1">Nordknoten im Wassermann</h3>
+        <p class="app-entry__lead">Mitten im Zuspruch anderer willst du frei von Erwartungen sein.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Nordknoten im Wassermann</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Nordknoten im Wassermann», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Nordknoten im Wassermann</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="suedknoten-im-loewen" tabindex="-1">Südknoten im Löwen</h3>
+        <p class="app-entry__lead">Wenn dir jemand zusieht, wächst deine Zuversicht spürbar.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Südknoten im Löwen</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Südknoten im Löwen», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Südknoten im Löwen</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+    </section>
+
+    <section class="app-section app-section--chapter">
+      <h2 class="app-section__title" id="k6" tabindex="-1">6 Häuser</h2>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="mond-im-4-haus" tabindex="-1">Mond im 4. Haus</h3>
+        <p class="app-entry__lead">An einem vertrauten Ort setzt sich in dir, was du erlebt hast.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Mond im 4. Haus</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Mond im 4. Haus», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Mond im 4. Haus</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="pluto-im-4-haus" tabindex="-1">Pluto im 4. Haus</h3>
+        <p class="app-entry__lead">Mit deinem Zuhause und den Menschen dort fühlst du dich stark verbunden.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Pluto im 4. Haus</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Pluto im 4. Haus», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Pluto im 4. Haus</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <p class="secondary vp-gekuerzt">Beispiel gekürzt. In der App stehen hier 13 Einträge.</p>
+    </section>
+
+    <section class="app-section app-section--chapter">
+      <h2 class="app-section__title" id="k7" tabindex="-1">7 Aspekte</h2>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="sonne-quadrat-saturn" tabindex="-1">Sonne Quadrat Saturn</h3>
+        <p class="app-entry__lead">Leistungsdruck und der Wunsch, dich frei zu zeigen, reiben sich in dir.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Sonne Quadrat Saturn</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Sonne Quadrat Saturn», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Sonne Quadrat Saturn</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="sonne-sextil-mars" tabindex="-1">Sonne Sextil Mars</h3>
+        <p class="app-entry__lead">Hast du dich für etwas entschieden, findest du schnell einen passenden ersten Schritt.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Sonne Sextil Mars</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Sonne Sextil Mars», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Sonne Sextil Mars</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <p class="secondary vp-gekuerzt">Beispiel gekürzt. In der App stehen hier 6 Einträge.</p>
+    </section>
+
+    <section class="app-section app-section--chapter">
+      <h2 class="app-section__title" id="k8" tabindex="-1">8 Muster und besondere Punkte</h2>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="chartform-lokomotive" tabindex="-1">Chartform Lokomotive</h3>
+        <p class="app-entry__lead">Etwas zu erreichen oder zu bauen treibt dich an, auch wenn du rastest.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Chartform Lokomotive</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Chartform Lokomotive», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Chartform Lokomotive</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <article class="app-entry area" data-area="sterne">
+        <h3 class="app-entry__title" id="herrscher-sonne" tabindex="-1">Herrscher Sonne</h3>
+        <p class="app-entry__lead">Ganz bei dir bist du, wenn du zeigst, was dich ausmacht.</p>
+        <details class="app-fold">
+          <summary class="app-fold__head"><span class="app-fold__title">Mehr lesen<span class="visually-hidden">: Herrscher Sonne</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+          <div class="app-fold__body">
+            <p>Hier steht der lange Text zu «Herrscher Sonne», im Aufbau wie bei «Sonne im Widder».</p>
+            <details class="app-fold">
+            <summary class="app-fold__head"><span class="app-fold__title">Woher das kommt<span class="visually-hidden">: Herrscher Sonne</span></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-icon="weiter"></svg></summary>
+            <div class="app-fold__body">
+              <dl class="app-facts"><dt>Grenzen</dt><dd>Astrologie ist ein Deutungsmodell. Die Stellungen der Himmelskörper sind gerechnet, ihre Bedeutung ist Überlieferung und beschreibt keine gemessene Eigenschaft, deine eigene Erfahrung bleibt der Massstab.</dd></dl>
+            </div>
+          </details>
+          </div>
+        </details>
+      </article>
+      <p class="secondary vp-gekuerzt">Beispiel gekürzt. In der App stehen hier 12 Einträge.</p>
+    </section>
+  </div>
+
+  <a class="button button--secondary glow-edge vp-oben" href="#vpTitel" data-vp-oben data-vp-sprung hidden>Nach oben</a>
+</main>
+
+<script src="../resonanzrad/resonanzrad.js"></script>
+<script src="../zeichen/zeichen.js"></script>
+<script src="app.js"></script>
+<script src="screens.js"></script>
+</body>
+</html>

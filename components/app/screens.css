@@ -48,6 +48,57 @@
 @media(min-width:600px) and (max-width:899.98px){.ich-rad{--rad-rest:39.5rem}}   /* Tablet hochkant: gemessen 624 px */
 .ich-weg .track{margin-top:16px}
 
+/* ---------- Astrologie: das Profil eines Elements (5.2) ----------
+   Aussage zuerst. Die Hauptfläche trägt drei Kurztexte, jeder führt zu seinem Eintrag.
+   Das Rad zeichnet die App selbst, hier steht ein Standbild in den Farben des Bereichs.
+   Ab 760 px Platz stehen Hauptfläche und Rad nebeneinander, «Alle Stellungen» darunter:
+   So verschiebt die Tabelle beim Öffnen weder Rad noch Raster. */
+.vp{--gap:var(--space-10);container:vp/inline-size}
+.vp-zurueck{justify-self:start;margin:0 0 0 -10px}
+.vp-kopf{display:grid;gap:var(--space-6);align-items:start}
+.vp-kern{gap:var(--space-2)}
+.vp-kern__liste{display:grid;gap:var(--space-1);margin:0 -10px;padding:0;list-style:none}
+.vp-kern__zeile{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--space-1) var(--space-3);min-height:var(--target);padding:var(--space-3) 10px;border-radius:var(--radius-button);color:var(--ink);text-decoration:none;transition:background-color var(--motion-ui) var(--ease-out)}
+.vp-kern__zeile .app-card__kicker{grid-column:1}
+.vp-kern__satz{grid-column:1;font:var(--type-heading);font-weight:500;text-wrap:balance}
+.vp-kern__zeile .icon{grid-column:2;grid-row:1 / span 2;color:var(--tone)}
+@media(hover:hover) and (pointer:fine){.vp-kern__zeile:hover{background:color-mix(in srgb,var(--white) 60%,transparent)}}
+.vp-kern__zeile:active{transform:scale(.985);transition-duration:var(--motion-press)}
+.vp-rad{display:grid;gap:var(--space-4);justify-items:start;margin:0}
+.vp-rad figcaption{font:var(--type-label)}
+.vp-rad__bild{display:block;width:100%;max-width:21rem;height:auto;overflow:visible}
+.vp-rad .deko{pointer-events:none}
+.vp-rad :is(.v-sektor,.v-ring,.v-horizont){fill:none;stroke:color-mix(in srgb,var(--tone) 60%,transparent);stroke-width:1.5px;vector-effect:non-scaling-stroke}
+.vp-rad .v-sektor{fill:transparent;transition:fill var(--motion-ui) var(--ease-out)}
+.vp-rad .v-sektor.gerade{fill:color-mix(in srgb,var(--tone) 6%,transparent)}
+.vp-rad :is(.v-sektor-leer,.v-horizont){stroke-dasharray:4 3}
+.vp-rad .v-keil{fill:transparent;stroke:none}
+.vp-rad .zeichen-glyph{font-size:var(--size-label);fill:var(--tone);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.vp-rad .v-planet-glyph{font-size:var(--size-body);fill:var(--ink);text-anchor:middle;dominant-baseline:central}
+.vp-rad .asc-punkt{fill:var(--tone)}
+.vp-rad .v-tick{stroke:color-mix(in srgb,var(--ink) 40%,transparent);stroke-width:1px;vector-effect:non-scaling-stroke}
+.vp-rad .fokus-rahmen{fill:none;stroke:var(--focus-color);stroke-width:var(--focus-width);vector-effect:non-scaling-stroke;visibility:hidden;pointer-events:none}
+.vp-rad__sektor{cursor:pointer}
+.vp-rad__sektor:focus{outline:none}
+.vp-rad__sektor:focus-visible .fokus-rahmen{visibility:visible}
+@media(hover:hover) and (pointer:fine){.vp-rad__sektor:hover .v-sektor{fill:color-mix(in srgb,var(--tone) 16%,transparent)}}
+.vp-stellungen .app-fold__body{max-width:var(--measure)}
+.vp-deutung{max-width:var(--measure);font:var(--type-label)}
+.vp-deutung strong{display:block;color:var(--ink);font-weight:600}
+.vp-inhalt{gap:var(--space-2)}
+.vp-inhalt ol{display:grid;max-width:var(--measure);margin:0;padding:0;list-style:none}
+.vp-inhalt a{display:flex;align-items:center;min-height:var(--target);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+@media(hover:hover) and (pointer:fine){.vp-inhalt a:hover{color:var(--sterne-tief);text-decoration-thickness:2px}}
+.vp-gekuerzt{font:var(--type-label)}
+.vp [id]{scroll-margin-top:calc(var(--app-head) + var(--safe-top) + var(--space-4))}
+.vp-oben{position:fixed;right:var(--app-pad);bottom:calc(var(--app-bottom) + var(--space-4));z-index:var(--layer-float)}
+@container vp (min-width:760px){
+  .vp-kopf{grid-template-columns:minmax(0,1fr) auto;column-gap:var(--space-12)}
+  .vp-stellungen{grid-column:1 / -1}
+  .vp-rad{width:21rem}
+}
+body[data-motion=off] :is(.vp-kern__zeile,.vp-rad .v-sektor){transition:none}
+
 /* ---------- Weg ---------- */
 .weg-scale{justify-self:start}
 .paper-card{display:grid;gap:20px;padding:28px;border-radius:var(--radius-surface);background:linear-gradient(130deg,var(--paper),var(--offen));box-shadow:var(--paper-shadow)}
