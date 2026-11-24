@@ -14,6 +14,7 @@
   var SCREENS = [
     { id: 'heute', label: 'Heute', kosmos: 'Resonanzkosmos' },
     { id: 'ich', label: 'Ich', kosmos: 'Resonanzkosmos' },
+    { id: 'astrologie', label: 'Astrologie', kosmos: 'Resonanzkosmos' },
     { id: 'umfeld', label: 'Umfeld', kosmos: 'Resonanzkosmos' },
     { id: 'weg', label: 'Weg', kosmos: 'Resonanzkosmos' },
     { id: 'entdecken', label: 'Entdecken', kosmos: 'Datingkosmos' },

@@ -39,6 +39,7 @@
 
   var current = screen;
   if (screen === 'folgt') current = new URLSearchParams(location.search).get('s') || 'likes';
+  if (screen === 'astrologie') current = 'ich';   /* das Profil eines Elements gehört zu Ich */
   A.mount({ kosmos: kosmosOf(current), current: current, href: href, base: '../../' });
   $$('svg[data-rad-icon]').forEach(function (s) { s.outerHTML = radIcon(s.getAttribute('data-rad-icon')); });
 
@@ -381,6 +382,41 @@
       $('[data-flow-note]').textContent = '';
       commit(e.currentTarget, function () { $('[data-flow-note]').textContent = 'Gespeichert für diese Vorschau. Als Nächstes: dein Konto.'; });
     });
+  }
+
+  /* ---------- Astrologie: das Profil eines Elements ----------
+     Ein Sprung aus Hauptfläche, Rad, Tabelle oder Inhalt öffnet den Eintrag, bevor der
+     Browser rollt, markiert ihn und setzt den Fokus auf seinen Titel. Angesagt wird die
+     Überschrift. Gemerkt wird hier nichts: Jeder Aufklapper ist beim Laden zu. */
+  if (screen === 'astrologie') {
+    var zeige = function (id) {
+      var ziel = id && document.getElementById(id);
+      if (!ziel) return;
+      $$('.app-entry.is-target').forEach(function (e) { e.classList.remove('is-target'); });
+      var eintrag = ziel.closest('.app-entry'), klappe = ziel.closest('details');
+      if (klappe) klappe.open = true;
+      if (eintrag) {
+        var lang = eintrag.querySelector('details');
+        if (lang) lang.open = true;
+        eintrag.classList.add('is-target');
+      }
+      requestAnimationFrame(function () { ziel.focus({ preventScroll: true }); });
+    };
+    var vomHash = function () { try { zeige(decodeURIComponent(location.hash.slice(1))); } catch (e) { /* kein gültiges Ziel */ } };
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[data-vp-sprung]');
+      if (a) zeige(decodeURIComponent((a.getAttribute('href') || '').slice(1)));
+    });
+    addEventListener('hashchange', vomHash);
+    if (location.hash) vomHash();
+    /* «Nach oben» erscheint ab dem vierten Bildschirm und bleibt, solange es den Fokus hat. */
+    var oben = $('[data-vp-oben]');
+    if (oben) {
+      var weit = function () { oben.hidden = !(scrollY > 3 * innerHeight || document.activeElement === oben); };
+      addEventListener('scroll', weit, { passive: true });
+      oben.addEventListener('blur', weit);
+      weit();
+    }
   }
 
   /* ---------- Folgt ---------- */

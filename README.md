@@ -50,7 +50,7 @@ Der interaktive ELANUM-Gestaltungsatlas im Stil **Soft 3D Relief**, mit den Baus
 - **Farbe:** neutrale Flächen, drei ausgeglichene Bereichsfarben des Resonanzrads (Violett, Koralle, Petrol) mit Tief, Fläche für ausgefüllte Elemente und Hauch; offene Elemente grau mit Plus, das Markenspektrum nur für Zeichen und Verbindung, kräftige Statusfarben mit Zeichen und Balken.
 - **Material:** warme Reliefoberfläche, Licht von links oben, angehobene Bedienung, vertiefte Eingaben.
 - **Bausteine:** Resonanzrad, Umfeld, Beziehungsraum, Weg und Tageslinie, Zeichen in Bewegung, App-Rahmen, Fliesstext, je als eigene Seite unter `components/` und im Atlas eingebunden.
-- **In der App:** acht Screens als echte, responsive Seiten (Heute, Ich, Umfeld, Weg, Entdecken, Chats, Aktivitäten, Ankommen). Im Atlas in Telefon- und Desktop-Rahmen nebeneinander oder in freier Breite von 320 bis 1440 px. Dazu die Navigation in drei Formen, acht Regeln für mobile zuerst, was von vergleichbaren Plattformen übernommen wurde und was sich gegenüber der heutigen App ändert.
+- **In der App:** neun Screens als echte, responsive Seiten (Heute, Ich, Astrologie, Umfeld, Weg, Entdecken, Chats, Aktivitäten, Ankommen). Im Atlas in Telefon- und Desktop-Rahmen nebeneinander oder in freier Breite von 320 bis 1440 px. Dazu die Navigation in drei Formen, acht Regeln für mobile zuerst, was von vergleichbaren Plattformen übernommen wurde und was sich gegenüber der heutigen App ändert.
 - **Fliesstext:** ein Text, der zu dir spricht und bei jeder Kernaussage zeigt, woher sie kommt. Die Aussage ist leise unterstrichen, am Satzende steht für jedes Element eine runde Quelle mit seinem Icon, Antippen öffnet die Quellenkarte „Woher kommt diese Aussage?“. Als Stimme für dein erstes Muster, leise in den Karten der App.
 - **Bewegung:** erklärend statt nur einblendend. Das Zeichen baut sich im Einstieg aus seiner Konstruktion auf, das Resonanzrad beim Scrollen, Kreise rücken zusammen, Spuren zeichnen sich. Pause und reduzierte Bewegung wirken überall.
 
@@ -438,6 +438,8 @@ Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 - Assets: keine fehlenden Dateien oder Konsolenfehler, auch unter `file://`.
 
 ## Stand und Historie
+
+5.2 bringt die lange Lesefläche und den Screen «Astrologie», das Profil eines Elements aus Sterne & Ursprung (Founder der App am 23.11.2026, soulresonance.ch PR #92). Die Aussage steht zuerst: ein Seitenkopf mit Einleitung, drei Kurztexte als Hauptfläche, dann das Rad, die Tabelle zugeklappt unter «Alle Stellungen». Jeder Eintrag zeigt Titel und Kurztext, der lange Text liegt in «Mehr lesen». Zeichen je Satz entfallen, weil die Seite ein Element zeigt und es im Titel nennt. Neu in `app.css`: `.app-section--chapter`, `.app-entry`, `.app-fold`, `.app-facts`, `.app-table`. Begründung in `DESIGN-NOTES.md`, „Profil eines Elements (5.2)“.
 
 5.1 zieht das Resonanzrad auf den Stand der App nach (zweite Runde, Chris Beyeler 16. und 21.11.2026). Unter dem gewählten Wort steht der Kernsatz auch am Telefon und wechselt beim Durchtippen mit. Die Handlung heisst «Mehr lesen» und ist hell, «Ausfüllen» bleibt dunkel. Die Liste ist zugeklappt zu einer Zeile «Alle neun Elemente». Das Blatt hat zwei Stufen: zuerst Name, Wort und Kernsatz, «Alle Details» zeigt Fachzeile und Text im selben Blatt. Die Mitte des Rads ist kleiner (20 px statt 32 px). Auf dem Tablet hochkant richtet sich das Rad nach der Höhe wie am Telefon. Begründung in `DESIGN-NOTES.md`, „Resonanzrad, zweite Runde (5.1)“.
 

@@ -37,7 +37,7 @@ const { chromium } = require(process.env.PLAYWRIGHT || 'playwright');
 
 const BASE = process.env.ATLAS_URL || 'http://127.0.0.1:4173/';
 const SCHRIFT = Number(process.env.SCHRIFT) || 100;
-const SCREENS = ['heute', 'ich', 'umfeld', 'weg', 'entdecken', 'chats', 'aktivitaeten', 'ankommen', 'folgt', 'index'].map(s => ['App · ' + s, 'components/app/' + s + '.html']);
+const SCREENS = ['heute', 'ich', 'astrologie', 'umfeld', 'weg', 'entdecken', 'chats', 'aktivitaeten', 'ankommen', 'folgt', 'index'].map(s => ['App · ' + s, 'components/app/' + s + '.html']);
 const BAUSTEINE = ['resonanzrad', 'umfeld', 'beziehungsraum', 'weg', 'zeichen', 'fliesstext'].map(k => ['Baustein · ' + k, 'components/' + k + '/index.html']);
 const SEITEN = [...SCREENS, ...BAUSTEINE, ['Atlas', 'index.html']];
 const BREITEN = [[320, 640], [360, 780], [390, 844], [834, 1112], [1024, 768], [1280, 800], [1440, 900]];
