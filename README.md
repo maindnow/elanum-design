@@ -439,6 +439,8 @@ Zusätzlich im Browser, für den Atlas und jede Seite unter `components/`:
 
 ## Stand und Historie
 
+5.3 nimmt die Anordnung von «Dein Tag» mit Tagesbogen ins Paket (Chris Beyeler 24.11.2026, App soulresonance.ch Runde 5 B7): `.day`, `.day__top`, `.day__intro`, `.day__phase`, `.day__arc` und der Container `.heute-main` stehen jetzt in `app.css`. Werte und Aussehen bleiben gleich. Einzelheiten in `DESIGN-NOTES.md`, „Tagesbogen in «Dein Tag» (5.3)“.
+
 5.2.1 zieht den Wortlaut des Screens «Astrologie» nach (Chris Beyeler 24.11.2026, Founder der App 23.11.2026): Einleitung «Hier steht, was dich antreibt, was du brauchst und wie du auf andere wirkst.», Kopf «Ganzer Text», Hinweis am Rad «Tippe ein Zeichen an oder öffne «Alle Stellungen».». Ein geöffneter Eintrag bleibt offen, auch nach dem Neuladen. Alle Sätze in `DESIGN-NOTES.md`, „Wortlaut (5.2.1)“.
 
 5.2 bringt die lange Lesefläche und den Screen «Astrologie», das Profil eines Elements aus Sterne & Ursprung (Founder der App am 23.11.2026, soulresonance.ch PR #92). Die Aussage steht zuerst: ein Seitenkopf mit Einleitung, drei Kurztexte als Hauptfläche, dann das Rad, die Tabelle zugeklappt unter «Alle Stellungen». Jeder Eintrag zeigt Titel und Kurztext, der lange Text liegt in «Ganzer Text» (bis 5.2.0 «Mehr lesen»). Zeichen je Satz entfallen, weil die Seite ein Element zeigt und es im Titel nennt. Neu in `app.css`: `.app-section--chapter`, `.app-entry`, `.app-fold`, `.app-facts`, `.app-table`. Begründung in `DESIGN-NOTES.md`, „Profil eines Elements (5.2)“.

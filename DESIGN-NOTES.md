@@ -18,6 +18,20 @@
 
 4.5 beruhigt den Atlas: weniger Schriftwechsel, mehr Raum, mehr Kontrast. Die Farben folgen jetzt den drei Bereichen des Resonanzrads. Das Rad, das Umfeld, der Beziehungsraum und der Weg sind echte Bausteine mit eigenen Seiten. Die neun Teile des Resonanzrads heissen Elemente. Die Bewegung erklärt, wie etwas funktioniert, statt nur einzublenden. Eine Quelle für alle Werte ist `tokens.css`.
 
+## Tagesbogen in «Dein Tag» (5.3)
+
+Anlass ist der Bau des Tagesbogens in der App (soulresonance.ch, Freigabe-Artefakt Runde 5, Chris Beyeler 24.11.2026, Punkt B7). Zeichner (`ElanumApp.dayArc`) und Aussehen des Bogens (`.day-arc*`) lagen schon im Paket, die Anordnung der Hauptfläche nur in `screens.css`. Die App hätte sie nachbauen müssen.
+
+| Regel | Was gilt | Wo |
+|---|---|---|
+| Anordnung im Paket | Links Kicker «Dein Tag» und der Satz zur Tageszeit, rechts der Bogen. Die Regeln stehen jetzt in `app.css`, nicht mehr in `screens.css`. Werte und Aussehen bleiben gleich. | `.day`, `.day__top`, `.day__intro`, `.day__phase`, `.day__arc` |
+| Zwei Spalten nach Platz | Die Hauptspalte ist ein Container. Ab 620 px Breite des Tags steht der Bogen in einer eigenen Spalte neben allem, was folgt. | `.heute-main`, `@container heute` |
+
+### Offen nach 5.3
+
+- **Satz zur Tageszeit:** Die App zeigt drei Sätze nach der Tageszeit im Wohnort: «Morgen, die Zeit zum Ankommen», «Tag, die Zeit für das Wesentliche», «Abend, die Zeit zum Nachspüren» (Chris 24.11.2026). Im Atlas steht nur der Abend. Im Glossar stehen die Sätze nicht.
+- **Stationen:** Die Punkte auf dem Bogen sind im Atlas die Momente der Tageslinie. Welche Zeitpunkte die App zeigt, entscheidet der Founder der App.
+
 ## Profil eines Elements (5.2)
 
 Anlass ist die Prüfung der Seite `/ich/astrologie` der App (soulresonance.ch PR #92, Chris Beyeler 22.11.2026). Gemessen am Telefon: 52 Einträge mit 8074 Wörtern standen offen, die Seite war 57 Bildschirme lang, der erste gedeutete Satz stand bei 2366 px, nach jedem Satz stand dasselbe Zeichen (483 Mal). Der Founder der App hat am 23.11.2026 drei Fragen mit «A, A, A» beantwortet. Dieser Stand gibt der App dafür die Vorlage. Der Screen zeigt die Astrologie, die Regeln gelten gleich für Human Design und Numerologie.
