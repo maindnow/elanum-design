@@ -387,7 +387,8 @@
   /* ---------- Astrologie: das Profil eines Elements ----------
      Ein Sprung aus Hauptfläche, Rad, Tabelle oder Inhalt öffnet den Eintrag, bevor der
      Browser rollt, markiert ihn und setzt den Fokus auf seinen Titel. Angesagt wird die
-     Überschrift. Gemerkt wird hier nichts: Jeder Aufklapper ist beim Laden zu. */
+     Überschrift. Ein geöffneter Eintrag bleibt offen, auch nach dem Neuladen (Founder
+     der App, 23.11.2026): Gemerkt wird jedes Öffnen und Schliessen im localStorage. */
   if (screen === 'astrologie') {
     var zeige = function (id) {
       var ziel = id && document.getElementById(id);
@@ -408,6 +409,16 @@
       if (a) zeige(decodeURIComponent((a.getAttribute('href') || '').slice(1)));
     });
     addEventListener('hashchange', vomHash);
+    var OFFEN = 'elanum_profil_offen';
+    var langtexte = Array.prototype.slice.call(document.querySelectorAll('.app-entry > details'));
+    var titelVon = function (d) { var t = d.parentNode.querySelector('.app-entry__title'); return t ? t.id : ''; };
+    var gemerkt = [];
+    try { gemerkt = JSON.parse(localStorage.getItem(OFFEN)) || []; } catch (e) { /* kein Speicher: alles bleibt zu */ }
+    langtexte.forEach(function (d) { if (gemerkt.indexOf(titelVon(d)) >= 0) d.open = true; });
+    var merke = function () {
+      try { localStorage.setItem(OFFEN, JSON.stringify(langtexte.filter(function (d) { return d.open; }).map(titelVon))); } catch (e) { /* kein Speicher */ }
+    };
+    langtexte.forEach(function (d) { d.addEventListener('toggle', merke); });
     if (location.hash) vomHash();
     /* «Nach oben» erscheint ab dem vierten Bildschirm und bleibt, solange es den Fokus hat. */
     var oben = $('[data-vp-oben]');

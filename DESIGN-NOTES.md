@@ -43,7 +43,7 @@ Anlass ist die Prüfung der Seite `/ich/astrologie` der App (soulresonance.ch PR
 | Rad vor Tabelle, Tabelle zugeklappt | Nach dem Rad folgt direkt der Kopf «Alle Stellungen». Die Tabelle bleibt im Dokument und ist der Textweg zum Rad. | `.vp-stellungen`, `.app-table` |
 | Tabelle verschiebt nichts | Ab 760 px Platz stehen Hauptfläche und Rad nebeneinander, «Alle Stellungen» darunter über die ganze Breite. | `@container vp` |
 | Kapitel sind die einzigen Linien | Ein Kapitel beginnt mit einer Linie, sein Titel steht in der Stufe Titel. | `.app-section--chapter` |
-| Eintrag zeigt Titel und Kurztext | Der Titel steht in der Stufe Überschrift, der Kurztext in der Farbe des Bereichs. Der lange Text liegt in «Mehr lesen». Zu beim Laden. | `.app-entry`, `.app-fold` |
+| Eintrag zeigt Titel und Kurztext | Der Titel steht in der Stufe Überschrift, der Kurztext in der Farbe des Bereichs. Der lange Text liegt in «Ganzer Text». Zu beim ersten Besuch, danach bleibt offen, was man geöffnet hat (5.2.1). | `.app-entry`, `.app-fold`, `screens.js` |
 | Kopf des Aufklappers ist ein Wort | Nie eine Überschrift. Für Screenreader folgt der Titel des Eintrags, damit 52 gleiche Köpfe unterscheidbar sind. Pfeil rechts, er dreht beim Öffnen. | `.app-fold__head` |
 | Ein Sprung öffnet den Eintrag | Aus Hauptfläche, Rad, Tabelle und Inhalt. Der Eintrag trägt danach Rand und Hauch des Bereichs, der Fokus steht auf seinem Titel. | `screens.js`, `.app-entry.is-target` |
 | Kein Zeichen je Satz | Die Seite zeigt ein Element und nennt es im Titel. Die Herkunft steht je Eintrag in «Woher das kommt», am Ende des langen Texts. | `.app-facts` |
@@ -52,13 +52,28 @@ Anlass ist die Prüfung der Seite `/ich/astrologie` der App (soulresonance.ch PR
 
 Gemessen am Screen (23.11.2026, Beispiel mit 27 von 52 Einträgen): Telefon 390 px 10,9 Bildschirme, Laptop 1280 px 9,5 Bildschirme, kein waagrechter Überlauf.
 
+### Wortlaut (5.2.1)
+
+5.2.0 trug Sätze, die Claude vorgeschlagen hatte. Der Founder der App hatte am 23.11.2026 schon anders entschieden (F1 bis F5 der A11y-Vorprüfung), und Chris hat am 24.11.2026 die Einleitungen gewählt. Massstab von Chris: Die Texte sind für eine breite Zielgruppe, praxisnah und greifbar, nicht esoterisch. 5.2.1 zieht den Screen nach.
+
+| Stelle | Gilt | Wer |
+|---|---|---|
+| Einleitung Astrologie | «Hier steht, was dich antreibt, was du brauchst und wie du auf andere wirkst.» | Chris 24.11.2026 |
+| Einleitung Human Design | «Hier steht, wie du entscheidest, wie du deine Kraft einteilst und wie du anderen begegnest.» | Chris 24.11.2026 |
+| Einleitung Numerologie | «Hier steht, was dir liegt, woran du wächst und was dieses Jahr für dich ansteht.» | Chris 24.11.2026 |
+| Kopf des langen Texts | «Ganzer Text» | Founder der App 23.11.2026, Chris 24.11.2026 |
+| Hinweis am Rad | «Tippe ein Zeichen an oder öffne «Alle Stellungen».» | Founder der App 23.11.2026, Chris 24.11.2026 |
+| Hinweis Human Design | «Tippe ein Zentrum an oder öffne «Alle Zentren».» | Chris 24.11.2026 |
+| Namen der Aufklapper | «Alle Stellungen», «Alle Zentren», «Alle Zahlen» | Chris 24.11.2026 |
+| Merken | Ein geöffneter Eintrag bleibt offen, auch nach dem Neuladen (`localStorage`). | Founder der App 23.11.2026 |
+
+Abgelehnt von Chris als zu esoterisch: «Hier liest du, was der Himmel im Moment deiner Geburt über dich sagt, das Wichtigste zuerst.» Den Zusatz «Das Wichtigste zuerst.» hat Chris bei allen drei Einleitungen gestrichen.
+
 ### Offen nach 5.2
 
-- **Wörter ohne Freigabe im Glossar:** «Alle Stellungen», «Mehr lesen» am Eintrag, «Woher das kommt», «Inhalt», «Nach oben», «Zurück zum Rad», «Allgemein erklärt». «Mehr lesen» und «Woher das kommt» stehen so schon in der App. Das Glossar ist nicht angefasst.
-- **Einleitung und Hinweis am Rad:** «Drei Sätze zu deinem Geburtsmoment. Darunter stehen alle Stellungen zum Nachlesen.» und «Tippe ein Zeichen im Rad an. Alle Stellungen stehen darunter.» Chris hat den Screen mit diesem Wortlaut am 24.11.2026 freigegeben («passt»). Im Glossar stehen die Sätze nicht.
-- **Fünf Fragen des Founders der App sind offen** (A11y-Vorprüfung der App vom 23.11.2026, F1 bis F5). Der Screen folgt je der Empfehlung: Kopf «Mehr lesen» mit dem Titel für Screenreader (F1), nichts wird gemerkt (F2), kein Einzelknopf je Eintrag (F3), neuer Hinweis am Rad (F4), Kurztexte der Hauptfläche als Links (F5). Entscheidet der Founder anders, zieht der Screen nach.
-- **Ort von «Woher das kommt»:** hier am Ende des langen Texts, also im geöffneten «Mehr lesen». Die App zeigt es heute direkt am Eintrag.
-- **Human Design und Numerologie:** Der Screen zeigt nur die Astrologie. Was dort die Hauptfläche trägt und was «Alle Stellungen» ersetzt (Liste der Zentren, Tafel), ist offen (F5).
+- **Wörter ohne Freigabe im Glossar:** «Alle Stellungen», «Ganzer Text», «Woher das kommt», «Inhalt», «Nach oben», «Zurück zum Rad», «Allgemein erklärt». Das Glossar ist nicht angefasst.
+- **Ort von «Woher das kommt»:** hier am Ende des langen Texts, also im geöffneten «Ganzer Text». Die App zeigt es direkt am Eintrag.
+- **Human Design und Numerologie:** Der Screen zeigt nur die Astrologie. Der Founder der App hat für beide dieselbe Form entschieden, mit «Alle Zentren» und «Alle Zahlen». Eigene Screens dafür fehlen.
 - **Das Rad ist ein Standbild.** Die App zeichnet das Geburtsrad selbst. Ein Baustein dafür fehlt im Paket.
 - **Beispieltexte:** Titel, Kurztexte und der lange Text zu «Sonne im Widder» stammen aus der App (Testkonto). Die übrigen langen Texte sind Platzhalter.
 
