@@ -8,6 +8,8 @@ Stand 16. November 2026. Auf `main` steht **Atlas 4.13** (PR #22 «Feinschliff»
 
 **Nachtrag 23. November 2026:** Der Entwurfs-PR «Profil eines Elements» bringt **Atlas 5.2** (Paket 5.2.0, Minor): der neunte App-Screen «Astrologie» und die lange Lesefläche in `app.css` (Kapitel, Eintrag, Aufklapper, Tabelle). Anlass ist der Entscheid des Founders der App vom 23.11.2026 zu soulresonance.ch PR #92 («A, A, A»): Aussage vor Tabelle, Einträge zugeklappt, kein Zeichen je Satz auf den Profilen von Astrologie, Human Design und Numerologie. Nach dem Merge der Tag `v5.2.0`. Offen dazu: `DESIGN-NOTES.md`, „Offen nach 5.2“.
 
+**Nachtrag 24. November 2026:** PR #28 ist auf `main`, der Tag `v5.2.0` steht. Der Entwurfs-PR «Wortlaut Astrologie» bringt **5.2.1** (Patch): Der Screen trägt die Sätze, die Chris am 24.11.2026 gewählt hat, und die Entscheide des Founders der App zu F1 bis F5 (Kopf «Ganzer Text», Hinweis am Rad, Merken im `localStorage`). Massstab von Chris für diese Texte: breite Zielgruppe, praxisnah und greifbar, nicht esoterisch. Nach dem Merge der Tag `v5.2.1`. Alle Sätze: `DESIGN-NOTES.md`, „Wortlaut (5.2.1)“.
+
 ## In zwei Minuten
 
 - **Was:** der interaktive Gestaltungsatlas der App ELANUM (Stil Soft 3D Relief). Er ist die einzige Designquelle der App: Tokens, Bausteine, Zeichen, Glossar und acht App-Screens.
