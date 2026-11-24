@@ -4,12 +4,9 @@
    wiederverwendbaren Muster liegen in app.css. Nicht Teil des Pakets.
    ============================================================ */
 
-/* ---------- Heute ---------- */
-.day{gap:16px}
-.day__top{display:grid;grid-template-columns:minmax(0,1fr) clamp(116px,34%,156px);gap:16px;align-items:start}
-.day__intro{display:grid;gap:4px;padding-top:4px}
-.day__phase{font:var(--type-label);color:var(--ink-2)}
-.day__arc{margin:-6px -6px 0 0}
+/* ---------- Heute ----------
+   Anordnung von «Dein Tag» mit Tagesbogen (.day, .day__top, .day__intro,
+   .day__phase, .day__arc, Container heute) seit 5.3.0 in app.css. */
 /* 5.1.1 (Chris Beyeler 21.11.2026, App soulresonance.ch, L1 Variante 2):
    die Stimme bleibt in der Stufe Titel, auch als Aussage im Fliesstext;
    der Hinweis «Deutung» schliesst die Hauptfläche; die Zeilen des Tages
@@ -21,16 +18,6 @@
 .day-lines__title{margin:0;color:var(--ink-2)}
 .day-lines__line{display:grid;gap:4px}
 .day-lines__line .app-card__kicker{color:var(--tone)}
-/* Die Hauptspalte ist ein eigener Container: zwei Spalten im Tag erst,
-   wenn der Tag selbst breit genug ist, nicht schon das Fenster. */
-.heute-main{container:heute/inline-size}
-@container heute (min-width:620px){
-  .day{grid-template-columns:minmax(0,1fr) 200px;column-gap:40px;padding:36px 40px}
-  .day>*{grid-column:1}
-  .day__top{display:contents}
-  .day__intro{grid-column:1;grid-row:1}
-  .day__arc{grid-column:2;grid-row:1 / span 5;align-self:center;margin:0}
-}
 .next{grid-template-columns:88px minmax(0,1fr);gap:16px 20px;align-items:center;box-shadow:var(--raised)}
 .next__copy{display:grid;gap:4px}
 .next__actions{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px}

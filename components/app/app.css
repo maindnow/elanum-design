@@ -548,6 +548,25 @@ a.app-card:active,button.app-card:active,.app-row:active,.app-kosmos:active,.ide
 .app-hero--dark .day-arc__now{fill:var(--ink);stroke:color-mix(in srgb,var(--rose) 35%,var(--white))}
 .app-hero--dark .day-arc__time strong{color:var(--white)}
 .app-hero--dark .day-arc__time span{color:var(--on-dark)}
+/* «Dein Tag» mit Bogen (5.3.0, Chris Beyeler 24.11.2026, App
+   soulresonance.ch Runde 5 B7): links Kicker und Satz zur Tageszeit, rechts
+   der Bogen. Die Hauptspalte (.heute-main) ist ein eigener Container: zwei
+   Spalten im Tag erst, wenn der Tag selbst breit genug ist, nicht schon das
+   Fenster. Markup: article.app-hero.day > div.day__top > (div.day__intro >
+   p.app-card__kicker + p.day__phase) + div.day__arc > .day-arc. */
+.day{gap:16px}
+.day__top{display:grid;grid-template-columns:minmax(0,1fr) clamp(116px,34%,156px);gap:16px;align-items:start}
+.day__intro{display:grid;gap:4px;padding-top:4px}
+.day__phase{font:var(--type-label);color:var(--ink-2)}
+.day__arc{margin:-6px -6px 0 0}
+.heute-main{container:heute/inline-size}
+@container heute (min-width:620px){
+  .day{grid-template-columns:minmax(0,1fr) 200px;column-gap:40px;padding:36px 40px}
+  .day>*{grid-column:1}
+  .day__top{display:contents}
+  .day__intro{grid-column:1;grid-row:1}
+  .day__arc{grid-column:2;grid-row:1 / span 5;align-self:center;margin:0}
+}
 body[data-motion=off] .day-arc *{animation-play-state:paused}
 
 /* ---------- Auftritt ----------
