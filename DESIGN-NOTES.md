@@ -41,7 +41,7 @@ Gemessen am Screen (23.11.2026, Beispiel mit 27 von 52 Einträgen): Telefon 390 
 ### Offen nach 5.2
 
 - **Wörter ohne Freigabe im Glossar:** «Alle Stellungen», «Mehr lesen» am Eintrag, «Woher das kommt», «Inhalt», «Nach oben», «Zurück zum Rad», «Allgemein erklärt». «Mehr lesen» und «Woher das kommt» stehen so schon in der App. Das Glossar ist nicht angefasst.
-- **Einleitung und Hinweis am Rad sind Vorschläge:** «Drei Sätze zu deinem Geburtsmoment. Darunter stehen alle Stellungen zum Nachlesen.» und «Tippe ein Zeichen im Rad an. Alle Stellungen stehen darunter.» Den Wortlaut gibt Chris frei.
+- **Einleitung und Hinweis am Rad:** «Drei Sätze zu deinem Geburtsmoment. Darunter stehen alle Stellungen zum Nachlesen.» und «Tippe ein Zeichen im Rad an. Alle Stellungen stehen darunter.» Chris hat den Screen mit diesem Wortlaut am 24.11.2026 freigegeben («passt»). Im Glossar stehen die Sätze nicht.
 - **Fünf Fragen des Founders der App sind offen** (A11y-Vorprüfung der App vom 23.11.2026, F1 bis F5). Der Screen folgt je der Empfehlung: Kopf «Mehr lesen» mit dem Titel für Screenreader (F1), nichts wird gemerkt (F2), kein Einzelknopf je Eintrag (F3), neuer Hinweis am Rad (F4), Kurztexte der Hauptfläche als Links (F5). Entscheidet der Founder anders, zieht der Screen nach.
 - **Ort von «Woher das kommt»:** hier am Ende des langen Texts, also im geöffneten «Mehr lesen». Die App zeigt es heute direkt am Eintrag.
 - **Human Design und Numerologie:** Der Screen zeigt nur die Astrologie. Was dort die Hauptfläche trägt und was «Alle Stellungen» ersetzt (Liste der Zentren, Tafel), ist offen (F5).
