@@ -10,6 +10,8 @@ Stand 16. November 2026. Auf `main` steht **Atlas 4.13** (PR #22 «Feinschliff»
 
 **Nachtrag 24. November 2026:** PR #28 ist auf `main`, der Tag `v5.2.0` steht. Der Entwurfs-PR «Wortlaut Astrologie» bringt **5.2.1** (Patch): Der Screen trägt die Sätze, die Chris am 24.11.2026 gewählt hat, und die Entscheide des Founders der App zu F1 bis F5 (Kopf «Ganzer Text», Hinweis am Rad, Merken im `localStorage`). Massstab von Chris für diese Texte: breite Zielgruppe, praxisnah und greifbar, nicht esoterisch. Nach dem Merge der Tag `v5.2.1`. Alle Sätze: `DESIGN-NOTES.md`, „Wortlaut (5.2.1)“.
 
+**Nachtrag 27. November 2026:** Der Entwurfs-PR «Statusform ohne Balken» bringt **5.3.1** (Patch): `.status` in `base.css` verliert den 4-px-Balken am linken Rand und die ungleichen Radien, die Fläche trägt rundum `--radius-button`. Zeichen im Kreis, Label und Hauchfläche der Rolle bleiben und tragen die Bedeutung. Entscheid Chris Beyeler, 27.11.2026: keine einseitigen Balken, an keiner Stelle. Im Paket war `.status` die einzige Stelle (gemessen mit `grep` über alle CSS-Dateien). Die App zieht in soulresonance.ch PR 128 nach und hebt dort den Entscheid vom 12.11.2026 auf, der den Balken als Ausnahme erlaubte.
+
 ## In zwei Minuten
 
 - **Was:** der interaktive Gestaltungsatlas der App ELANUM (Stil Soft 3D Relief). Er ist die einzige Designquelle der App: Tokens, Bausteine, Zeichen, Glossar und acht App-Screens.

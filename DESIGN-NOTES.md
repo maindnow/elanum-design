@@ -399,7 +399,7 @@ Regeln: Weisse Schrift nur auf Tief (mindestens 6,6:1). Tief als Schriftfarbe au
 - Ich & Orientierung, tief bis Hauch: `#8E3931, #EFC8C1, #FFEBE7`
 - Beziehung & Verbindung, tief bis Hauch: `#006868, #B8DADA, #E3F4F4`
 
-**Status:** Info `#2863AB`, Hinweis `#875500`, Fehler `#B02A2D`, Erfolg `#2B7440`, je mit eigener Hauchfläche. Text auf der Fläche hat mindestens 5:1. Jeder Status hat einen 4-px-Balken, ein gefülltes Zeichen im Kreis und ein Label. Weil Koralle-Tief nahe am Fehler-Rot liegt, unterscheidet die Form: Status hat immer Zeichen und Balken, Bereiche nie.
+**Status:** Info `#2863AB`, Hinweis `#875500`, Fehler `#B02A2D`, Erfolg `#2B7440`, je mit eigener Hauchfläche. Text auf der Fläche hat mindestens 5:1. Jeder Status hat ein gefülltes Zeichen im Kreis und ein Label. Weil Koralle-Tief nahe am Fehler-Rot liegt, unterscheidet die Form: Status hat immer Zeichen und Label, Bereiche nie. Der 4-px-Balken am linken Rand ist seit 5.3.1 weg (Chris Beyeler, 27.11.2026: keine einseitigen Balken, an keiner Stelle). Die Fläche trägt rundum den Radius der Zeile (`--radius-button`), wie `.note`.
 
 ## Material
 

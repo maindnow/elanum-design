@@ -101,7 +101,7 @@ body[data-motion=off] .button__sign--busy,body[data-motion=off] .button__sign--d
 
 /* ---------- Status ----------
    Kräftige Rollenfarbe, Balken, gefülltes Zeichen und Text. */
-.status{display:grid;grid-template-columns:28px 1fr;gap:14px;align-items:start;padding:18px 20px;border-left:4px solid var(--role);border-radius:calc(var(--radius-control) / 3) var(--radius-control) var(--radius-control) calc(var(--radius-control) / 3);background:var(--role-bg);color:var(--ink)}
+.status{display:grid;grid-template-columns:28px 1fr;gap:14px;align-items:start;padding:18px 20px;border-radius:var(--radius-button);background:var(--role-bg);color:var(--ink)}
 .status__sign{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--role);color:var(--white);font:var(--type-label);font-weight:600;line-height:1}
 .status__title{display:block;font:var(--type-label);font-weight:600;color:var(--role)}
 .status__text{font:var(--type-body);margin-top:2px}
